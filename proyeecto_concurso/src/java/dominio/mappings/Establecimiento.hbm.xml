@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 22/07/2015 11:18:12 by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="dominio.Establecimiento" table="establecimiento" schema="public">
+        <id name="codigoSiisa" type="long">
+            <column name="codigo_siisa" />
+            <generator class="assigned" />
+        </id>
+        <property name="idEstablecimiento" type="int">
+            <column name="id_establecimiento" not-null="true" />
+        </property>
+        <property name="nombre" type="string">
+            <column name="nombre" />
+        </property>
+        <property name="departamento" type="string">
+            <column name="departamento" />
+        </property>
+        <property name="dependencia" type="string">
+            <column name="dependencia" />
+        </property>
+        <property name="tipologia" type="string">
+            <column name="tipologia" />
+        </property>
+        <property name="localidad" type="string">
+            <column name="localidad" />
+        </property>
+        <property name="categoria" type="string">
+            <column name="categoria" />
+        </property>
+        <property name="domicilio" type="string">
+            <column name="domicilio" />
+        </property>
+        <property name="responsable" type="string">
+            <column name="responsable" />
+        </property>
+        <property name="telefono" type="string">
+            <column name="telefono" />
+        </property>
+        <property name="origenDeFinanciamiento" type="string">
+            <column name="origen_de_financiamiento" />
+        </property>
+        <property name="nivel" type="java.lang.Short">
+            <column name="nivel" />
+        </property>
+        <set name="cargos" table="cargo" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="codigo_establecimiento" not-null="true" />
+            </key>
+            <one-to-many class="dominio.Cargo" />
+        </set>
+        <set name="tribunalJurados" table="tribunal_jurado" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="establecimiento_codigo_siisa" />
+            </key>
+            <one-to-many class="dominio.TribunalJurado" />
+        </set>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 22/07/2015 11:18:12 by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="dominio.Area" table="area" schema="public">
+        <id name="prefijoExpediente" type="int">
+            <column name="prefijo_expediente" />
+            <generator class="assigned" />
+        </id>
+        <property name="idArea" type="int">
+            <column name="id_area" not-null="true" />
+        </property>
+        <property name="nombreArea" type="string">
+            <column name="nombre_area" not-null="true" />
+        </property>
+        <set name="expedientes" table="expediente" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="codigo_area" />
+            </key>
+            <one-to-many class="dominio.Expediente" />
+        </set>
+    </class>
+</hibernate-mapping>

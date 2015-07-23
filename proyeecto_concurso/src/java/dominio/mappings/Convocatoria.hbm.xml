@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 22/07/2015 11:18:12 by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="dominio.Convocatoria" table="convocatoria" schema="public">
+        <id name="idInscripcion" type="int">
+            <column name="id_inscripcion" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="cargo" class="dominio.Cargo" fetch="select">
+            <column name="id_cargo" not-null="true" />
+        </many-to-one>
+        <many-to-one name="persona" class="dominio.Persona" fetch="select">
+            <column name="persona_dni_persona" not-null="true" />
+        </many-to-one>
+        <property name="fojas" type="java.lang.Integer">
+            <column name="fojas" />
+        </property>
+        <property name="antecedentes" type="java.lang.Double">
+            <column name="antecedentes" precision="17" scale="17" />
+        </property>
+        <property name="oposicion" type="java.lang.Double">
+            <column name="oposicion" precision="17" scale="17" />
+        </property>
+        <property name="puntaje" type="java.lang.Double">
+            <column name="puntaje" precision="17" scale="17" />
+        </property>
+        <property name="numeroDeResolucion" type="int">
+            <column name="numero_de_resolucion" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

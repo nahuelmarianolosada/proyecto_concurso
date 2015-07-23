@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 22/07/2015 11:18:12 by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="dominio.Persona" table="persona" schema="public">
+        <id name="idPersona" type="int">
+            <column name="id_persona" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="localidadByLocalidadNacimiento" class="dominio.Localidad" fetch="select">
+            <column name="localidad_nacimiento" />
+        </many-to-one>
+        <many-to-one name="localidadByIdLocalidadDireccion" class="dominio.Localidad" fetch="select">
+            <column name="id_localidad_direccion" />
+        </many-to-one>
+        <property name="dni" type="java.lang.Integer">
+            <column name="dni" unique="true" />
+        </property>
+        <property name="nombres" type="string">
+            <column name="nombres" />
+        </property>
+        <property name="apellido" type="string">
+            <column name="apellido" />
+        </property>
+        <property name="sexo" type="string">
+            <column name="sexo" />
+        </property>
+        <property name="nacionalidad" type="string">
+            <column name="nacionalidad" />
+        </property>
+        <property name="fechaDeNacimiento" type="date">
+            <column name="fecha_de_nacimiento" length="13" />
+        </property>
+        <property name="edad" type="java.lang.Integer">
+            <column name="edad" />
+        </property>
+        <property name="direccion" type="string">
+            <column name="direccion" />
+        </property>
+        <property name="telefono" type="string">
+            <column name="telefono" />
+        </property>
+        <property name="email" type="string">
+            <column name="email" />
+        </property>
+        <property name="cuil" type="java.lang.Long">
+            <column name="cuil" />
+        </property>
+        <set name="convocatorias" table="convocatoria" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="persona_dni_persona" not-null="true" />
+            </key>
+            <one-to-many class="dominio.Convocatoria" />
+        </set>
+        <set name="tribunalJurados" table="tribunal_jurado" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_persona" />
+            </key>
+            <one-to-many class="dominio.TribunalJurado" />
+        </set>
+    </class>
+</hibernate-mapping>

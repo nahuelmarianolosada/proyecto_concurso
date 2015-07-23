@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 22/07/2015 11:18:12 by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="dominio.Personal" table="personal" schema="public">
+        <id name="idPersonal" type="int">
+            <column name="id_personal" />
+            <generator class="assigned" />
+        </id>
+        <property name="dni" type="java.lang.Integer">
+            <column name="dni" unique="true" />
+        </property>
+        <property name="profesion" type="string">
+            <column name="profesion" />
+        </property>
+        <property name="tipo" type="string">
+            <column name="tipo" />
+        </property>
+        <property name="numeroMatricula" type="string">
+            <column name="numero_matricula" />
+        </property>
+    </class>
+</hibernate-mapping>

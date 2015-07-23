@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 22/07/2015 11:18:12 by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="dominio.TipoUsuario" table="tipo_usuario" schema="public">
+        <id name="idTipoUsuario" type="int">
+            <column name="id_tipo_usuario" />
+            <generator class="assigned" />
+        </id>
+        <property name="descripcion" type="string">
+            <column name="descripcion" />
+        </property>
+        <set name="usuarios" table="usuario" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="tipo_usuario_id_tipo_usuario" />
+            </key>
+            <one-to-many class="dominio.Usuario" />
+        </set>
+    </class>
+</hibernate-mapping>

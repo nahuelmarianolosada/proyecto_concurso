@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 22/07/2015 11:18:12 by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="dominio.TribunalJurado" table="tribunal_jurado" schema="public">
+        <id name="idTribunalJurado" type="int">
+            <column name="id_tribunal_jurado" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="institucion" class="dominio.Institucion" fetch="select">
+            <column name="institucion_id_institucion" />
+        </many-to-one>
+        <many-to-one name="persona" class="dominio.Persona" fetch="select">
+            <column name="id_persona" />
+        </many-to-one>
+        <many-to-one name="establecimiento" class="dominio.Establecimiento" fetch="select">
+            <column name="establecimiento_codigo_siisa" />
+        </many-to-one>
+        <many-to-one name="tribunal" class="dominio.Tribunal" fetch="select">
+            <column name="tribunal_id_tribunal" />
+        </many-to-one>
+        <property name="estado" type="string">
+            <column name="estado" />
+        </property>
+        <property name="presencia" type="java.lang.Boolean">
+            <column name="presencia" />
+        </property>
+        <property name="condicion" type="string">
+            <column name="condicion" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 22/07/2015 11:18:12 by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="dominio.Usuario" table="usuario" schema="public">
+        <id name="idUsuario" type="int">
+            <column name="id_usuario" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="tipoUsuario" class="dominio.TipoUsuario" fetch="select">
+            <column name="tipo_usuario_id_tipo_usuario" />
+        </many-to-one>
+        <property name="nombre" type="string">
+            <column name="nombre" />
+        </property>
+        <property name="apellido" type="string">
+            <column name="apellido" />
+        </property>
+        <property name="fechaNacimiento" type="date">
+            <column name="fecha_nacimiento" length="13" />
+        </property>
+        <property name="dni" type="string">
+            <column name="dni" />
+        </property>
+        <property name="userName" type="string">
+            <column name="user_name" />
+        </property>
+        <property name="pass" type="string">
+            <column name="pass" />
+        </property>
+        <property name="activo" type="java.lang.Boolean">
+            <column name="activo" />
+        </property>
+        <property name="ultimaActualizacion" type="date">
+            <column name="ultima_actualizacion" length="13" />
+        </property>
+    </class>
+</hibernate-mapping>

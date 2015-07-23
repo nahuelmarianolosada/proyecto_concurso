@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 22/07/2015 11:18:12 by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="dominio.Institucion" table="institucion" schema="public">
+        <id name="idInstitucion" type="int">
+            <column name="id_institucion" />
+            <generator class="assigned" />
+        </id>
+        <property name="nombreInstitucion" type="string">
+            <column name="nombre_institucion" />
+        </property>
+        <property name="direccion" type="string">
+            <column name="direccion" />
+        </property>
+        <property name="telefono" type="string">
+            <column name="telefono" />
+        </property>
+        <property name="idLocalidad" type="java.lang.Integer">
+            <column name="id_localidad" />
+        </property>
+        <set name="tribunalJurados" table="tribunal_jurado" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="institucion_id_institucion" />
+            </key>
+            <one-to-many class="dominio.TribunalJurado" />
+        </set>
+    </class>
+</hibernate-mapping>

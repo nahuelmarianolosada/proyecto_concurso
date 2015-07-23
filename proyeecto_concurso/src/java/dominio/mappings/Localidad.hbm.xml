@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 22/07/2015 11:18:12 by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="dominio.Localidad" table="localidad" schema="public">
+        <id name="codigoLocalidad" type="long">
+            <column name="codigo_localidad" />
+            <generator class="assigned" />
+        </id>
+        <property name="idLocalidad" type="long">
+            <column name="id_localidad" not-null="true" />
+        </property>
+        <property name="nombreDeLocalidad" type="string">
+            <column name="nombre_de_localidad" not-null="true" />
+        </property>
+        <property name="cp" type="java.lang.Short">
+            <column name="cp" />
+        </property>
+        <property name="indec" type="java.lang.Boolean">
+            <column name="indec" />
+        </property>
+        <property name="idDepartamento" type="java.lang.Integer">
+            <column name="id_departamento" />
+        </property>
+        <set name="personasForLocalidadNacimiento" table="persona" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="localidad_nacimiento" />
+            </key>
+            <one-to-many class="dominio.Persona" />
+        </set>
+        <set name="personasForIdLocalidadDireccion" table="persona" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_localidad_direccion" />
+            </key>
+            <one-to-many class="dominio.Persona" />
+        </set>
+    </class>
+</hibernate-mapping>

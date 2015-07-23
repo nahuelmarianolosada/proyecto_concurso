@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 22/07/2015 11:18:12 by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="dominio.Profesion" table="profesion" schema="public">
+        <id name="idProfesion" type="int">
+            <column name="id_profesion" />
+            <generator class="assigned" />
+        </id>
+        <property name="codigoSiisa" type="java.lang.Integer">
+            <column name="codigo_siisa" />
+        </property>
+        <property name="nombreProfesion" type="string">
+            <column name="nombre_profesion" />
+        </property>
+        <property name="profesionRefencia" type="string">
+            <column name="profesion_refencia" />
+        </property>
+        <property name="formacion" type="string">
+            <column name="formacion" />
+        </property>
+        <property name="profesionColegiada" type="java.lang.Boolean">
+            <column name="profesion_colegiada" />
+        </property>
+        <property name="profesionDeSalud" type="java.lang.Boolean">
+            <column name="profesion_de_salud" />
+        </property>
+        <property name="categoria" type="string">
+            <column name="categoria" />
+        </property>
+        <set name="cargos" table="cargo" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_profesion" />
+            </key>
+            <one-to-many class="dominio.Cargo" />
+        </set>
+    </class>
+</hibernate-mapping>
