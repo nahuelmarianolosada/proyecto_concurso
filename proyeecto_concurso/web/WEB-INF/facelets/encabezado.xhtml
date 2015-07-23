@@ -1,0 +1,331 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:body>
+        <ui:composition>
+            <p:toolbar id="barraSuperior" styleClass="top" >
+                <f:facet name="left">
+                    <p:graphicImage url="resources/img/sunisBl.png" id="bannerMsalud" />
+                </f:facet>
+                <f:facet name="right" >
+                    <h:form id="formBarraSuperior">
+                        <!--                                                                                 
+                                BTN MENU DE USUARIO
+                        -->
+                        <p:commandButton id="btnUsuarioLogueado" value="#{beanLogin.usuarioLogeado.userName}" type="button" icon="ui-icon-star" styleClass="btnAccederLogin"/>
+                        <p:menu overlay="true" trigger="btnUsuarioLogueado" my="left top" at="left bottom">
+                            <p:submenu label="#{beanLogin.usuarioLogeado.nombre} #{beanLogin.usuarioLogeado.apellido}">
+                                <p:menuitem value="Mi Usuario" icon="ui-icon-home" oncomplete="PF('dlgDetallesUsuario').show();" />
+                                <p:menuitem value="Editar"  icon="ui-icon-wrench" oncomplete="PF('dlgModificarMiUsuario').show();"/>
+                                <p:separator />
+                                <p:menuitem value="Despedirse" icon="ui-icon-power" actionListener="#{beanLogin.logout()}" action="login.xhtml" onclick="agregarImagen();" >
+                                    <p:confirm header="Cerrar sesión" message="¿Confirma cerrar sesión?" icon="ui-icon-alert" />
+                                </p:menuitem>
+                            </p:submenu>
+                        </p:menu>
+
+                        <!--                                                                                
+                                        BTN ADMINISTRACION 
+                        -->
+                        <p:commandButton id="btnAdministracionUsuarios" value="Administrar" type="button" icon="ui-icon-wrench" styleClass="btnAccederLogin" rendered="#{beanLogin.esAdmin()}"/>
+                        <p:menu overlay="true" trigger="btnAdministracionUsuarios" my="left top" at="left bottom">
+                            <p:submenu label="Gestión de Usuarios">
+                                <p:menuitem value="Nuevo" icon="ui-icon-plusthick" />
+                                <p:menuitem value="Editar"  icon="ui-icon-pencil"/>
+                                <p:menuitem value="Eliminar"  icon="ui-icon-closethick"/>
+                                <p:separator />
+                                <p:menuitem value="Gestionar" icon="ui-icon-clipboard" onclick="PF('dlgGestionUsuarios').show();"  />
+                            </p:submenu>
+                        </p:menu>
+                    </h:form>
+                </f:facet>
+            </p:toolbar>
+            <p:sticky target="barraSuperior" />
+
+            <p:graphicImage url="resources/img/headerMsaludConcursos.png" id="bannerConcursos" width="100%" style="margin-top: 0px; height: 11em;" />
+
+
+
+
+
+            <!--
+                                   DIALOGO DE CONFIRMACION DE CERRAR SESION
+            -->
+
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" message="¿Confirma cerrar sesión?"> 
+                <h:form>
+                    <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" onclick="agregarImagen();" />
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                </h:form>
+            </p:confirmDialog>
+
+
+            <!--                                                        
+                    DIALOGO DE DETALLES DEL USUARIO LOGEADO
+            -->
+
+            <p:dialog id="dlgDetallesUsuario" appendTo="@(body)" header="Datos de #{beanLogin.usuarioLogeado.userName}" widgetVar="dlgDetallesUsuario" modal="true" showEffect="blind" hideEffect="explode" resizable="true" closable="true" closeOnEscape="true">
+                <h:form>
+                    <h:outputLabel value="Información general del usuario. Para modificaciones ir a la opcion 'Editar' de su usuario." styleClass="parrafoInformativo"/>
+                    <p:panelGrid columns="2" layout="grid">
+                        <h:outputLabel value="Código: " />
+                        <h:outputLabel value="#{beanLogin.usuarioLogeado.idUsuario}" />
+
+                        <h:outputLabel value="Nombre: " />
+                        <h:outputLabel value="#{beanLogin.usuarioLogeado.nombre}" />
+
+                        <h:outputLabel value="Apellido: " />
+                        <h:outputLabel value="#{beanLogin.usuarioLogeado.apellido}" />
+
+                        <h:outputLabel value="Fecha de Nacimiento: " />
+                        <h:outputLabel value="#{beanLogin.usuarioLogeado.fechaNacimiento}" >
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputLabel>
+
+                        <h:outputLabel value="DNI: " />
+                        <h:outputLabel value="#{beanLogin.usuarioLogeado.dni}" />
+
+                        <h:outputLabel value="Username: " />
+                        <h:outputLabel value="#{beanLogin.usuarioLogeado.userName}" />
+
+                        <h:outputLabel value="Tipo de Usuario: " />
+                        <h:outputLabel value="#{beanLogin.usuarioLogeado.tipoUsuario.descripcion}" />
+
+                        <h:outputLabel value="Se encuentra activo: " />
+                        <p:inputSwitch value="#{beanLogin.usuarioLogeado.activo}" onLabel="Si" offLabel="No" disabled="true" />
+                    </p:panelGrid>
+                </h:form>
+            </p:dialog>
+
+
+            <!--
+                DIALOGO DE MODIFICACION DE MI USUARIO
+            -->
+
+            <p:dialog header="Modificar usuario #{beanLogin.usuarioLogeado.idUsuario}" widgetVar="dlgModificarMiUsuario" appendTo="@(body)" modal="true" closeOnEscape="true" showEffect="explode"  dynamic="true" minHeight="250" height="auto" width="500" fitViewport="true" >
+                <h:form id="formEditarMiUsuario">
+                    <p:outputLabel value="Edición de los datos personales del usuario. Haga click sobre la opcion que desea modificar" styleClass="parrafoInformativo" />
+                    <p:panelGrid columns="3" layout="grid" >
+                        <h:outputLabel for="txtEditarNombre" value="Nombre: " />
+                        <p:inplace id="txtEditarNombre" editor="true" emptyLabel="Ingrese un Nombre" effectSpeed="fast" >
+                            <p:inputText value="#{beanLogin.usuarioLogeado.nombre}" required="true" requiredMessage="Ingrese un Nombre válido" />
+                        </p:inplace>
+                        <p:message for="txtEditarNombre" />
+
+                        <h:outputLabel for="txtEditarApellido" value="Apellido: " />
+                        <p:inplace id="txtEditarApellido" editor="true" emptyLabel="Ingrese un Apellido" effectSpeed="fast"  >
+                            <p:inputText value="#{beanLogin.usuarioLogeado.apellido}" required="true" label="text"  />
+                        </p:inplace>
+                        <p:message for="txtEditarApellido" />
+
+                        <h:outputLabel for="txtEditarFechaNac" value="Fecha de Nacimiento: " />
+                        <p:inplace id="txtEditarFechaNac" editor="true" emptyLabel="Ingrese la fecha" >
+                            <p:calendar id="calEditarFechaNac" value="#{beanLogin.usuarioLogeado.fechaNacimiento}" size="10" placeholder="" mask="true" required="true" requiredMessage="Ingrese una fecha de Nacimiento" maxdate="#{beanUsuario.fechaActual}" pattern="dd/MM/yyyy" >
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </p:calendar>
+                        </p:inplace>
+                        <p:message for="txtEditarFechaNac" />
+
+                        <h:outputLabel for="txtEditarDni" value="Dni: " />
+                        <p:inplace id="txtEditarDni" editor="true" emptyLabel="(vacío)" >
+                            <p:inputText value="#{beanLogin.usuarioLogeado.dni}" required="true" label="text" >
+                                <f:convertNumber for="txtEditarDni" integerOnly="true" />
+                                <f:validateLength for="txtEditarDni" minimum="7" maximum="9" />
+                            </p:inputText>
+                        </p:inplace>
+                        <p:message for="txtEditarDni" />
+
+                        <h:outputLabel for="txtEditarUsername" value="Username: " />
+                        <p:inplace id="txtEditarUsername" editor="true" emptyLabel="(vacío)" >
+                            <p:inputText value="#{beanLogin.usuarioLogeado.userName}" required="true" label="text" >
+                                <f:validateLength for="txtEditarUsername" minimum="5" maximum="10" />
+                            </p:inputText>
+                        </p:inplace>
+                        <p:message for="txtEditarUsername" />
+
+                        <h:outputLabel for="txtEditarPass" value="Contraseña: " />
+                        <p:inplace id="txtEditarPass" emptyLabel="(vacío)" effect="none" editor="true" label="*****" >
+                            <f:facet name="input">
+                                <p:inputText value="#{beanLogin.usuarioLogeado.pass}" required="true" label="text"  />
+                            </f:facet>
+                        </p:inplace>
+                        <p:message for="txtEditarPass" />
+
+                        <h:outputLabel for="chbEditarActivo" value="Activo:" />
+                        <p:inplace id="chbEditarActivo" effect="none">
+                            <f:facet name="output">
+                                #{beanLogin.usuarioLogeado.activo}
+                            </f:facet>
+                            <f:facet name="input">
+                                <h:selectBooleanCheckbox value="#{beanLogin.usuarioLogeado.activo}" />
+                            </f:facet>
+                        </p:inplace>
+                        <p:message for="chbEditarActivo" />
+
+                    </p:panelGrid>
+
+
+                    <p:commandButton value="Hecho" actionListener="#{beanLogin.actualizarMiUsuario()}" icon="ui-icon-arrowrefresh-1-w" update=":formEditarMiUsuario,:formBarraSuperior,:formNuevoConcurso" onsuccess="PF('dlgModificarMiUsuario').hide();" onerror="#{beanLogin.nuevoMensajeAlerta('Error', 'Se ha producido un error en la actualizacion')}" styleClass="btnVerde" />
+                </h:form>
+            </p:dialog>
+
+
+
+            <p:dialog header="Gestion de Usuarios" widgetVar="dlgGestionUsuarios" appendTo="@(body)" modal="true" closeOnEscape="true" showEffect="explode" style="top: 60px !important; font-size: 15px !important;" dynamic="true" minHeight="250" height="auto" width="75%" fitViewport="true" >
+                <h:form id="formGestionarUsuarios">
+                    <p:outputLabel value="Datos personales de todos los usuarios registrados. Haga click sobre la opcion que desea modificar" styleClass="parrafoInformativo" />
+                    <p:dataTable id="tblUsuariosRegistrados" var="usuario" value="#{beanUsuarios.listaUsuarios}" editable="true" rowKey="#{usuario.idUsuario}" reflow="true" style="font-size:0.7em;" rows="4"
+                                 paginator="true"
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="4,10,15">
+                        <f:facet name="header">
+                            Usuarios registrados
+                        </f:facet>
+                        <p:ajax event="rowEdit" listener="#{beanUsuarios.onUsuarioEdit}" partialSubmit="true" update=":formGestionarUsuarios:tblUsuariosRegistrados,:formNuevoConcurso:msg" />
+                        <p:ajax event="rowEditCancel" listener="#{beanUsuarios.onUsuarioEditCancel}" partialSubmit="true" update=":formNuevoConcurso:msg" />
+
+                        <p:column headerText="Id">
+                            <h:outputText value="#{usuario.idUsuario}" />
+                        </p:column>
+
+                        <p:column headerText="Nombre">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{usuario.nombre}" /></f:facet>
+                                <f:facet name="input"><p:inputText id="txtGestionarNombre" value="#{usuario.nombre}" style="width:100%"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column headerText="Apellido">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{usuario.apellido}" /></f:facet>
+                                <f:facet name="input"><p:inputText id="txtGestionarApellido" value="#{usuario.apellido}" style="width:100%"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column headerText="DNI">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{usuario.dni}" /></f:facet>
+                                <f:facet name="input">
+                                    <p:inputText id="txtGestionarDni" value="#{usuario.dni}" style="width:100%" validatorMessage="Dni fuera de rango." >
+                                        <f:validateDoubleRange maximum="100000000" minimum="1000000" />
+                                        <f:convertNumber for="txtGestionarDni" integerOnly="true" />
+                                        <p:clientValidator event="keyup" />
+                                    </p:inputText>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column headerText="Nacimiento">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{usuario.fechaNacimiento}"><f:convertDateTime pattern="dd/MM/yyyy" /></h:outputText></f:facet>
+                                <f:facet name="input"><p:calendar id="calGestionarFechaNac" value="#{usuario.fechaNacimiento}" size="10" placeholder="" mask="true" required="true" requiredMessage="Ingrese una fecha de Nacimiento" maxdate="#{beanUsuario.fechaActual}" pattern="dd/MM/yyyy" ><f:convertDateTime pattern="dd/MM/yyyy" /></p:calendar></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column headerText="Username">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{usuario.userName}" /></f:facet>
+                                <f:facet name="input"><p:inputText id="txtGestionarUsername" value="#{usuario.userName}" style="width:100%" /></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Activo">
+                            <p:cellEditor>
+                                <f:facet name="output"><p:selectBooleanCheckbox value="#{usuario.activo}" disabled="true" /></f:facet>
+                                <f:facet name="input"><p:selectBooleanCheckbox value="#{usuario.activo}" disabled="false" /></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Tipo de Usuario">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{usuario.tipoUsuario.descripcion}" /></f:facet>
+                                <f:facet name="input">
+                                    <p:selectOneMenu id="cmbGestionarTipo" value="#{usuario.tipoUsuario.idTipoUsuario}" style="width: 100%; margin-right: 0px !important;"  >
+                                        <f:selectItems value="#{beanUsuarios.listaTiposUsuario}" var="tipo" itemLabel="#{tipo.descripcion}" itemValue="#{tipo.idTipoUsuario}" />
+                                    </p:selectOneMenu>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column style="width:15px">
+                            <p:rowEditor />
+                        </p:column>
+                        <p:column style="width:15px; text-align: center;">
+                            <p:commandButton action="#{beanUsuarios.eliminar()}"
+                                             icon="ui-icon-trash" ajax="true" update=":formGestionarUsuarios:tblUsuariosRegistrados, :formNuevoConcurso:msg, :formNuevoUsuario:pnlNuevoUsuario" style="border: none; background: transparent;">
+                                <f:setPropertyActionListener value="#{usuario}"
+                                                             target="#{beanUsuarios.usuarioSeleccionado}" />
+                                <p:confirm header="Eliminar un usuario"
+                                           message="Confirma eliminar el usuario?" />
+                            </p:commandButton>
+                        </p:column>
+
+                    </p:dataTable>
+                </h:form>
+                <h:form id="formNuevoUsuario">
+                    <p:panel id="pnlNuevoUsuario" header="Nuevo Usuario" toggleable="true" collapsed="true" toggleSpeed="500" widgetVar="pnlNuevoUsuario" toggleTitle="Nuevo" style="margin-bottom:0px; margin-top: 5px;" toggleOrientation="horizontal">
+                        <p:ajax event="toggle" listener="#{beanUsuarios.habilitarCampos}" update=":formGestionarUsuarios" />
+
+                        <p:outputLabel value="Id: " id="lblNuevoUsuarioId"/>
+                        <p:outputLabel value="#{beanUsuarios.usuarioNuevo.idUsuario}" id="txtNuevoUsuarioId" />
+                        <p:panelGrid id="pnl" layout="grid" columns="2" style="font-size: 0.8em;" >
+                            <p:column>
+                                <p:outputLabel value="Nombre: " />
+                                <p:inputText id="txtNuevoUsuarioNombre" widgetVar="txtNuevoUsuarioNombre" value="#{beanUsuarios.usuarioNuevo.nombre}" maxlength="25" placeholder="Nombre Nuevo" size="25" required="true" requiredMessage="Ingrese un Nombre" tabindex="0" />
+
+                                <p:outputLabel value="Dni: " />
+                                <p:inputText id="txtNuevoUsuarioApellido" widgetVar="txtNuevoUsuarioApellido" value="#{beanUsuarios.usuarioNuevo.apellido}" maxlength="25" placeholder="Apellido Nuevo" size="25" required="true" requiredMessage="Ingrese un Apellido" tabindex="1" />
+
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel value="Apellido: " />
+                                <p:inputText id="txtNuevoUsuarioDni" widgetVar="txtNuevoUsuarioDni" value="#{beanUsuarios.usuarioNuevo.dni}" maxlength="9" placeholder="Numero de documento" size="25" required="true" requiredMessage="Ingrese un numero de documento" tabindex="2" />
+
+                                <p:outputLabel value="Nacimiento: " />
+                                <p:calendar id="calNuevoUsuarioFechNac" value="#{beanUsuarios.usuarioNuevo.fechaNacimiento}" size="25" placeholder="Ingrese una fecha de nacimiento" mask="true" required="true" requiredMessage="Ingrese una fecha de Nacimiento" maxdate="#{beanUsuario.fechaActual}" pattern="dd/MM/yyyy" tabindex="3" ><f:convertDateTime pattern="dd/MM/yyyy" /></p:calendar>
+                            </p:column>
+                        </p:panelGrid>
+
+                        <p:panelGrid id="pnl2" layout="grid" columns="2" style="font-size: 0.8em; margin-bottom: 10px; margin-top: 5px;">
+                            <p:column>
+                                <p:outputLabel value="Username: " />
+                                <p:inputText id="txtNuevoUsuarioUsername" widgetVar="txtNuevoUsuarioUsername" value="#{beanUsuarios.usuarioNuevo.userName}" maxlength="25" placeholder="Nombre del usuario" size="25" required="true" requiredMessage="Ingrese un nombre de usuario valido" tabindex="4" >
+                                    <p:ajax event="blur" listener="#{beanUsuarios.validarUsername}" update=":formNuevoConcurso:msg" />
+                                </p:inputText>
+                                <p:message for="txtNuevoUsuarioUsername" />
+                                <p:outputLabel value="" />
+                            </p:column>
+                            <p:column />
+
+                            <p:column>
+                                <p:outputLabel value="Contraseña: " />
+                                <p:password id="pwdUsuarioNuevoPass" value="#{beanUsuarios.usuarioNuevo.pass}" match="pwdUsuarioNuevoPass2" placeholder="Nueva Contraseña" label="Contraseña" required="true" requiredMessage="Ingrese una contraseña" maxlength="15" tabindex="5" />
+
+                                <p:outputLabel for="pwdUsuarioNuevoPass2" value="Repita la contraseña: " />
+                                <p:password id="pwdUsuarioNuevoPass2" value="#{beanUsuarios.usuarioNuevo.pass}" placeholder="Repita la Contraseña" label="Repita la contraseña" required="true" requiredMessage="Ingrese una contraseña" maxlength="15" tabindex="6" />
+                            </p:column>
+
+                            <p:column>
+                                <p:outputLabel value="Tipo: " />
+                                <p:selectOneMenu id="cmbUsuarioNuevoTipo" value="#{beanUsuarios.tipoUsuarioSeleccionado}" style="width: 30%; " tabindex="6" required="true" requiredMessage="Seleccione un tipo" >
+                                    <f:selectItem noSelectionOption="true" itemLabel="- Elija el tipo de usuario" />
+                                    <f:selectItems value="#{beanUsuarios.listaTiposUsuario}" var="tipo" itemLabel="#{tipo.descripcion}" itemValue="#{tipo.idTipoUsuario}" />
+                                </p:selectOneMenu>
+
+                                <p:outputLabel value="Activo: " />
+                                <p:selectBooleanButton id="schUsuarioNuevoActivo" value="#{beanUsuarios.usuarioNuevo.activo}" onLabel="Activo" offLabel="Inactivo" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:9em;" tabindex="7" />
+                            </p:column>
+                        </p:panelGrid>
+                        <p:commandButton value="Guardar" styleClass="btnVerde" actionListener="#{beanUsuarios.guardarNuevoUsuario}" update=":formGestionarUsuarios, :formNuevoConcurso:msg, :formNuevoUsuario" />
+
+                        <p:blockUI block="pnl" widgetVar="bui"/>
+                    </p:panel>
+                </h:form>
+            </p:dialog>
+
+        </ui:composition>
+    </h:body>
+</html>

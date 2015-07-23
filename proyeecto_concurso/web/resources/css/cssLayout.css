@@ -1,0 +1,224 @@
+
+@import url(http://fonts.googleapis.com/css?family=Share:700);
+
+#top {
+    position: relative;
+    /*    background-color: #036fab;*/
+    color: white;
+    /*    padding: 5px;*/
+    margin: 0px 0px 5px 0px;
+}
+
+#bottom {
+    position: relative;
+    background-color: #98A642;
+    padding: 5px;
+    margin: 5px 0px 0px 0px;
+}
+
+#left {
+    float: left;
+    background-color: #ece3a5;
+    padding: 5px;
+    width: 150px;
+}
+
+#right {
+    float: right;
+    background-color: #ece3a5;
+    padding: 5px;
+    width: 150px;
+}
+
+.center_content {
+    position: relative;
+    background-color: #ebedec;
+    padding: 5px;
+}
+
+.left_content {
+    background-color: #dddddd;
+    padding: 5px;
+    margin-left: 170px;
+}
+
+.right_content {
+    background-color: #dddddd;
+    padding: 5px;
+    margin: 0px 170px 0px 170px;
+}
+
+#top a:link, #top a:visited {
+    color: white;
+    font-weight : bold;
+    text-decoration: none;
+}
+
+#top a:link:hover, #top a:visited:hover  {
+    color: black;
+    font-weight : bold;
+    text-decoration : underline;
+}
+
+/*
+    ESTILOS ANTERIORES
+*/
+
+
+body{
+    background-color: #ebedec;
+}
+
+
+h3, .subtitulo{
+    color: gray;
+    text-decoration: underline;
+    text-decoration-color: #98a634;
+    font-family: 'Share', cursive;
+}
+
+#barraSuperior{
+    z-index: 2;
+    height: 4em;
+    background: rgba(152,166,66,1);
+    border-radius: 0px;
+    padding-top: 5px;
+    width: 99.5% !important;
+}
+
+#bannerMsalud{
+    width: 21em;
+    height: 3.5em;
+}
+
+#contenedorBanner{
+    position: fixed;
+    z-index: 2;
+    height: 10em;
+    width: 100%;
+    margin-top: 50px;
+}
+
+
+#contenedorPrincipal{
+    z-index: 2;
+    position: relative;
+    top: 12em;
+}
+
+.panelAlta{
+    /* margin: 0 auto 0 auto;*/
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+.btnAccederLogin{
+    height: 40px;
+    width: auto;
+    bottom: 14px;
+    background:  rgba(152,166,66,1) !important;
+    border: 0px !important;
+    color: white !important;
+    border-radius: 1px;
+    float: right;
+    margin: 11px 0px 0px 0px;
+    right: 140px;
+}
+
+
+.btnAccederLogin:hover{
+    background: rgba(0,0,0,0.4) !important;
+    font-weight: 100;
+}
+
+/* 
+    Seccion derecha de la barra superior stiky
+*/
+.ui-toolbar-group-right{
+    /*    padding-top: 5px !important;*/
+    height: 35px;
+    margin-right: 10px;
+    background-color: rgba(152,166,66,1);
+}
+
+
+.ui-widget .ui-widget {
+    font-size: 0.9em;
+}
+
+/*
+    Especificacion para el msje Growl
+*/
+.ui-widget {
+    font-size: 1.0em;
+}
+
+.ui-grid-col-3 {
+    margin-right: 5px;
+}
+
+.ui-picklist-button-add-all,.ui-picklist-button-remove-all{
+    visibility: hidden;
+}
+
+.ui-selectonemenu-panel .ui-selectonemenu-list {
+    font-size: small;
+}
+
+.dlgLoginIngreso .ui-widget-header {
+    background: rgba(152,166,66,1) !important;
+    color: white !important;
+}
+
+.ui-selectonemenu-label{
+    width: 94% !important;
+}
+
+#footer {
+    position: relative;
+    //margin-top: -50px;
+    height: 40px;
+    padding:5px 0px;
+    clear: both;
+    background: #98A642;
+    text-align: center;
+    color: #fff;
+}
+
+.btnVerde{
+    height: 40px;
+    width: auto;
+    bottom: 14px;
+    background: #a3aa46 !important;
+    border: 0px !important;
+    color: white !important;
+    border-radius: 1px;
+    margin:1em 0 0 0;
+}
+.btnVerde:hover{
+    background: #7a8034 !important;
+    font-weight: 100;
+}
+
+.parrafoInformativo{
+    font-size: 0.8em !important;
+}
+
+.ui-grid-col-3 {
+    margin-right: 0px;
+}
+
+#lblDatos{
+    font-family: Helvetica Neue,Helvetica,Arial,sans-serif;
+    background-color: #98A642;
+    color: white;
+    width: 100%;
+    
+    
+}
+
+#bottom .ui-panelgrid .ui-widget-content{
+    background: none;
+    border: none;
+}

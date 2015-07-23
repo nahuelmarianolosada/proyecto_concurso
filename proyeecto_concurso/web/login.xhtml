@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Registro Provincial de Concursos de Salud - SUNIS</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link rel="icon" type="image/png" href="resources/img/icoConcursos2.png" />
+        <h:outputStylesheet name="./css/cssLayout.css" />
+        <!--        <script type='text/javascript' src='resources/js/Browser.js'></script>
+                <script type='text/javascript'>
+                    var brw = new Browser();
+                    var datos = 'fullName: ' + brw.fullName + '\n' + 'name: ' + brw.name + '\n' + 'fullVersion: ' + brw.fullVersion + '\n' + 'version: ' + brw.version + '\n' + 'platform: ' + brw.platform + '\n' + 'mobile: ' + brw.mobile + '\n' + 'resolution: ' + brw.width + 'x' + brw.height;
+                    $("#lblDatos").text(datos);
+                    //alert('fullName: ' + brw.fullName + '\n' + 'name: ' + brw.name + '\n' + 'fullVersion: ' + brw.fullVersion + '\n' + 'version: ' + brw.version + '\n' + 'platform: ' + brw.platform + '\n' + 'mobile: ' + brw.mobile + '\n' + 'resolution: ' + brw.width + 'x' + brw.height);
+                </script>-->
+        <style type="text/css" >
+            body{background: url('resources/img/background_regConcursos.png') no-repeat fixed center; background-size: cover;}
+        </style>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                ocultar();
+            });
+            function ocultar() {
+                $('#fotocargando').hide();
+            }
+            function mostrar() {
+                $('#fotocargando').show();
+            }
+        </script>
+    </h:head>
+    <h:body >
+
+        <h:form id="formLogin">
+
+            <p:growl id="msg" showDetail="true" escape="false" sticky="false" />
+            <p:notificationBar position="top" effect="slide" styleClass="top" widgetVar="bar" style="z-index: 2;  height: 37px; background: rgba(152,166,66,1); left: 0px;" autoDisplay="true" >
+                <p:graphicImage url="resources/img/sunisBl.png" id="bannerMsalud" height="100%"  />
+                <p:commandButton id="btnAccederLogin" value="Acceder" onclick="PF('dlgLogin').show()" styleClass="btnAccederLogin" iconPos="left" />
+            </p:notificationBar>
+            <p:dialog header="Validación de Usuario" widgetVar="dlgLogin" styleClass="dlgLoginIngreso" modal="true" focus="txtUsername" showEffect="fade" hideEffect="fade" draggable="false" resizable="false" closeOnEscape="true" >
+                <h:panelGrid columns="1" cellpadding="5">
+                    <p:inputText id="txtUsername" value="#{beanLogin.username}" required="true" label="username" placeholder="Username" requiredMessage="Ingrese el Username" />
+                    <p:password id="txtPassword" value="#{beanLogin.pass}" required="true" label="password" placeholder="Contraseña" requiredMessage="Ingrese la Contraseña" />
+                    <p:commandButton value="Ingresar" update="msg" action="#{beanLogin.login}" oncomplete="ocultar();" onclick="mostrar();" onerror="#{beanLogin.nuevoMensajeAlerta('Error en el login', 'Se ha producido un error cuando se ingresaba al registro.')}" styleClass="btnVerde" />
+                    <div id="fotocargando" style="width:100%;text-align: center; ">
+                        <img src="resources/img/LoadingVerde.gif" />
+                    </div>
+                </h:panelGrid>
+            </p:dialog> 
+
+        </h:form>
+
+    </h:body>
+
+</html>

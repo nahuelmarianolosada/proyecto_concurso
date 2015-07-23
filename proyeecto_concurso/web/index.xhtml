@@ -1,0 +1,460 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:body>
+        <ui:composition template="/WEB-INF/facelets/template.xhtml">
+            <ui:define name="content">
+                <p:layout style="min-height:200px; height: 32.7em;" stateful="enabled" >
+
+                    <p:layoutUnit position="center">
+
+                    </p:layoutUnit>
+                    <p:layoutUnit position="east" resizable="true"  size="600" minSize="500"  header="Formulario de Registro de Concursos" maxSize="800" collapsible="true" >
+
+                        <p:tabView activeIndex="3" effect="fade" effectDuration="fast" id="tabuladorPestañero" >
+                            <p:effect type="bounce" event="onchange" />
+                            <p:ajax event="tabChange" listener="#{beanConcurso.obtenerEstablecimiento()}" update="tabuladorPestañero:formExpedientes:msg,:formCargoNuevo"/>
+                            <!--
+                                                            PESTAÑA DE EXPEDIENTES-->
+
+                            <p:tab title="Expediente" >
+                                <h:form id="formExpedientes">
+                                    <p:growl id="msg" showDetail="true" escape="false" sticky="false" life="5000" />
+                                    <h:panelGrid columns="3" cellpadding="3" frame="box" styleClass="panelAlta" >
+                                        <f:facet name="header" class="encabezadoPanel">
+                                            <h:outputText value="Datos Generales del Expediente" />
+                                        </f:facet>
+
+                                        <p:selectOneMenu id="cmbAreaExpediente" value="#{beanConcurso.expedienteNuevo.area.prefijoExpediente}" required="true" requiredMessage="Seleccione un Àrea" >
+                                            <f:selectItem noSelectionOption="true" itemLabel=" Seleccione un Área" itemValue="null" />
+                                            <f:selectItems var="area" value="#{beanConcurso.listaAreas}" itemLabel="#{area.nombreArea} (#{area.prefijoExpediente})" itemValue="#{area.prefijoExpediente}" />
+                                        </p:selectOneMenu>
+
+                                        <p:spinner id="spnNumeroExpediente" value="#{beanConcurso.expedienteNuevo.numero}" placeholder="Número" min="0" max="9999" required="true" requiredMessage="Ingrese el Número que figura en el expediente"  />
+
+                                        <p:spinner id="spnAnio" value="#{beanConcurso.expedienteNuevo.anio}" placeholder="Año" min="1950" max="2015" required="true" requiredMessage="Ingrese el año que figura en el expediente" size="5" />
+
+                                        <p:column>
+                                            <h:outputText value="Régimen que aplica" />
+                                            <p:selectOneMenu id="cmbRegimenExpediente" style="width:100%;">
+                                                <f:selectItem itemLabel="Profesional" itemValue="PROFESIONAL"/>
+                                                <f:selectItem itemLabel="Técnico" itemValue="TECNICO"/>
+                                                <f:selectItem itemLabel="General" itemValue="GENERAL"/>
+                                            </p:selectOneMenu>
+                                        </p:column>
+
+                                        <p:column>
+                                            <h:outputText value="Situación" />
+                                            <p:selectOneMenu id="cmbSituacionExpediente" style="width:100%;">
+                                                <f:selectItem itemLabel="En ejecucion" itemValue="EN EJECUCION"/>
+                                                <f:selectItem itemLabel="Cancelado" itemValue="CANCELADO"/>
+                                                <f:selectItem itemLabel="Finalizado" itemValue="FINALIZADO"/>
+                                            </p:selectOneMenu>
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputText value="Establecimiento" />
+                                            <p:selectOneMenu id="cmbEstablecimiento" value="#{beanConcurso.cargoNuevo.establecimiento.codigoSiisa}" required="true" requiredMessage="Seleccione un Establecimiento" style="width: 20em;" filter="true" >
+                                                <p:ajax listener="#{beanConcurso.obtenerEstablecimiento()}" update="tabuladorPestañero:formExpedientes,:formCargoNuevo" />
+                                                <f:selectItem noSelectionOption="true" itemLabel=" Seleccione un Establecimietno" itemValue="null" />
+                                                <f:selectItems var="establecimiento" value="#{beanConcurso.listaEstablecimientos}" itemLabel="#{establecimiento.nombre}" itemValue="#{establecimiento.codigoSiisa}" />
+                                            </p:selectOneMenu>
+                                        </p:column>
+                                        <p:commandButton actionListener="#{beanConcurso.validarExpedienteTab()}" update="tabuladorPestañero:formExpedientes,:formCargoNuevo" />
+                                    </h:panelGrid>
+                                </h:form>
+                            </p:tab>
+
+
+                            <!--
+                                                            PESTAÑA DE RESOLUCIONES-->
+
+                            <p:tab title="Resoluciones" >
+                                <h:form id="formResoluciones">
+                                    <h:panelGrid columns="2" cellpadding="3" frame="box" styleClass="panelAlta" >
+                                        <h:outputText value="Estado" />
+                                        <p:selectOneMenu id="cmbEstadoResolucion" style="width:100%;" >
+                                            <f:selectItem itemLabel="En ejecucion" itemValue="EN EJECUCION"/>
+                                            <f:selectItem itemLabel="Finalizado" itemValue="FINALIZADO"/>
+                                        </p:selectOneMenu>
+
+                                        <h:outputText value="Numero de Resolución" />
+                                        <p:spinner id="spnNumeroResolucion" value="#{beanConcurso.resolucionNueva.numeroResolucion}" placeholder="Número de Resolucion" min="0" max="99999" required="true" requiredMessage="Ingrese el numero que figura en la resolucion" size="7" />
+
+                                        <h:panelGrid columns="2">
+                                            <h:outputText value="Modificacion Parcial: " />
+                                            <p:inputSwitch offLabel="No" onLabel="Si" value="#{beanConcurso.banderaModificacionParcial}" onchange="#{beanConcurso.cambiarEstadoModificacion()}" >
+                                                <p:ajax listener="#{beanConcurso.cambiarEstadoModificacion()}" update="txtResolucionModificacion" />
+                                            </p:inputSwitch>
+                                        </h:panelGrid>
+                                        <p:inputText id="txtResolucionModificacion" placeholder="numero de resolucion" disabled="#{beanConcurso.banderaModificacionParcial}"/>
+
+                                        <h:panelGrid columns="2" >
+                                            <h:outputText value="Prórroga: " />
+                                            <p:inputSwitch onchange="#{beanConcurso.cambiarEstadoProrroga()}" offLabel="No" onLabel="Si" value="#{beanConcurso.banderaProrroga}">
+                                                <p:ajax listener="#{beanConcurso.cambiarEstadoProrroga()}" update="txtResolucionProrroga" />
+                                            </p:inputSwitch>
+                                        </h:panelGrid>
+                                        <p:inputText id="txtResolucionProrroga" placeholder="numero de resolucion" disabled="#{beanConcurso.banderaProrroga}" />
+
+
+                                        <h:outputText value="Antecedente" />
+                                        <p:selectBooleanCheckbox value="#{beanConcurso.resolucionNueva.antecedente}" />
+
+
+                                        <h:outputText value="Oposición" />
+                                        <p:selectBooleanCheckbox value="#{beanConcurso.resolucionNueva.oposicion}" />
+
+                                        <h:outputText value="Clase" />
+                                        <p:selectOneMenu id="cmbClaseResolucion" style="width:100%;" value="#{beanConcurso.resolucionNueva.clase}" >
+                                            <f:selectItem itemLabel="Ordinario" itemValue="ORDINARIO"/>
+                                            <f:selectItem itemLabel="Extraordinario" itemValue="EXTRAORDINARIO"/>
+                                        </p:selectOneMenu>
+
+                                        <h:outputText value="Agrupamiento: " />
+                                        <p:selectOneMenu id="cmbAgrupamientoCargo" value="0" style="width:100%;">
+                                            <f:selectItem itemLabel="Administrativo" itemValue="0"/>
+                                            <f:selectItem itemLabel="Profesional" itemValue="1"/>
+                                            <f:selectItem itemLabel="Técnico" itemValue="2"/>
+                                            <f:selectItem itemLabel="Mantenimiento y Producción" itemValue="3"/>
+                                            <f:selectItem itemLabel="Servicios Generales" itemValue="4"/>
+                                            <f:selectItem itemLabel="Profesional Asistencial" itemValue="5"/>
+                                        </p:selectOneMenu>
+
+                                        <h:outputText value="Apertura: " />
+                                        <p:calendar id="calFechaApertura" pattern="dd-MM-yyyy" mask="true" />
+
+                                        <h:outputText value="Cierrre de inscripciones: " />
+                                        <p:calendar id="calFechaCierre" pattern="dd-MM-yyyy" mask="true" />
+
+                                        <h:outputText value="Ejecución: " />
+                                        <p:calendar id="calFechaEjecucion" pattern="dd-MM-yyyy" mask="true" />
+
+                                        <h:outputText value="Publicación de Resultados" />
+                                        <p:calendar id="calFechaPublicacion" pattern="dd-MM-yyyy" mask="true" />
+
+                                    </h:panelGrid>
+                                </h:form>
+                            </p:tab>
+
+                            <!--
+                                                            PESTAÑA DE CARGOS-->
+
+                            <p:tab title="Cargos" >
+                                <h:form id="formCargos">
+                                    <h:panelGrid columns="2" >
+                                        <p:commandButton value="NuevoCargo" icon="ui-icon-plusthick" onclick="PF('dlgCargoNuevo').show();" />
+                                        <p:commandButton value="Actualizar" icon="ui-icon-refresh" />
+                                    </h:panelGrid>
+
+
+                                    <p:dataTable id="tblCargos" var="cargos" value="#{beanConcurso.listaCargos}">
+                                        <f:facet name="header">
+                                            Cargos Registrados
+                                        </f:facet>
+                                        <p:column headerText="Id">
+                                            <h:outputText value="#{cargos.idCargo}" />
+                                        </p:column>
+                                        <p:column headerText="Profesion">
+                                            <h:outputText value="#{cargos.profesion.nombreProfesion}" />
+                                        </p:column>
+                                        <p:column headerText="Especialidad">
+                                            <h:outputText value="#{cargos.especialidad}" />
+                                        </p:column>
+                                        <p:column headerText="Categoria">
+                                            <h:outputText value="#{cargos.categoria}" />
+                                        </p:column>
+                                        <p:column headerText="Función">
+                                            <h:outputText value="#{cargos.funcion}" />
+                                        </p:column>
+                                        <p:column headerText="Establecimiento">
+                                            <h:outputText value="#{cargos.establecimiento.nombre}" />
+                                        </p:column>
+                                        <p:column headerText="Resolución">
+                                            <h:outputText value="#{cargos.resolucion.numeroResolucion}" />
+                                        </p:column>
+                                        <p:column headerText="Cantidad">
+                                            <h:outputText value="#{cargos.cantidad}" />
+                                        </p:column>
+                                    </p:dataTable>
+                                </h:form>
+                            </p:tab>
+
+                            <!--
+                                PESTAÑA TRIBUNAL
+                            -->
+
+                            <p:tab title="Tribunal" >
+                                <h:form id="formTribunal">
+                                    <p:fieldset legend="Detalles del Jurado" toggleable="true" toggleSpeed="600" style="border: white; font-size: 0.99em;" collapsed="true">
+                                        <p:commandButton value="Buscar" onclick="" />
+                                        <p:panelGrid columns="2" layout="grid"  >
+                                            <p:inputText placeholder="Nombre" value="#{beanConcurso.juradoNuevo.persona.nombres}" />
+                                            <p:inputText placeholder="Apellido" value="#{beanConcurso.juradoNuevo.persona.apellido}" />
+
+                                            <p:inputText placeholder="Dni" value="#{beanConcurso.juradoNuevo.persona.dni}" />
+                                            <p:inputText placeholder="Cuil" value="#{beanConcurso.juradoNuevo.persona.cuil}" />
+
+                                            <p:calendar id="calFechaNacimientoJurado" placeholder="Fecha de Nacimiento" pattern="dd-MM-yyyy" mask="true" value="#{beanConcurso.juradoNuevo.persona.fechaDeNacimiento}" />
+                                            <p:inputText placeholder="Nacionalidad" value="#{beanConcurso.juradoNuevo.persona.nacionalidad}" />
+
+                                            <p:inputText placeholder="Dirección" value="#{beanConcurso.juradoNuevo.persona.direccion}" />
+                                            <p:column>
+                                                <p:outputLabel for="cmbSexoJurado" value="Sexo:" style="vertical-align: middle;" />
+                                                <p:selectOneMenu id="cmbSexoJurado" value="#{beanConcurso.juradoNuevo.persona.sexo}" style="margin-left: 20px; vertical-align: middle;" >
+                                                    <f:selectItem itemLabel="Masculino" itemValue="M" />
+                                                    <f:selectItem itemLabel="Femenino" itemValue="F" />
+                                                </p:selectOneMenu>
+                                            </p:column>
+
+                                            <p:inputText placeholder="Teléfono" value="#{beanConcurso.juradoNuevo.persona.telefono}" />
+                                            <p:inputText placeholder="Email" value="#{beanConcurso.juradoNuevo.persona.email}" />
+
+                                        </p:panelGrid>
+                                        <p:panelGrid columns="1" layout="grid"  style="padding-top: 5px;border: white;margin-bottom: 5px;" >
+                                            <f:facet name="header">
+                                                <h:outputText value="Entidad que representa el Jurado" />
+                                            </f:facet>
+
+                                            <p:row>
+                                                <h:outputText value="Institución: " style="vertical-align: middle; margin-right: 10px;" />
+
+                                                <p:inputSwitch offLabel="No" onLabel="Si" value="#{beanConcurso.banderaInstitucion}" onchange="#{beanConcurso.habilitarCmbInstitucion()}" style="vertical-align: middle;margin-right: 10px;" >
+                                                    <p:ajax listener="#{beanConcurso.habilitarCmbInstitucion()}" update="cmbInstitucionJurado,lblInstitucion" />
+                                                </p:inputSwitch>
+
+                                                <p:autoComplete id="cmbInstitucionJurado" required="#{beanConcurso.banderaInstitucion}" disabled="#{beanConcurso.banderaInstitucion}" dropdown="true" value="#{beanConcurso.juradoNuevo.institucion.nombreInstitucion}" completeMethod="#{beanConcurso.buscarInstitucion}" placeholder="Nombre" style="vertical-align: middle;" >
+                                                    <p:ajax event="itemSelect" listener="#{beanConcurso.onInstitucionSeleccionada}" update="lblInstitucion,tabuladorPestañero:formExpedientes:msg" />
+                                                </p:autoComplete>
+
+                                                <h:outputText id="lblInstitucion" value="#{beanConcurso.juradoNuevo.institucion.nombreInstitucion}" style="margin-left: 20px; vertical-align: middle;" />
+                                            </p:row>
+
+                                            <p:row>
+                                                <h:outputText value="Establecimiento: " style="vertical-align: middle;" />
+
+                                                <p:inputSwitch offLabel="No" onLabel="Si" value="#{beanConcurso.banderaEstablecimiento}" onchange="#{beanConcurso.habilitarCmbEstablecimiento()}" style="vertical-align: middle; margin-right: 10px;" >
+                                                    <p:ajax listener="#{beanConcurso.habilitarCmbEstablecimiento()}" update="cmbEstablecimientoJurado,lblEstablecimiento" />
+                                                </p:inputSwitch>
+
+                                                <p:autoComplete id="cmbEstablecimientoJurado" required="#{beanConcurso.banderaEstablecimiento}" disabled="#{beanConcurso.banderaEstablecimiento}" dropdown="true" value="#{beanConcurso.juradoNuevo.establecimiento.nombre}" completeMethod="#{beanConcurso.buscarEstablecimiento}" style="vertical-align: middle; margin-right: 10px;" >
+                                                    <p:ajax event="itemSelect" listener="#{beanConcurso.onEstablecimientoSeleccionado}" update="lblEstablecimiento,tabuladorPestañero:formExpedientes:msg" />
+                                                </p:autoComplete>
+
+                                                <h:outputText id="lblEstablecimiento" value="#{beanConcurso.juradoNuevo.establecimiento.nombre}" style="margin-left: 20px; vertical-align: middle;" />
+                                            </p:row>
+                                        </p:panelGrid>
+                                        <p:panelGrid columns="3" layout="grid" >
+                                            <p:column>
+                                                <p:outputLabel for="cmbEstadoJurado" value="Estado:" style="vertical-align: middle;" />
+                                                <p:selectOneMenu id="cmbEstadoJurado" value="#{beanConcurso.juradoNuevo.estado}" style="margin-left: 20px; vertical-align: middle;" >
+                                                    <f:selectItem itemLabel="Jurado" itemValue="JURADO" />
+                                                    <f:selectItem itemLabel="Veedor" itemValue="VEEDOR" />
+                                                </p:selectOneMenu>
+                                            </p:column>
+
+                                            <p:selectBooleanCheckbox value="#{beanConcurso.juradoNuevo.presencia}"  label="Indica si el jurado asistió" itemLabel="Presencia" />
+
+                                            <p:column>
+                                                <p:outputLabel for="cmbCondicionJurado" value="Condición: " style="vertical-align: middle;" />
+                                                <p:selectOneMenu id="cmbCondicionJurado" value="#{beanConcurso.juradoNuevo.condicion}" style="margin-left: 20px; vertical-align: middle;" >
+                                                    <f:selectItem itemLabel="Titular" itemValue="TITULAR" />
+                                                    <f:selectItem itemLabel="Suplente" itemValue="SUPLENTE" />
+                                                </p:selectOneMenu>
+                                            </p:column>
+                                        </p:panelGrid>
+                                    </p:fieldset>
+
+
+                                    <p:dataTable id="tblTribunalJurado" var="jurado" value="#{beanConcurso.listaJurados}">
+                                        <f:facet name="header">
+                                            Jurados Registrados
+                                        </f:facet>
+
+                                        <p:column headerText="Condición">
+                                            <h:outputText value="#{jurado.condicion}" />
+                                        </p:column>
+                                        <p:column headerText="Estado">
+                                            <h:outputText value="#{jurado.estado}" />
+                                        </p:column>
+                                        <p:column headerText="Presencia">
+                                            <h:outputText value="#{jurado.presencia}" />
+                                        </p:column>
+                                        <p:column headerText="Nombre">
+                                            <h:outputText value="#{jurado.persona.nombres}" />
+                                        </p:column>
+                                        <p:column headerText="Apellido">
+                                            <h:outputText value="#{jurado.persona.apellido}" />
+                                        </p:column>
+                                        <p:column headerText="Nombre">
+                                            <h:outputText value="#{jurado.persona.nombres}" />
+                                        </p:column>
+                                        <p:column headerText="Dni">
+                                            <h:outputText value="#{jurado.persona.dni}" />
+                                        </p:column>
+
+
+
+                                        <p:column style="width:32px;text-align: center">
+                                            <p:commandButton update="tabuladorPestañero:formTribunal" icon="ui-icon-search" title="Mostrar" />
+                                        </p:column>
+                                    </p:dataTable>
+
+
+
+
+                                </h:form>
+
+                            </p:tab>
+
+                            <!--
+                                                            PESTAÑA POSTULANTES-->
+
+                            <p:tab title="Postulantes" >
+                                <h:panelGrid columns="2" cellpadding="3" frame="box" styleClass="panelAlta" >
+
+                                </h:panelGrid>
+                            </p:tab>
+
+                            <!--
+                                                            PESTAÑA RESULTADO-->
+
+                            <p:tab title="Resultado" >
+                                <h:panelGrid columns="2" cellpadding="3" frame="box" styleClass="panelAlta" >
+
+                                </h:panelGrid>
+                            </p:tab>
+
+
+                        </p:tabView>
+
+                    </p:layoutUnit>
+                </p:layout>
+
+
+                <p:dialog widgetVar="dlgBuscarPersona" header="Buscar Profesional de la Salud" modal="true" showEffect="fade" hideEffect="fade" draggable="true" resizable="true" closeOnEscape="true" >
+                    <h:form id="formBuscarPersona">
+                        <p:panelGrid layout="grid" columns="2" >
+                            <p:inputText value="#{beanConcurso.personaBuscada.dni}" placeholder="DNI de la Persona Buscada..." />
+                            <p:commandButton value="Buscar" actionListener="#{beanConcurso.buscarPersonaREFEPS()}" update="tblResultadoBusquedaPersona" />
+                        </p:panelGrid>
+                        <p:dataTable id="tblResultadoBusquedaPersona" value="#{beanConcurso.listaResultadoBusquedaPersona}" var="persona" paginator="true"
+                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="5,10" emptyMessage="(Sin Resultados)" currentPageReportTemplate="{totalRecords} Profesionales Encontrados" >
+                            <f:facet name="header">Personas Registradas en el Registro Nacional de Profesionales de la Salud</f:facet>
+                            <p:column headerText="Dni" sortBy="#{persona.dni}" >
+                                <h:outputText value="#{persona.dni}" />
+                            </p:column>
+                            <p:column headerText="Apellido" sortBy="#{persona.apellido}" >
+                                <h:outputText value="#{persona.apellido}" />
+                            </p:column>
+                            <p:column headerText="Nombre" sortBy="#{persona.nombres}" >
+                                <h:outputText value="#{persona.nombres}" />
+                            </p:column>
+                            <p:column headerText="Cuil" sortBy="#{persona.cuil}" >
+                                <h:outputText value="#{persona.cuil}" />
+                            </p:column>
+
+
+                        </p:dataTable>
+                    </h:form>
+                </p:dialog>
+
+
+                <p:dialog header="Cargo Nuevo #{beanConcurso.resolucionNueva.numeroResolucion}" widgetVar="dlgCargoNuevo" modal="true" showEffect="fade" hideEffect="fade" draggable="true" resizable="true" closeOnEscape="true" >
+                    <h:form id="formCargoNuevo">
+                        <p:fieldset legend="ID: #{beanConcurso.cargoNuevo.idCargo}" >
+                            <p:outputLabel value="Establecimiento: #{beanConcurso.cargoNuevo.establecimiento.nombre}" />
+                            <h:panelGrid columns="2" cellpadding="4">
+
+                                <p:inputText value="#{beanConcurso.cargoNuevo.especialidad}" placeholder="Especialidad" />
+                                <p:inputText value="#{beanConcurso.cargoNuevo.categoria}" placeholder="Categoria" />
+                                <p:spinner value="#{beanConcurso.cargoNuevo.adicional}" placeholder="Cantidad de Horas" />
+                                <p:spinner value="#{beanConcurso.cargoNuevo.cantidad}" placeholder="Cantidad de Cargos" />
+
+                            </h:panelGrid>
+
+                            <h:panelGrid columns="1" cellpadding="4">
+                                <p:outputLabel for="cmbFuncion" value="Función: " />
+                                <p:selectOneMenu id="cmbFuncion" style="width:100%;" value="#{beanConcurso.cargoNuevo.funcion}">
+                                    <f:selectItem itemLabel="No se especifica" itemValue="" noSelectionOption="true" />
+                                    <f:selectItem itemLabel="Profesional en General" itemValue="0" />
+                                    <f:selectItem itemLabel="Profesional en Guardia Activa" itemValue="1" />
+                                    <f:selectItem itemLabel="Jefe de Unidad" itemValue="2" />
+                                    <f:selectItem itemLabel="Jefe de Servicio" itemValue="3" />
+                                    <f:selectItem itemLabel="Jefe de Departamento" itemValue="4" />
+                                </p:selectOneMenu>
+                                <p:outputLabel for="cmbAreaDesempenio" value="Área de Desempeño: " />
+                                <p:selectOneMenu id="cmbAreaDesempenio" style="width:100%;" value="#{beanConcurso.cargoNuevo.areaDeDesempenio}">
+                                    <f:selectItem itemLabel="Seleccionar un área" itemValue="" noSelectionOption="true" itemDisabled="true" />
+                                    <f:selectItem itemLabel="Unidad de Guardia" itemValue="1" />
+                                    <f:selectItem itemLabel="Unidad Sanitaria" itemValue="2" />
+                                    <f:selectItem itemLabel="Servicio Asistencial" itemValue="3" />
+                                    <f:selectItem itemLabel="Servicio Sanitario" itemValue="4" />
+                                    <f:selectItem itemLabel="Departamento" itemValue="5" />
+                                </p:selectOneMenu>
+                                <h:outputText value="Modalidad: " />
+                                <p:selectOneMenu id="cmbModalidadCargo" value="#{beanConcurso.cargoNuevo.modalidad}" style="width:100%;">
+                                    <f:selectItem itemLabel="Único" itemValue="ÚNICO"/>
+                                    <f:selectItem itemLabel="Eventual" itemValue="EVENTUAL" itemDisabled="true"/>
+                                    <f:selectItem itemLabel="Temporario" itemValue="TEMPORARIO" itemDisabled="true" />
+                                    <f:selectItem itemLabel="Contrato Especial" itemValue="CONTRATO ESPECIAL" itemDisabled="true" />
+                                    <f:selectItem itemLabel="Plazo Determinado" itemValue="PLAZO DETERMINADO" itemDisabled="true" />
+                                    <f:selectItem itemLabel="Ad Honorem" itemValue="AD HONOREM" itemDisabled="true" />
+                                    <f:selectItem itemLabel="Residencias" itemValue="RESIDENCIAS" itemDisabled="true" />
+                                </p:selectOneMenu>
+
+                                <h:outputText value="Fecha del acta de la formulacion de Perfil " />
+                                <p:calendar id="calFechaActaFormulacionPerfil" pattern="dd-MM-yyyy" mask="true" />
+                                <br />
+                                <h:outputText value="Enunciación: " />
+                                <p:selectOneMenu id="cmbEnunciacion" style="width:100%;" value="#{beanConcurso.cargoNuevo.enunciacion}">
+                                    <f:selectItem itemLabel="Renuncia" itemValue="RENUNCIA"/>
+                                    <f:selectItem itemLabel="Destitución" itemValue="DESTITUCION"/>
+                                    <f:selectItem itemLabel="Cumplimiento de Periodo" itemValue="CUMPLIMIENTO DE PERIODO"/>
+                                    <f:selectItem itemLabel="Fusión del Cargo" itemValue="FUSION DEL CARGO"/>
+                                    <f:selectItem itemLabel="Muerte" itemValue="MUERTE"/>
+                                    <f:selectItem itemLabel="Jubilación" itemValue="JUBILACION"/>
+                                    <f:selectItem itemLabel="Retiro" itemValue="RETIRO"/>
+                                </p:selectOneMenu>
+                            </h:panelGrid>
+                        </p:fieldset>
+                    </h:form>
+                </p:dialog>
+
+                <!-- 
+                   DIALOGO NUEVO MIEMBRO DEL TRIBUNAL
+                -->
+                <p:dialog id="dlgNuevoMiembroTribunalInstitucion" appendTo="@(body)" header="Ingrese nuevo Miembro del Tribunal" widgetVar="dlgNuevoMiembroTribunalInstitucion" modal="true" showEffect="blind" hideEffect="explode" resizable="true" closable="true" closeOnEscape="true">
+                    <h:form id="formNuevoMiembroTribunal">
+                        <p:panel header="Categoria">
+                            <p:outputLabel for="cmbInstitucion" value="Entidad que representa: " />
+                            <p:selectOneMenu id="cmbInstitucion" value="#{beanConcurso.categoriaJurado}" style="width: 100% !important;" >
+                                <f:selectItem itemLabel="Seleccionar una Institución" itemValue="" noSelectionOption="true" itemDisabled="true" />
+                                <f:selectItems var="institucion" value="#{beanConcurso.listaInstituciones}" itemLabel="#{institucion.nombreInstitucion}" itemValue="#{institucion.idInstitucion}" />
+                            </p:selectOneMenu>
+                        </p:panel>                                       
+                        <p:panel header="Datos del Jurado" >
+                            <p:outputLabel value="Nombre: " />
+                            <p:inputText value="#{beanConcurso.juradoNuevo.persona.nombres}" />
+                            <p:outputLabel value="Apellido: " />
+                            <p:inputText value="#{beanConcurso.juradoNuevo.persona.apellido}" />
+                            <p:outputLabel value="Dni: " />
+                            <p:inputText value="#{beanConcurso.juradoNuevo.persona.dni}" />
+
+                        </p:panel>                                       
+
+                        <br />
+                        <p:commandButton icon="ui-icon-closethick" oncomplete="PF('dlgNuevoMiembroTribunal').hide();"  />
+                    </h:form>
+                </p:dialog>
+
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+
