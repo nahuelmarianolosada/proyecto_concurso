@@ -382,6 +382,7 @@
                     <h:form id="formCargoNuevo">
                         <p:fieldset legend="ID: #{beanConcurso.cargoNuevo.idCargo}" >
                             <p:outputLabel value="Establecimiento: #{beanConcurso.cargoNuevo.establecimiento.nombre}" />
+                            <p:outputLabel value="Resolución: #{beanConcurso.resolucionNueva.expediente.numeroExpediente}" />
                             <h:panelGrid columns="2" cellpadding="4">
 
                                 <p:inputText value="#{beanConcurso.cargoNuevo.especialidad}" placeholder="Especialidad" />
@@ -391,7 +392,7 @@
 
                             </h:panelGrid>
 
-                            <h:panelGrid columns="1" cellpadding="4">
+                            <h:panelGrid columns="1" cellpadding="3">
                                 <p:outputLabel for="cmbFuncion" value="Función: " />
                                 <p:selectOneMenu id="cmbFuncion" style="width:100%;" value="#{beanConcurso.cargoNuevo.funcion}">
                                     <f:selectItem itemLabel="No se especifica" itemValue="" noSelectionOption="true" />
