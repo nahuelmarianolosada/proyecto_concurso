@@ -294,7 +294,7 @@ public class ConcursoBean implements Serializable {
     public void buscarPersonaREFEPS(){
         try{
             listaResultadoBusquedaPersona = HibernateUtil.buscarPersonas(personaBuscada.getDni());
-            if(listaResultadoBusquedaPersona.size()!=0){
+            if(listaResultadoBusquedaPersona.size()==0){
                 nuevoMensajeInfo("Registro Provincial de Concursos de Saludo", "Sin resultados coincidentes con el DNI " + personaBuscada.getDni());
             }
             

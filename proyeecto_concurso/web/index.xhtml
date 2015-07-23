@@ -191,7 +191,7 @@
                             <p:tab title="Tribunal" >
                                 <h:form id="formTribunal">
                                     <p:fieldset legend="Detalles del Jurado" toggleable="true" toggleSpeed="600" style="border: white; font-size: 0.99em;" collapsed="true">
-                                        <p:commandButton value="Buscar" onclick="" />
+                                        <p:commandButton value="Buscar" onclick="PF('dlgBuscarPersona').show();" icon="ui-icon-search" style="margin-bottom: 5px;" />
                                         <p:panelGrid columns="2" layout="grid"  >
                                             <p:inputText placeholder="Nombre" value="#{beanConcurso.juradoNuevo.persona.nombres}" />
                                             <p:inputText placeholder="Apellido" value="#{beanConcurso.juradoNuevo.persona.apellido}" />
@@ -303,10 +303,6 @@
                                             <p:commandButton update="tabuladorPestañero:formTribunal" icon="ui-icon-search" title="Mostrar" />
                                         </p:column>
                                     </p:dataTable>
-
-
-
-
                                 </h:form>
 
                             </p:tab>
@@ -336,15 +332,19 @@
                 </p:layout>
 
 
-                <p:dialog widgetVar="dlgBuscarPersona" header="Buscar Profesional de la Salud" modal="true" showEffect="fade" hideEffect="fade" draggable="true" resizable="true" closeOnEscape="true" >
+                <p:dialog widgetVar="dlgBuscarPersona" header="Buscar Profesional de la Salud" modal="true" showEffect="fade" hideEffect="fade" draggable="true" resizable="true" closeOnEscape="true" width="525" >
                     <h:form id="formBuscarPersona">
-                        <p:panelGrid layout="grid" columns="2" >
-                            <p:inputText value="#{beanConcurso.personaBuscada.dni}" placeholder="DNI de la Persona Buscada..." />
-                            <p:commandButton value="Buscar" actionListener="#{beanConcurso.buscarPersonaREFEPS()}" update="tblResultadoBusquedaPersona" />
+                        <p:panelGrid layout="grid" columns="1"  >
+                            <p:column>
+                                <p:inputText value="#{beanConcurso.personaBuscada.dni}" placeholder="DNI de la Persona Buscada..." />
+                                <p:commandButton value="Buscar" actionListener="#{beanConcurso.buscarPersonaREFEPS()}" update="tblResultadoBusquedaPersona,tabuladorPestañero:formExpedientes:msg" icon="ui-icon-search" />
+                            </p:column>
                         </p:panelGrid>
                         <p:dataTable id="tblResultadoBusquedaPersona" value="#{beanConcurso.listaResultadoBusquedaPersona}" var="persona" paginator="true"
                                      paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                     rowsPerPageTemplate="5,10" emptyMessage="(Sin Resultados)" currentPageReportTemplate="{totalRecords} Profesionales Encontrados" >
+                                     rowsPerPageTemplate="5,10" emptyMessage="(Sin Resultados)" currentPageReportTemplate="{totalRecords} Profesionales Encontrados" rowKey="#{persona.idPersona}">
+                            <p:ajax event="rowSelect" listener="#{beanConcurso.onPersonaSeleccionada}" update="tabuladorPestañero:formTribunal" oncomplete="PF(dlgBuscarPersona).hide();" />
+
                             <f:facet name="header">Personas Registradas en el Registro Nacional de Profesionales de la Salud</f:facet>
                             <p:column headerText="Dni" sortBy="#{persona.dni}" >
                                 <h:outputText value="#{persona.dni}" />
@@ -357,6 +357,19 @@
                             </p:column>
                             <p:column headerText="Cuil" sortBy="#{persona.cuil}" >
                                 <h:outputText value="#{persona.cuil}" />
+                            </p:column>
+                            <p:column headerText="Fecha de Nacimiento" sortBy="#{persona.fechaDeNacimiento}" >
+                                <h:outputText value="#{persona.fechaDeNacimiento}" >
+                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="Sexo" sortBy="#{persona.sexo}" >
+                                <h:outputText value="#{persona.sexo}" />
+                            </p:column>
+                            <p:column style="width:32px;text-align: center">
+                                <p:commandButton update="tabuladorPestañero:formTribunal" oncomplete="PF('dlgBuscarPersona').hide()" icon="ui-icon-check" title="Seleccionar">
+                                    <f:setPropertyActionListener value="#{persona}" target="#{beanConcurso.juradoNuevo.persona}" />
+                                </p:commandButton>
                             </p:column>
 
 

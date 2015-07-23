@@ -84,6 +84,7 @@ public class HibernateUtil {
                 personaEncontrada.setCuil(rs.getLong("cuil"));
                 personaEncontrada.setTelefono(rs.getString("tel1"));
                 personaEncontrada.setEmail(rs.getString("email"));
+                personaEncontrada.setDireccion(rs.getString("direccion"));
                 
                 listaResultado.add(personaEncontrada);
                 contadorDeRegistros += 1;
