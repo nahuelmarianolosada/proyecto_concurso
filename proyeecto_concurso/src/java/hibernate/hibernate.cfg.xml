@@ -9,21 +9,21 @@
     <property name="hibernate.connection.password">siisa1234</property>
     <property name="hibernate.hbm2ddl.auto">update</property>
     
-    <mapping resource="dominio/mappings/Establecimiento.hbm.xml"/>
-    <mapping resource="dominio/mappings/TribunalJurado.hbm.xml"/>
-    <mapping resource="dominio/mappings/Convocatoria.hbm.xml"/>
-    <mapping resource="dominio/mappings/Area.hbm.xml"/>
-    <mapping resource="dominio/mappings/TipoUsuario.hbm.xml"/>
-    <mapping resource="dominio/mappings/Expediente.hbm.xml"/>
-    <mapping resource="dominio/mappings/Institucion.hbm.xml"/>
-    <mapping resource="dominio/mappings/Concurso.hbm.xml"/>
-    <mapping resource="dominio/mappings/Cargo.hbm.xml"/>
-    <mapping resource="dominio/mappings/Usuario.hbm.xml"/>
     <mapping resource="dominio/mappings/Persona.hbm.xml"/>
-    <mapping resource="dominio/mappings/Tribunal.hbm.xml"/>
-    <mapping resource="dominio/mappings/Resolucion.hbm.xml"/>
+    <mapping resource="dominio/mappings/UnidadDeOrganizacion.hbm.xml"/>
+    <mapping resource="dominio/mappings/Cargo.hbm.xml"/>
+    <mapping resource="dominio/mappings/Expediente.hbm.xml"/>
     <mapping resource="dominio/mappings/Personal.hbm.xml"/>
-    <mapping resource="dominio/mappings/Profesion.hbm.xml"/>
+    <mapping resource="dominio/mappings/Establecimiento.hbm.xml"/>
+    <mapping resource="dominio/mappings/Usuario.hbm.xml"/>
     <mapping resource="dominio/mappings/Localidad.hbm.xml"/>
+    <mapping resource="dominio/mappings/Concurso.hbm.xml"/>
+    <mapping resource="dominio/mappings/Tribunal.hbm.xml"/>
+    <mapping resource="dominio/mappings/Profesion.hbm.xml"/>
+    <mapping resource="dominio/mappings/Resolucion.hbm.xml"/>
+    <mapping resource="dominio/mappings/Institucion.hbm.xml"/>
+    <mapping resource="dominio/mappings/TribunalJurado.hbm.xml"/>
+    <mapping resource="dominio/mappings/TipoUsuario.hbm.xml"/>
+    <mapping resource="dominio/mappings/Convocatoria.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

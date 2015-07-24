@@ -1,5 +1,5 @@
 package dominio;
-// Generated 22/07/2015 11:18:12 by Hibernate Tools 3.6.0
+// Generated 24/07/2015 09:37:24 by Hibernate Tools 3.6.0
 
 
 import java.util.HashSet;
@@ -12,7 +12,7 @@ public class Localidad  implements java.io.Serializable {
 
 
      private long codigoLocalidad;
-     private long idLocalidad;
+     private int idLocalidad;
      private String nombreDeLocalidad;
      private Short cp;
      private Boolean indec;
@@ -27,15 +27,16 @@ public class Localidad  implements java.io.Serializable {
         this.codigoLocalidad = codigoLocalidad;
     }
 
-	
+
     
     
-    public Localidad(long codigoLocalidad, long idLocalidad, String nombreDeLocalidad) {
+    
+    public Localidad(long codigoLocalidad, int idLocalidad, String nombreDeLocalidad) {
         this.codigoLocalidad = codigoLocalidad;
         this.idLocalidad = idLocalidad;
         this.nombreDeLocalidad = nombreDeLocalidad;
     }
-    public Localidad(long codigoLocalidad, long idLocalidad, String nombreDeLocalidad, Short cp, Boolean indec, Integer idDepartamento, Set personasForLocalidadNacimiento, Set personasForIdLocalidadDireccion) {
+    public Localidad(long codigoLocalidad, int idLocalidad, String nombreDeLocalidad, Short cp, Boolean indec, Integer idDepartamento, Set personasForLocalidadNacimiento, Set personasForIdLocalidadDireccion) {
        this.codigoLocalidad = codigoLocalidad;
        this.idLocalidad = idLocalidad;
        this.nombreDeLocalidad = nombreDeLocalidad;
@@ -53,11 +54,11 @@ public class Localidad  implements java.io.Serializable {
     public void setCodigoLocalidad(long codigoLocalidad) {
         this.codigoLocalidad = codigoLocalidad;
     }
-    public long getIdLocalidad() {
+    public int getIdLocalidad() {
         return this.idLocalidad;
     }
     
-    public void setIdLocalidad(long idLocalidad) {
+    public void setIdLocalidad(int idLocalidad) {
         this.idLocalidad = idLocalidad;
     }
     public String getNombreDeLocalidad() {

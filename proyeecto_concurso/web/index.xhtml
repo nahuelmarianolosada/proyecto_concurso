@@ -30,18 +30,18 @@
                                             <h:outputText value="Datos Generales del Expediente" />
                                         </f:facet>
 
-                                        <p:selectOneMenu id="cmbAreaExpediente" value="#{beanConcurso.expedienteNuevo.area.prefijoExpediente}" required="true" requiredMessage="Seleccione un Àrea" >
+                                        <p:selectOneMenu id="cmbUnidadExpediente" value="#{beanConcurso.expedienteNuevo.unidadDeOrganizacion.codigoUnidadDeOrganizacion}" required="true" requiredMessage="Seleccione un Àrea" filter="true" validatorMessage="Seleccione un área válida" >
                                             <f:selectItem noSelectionOption="true" itemLabel=" Seleccione un Área" itemValue="null" />
-                                            <f:selectItems var="area" value="#{beanConcurso.listaAreas}" itemLabel="#{area.nombreArea} (#{area.prefijoExpediente})" itemValue="#{area.prefijoExpediente}" />
+                                            <f:selectItems var="unidad" value="#{beanConcurso.listaUnidadDeOrganizacions}" itemLabel="#{unidad.nombreUnidad} (#{unidad.codigoUnidadDeOrganizacion})" itemValue="#{unidad.codigoUnidadDeOrganizacion}" />
                                         </p:selectOneMenu>
 
-                                        <p:spinner id="spnNumeroExpediente" value="#{beanConcurso.expedienteNuevo.numero}" placeholder="Número" min="0" max="9999" required="true" requiredMessage="Ingrese el Número que figura en el expediente"  />
+                                        <p:spinner id="spnNumeroExpediente" value="#{beanConcurso.expedienteNuevo.numero}" placeholder="Número" min="0" max="9999" required="true" requiredMessage="Ingrese el Número que figura en el expediente" validatorMessage="Ingrese un numero de expediente válido"  />
 
-                                        <p:spinner id="spnAnio" value="#{beanConcurso.expedienteNuevo.anio}" placeholder="Año" min="1950" max="2015" required="true" requiredMessage="Ingrese el año que figura en el expediente" size="5" />
+                                        <p:spinner id="spnAnio" value="#{beanConcurso.expedienteNuevo.anio}" placeholder="Año" min="1950" max="2015" required="true" requiredMessage="Ingrese el año que figura en el expediente" validatorMessage="Ingrese un año válido" size="5" />
 
                                         <p:column>
                                             <h:outputText value="Régimen que aplica" />
-                                            <p:selectOneMenu id="cmbRegimenExpediente" style="width:100%;">
+                                            <p:selectOneMenu id="cmbRegimenExpediente" value="#{beanConcurso.expedienteNuevo.regimen}" style="width:100%;">
                                                 <f:selectItem itemLabel="Profesional" itemValue="PROFESIONAL"/>
                                                 <f:selectItem itemLabel="Técnico" itemValue="TECNICO"/>
                                                 <f:selectItem itemLabel="General" itemValue="GENERAL"/>
@@ -50,7 +50,7 @@
 
                                         <p:column>
                                             <h:outputText value="Situación" />
-                                            <p:selectOneMenu id="cmbSituacionExpediente" style="width:100%;">
+                                            <p:selectOneMenu id="cmbSituacionExpediente" value="#{beanConcurso.expedienteNuevo.situacion}" style="width:100%;">
                                                 <f:selectItem itemLabel="En ejecucion" itemValue="EN EJECUCION"/>
                                                 <f:selectItem itemLabel="Cancelado" itemValue="CANCELADO"/>
                                                 <f:selectItem itemLabel="Finalizado" itemValue="FINALIZADO"/>
@@ -59,12 +59,12 @@
                                         <p:column>
                                             <h:outputText value="Establecimiento" />
                                             <p:selectOneMenu id="cmbEstablecimiento" value="#{beanConcurso.cargoNuevo.establecimiento.codigoSiisa}" required="true" requiredMessage="Seleccione un Establecimiento" style="width: 20em;" filter="true" >
-                                                <p:ajax listener="#{beanConcurso.obtenerEstablecimiento()}" update="tabuladorPestañero:formExpedientes,:formCargoNuevo" />
+                                                <p:ajax listener="#{beanConcurso.obtenerEstablecimiento()}" update=":formCargoNuevo" />
                                                 <f:selectItem noSelectionOption="true" itemLabel=" Seleccione un Establecimietno" itemValue="null" />
                                                 <f:selectItems var="establecimiento" value="#{beanConcurso.listaEstablecimientos}" itemLabel="#{establecimiento.nombre}" itemValue="#{establecimiento.codigoSiisa}" />
                                             </p:selectOneMenu>
                                         </p:column>
-                                        <p:commandButton actionListener="#{beanConcurso.validarExpedienteTab()}" update="tabuladorPestañero:formExpedientes,:formCargoNuevo" />
+                                        <p:commandButton id="btnGuardarNuevoExpediente" value="Guardar" actionListener="#{beanConcurso.validarExpedienteTab()}" update="tabuladorPestañero:formExpedientes:msg,:formCargoNuevo,tabuladorPestañero:formResoluciones" styleClass="btnVerde" />
                                     </h:panelGrid>
                                 </h:form>
                             </p:tab>
@@ -75,7 +75,10 @@
 
                             <p:tab title="Resoluciones" >
                                 <h:form id="formResoluciones">
-                                    <h:panelGrid columns="2" cellpadding="3" frame="box" styleClass="panelAlta" >
+                                    <h:panelGrid columns="4" cellpadding="3" frame="box" styleClass="panelAlta" >
+                                        <f:facet name="header"> 
+                                            Expediente: #{beanConcurso.expedienteNuevo.numeroExpediente} 
+                                        </f:facet>
                                         <h:outputText value="Estado" />
                                         <p:selectOneMenu id="cmbEstadoResolucion" style="width:100%;" >
                                             <f:selectItem itemLabel="En ejecucion" itemValue="EN EJECUCION"/>
@@ -381,7 +384,7 @@
                 <p:dialog header="Cargo Nuevo #{beanConcurso.resolucionNueva.numeroResolucion}" widgetVar="dlgCargoNuevo" modal="true" showEffect="fade" hideEffect="fade" draggable="true" resizable="true" closeOnEscape="true" >
                     <h:form id="formCargoNuevo">
                         <p:fieldset legend="ID: #{beanConcurso.cargoNuevo.idCargo}" >
-                            <p:outputLabel value="Establecimiento: #{beanConcurso.cargoNuevo.establecimiento.nombre}" />
+                            <p:outputLabel value="Establecimiento: #{beanConcurso.cargoNuevo.establecimiento.nombre}" /><br />
                             <p:outputLabel value="Resolución: #{beanConcurso.resolucionNueva.expediente.numeroExpediente}" />
                             <h:panelGrid columns="2" cellpadding="4">
 

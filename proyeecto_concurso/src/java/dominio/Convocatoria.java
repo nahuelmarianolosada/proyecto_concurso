@@ -1,5 +1,5 @@
 package dominio;
-// Generated 22/07/2015 11:18:12 by Hibernate Tools 3.6.0
+// Generated 24/07/2015 09:37:24 by Hibernate Tools 3.6.0
 
 
 
@@ -16,19 +16,17 @@ public class Convocatoria  implements java.io.Serializable {
      private Double antecedentes;
      private Double oposicion;
      private Double puntaje;
-     private int numeroDeResolucion;
 
     public Convocatoria() {
     }
 
 	
-    public Convocatoria(int idInscripcion, Cargo cargo, Persona persona, int numeroDeResolucion) {
+    public Convocatoria(int idInscripcion, Cargo cargo, Persona persona) {
         this.idInscripcion = idInscripcion;
         this.cargo = cargo;
         this.persona = persona;
-        this.numeroDeResolucion = numeroDeResolucion;
     }
-    public Convocatoria(int idInscripcion, Cargo cargo, Persona persona, Integer fojas, Double antecedentes, Double oposicion, Double puntaje, int numeroDeResolucion) {
+    public Convocatoria(int idInscripcion, Cargo cargo, Persona persona, Integer fojas, Double antecedentes, Double oposicion, Double puntaje) {
        this.idInscripcion = idInscripcion;
        this.cargo = cargo;
        this.persona = persona;
@@ -36,7 +34,6 @@ public class Convocatoria  implements java.io.Serializable {
        this.antecedentes = antecedentes;
        this.oposicion = oposicion;
        this.puntaje = puntaje;
-       this.numeroDeResolucion = numeroDeResolucion;
     }
    
     public int getIdInscripcion() {
@@ -87,13 +84,6 @@ public class Convocatoria  implements java.io.Serializable {
     
     public void setPuntaje(Double puntaje) {
         this.puntaje = puntaje;
-    }
-    public int getNumeroDeResolucion() {
-        return this.numeroDeResolucion;
-    }
-    
-    public void setNumeroDeResolucion(int numeroDeResolucion) {
-        this.numeroDeResolucion = numeroDeResolucion;
     }
 
 

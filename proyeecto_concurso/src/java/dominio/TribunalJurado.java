@@ -1,5 +1,5 @@
 package dominio;
-// Generated 22/07/2015 11:18:12 by Hibernate Tools 3.6.0
+// Generated 24/07/2015 09:37:24 by Hibernate Tools 3.6.0
 
 
 
@@ -24,11 +24,6 @@ public class TribunalJurado  implements java.io.Serializable {
 	
     public TribunalJurado(int idTribunalJurado) {
         this.idTribunalJurado = idTribunalJurado;
-    }
-
-    public TribunalJurado(Institucion institucion, Establecimiento establecimiento) {
-        this.institucion = institucion;
-        this.establecimiento = establecimiento;
     }
 
     public TribunalJurado(Institucion institucion, Establecimiento establecimiento,Persona persona) {

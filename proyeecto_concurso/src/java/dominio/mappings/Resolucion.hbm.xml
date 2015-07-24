@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 22/07/2015 11:18:12 by Hibernate Tools 3.6.0 -->
+<!-- Generated 24/07/2015 09:37:25 by Hibernate Tools 3.6.0 -->
 <hibernate-mapping>
     <class name="dominio.Resolucion" table="resolucion" schema="public">
-        <id name="numeroResolucion" type="int">
+        <id name="numeroResolucion" type="string">
             <column name="numero_resolucion" />
             <generator class="assigned" />
         </id>
@@ -59,17 +59,17 @@
         <property name="prorrogaResolucion" type="java.lang.Integer">
             <column name="prorroga_resolucion" />
         </property>
-        <set name="concursos" table="concurso" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="resolucion_numero_resolucion" />
-            </key>
-            <one-to-many class="dominio.Concurso" />
-        </set>
         <set name="cargos" table="cargo" inverse="true" lazy="true" fetch="select">
             <key>
-                <column name="resolucion_numero_resolucion" />
+                <column name="numero_resolucion" />
             </key>
             <one-to-many class="dominio.Cargo" />
+        </set>
+        <set name="concursos" table="concurso" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="numero_resolucion_resolucion" />
+            </key>
+            <one-to-many class="dominio.Concurso" />
         </set>
     </class>
 </hibernate-mapping>

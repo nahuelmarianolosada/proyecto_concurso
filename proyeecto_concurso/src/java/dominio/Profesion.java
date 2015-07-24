@@ -1,5 +1,5 @@
 package dominio;
-// Generated 22/07/2015 11:18:12 by Hibernate Tools 3.6.0
+// Generated 24/07/2015 09:37:24 by Hibernate Tools 3.6.0
 
 
 import java.util.HashSet;
@@ -19,6 +19,7 @@ public class Profesion  implements java.io.Serializable {
      private Boolean profesionColegiada;
      private Boolean profesionDeSalud;
      private String categoria;
+     private Set personals = new HashSet(0);
      private Set cargos = new HashSet(0);
 
     public Profesion() {
@@ -28,7 +29,7 @@ public class Profesion  implements java.io.Serializable {
     public Profesion(int idProfesion) {
         this.idProfesion = idProfesion;
     }
-    public Profesion(int idProfesion, Integer codigoSiisa, String nombreProfesion, String profesionRefencia, String formacion, Boolean profesionColegiada, Boolean profesionDeSalud, String categoria, Set cargos) {
+    public Profesion(int idProfesion, Integer codigoSiisa, String nombreProfesion, String profesionRefencia, String formacion, Boolean profesionColegiada, Boolean profesionDeSalud, String categoria, Set personals, Set cargos) {
        this.idProfesion = idProfesion;
        this.codigoSiisa = codigoSiisa;
        this.nombreProfesion = nombreProfesion;
@@ -37,6 +38,7 @@ public class Profesion  implements java.io.Serializable {
        this.profesionColegiada = profesionColegiada;
        this.profesionDeSalud = profesionDeSalud;
        this.categoria = categoria;
+       this.personals = personals;
        this.cargos = cargos;
     }
    
@@ -95,6 +97,13 @@ public class Profesion  implements java.io.Serializable {
     
     public void setCategoria(String categoria) {
         this.categoria = categoria;
+    }
+    public Set getPersonals() {
+        return this.personals;
+    }
+    
+    public void setPersonals(Set personals) {
+        this.personals = personals;
     }
     public Set getCargos() {
         return this.cargos;

@@ -6,9 +6,10 @@
 
 package hibernate.dao.impl;
 
-import dominio.Area;
+import dominio.UnidadDeOrganizacion;
 import hibernate.HibernateUtil;
-import hibernate.dao.AreaDao;
+import static hibernate.HibernateUtil.getSession;
+import hibernate.dao.UnidadDeOrganizacionDao;
 import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Order;
@@ -17,25 +18,25 @@ import org.hibernate.criterion.Order;
  *
  * @author SIISAJUJUY
  */
-public class AreaDaoImpl extends HibernateUtil implements AreaDao{
+public class UnidadDeOrganizacionDaoImpl extends HibernateUtil implements UnidadDeOrganizacionDao{
     @Override
-    public List<Area> getAll() {
-        Criteria criteria = getSession().createCriteria(Area.class);
-        criteria.addOrder(Order.asc("idArea"));
-        List<Area> lista = criteria.list();
+    public List<UnidadDeOrganizacion> getAll() {
+        Criteria criteria = getSession().createCriteria(UnidadDeOrganizacion.class);
+        criteria.addOrder(Order.asc("codigoUnidadDeOrganizacion"));
+        List<UnidadDeOrganizacion> lista = criteria.list();
         return lista;
     }
 
     @Override
-    public Area getArea(int idArea) {
-        return (Area)getSession().get(Area.class, idArea);
+    public UnidadDeOrganizacion getUnidadDeOrganizacion(int codigoUnidadDeOrganizacion) {
+        return (UnidadDeOrganizacion)getSession().get(UnidadDeOrganizacion.class, codigoUnidadDeOrganizacion);
     }
 
     @Override
-    public void insertar(Area area) {
+    public void insertar(UnidadDeOrganizacion unidadDeOrganizacion) {
         try {
             getSession().beginTransaction();
-            getSession().save(area);
+            getSession().save(unidadDeOrganizacion);
             getSession().getTransaction().commit();
 
         } catch (Exception e) {
@@ -45,10 +46,10 @@ public class AreaDaoImpl extends HibernateUtil implements AreaDao{
     }
 
     @Override
-    public void eliminar(Area area) {
+    public void eliminar(UnidadDeOrganizacion unidadDeOrganizacion) {
         try {
             getSession().beginTransaction();
-            getSession().delete(area);
+            getSession().delete(unidadDeOrganizacion);
             getSession().getTransaction().commit();
 
         } catch (Exception e) {
@@ -58,10 +59,10 @@ public class AreaDaoImpl extends HibernateUtil implements AreaDao{
     }
 
     @Override
-    public void modificar(Area area) {
+    public void modificar(UnidadDeOrganizacion unidadDeOrganizacion) {
         try {
             getSession().beginTransaction();
-            getSession().update(area);
+            getSession().update(unidadDeOrganizacion);
             getSession().getTransaction().commit();
 
         } catch (Exception e) {

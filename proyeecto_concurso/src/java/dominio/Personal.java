@@ -1,5 +1,5 @@
 package dominio;
-// Generated 22/07/2015 11:18:12 by Hibernate Tools 3.6.0
+// Generated 24/07/2015 09:37:24 by Hibernate Tools 3.6.0
 
 
 
@@ -10,23 +10,22 @@ public class Personal  implements java.io.Serializable {
 
 
      private int idPersonal;
-     private Integer dni;
-     private String profesion;
-     private String tipo;
+     private Profesion profesion;
+     private Persona persona;
      private String numeroMatricula;
 
     public Personal() {
     }
 
 	
-    public Personal(int idPersonal) {
+    public Personal(int idPersonal, Profesion profesion) {
         this.idPersonal = idPersonal;
+        this.profesion = profesion;
     }
-    public Personal(int idPersonal, Integer dni, String profesion, String tipo, String numeroMatricula) {
+    public Personal(int idPersonal, Profesion profesion, Persona persona, String numeroMatricula) {
        this.idPersonal = idPersonal;
-       this.dni = dni;
        this.profesion = profesion;
-       this.tipo = tipo;
+       this.persona = persona;
        this.numeroMatricula = numeroMatricula;
     }
    
@@ -37,26 +36,19 @@ public class Personal  implements java.io.Serializable {
     public void setIdPersonal(int idPersonal) {
         this.idPersonal = idPersonal;
     }
-    public Integer getDni() {
-        return this.dni;
-    }
-    
-    public void setDni(Integer dni) {
-        this.dni = dni;
-    }
-    public String getProfesion() {
+    public Profesion getProfesion() {
         return this.profesion;
     }
     
-    public void setProfesion(String profesion) {
+    public void setProfesion(Profesion profesion) {
         this.profesion = profesion;
     }
-    public String getTipo() {
-        return this.tipo;
+    public Persona getPersona() {
+        return this.persona;
     }
     
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
+    public void setPersona(Persona persona) {
+        this.persona = persona;
     }
     public String getNumeroMatricula() {
         return this.numeroMatricula;

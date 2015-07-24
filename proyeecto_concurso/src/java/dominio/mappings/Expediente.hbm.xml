@@ -1,14 +1,14 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 22/07/2015 11:18:12 by Hibernate Tools 3.6.0 -->
+<!-- Generated 24/07/2015 09:37:25 by Hibernate Tools 3.6.0 -->
 <hibernate-mapping>
     <class name="dominio.Expediente" table="expediente" schema="public">
         <id name="numeroExpediente" type="string">
             <column name="numero_expediente" />
             <generator class="assigned" />
         </id>
-        <many-to-one name="area" class="dominio.Area" fetch="select">
+        <many-to-one name="unidadDeOrganizacion" class="dominio.UnidadDeOrganizacion" fetch="select">
             <column name="codigo_area" />
         </many-to-one>
         <property name="idExpediente" type="java.lang.Integer">

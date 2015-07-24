@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package hibernate.dao.impl;
 
 import dominio.TribunalJurado;
@@ -12,12 +11,14 @@ import hibernate.dao.TribunalJuradoDao;
 import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 
 /**
  *
  * @author SIISAJUJUY
  */
 public class TribunalJuradoDaoImpl extends HibernateUtil implements TribunalJuradoDao {
+
     @Override
     public List<TribunalJurado> getAll() {
         Criteria criteria = getSession().createCriteria(TribunalJurado.class);
@@ -26,9 +27,10 @@ public class TribunalJuradoDaoImpl extends HibernateUtil implements TribunalJura
         return lista;
     }
 
+
     @Override
     public TribunalJurado getTribunalJurado(int idTribunalJurado) {
-        return (TribunalJurado)getSession().get(TribunalJurado.class, idTribunalJurado);
+        return (TribunalJurado) getSession().get(TribunalJurado.class, idTribunalJurado);
     }
 
     @Override

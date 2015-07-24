@@ -1,5 +1,5 @@
 package dominio;
-// Generated 22/07/2015 11:18:12 by Hibernate Tools 3.6.0
+// Generated 24/07/2015 09:37:24 by Hibernate Tools 3.6.0
 
 
 import java.util.Date;
@@ -10,36 +10,36 @@ import java.util.Date;
 public class Concurso  implements java.io.Serializable {
 
 
-     private String numeroResolucionConcurso;
-     private Resolucion resolucion;
      private int idConcurso;
+     private Resolucion resolucion;
      private Date fechaConcurso;
      private String resultado;
      private Integer cantidadCubierto;
+     private String resolucionNumeroConcurso;
 
     public Concurso() {
     }
 
 	
-    public Concurso(String numeroResolucionConcurso, int idConcurso) {
-        this.numeroResolucionConcurso = numeroResolucionConcurso;
+    public Concurso(int idConcurso, String resultado) {
         this.idConcurso = idConcurso;
+        this.resultado = resultado;
     }
-    public Concurso(String numeroResolucionConcurso, Resolucion resolucion, int idConcurso, Date fechaConcurso, String resultado, Integer cantidadCubierto) {
-       this.numeroResolucionConcurso = numeroResolucionConcurso;
-       this.resolucion = resolucion;
+    public Concurso(int idConcurso, Resolucion resolucion, Date fechaConcurso, String resultado, Integer cantidadCubierto, String resolucionNumeroConcurso) {
        this.idConcurso = idConcurso;
+       this.resolucion = resolucion;
        this.fechaConcurso = fechaConcurso;
        this.resultado = resultado;
        this.cantidadCubierto = cantidadCubierto;
+       this.resolucionNumeroConcurso = resolucionNumeroConcurso;
     }
    
-    public String getNumeroResolucionConcurso() {
-        return this.numeroResolucionConcurso;
+    public int getIdConcurso() {
+        return this.idConcurso;
     }
     
-    public void setNumeroResolucionConcurso(String numeroResolucionConcurso) {
-        this.numeroResolucionConcurso = numeroResolucionConcurso;
+    public void setIdConcurso(int idConcurso) {
+        this.idConcurso = idConcurso;
     }
     public Resolucion getResolucion() {
         return this.resolucion;
@@ -47,13 +47,6 @@ public class Concurso  implements java.io.Serializable {
     
     public void setResolucion(Resolucion resolucion) {
         this.resolucion = resolucion;
-    }
-    public int getIdConcurso() {
-        return this.idConcurso;
-    }
-    
-    public void setIdConcurso(int idConcurso) {
-        this.idConcurso = idConcurso;
     }
     public Date getFechaConcurso() {
         return this.fechaConcurso;
@@ -75,6 +68,13 @@ public class Concurso  implements java.io.Serializable {
     
     public void setCantidadCubierto(Integer cantidadCubierto) {
         this.cantidadCubierto = cantidadCubierto;
+    }
+    public String getResolucionNumeroConcurso() {
+        return this.resolucionNumeroConcurso;
+    }
+    
+    public void setResolucionNumeroConcurso(String resolucionNumeroConcurso) {
+        this.resolucionNumeroConcurso = resolucionNumeroConcurso;
     }
 
 

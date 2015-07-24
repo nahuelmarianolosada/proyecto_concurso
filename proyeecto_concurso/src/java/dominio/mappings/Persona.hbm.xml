@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 22/07/2015 11:18:12 by Hibernate Tools 3.6.0 -->
+<!-- Generated 24/07/2015 09:37:25 by Hibernate Tools 3.6.0 -->
 <hibernate-mapping>
     <class name="dominio.Persona" table="persona" schema="public">
         <id name="idPersona" type="int">
@@ -32,9 +32,6 @@
         <property name="fechaDeNacimiento" type="date">
             <column name="fecha_de_nacimiento" length="13" />
         </property>
-        <property name="edad" type="java.lang.Integer">
-            <column name="edad" />
-        </property>
         <property name="direccion" type="string">
             <column name="direccion" />
         </property>
@@ -47,6 +44,9 @@
         <property name="cuil" type="java.lang.Long">
             <column name="cuil" />
         </property>
+        <property name="edad" type="java.lang.Integer">
+            <column name="edad" />
+        </property>
         <set name="convocatorias" table="convocatoria" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="persona_dni_persona" not-null="true" />
@@ -58,6 +58,12 @@
                 <column name="id_persona" />
             </key>
             <one-to-many class="dominio.TribunalJurado" />
+        </set>
+        <set name="personals" table="personal" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_persona" />
+            </key>
+            <one-to-many class="dominio.Personal" />
         </set>
     </class>
 </hibernate-mapping>

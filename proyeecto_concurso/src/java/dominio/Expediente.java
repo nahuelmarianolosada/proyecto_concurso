@@ -1,5 +1,5 @@
 package dominio;
-// Generated 22/07/2015 11:18:12 by Hibernate Tools 3.6.0
+// Generated 24/07/2015 09:37:24 by Hibernate Tools 3.6.0
 
 
 import java.util.HashSet;
@@ -12,7 +12,7 @@ public class Expediente  implements java.io.Serializable {
 
 
      private String numeroExpediente;
-     private Area area;
+     private UnidadDeOrganizacion unidadDeOrganizacion;
      private Integer idExpediente;
      private Integer numero;
      private String situacion;
@@ -27,22 +27,9 @@ public class Expediente  implements java.io.Serializable {
     public Expediente(String numeroExpediente) {
         this.numeroExpediente = numeroExpediente;
     }
-
-    public Expediente(String numeroExpediente, Area area, Integer idExpediente, Integer numero, String situacion, String regimen, Integer anio) {
-        this.numeroExpediente = numeroExpediente;
-        this.area = area;
-        this.idExpediente = idExpediente;
-        this.numero = numero;
-        this.situacion = situacion;
-        this.regimen = regimen;
-        this.anio = anio;
-    }
-    
-    
-    
-    public Expediente(String numeroExpediente, Area area, Integer idExpediente, Integer numero, String situacion, String regimen, Integer anio, Set resolucions) {
+    public Expediente(String numeroExpediente, UnidadDeOrganizacion unidadDeOrganizacion, Integer idExpediente, Integer numero, String situacion, String regimen, Integer anio, Set resolucions) {
        this.numeroExpediente = numeroExpediente;
-       this.area = area;
+       this.unidadDeOrganizacion = unidadDeOrganizacion;
        this.idExpediente = idExpediente;
        this.numero = numero;
        this.situacion = situacion;
@@ -50,7 +37,20 @@ public class Expediente  implements java.io.Serializable {
        this.anio = anio;
        this.resolucions = resolucions;
     }
+
+    public Expediente(String numeroExpediente, UnidadDeOrganizacion unidadDeOrganizacion, Integer idExpediente, Integer numero, String situacion, String regimen, Integer anio) {
+        this.numeroExpediente = numeroExpediente;
+        this.unidadDeOrganizacion = unidadDeOrganizacion;
+        this.idExpediente = idExpediente;
+        this.numero = numero;
+        this.situacion = situacion;
+        this.regimen = regimen;
+        this.anio = anio;
+    }
    
+    
+    
+    
     public String getNumeroExpediente() {
         return this.numeroExpediente;
     }
@@ -58,12 +58,12 @@ public class Expediente  implements java.io.Serializable {
     public void setNumeroExpediente(String numeroExpediente) {
         this.numeroExpediente = numeroExpediente;
     }
-    public Area getArea() {
-        return this.area;
+    public UnidadDeOrganizacion getUnidadDeOrganizacion() {
+        return this.unidadDeOrganizacion;
     }
     
-    public void setArea(Area area) {
-        this.area = area;
+    public void setUnidadDeOrganizacion(UnidadDeOrganizacion unidadDeOrganizacion) {
+        this.unidadDeOrganizacion = unidadDeOrganizacion;
     }
     public Integer getIdExpediente() {
         return this.idExpediente;

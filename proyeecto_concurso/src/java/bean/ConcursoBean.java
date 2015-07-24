@@ -5,7 +5,7 @@
  */
 package bean;
 
-import dominio.Area;
+import dominio.UnidadDeOrganizacion;
 import dominio.Cargo;
 import dominio.Establecimiento;
 import dominio.Expediente;
@@ -17,14 +17,14 @@ import dominio.Resolucion;
 import dominio.Tribunal;
 import dominio.TribunalJurado;
 import hibernate.HibernateUtil;
-import hibernate.dao.AreaDao;
+import hibernate.dao.UnidadDeOrganizacionDao;
 import hibernate.dao.CargoDao;
 import hibernate.dao.EstablecimientoDao;
 import hibernate.dao.InstitucionDao;
 import hibernate.dao.LocalidadDao;
 import hibernate.dao.ProfesionDao;
 import hibernate.dao.TribunalJuradoDao;
-import hibernate.dao.impl.AreaDaoImpl;
+import hibernate.dao.impl.UnidadDeOrganizacionDaoImpl;
 import hibernate.dao.impl.CargoDaoImpl;
 import hibernate.dao.impl.EstablecimientoDaoImpl;
 import hibernate.dao.impl.InstitucionDaoImpl;
@@ -63,7 +63,7 @@ public class ConcursoBean implements Serializable {
     private boolean banderaProrroga = false;
     private List<Cargo> listaCargosVacantes;
     private Cargo cargoSeleccionado;
-    private List<Area> listaAreas;
+    private List<UnidadDeOrganizacion> listaUnidadDeOrganizacions;
     private Expediente expedienteNuevo;
     private Resolucion resolucionNueva;
     private Cargo cargoNuevo;
@@ -80,7 +80,6 @@ public class ConcursoBean implements Serializable {
     private List<Persona> listaPersonas;
     private Persona personaBuscada;
     private List<Persona> listaResultadoBusquedaPersona;
-    
 
     /**
      * Creates a new instance of ConcursoBean
@@ -94,14 +93,14 @@ public class ConcursoBean implements Serializable {
         listaCargosVacantes.add(new Cargo());
         cargoSeleccionado = new Cargo();
 
-        listaAreas = new ArrayList<Area>();
+        listaUnidadDeOrganizacions = new ArrayList<UnidadDeOrganizacion>();
         refreshListas();
 
-        expedienteNuevo = new Expediente("", new Area(), 0, Integer.getInteger(""), "", "", Integer.getInteger(""));
+        expedienteNuevo = new Expediente("", new UnidadDeOrganizacion(), 0, Integer.getInteger(""), "", "", Integer.getInteger(""));
         resolucionNueva = new Resolucion();
         cargoNuevo = new Cargo(listaEstablecimientos.get(0), listaProfesiones.get(0));
         try {
-            juradoNuevo = new TribunalJurado(listaInstituciones.get(0), listaEstablecimientos.get(0), new Persona());
+            juradoNuevo = new TribunalJurado(listaInstituciones.get(0), listaEstablecimientos.get(0), new Persona(Integer.getInteger(""), Long.getLong("")));
         } catch (Exception exGeneral) {
             exGeneral.printStackTrace();
         }
@@ -146,12 +145,12 @@ public class ConcursoBean implements Serializable {
         this.cargoSeleccionado = cargoSeleccionado;
     }
 
-    public List<Area> getListaAreas() {
-        return listaAreas;
+    public List<UnidadDeOrganizacion> getListaUnidadDeOrganizacions() {
+        return listaUnidadDeOrganizacions;
     }
 
-    public void setListaAreas(List<Area> listaAreas) {
-        this.listaAreas = listaAreas;
+    public void setListaUnidadDeOrganizacions(List<UnidadDeOrganizacion> listaUnidadDeOrganizacions) {
+        this.listaUnidadDeOrganizacions = listaUnidadDeOrganizacions;
     }
 
     public Expediente getExpedienteNuevo() {
@@ -281,28 +280,24 @@ public class ConcursoBean implements Serializable {
     public void setListaResultadoBusquedaPersona(List<Persona> listaResultadoBusquedaPersona) {
         this.listaResultadoBusquedaPersona = listaResultadoBusquedaPersona;
     }
-    
-    
-    
 
     /**
      *
      * M E T O D O S
      *
      */
-    
-    public void buscarPersonaREFEPS(){
-        try{
+    public void buscarPersonaREFEPS() {
+        try {
             listaResultadoBusquedaPersona = HibernateUtil.buscarPersonas(personaBuscada.getDni());
-            if(listaResultadoBusquedaPersona.size()==0){
+            if (listaResultadoBusquedaPersona.size() == 0) {
                 nuevoMensajeInfo("Registro Provincial de Concursos de Saludo", "Sin resultados coincidentes con el DNI " + personaBuscada.getDni());
             }
-            
-        }catch(SQLException exSQL){
+
+        } catch (SQLException exSQL) {
             exSQL.printStackTrace();
         }
     }
-    
+
     public List<String> buscarInstitucion(String nombreInstitucion) {
         InstitucionDao instDao = new InstitucionDaoImpl();
         List<String> results = new ArrayList<String>();
@@ -487,8 +482,8 @@ public class ConcursoBean implements Serializable {
 //        context.execute("PF('dlgNuevoMiembroTribunal').show();");
 //    }
     public void refreshListas() {
-        AreaDao areaDao = new AreaDaoImpl();
-        listaAreas = areaDao.getAll();
+        UnidadDeOrganizacionDao unidadDao = new UnidadDeOrganizacionDaoImpl();
+        listaUnidadDeOrganizacions = unidadDao.getAll();
 
         ProfesionDao profDao = new ProfesionDaoImpl();
         listaProfesiones = profDao.getAll();
@@ -523,18 +518,22 @@ public class ConcursoBean implements Serializable {
 //        nuevoMensajeInfo("Registro Provincial de Concursos de Salud", juradoNuevo.getEstablecimiento().getCodigoSiisa() + " " + juradoNuevo.getEstablecimiento().getNombre());
 //    }
     public void validarExpedienteTab() {
+        
         try {
-            for (Area area : listaAreas) {
-                if (area.getPrefijoExpediente() == expedienteNuevo.getArea().getPrefijoExpediente()) {
-                    expedienteNuevo.setArea(area);
+            for (UnidadDeOrganizacion unidad : listaUnidadDeOrganizacions) {
+                if (unidad.getCodigoUnidadDeOrganizacion() == expedienteNuevo.getUnidadDeOrganizacion().getCodigoUnidadDeOrganizacion()) {
+                    expedienteNuevo.setUnidadDeOrganizacion(unidad);
                     break;
                 }
             }
-            expedienteNuevo.setNumeroExpediente(expedienteNuevo.getArea().getPrefijoExpediente() + "-" + expedienteNuevo.getNumero() + "/" + expedienteNuevo.getAnio());
-            nuevoMensajeInfo("Expediente " + expedienteNuevo.getIdExpediente(), "Numero de Expediente: " + expedienteNuevo.getNumeroExpediente() + "-" + expedienteNuevo.getRegimen() + "- " + expedienteNuevo.getSituacion());
+            expedienteNuevo.setNumeroExpediente(expedienteNuevo.getUnidadDeOrganizacion().getCodigoUnidadDeOrganizacion() + "-" + expedienteNuevo.getNumero() + "/" + expedienteNuevo.getAnio());
+            nuevoMensajeInfo("Expediente " + expedienteNuevo.getIdExpediente(), "Numero de Expediente: " + expedienteNuevo.getNumeroExpediente() + "\nSituación: " + expedienteNuevo.getSituacion() + "\nRégimen: " + expedienteNuevo.getRegimen() + "\nEstablecimiento: " + expedienteNuevo.getUnidadDeOrganizacion().getNombreUnidad());
+            
         } catch (NullPointerException ex1) {
             nuevoMensajeAlerta("Error! " + ex1.getMessage(), ex1.getLocalizedMessage());
         }
+        
+
     }
 
     public void obtenerEstablecimiento() {

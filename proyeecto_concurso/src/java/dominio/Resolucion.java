@@ -1,5 +1,5 @@
 package dominio;
-// Generated 22/07/2015 11:18:12 by Hibernate Tools 3.6.0
+// Generated 24/07/2015 09:37:24 by Hibernate Tools 3.6.0
 
 
 import java.util.Date;
@@ -12,7 +12,7 @@ import java.util.Set;
 public class Resolucion  implements java.io.Serializable {
 
 
-     private int numeroResolucion;
+     private String numeroResolucion;
      private Expediente expediente;
      private Tribunal tribunal;
      private int idResolucion;
@@ -30,18 +30,18 @@ public class Resolucion  implements java.io.Serializable {
      private String documento;
      private Integer modificaResolucion;
      private Integer prorrogaResolucion;
-     private Set concursos = new HashSet(0);
      private Set cargos = new HashSet(0);
+     private Set concursos = new HashSet(0);
 
     public Resolucion() {
     }
 
 	
-    public Resolucion(int numeroResolucion, int idResolucion) {
+    public Resolucion(String numeroResolucion, int idResolucion) {
         this.numeroResolucion = numeroResolucion;
         this.idResolucion = idResolucion;
     }
-    public Resolucion(int numeroResolucion, Expediente expediente, Tribunal tribunal, int idResolucion, String estado, Boolean modificacion, Boolean prorroga, Boolean antecedente, Boolean oposicion, String clase, String agrupamiento, Date fechaApertura, Date fechaCierre, Date fechaEjecucion, Date fechaPublicacion, String documento, Integer modificaResolucion, Integer prorrogaResolucion, Set concursos, Set cargos) {
+    public Resolucion(String numeroResolucion, Expediente expediente, Tribunal tribunal, int idResolucion, String estado, Boolean modificacion, Boolean prorroga, Boolean antecedente, Boolean oposicion, String clase, String agrupamiento, Date fechaApertura, Date fechaCierre, Date fechaEjecucion, Date fechaPublicacion, String documento, Integer modificaResolucion, Integer prorrogaResolucion, Set cargos, Set concursos) {
        this.numeroResolucion = numeroResolucion;
        this.expediente = expediente;
        this.tribunal = tribunal;
@@ -60,15 +60,15 @@ public class Resolucion  implements java.io.Serializable {
        this.documento = documento;
        this.modificaResolucion = modificaResolucion;
        this.prorrogaResolucion = prorrogaResolucion;
-       this.concursos = concursos;
        this.cargos = cargos;
+       this.concursos = concursos;
     }
    
-    public int getNumeroResolucion() {
+    public String getNumeroResolucion() {
         return this.numeroResolucion;
     }
     
-    public void setNumeroResolucion(int numeroResolucion) {
+    public void setNumeroResolucion(String numeroResolucion) {
         this.numeroResolucion = numeroResolucion;
     }
     public Expediente getExpediente() {
@@ -190,19 +190,19 @@ public class Resolucion  implements java.io.Serializable {
     public void setProrrogaResolucion(Integer prorrogaResolucion) {
         this.prorrogaResolucion = prorrogaResolucion;
     }
-    public Set getConcursos() {
-        return this.concursos;
-    }
-    
-    public void setConcursos(Set concursos) {
-        this.concursos = concursos;
-    }
     public Set getCargos() {
         return this.cargos;
     }
     
     public void setCargos(Set cargos) {
         this.cargos = cargos;
+    }
+    public Set getConcursos() {
+        return this.concursos;
+    }
+    
+    public void setConcursos(Set concursos) {
+        this.concursos = concursos;
     }
 
 
