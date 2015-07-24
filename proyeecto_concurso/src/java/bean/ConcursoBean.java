@@ -498,25 +498,7 @@ public class ConcursoBean implements Serializable {
         listaInstituciones = instDao.getAll();
     }
 
-//    public List<String> buscarLocalidad(String nombreLocalidad) {
-//        LocalidadDao localDao = new LocalidadDaoImpl();
-//        List<String> results = new ArrayList<String>();
-//
-//        for (Localidad localidad : localDao.getLocalidad(nombreLocalidad)) {
-//            results.add(localidad.getNombreDeLocalidad());
-//        }
-//
-//        return results;
-//    }
-//    public void onLocalidadSeleccionada(SelectEvent event) {
-//        for (Localidad local : listaLocalidades) {
-//            if (juradoNuevo.getPersona().getLocalidadNacimiento() == local.) {
-//                juradoNuevo.setEstablecimiento(estab);
-//                break;
-//            }
-//        }
-//        nuevoMensajeInfo("Registro Provincial de Concursos de Salud", juradoNuevo.getEstablecimiento().getCodigoSiisa() + " " + juradoNuevo.getEstablecimiento().getNombre());
-//    }
+
     public void validarExpedienteTab() {
         
         try {
