@@ -24,7 +24,7 @@
                                 <p:menuitem value="Mi Usuario" icon="ui-icon-home" oncomplete="PF('dlgDetallesUsuario').show();" />
                                 <p:menuitem value="Editar"  icon="ui-icon-wrench" oncomplete="PF('dlgModificarMiUsuario').show();"/>
                                 <p:separator />
-                                <p:menuitem value="Despedirse" icon="ui-icon-power" actionListener="#{beanLogin.logout()}" action="login.xhtml" onclick="agregarImagen();" >
+                                <p:menuitem value="Despedirse" icon="ui-icon-power" actionListener="#{beanLogin.logout()}" action="login.xhtml" >
                                     <p:confirm header="Cerrar sesión" message="¿Confirma cerrar sesión?" icon="ui-icon-alert" />
                                 </p:menuitem>
                             </p:submenu>
@@ -60,7 +60,7 @@
 
             <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" message="¿Confirma cerrar sesión?"> 
                 <h:form>
-                    <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" onclick="agregarImagen();" />
+                    <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" action="login" />
                     <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
                 </h:form>
             </p:confirmDialog>
@@ -160,7 +160,7 @@
                         <h:outputLabel for="chbEditarActivo" value="Activo:" />
                         <p:inplace id="chbEditarActivo" effect="none">
                             <f:facet name="output">
-                                #{beanLogin.usuarioLogeado.activo}
+                                <h:outputText value="#{beanLogin.usuarioLogeado.activo}" />
                             </f:facet>
                             <f:facet name="input">
                                 <h:selectBooleanCheckbox value="#{beanLogin.usuarioLogeado.activo}" />
@@ -171,7 +171,7 @@
                     </p:panelGrid>
 
 
-                    <p:commandButton value="Hecho" actionListener="#{beanLogin.actualizarMiUsuario()}" icon="ui-icon-arrowrefresh-1-w" update=":formEditarMiUsuario,:formBarraSuperior,:formNuevoConcurso" onsuccess="PF('dlgModificarMiUsuario').hide();" onerror="#{beanLogin.nuevoMensajeAlerta('Error', 'Se ha producido un error en la actualizacion')}" styleClass="btnVerde" />
+                    <p:commandButton value="Hecho" actionListener="#{beanLogin.actualizarMiUsuario()}" icon="ui-icon-arrowrefresh-1-w" update=":formEditarMiUsuario,:formBarraSuperior" onsuccess="PF('dlgModificarMiUsuario').hide();" onerror="#{beanLogin.nuevoMensajeAlerta('Error', 'Se ha producido un error en la actualizacion')}" styleClass="btnVerde" />
                 </h:form>
             </p:dialog>
 
@@ -187,8 +187,8 @@
                         <f:facet name="header">
                             Usuarios registrados
                         </f:facet>
-                        <p:ajax event="rowEdit" listener="#{beanUsuarios.onUsuarioEdit}" partialSubmit="true" update=":formGestionarUsuarios:tblUsuariosRegistrados,:formNuevoConcurso:msg" />
-                        <p:ajax event="rowEditCancel" listener="#{beanUsuarios.onUsuarioEditCancel}" partialSubmit="true" update=":formNuevoConcurso:msg" />
+                        <p:ajax event="rowEdit" listener="#{beanUsuarios.onUsuarioEdit}" partialSubmit="true" update=":formGestionarUsuarios:tblUsuariosRegistrados,tabuladorPestañero:formExpedientes:msg" />
+                        <p:ajax event="rowEditCancel" listener="#{beanUsuarios.onUsuarioEditCancel}" partialSubmit="true" update="tabuladorPestañero:formExpedientes:msg" />
 
                         <p:column headerText="Id">
                             <h:outputText value="#{usuario.idUsuario}" />
@@ -255,7 +255,7 @@
                         </p:column>
                         <p:column style="width:15px; text-align: center;">
                             <p:commandButton action="#{beanUsuarios.eliminar()}"
-                                             icon="ui-icon-trash" ajax="true" update=":formGestionarUsuarios:tblUsuariosRegistrados, :formNuevoConcurso:msg, :formNuevoUsuario:pnlNuevoUsuario" style="border: none; background: transparent;">
+                                             icon="ui-icon-trash" ajax="true" update=":formGestionarUsuarios:tblUsuariosRegistrados, tabuladorPestañero:formExpedientes:msg, :formNuevoUsuario:pnlNuevoUsuario" style="border: none; background: transparent;">
                                 <f:setPropertyActionListener value="#{usuario}"
                                                              target="#{beanUsuarios.usuarioSeleccionado}" />
                                 <p:confirm header="Eliminar un usuario"
@@ -293,7 +293,7 @@
                             <p:column>
                                 <p:outputLabel value="Username: " />
                                 <p:inputText id="txtNuevoUsuarioUsername" widgetVar="txtNuevoUsuarioUsername" value="#{beanUsuarios.usuarioNuevo.userName}" maxlength="25" placeholder="Nombre del usuario" size="25" required="true" requiredMessage="Ingrese un nombre de usuario valido" tabindex="4" >
-                                    <p:ajax event="blur" listener="#{beanUsuarios.validarUsername}" update=":formNuevoConcurso:msg" />
+                                    <p:ajax event="blur" listener="#{beanUsuarios.validarUsername}" update="tabuladorPestañero:formExpedientes:msg" />
                                 </p:inputText>
                                 <p:message for="txtNuevoUsuarioUsername" />
                                 <p:outputLabel value="" />
@@ -319,7 +319,7 @@
                                 <p:selectBooleanButton id="schUsuarioNuevoActivo" value="#{beanUsuarios.usuarioNuevo.activo}" onLabel="Activo" offLabel="Inactivo" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:9em;" tabindex="7" />
                             </p:column>
                         </p:panelGrid>
-                        <p:commandButton value="Guardar" styleClass="btnVerde" actionListener="#{beanUsuarios.guardarNuevoUsuario}" update=":formGestionarUsuarios, :formNuevoConcurso:msg, :formNuevoUsuario" />
+                        <p:commandButton value="Guardar" styleClass="btnVerde" actionListener="#{beanUsuarios.guardarNuevoUsuario}" update=":formGestionarUsuarios, tabuladorPestañero:formExpedientes:msg, :formNuevoUsuario" />
 
                         <p:blockUI block="pnl" widgetVar="bui"/>
                     </p:panel>
