@@ -447,7 +447,7 @@ public class ConcursoBean implements Serializable {
 
     }
 
-    public void validarPestaña(TabChangeEvent event) {
+    public void validarPestania(TabChangeEvent event) {
         switch (event.getTab().getTitle()) {
             case "Expediente": {
                 ResolucionDao resDao = new ResolucionDaoImpl();
