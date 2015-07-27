@@ -2,7 +2,13 @@ package dominio;
 // Generated 24/07/2015 09:37:24 by Hibernate Tools 3.6.0
 
 
+import hibernate.dao.ResolucionDao;
+import hibernate.dao.TribunalDao;
+import hibernate.dao.impl.ResolucionDaoImpl;
+import hibernate.dao.impl.TribunalDaoImpl;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -59,7 +65,9 @@ public class Tribunal  implements java.io.Serializable {
         this.resolucions = resolucions;
     }
 
+ 
 
+    
 
 
 }

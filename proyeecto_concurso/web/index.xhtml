@@ -155,7 +155,10 @@
                                     </h:panelGrid>
 
 
-                                    <p:dataTable id="tblCargos" var="cargos" value="#{beanConcurso.listaCargos}">
+                                    <p:dataTable id="tblCargos" var="cargos" value="#{beanConcurso.listaCargos}" rows="3"
+                                                 paginator="true"
+                                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                 rowsPerPageTemplate="3,5,10,15" reflow="true" >
                                         <f:facet name="header">
                                             Cargos Registrados
                                         </f:facet>
@@ -193,7 +196,7 @@
 
                             <p:tab title="Tribunal" >
                                 <h:form id="formTribunal">
-                                    <p:fieldset legend="Detalles del Jurado" toggleable="true" toggleSpeed="600" style="border: white; font-size: 0.99em;" collapsed="true">
+                                    <p:fieldset id="fsDetalle" legend="Detalles del Jurado #{beanConcurso.juradoNuevo.idTribunalJurado}" toggleable="true" toggleSpeed="600" style="border: white; font-size: 0.99em;" collapsed="true">
                                         <p:commandButton value="Buscar" onclick="PF('dlgBuscarPersona').show();" icon="ui-icon-search" style="margin-bottom: 5px;" />
                                         <p:panelGrid columns="2" layout="grid"  >
                                             <p:inputText placeholder="Nombre" value="#{beanConcurso.juradoNuevo.persona.nombres}" />
@@ -273,22 +276,30 @@
                                     </p:fieldset>
 
 
-                                    <p:dataTable id="tblTribunalJurado" var="jurado" value="#{beanConcurso.listaJurados}">
+                                    <p:dataTable id="tblTribunalJurado" var="jurado" value="#{beanConcurso.listaJurados}" rows="3"
+                                                 paginator="true"
+                                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                 rowsPerPageTemplate="3,5,10,15"
+                                                 reflow="true" 
+                                                 resizableColumns="true"
+                                                 >
                                         <f:facet name="header">
                                             Jurados Registrados
+                                            <p:commandButton id="toggler" type="button" value="Columns" style="float:right" icon="ui-icon-calculator" />
+                                            <p:columnToggler datasource="tblTribunalJurado" trigger="toggler" />
                                         </f:facet>
 
                                         <p:column headerText="Condición">
                                             <h:outputText value="#{jurado.condicion}" />
+                                        </p:column>
+                                        <p:column headerText="Tribunal">
+                                            <h:outputText value="#{jurado.tribunal.idTribunal}" />
                                         </p:column>
                                         <p:column headerText="Estado">
                                             <h:outputText value="#{jurado.estado}" />
                                         </p:column>
                                         <p:column headerText="Presencia">
                                             <h:outputText value="#{jurado.presencia}" />
-                                        </p:column>
-                                        <p:column headerText="Nombre">
-                                            <h:outputText value="#{jurado.persona.nombres}" />
                                         </p:column>
                                         <p:column headerText="Apellido">
                                             <h:outputText value="#{jurado.persona.apellido}" />
@@ -299,11 +310,19 @@
                                         <p:column headerText="Dni">
                                             <h:outputText value="#{jurado.persona.dni}" />
                                         </p:column>
+                                        <!--                                        <p:column headerText="Establecimiento">
+                                                                                    <h:outputText value="#{jurado.establecimiento.nombre}" />
+                                                                                </p:column>-->
+                                        <p:column headerText="Institucion">
+                                            <h:outputText value="#{jurado.institucion.nombreInstitucion}" />
+                                        </p:column>
 
 
 
-                                        <p:column style="width:32px;text-align: center">
-                                            <p:commandButton update="tabuladorPestañero:formTribunal" icon="ui-icon-search" title="Mostrar" />
+                                        <p:column style="width:20px;text-align: center" toggleable="false">
+                                            <p:commandButton update="tabuladorPestañero:formTribunal:fsDetalle" icon="ui-icon-search" title="Mostrar"  >
+                                                <f:setPropertyActionListener value="#{jurado}" target="#{beanConcurso.juradoNuevo}" />
+                                            </p:commandButton>
                                         </p:column>
                                     </p:dataTable>
                                 </h:form>
