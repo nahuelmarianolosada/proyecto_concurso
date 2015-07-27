@@ -6,6 +6,7 @@
 
 package hibernate.dao.impl;
 
+import dominio.Expediente;
 import dominio.Resolucion;
 import hibernate.HibernateUtil;
 import hibernate.dao.ResolucionDao;
@@ -35,9 +36,9 @@ public class ResolucionDaoImpl extends HibernateUtil implements ResolucionDao{
     
 
     @Override
-    public List<Resolucion> getResoluciones(String numeroExpediente) {
+    public List<Resolucion> getResoluciones(Expediente expediente) {
         Criteria criteria = getSession().createCriteria(Resolucion.class);
-        criteria.add(Restrictions.eq("expediente", numeroExpediente));
+        criteria.add(Restrictions.eq("expediente", expediente));
         List<Resolucion> lista = criteria.list();
         return lista;
     }

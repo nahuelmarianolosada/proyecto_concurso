@@ -16,7 +16,7 @@
                     </p:layoutUnit>
                     <p:layoutUnit position="east" resizable="true"  size="600" minSize="500"  header="Formulario de Registro de Concursos" maxSize="800" collapsible="true" >
 
-                        <p:tabView activeIndex="3" effect="fade" effectDuration="fast" id="tabuladorPestañero" >
+                        <p:tabView activeIndex="0" effect="fade" effectDuration="fast" id="tabuladorPestañero" >
                             <p:effect type="bounce" event="onchange" />
                             <p:ajax event="tabChange"  listener="#{beanConcurso.validarPestania}" update="tabuladorPestañero:formExpedientes:msg,:formCargoNuevo"/>
                             <!--
@@ -64,7 +64,7 @@
                                                 <f:selectItems var="establecimiento" value="#{beanConcurso.listaEstablecimientos}" itemLabel="#{establecimiento.nombre}" itemValue="#{establecimiento.codigoSiisa}" />
                                             </p:selectOneMenu>
                                         </p:column>
-                                        <p:commandButton id="btnGuardarNuevoExpediente" value="Guardar" actionListener="#{beanConcurso.guardarExpediente}" update="tabuladorPestañero:formExpedientes:msg,:formCargoNuevo,tabuladorPestañero:formResoluciones" styleClass="btnVerde" />
+                                        <p:commandButton id="btnGuardarNuevoExpediente" value="Guardar" actionListener="#{beanConcurso.guardarExpediente}" update="tabuladorPestañero:formExpedientes:msg,:formCargoNuevo,tabuladorPestañero:formResoluciones,:formNuevaResolucion" styleClass="btnVerde" />
                                     </h:panelGrid>
                                 </h:form>
                             </p:tab>
@@ -75,74 +75,8 @@
 
                             <p:tab title="Resoluciones" >
                                 <h:form id="formResoluciones">
-                                    <h:panelGrid columns="4" cellpadding="3" frame="box" styleClass="panelAlta" >
-                                        <f:facet name="header"> 
-                                            Expediente: #{beanConcurso.expedienteNuevo.numeroExpediente} 
-                                        </f:facet>
-                                        <h:outputText value="Estado" />
-                                        <p:selectOneMenu id="cmbEstadoResolucion" style="width:100%;" >
-                                            <f:selectItem itemLabel="En ejecucion" itemValue="EN EJECUCION"/>
-                                            <f:selectItem itemLabel="Finalizado" itemValue="FINALIZADO"/>
-                                        </p:selectOneMenu>
-
-                                        <h:outputText value="Numero de Resolución" />
-                                        <p:spinner id="spnNumeroResolucion" value="#{beanConcurso.resolucionNueva.numeroResolucion}" placeholder="Número de Resolución" min="0" max="99999" required="true" requiredMessage="Ingrese el numero que figura en la resolucion" size="7" />
-
-                                        <h:panelGrid columns="2">
-                                            <h:outputText value="Modificacion Parcial: " />
-                                            <p:inputSwitch offLabel="No" onLabel="Si" value="#{beanConcurso.banderaModificacionParcial}" onchange="#{beanConcurso.cambiarEstadoModificacion()}" >
-                                                <p:ajax listener="#{beanConcurso.cambiarEstadoModificacion()}" update="txtResolucionModificacion" />
-                                            </p:inputSwitch>
-                                        </h:panelGrid>
-                                        <p:inputText id="txtResolucionModificacion"  placeholder="numero de resolucion" disabled="#{beanConcurso.banderaModificacionParcial}" value="#{beanConcurso.resolucionNueva.modificaResolucion}"/>
-
-                                        <h:panelGrid columns="2" >
-                                            <h:outputText value="Prórroga: " />
-                                            <p:inputSwitch onchange="#{beanConcurso.cambiarEstadoProrroga()}" offLabel="No" onLabel="Si" value="#{beanConcurso.banderaProrroga}">
-                                                <p:ajax listener="#{beanConcurso.cambiarEstadoProrroga()}" update="txtResolucionProrroga" />
-                                            </p:inputSwitch>
-                                        </h:panelGrid>
-                                        <p:inputText id="txtResolucionProrroga" placeholder="numero de resolucion" disabled="#{beanConcurso.banderaProrroga}" value="#{beanConcurso.resolucionNueva.prorrogaResolucion}" />
-
-
-                                        <h:outputText value="Antecedente" />
-                                        <p:selectBooleanCheckbox value="#{beanConcurso.resolucionNueva.antecedente}" />
-
-
-                                        <h:outputText value="Oposición" />
-                                        <p:selectBooleanCheckbox value="#{beanConcurso.resolucionNueva.oposicion}" />
-
-                                        <h:outputText value="Clase" />
-                                        <p:selectOneMenu id="cmbClaseResolucion" style="width:100%;" value="#{beanConcurso.resolucionNueva.clase}" >
-                                            <f:selectItem itemLabel="Ordinario" itemValue="ORDINARIO"/>
-                                            <f:selectItem itemLabel="Extraordinario" itemValue="EXTRAORDINARIO"/>
-                                        </p:selectOneMenu>
-
-                                        <h:outputText value="Agrupamiento: " />
-                                        <p:selectOneMenu id="cmbAgrupamientoCargo" value="0" style="width:100%;">
-                                            <f:selectItem itemLabel="Administrativo" itemValue="0"/>
-                                            <f:selectItem itemLabel="Profesional" itemValue="1"/>
-                                            <f:selectItem itemLabel="Técnico" itemValue="2"/>
-                                            <f:selectItem itemLabel="Mantenimiento y Producción" itemValue="3"/>
-                                            <f:selectItem itemLabel="Servicios Generales" itemValue="4"/>
-                                            <f:selectItem itemLabel="Profesional Asistencial" itemValue="5"/>
-                                        </p:selectOneMenu>
-
-                                        <h:outputText value="Apertura: " />
-                                        <p:calendar id="calFechaApertura" pattern="dd-MM-yyyy" mask="true" />
-
-                                        <h:outputText value="Cierrre de inscripciones: " />
-                                        <p:calendar id="calFechaCierre" pattern="dd-MM-yyyy" mask="true" />
-
-                                        <h:outputText value="Ejecución: " />
-                                        <p:calendar id="calFechaEjecucion" pattern="dd-MM-yyyy" mask="true" />
-
-                                        <h:outputText value="Publicación de Resultados" />
-                                        <p:calendar id="calFechaPublicacion" pattern="dd-MM-yyyy" mask="true" />
-
-                                    </h:panelGrid>
-
-                                    <p:dataTable id="tblResoluciones" var="resolucion" value="#{beanConcurso.listaReoluciones}" rows="3"
+                                    <p:commandButton value="Nuevo" onclick="PF('dlgNuevaResolucion').show();" icon="ui-icon-plusthick" />
+                                    <p:dataTable id="tblResoluciones" var="resolucion" value="#{beanConcurso.listaResoluciones}" rows="3"
                                                  paginator="true"
                                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                                  rowsPerPageTemplate="3,5,10,15"
@@ -164,10 +98,10 @@
                                         <p:column headerText="Agrupamiento">
                                             <h:outputText value="#{resolucion.agrupamiento}" />
                                         </p:column>
-                                        <p:column headerText="Agrupamiento">
+                                        <p:column headerText="Numero de Expediente">
                                             <h:outputText value="#{resolucion.expediente.numeroExpediente}" />
                                         </p:column>
-                                        
+
 
                                     </p:dataTable>
                                 </h:form>
@@ -515,6 +449,78 @@
 
                         <br />
                         <p:commandButton icon="ui-icon-closethick" oncomplete="PF('dlgNuevoMiembroTribunal').hide();"  />
+                    </h:form>
+                </p:dialog>
+
+                <p:dialog id="dlgNuevaResolucion" appendTo="@(body)" header="Resolucion Nueva" widgetVar="dlgNuevaResolucion" modal="true" showEffect="blind" hideEffect="explode" resizable="true" closable="true" closeOnEscape="true" >
+                    <h:form id="formNuevaResolucion">
+                        
+                        <h:panelGrid columns="4" cellpadding="3" frame="box" styleClass="panelAlta" >
+                            <f:facet name="header"> 
+                                Expediente: #{beanConcurso.expedienteNuevo.numeroExpediente} 
+                            </f:facet>
+                            <h:outputText value="Estado" />
+                            <p:selectOneMenu id="cmbEstadoResolucion" style="width:100%;" >
+                                <f:selectItem itemLabel="En ejecucion" itemValue="EN EJECUCION"/>
+                                <f:selectItem itemLabel="Finalizado" itemValue="FINALIZADO"/>
+                            </p:selectOneMenu>
+
+                            <h:outputText value="Numero de Resolución" />
+                            <p:spinner id="spnNumeroResolucion" value="#{beanConcurso.resolucionNueva.numeroResolucion}" placeholder="Número de Resolución" min="0" max="99999" required="true" requiredMessage="Ingrese el numero que figura en la resolucion" size="7" />
+
+                            <h:panelGrid columns="2">
+                                <h:outputText value="Modificacion Parcial: " />
+                                <p:inputSwitch offLabel="No" onLabel="Si" value="#{beanConcurso.banderaModificacionParcial}" onchange="#{beanConcurso.cambiarEstadoModificacion()}" >
+                                    <p:ajax listener="#{beanConcurso.cambiarEstadoModificacion()}" update="txtResolucionModificacion" />
+                                </p:inputSwitch>
+                            </h:panelGrid>
+                            <p:inputText id="txtResolucionModificacion"  placeholder="numero de resolucion" disabled="#{beanConcurso.banderaModificacionParcial}" value="#{beanConcurso.resolucionNueva.modificaResolucion}"/>
+
+                            <h:panelGrid columns="2" >
+                                <h:outputText value="Prórroga: " />
+                                <p:inputSwitch onchange="#{beanConcurso.cambiarEstadoProrroga()}" offLabel="No" onLabel="Si" value="#{beanConcurso.banderaProrroga}">
+                                    <p:ajax listener="#{beanConcurso.cambiarEstadoProrroga()}" update="txtResolucionProrroga" />
+                                </p:inputSwitch>
+                            </h:panelGrid>
+                            <p:inputText id="txtResolucionProrroga" placeholder="numero de resolucion" disabled="#{beanConcurso.banderaProrroga}" value="#{beanConcurso.resolucionNueva.prorrogaResolucion}" />
+
+
+                            <h:outputText value="Antecedente" />
+                            <p:selectBooleanCheckbox value="#{beanConcurso.resolucionNueva.antecedente}" />
+
+
+                            <h:outputText value="Oposición" />
+                            <p:selectBooleanCheckbox value="#{beanConcurso.resolucionNueva.oposicion}" />
+
+                            <h:outputText value="Clase" />
+                            <p:selectOneMenu id="cmbClaseResolucion" style="width:100%;" value="#{beanConcurso.resolucionNueva.clase}" >
+                                <f:selectItem itemLabel="Ordinario" itemValue="ORDINARIO"/>
+                                <f:selectItem itemLabel="Extraordinario" itemValue="EXTRAORDINARIO"/>
+                            </p:selectOneMenu>
+
+                            <h:outputText value="Agrupamiento: " />
+                            <p:selectOneMenu id="cmbAgrupamientoCargo" value="0" style="width:100%;">
+                                <f:selectItem itemLabel="Administrativo" itemValue="0"/>
+                                <f:selectItem itemLabel="Profesional" itemValue="1"/>
+                                <f:selectItem itemLabel="Técnico" itemValue="2"/>
+                                <f:selectItem itemLabel="Mantenimiento y Producción" itemValue="3"/>
+                                <f:selectItem itemLabel="Servicios Generales" itemValue="4"/>
+                                <f:selectItem itemLabel="Profesional Asistencial" itemValue="5"/>
+                            </p:selectOneMenu>
+
+                            <h:outputText value="Apertura: " />
+                            <p:calendar id="calFechaApertura" pattern="dd-MM-yyyy" mask="true" />
+
+                            <h:outputText value="Cierrre de inscripciones: " />
+                            <p:calendar id="calFechaCierre" pattern="dd-MM-yyyy" mask="true" />
+
+                            <h:outputText value="Ejecución: " />
+                            <p:calendar id="calFechaEjecucion" pattern="dd-MM-yyyy" mask="true" />
+
+                            <h:outputText value="Publicación de Resultados" />
+                            <p:calendar id="calFechaPublicacion" pattern="dd-MM-yyyy" mask="true" />
+
+                        </h:panelGrid>
                     </h:form>
                 </p:dialog>
 

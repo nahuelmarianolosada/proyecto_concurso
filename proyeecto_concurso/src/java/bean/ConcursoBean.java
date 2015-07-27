@@ -20,6 +20,7 @@ import hibernate.HibernateUtil;
 import hibernate.dao.UnidadDeOrganizacionDao;
 import hibernate.dao.CargoDao;
 import hibernate.dao.EstablecimientoDao;
+import hibernate.dao.ExpedienteDao;
 import hibernate.dao.InstitucionDao;
 import hibernate.dao.LocalidadDao;
 import hibernate.dao.ProfesionDao;
@@ -28,6 +29,7 @@ import hibernate.dao.TribunalJuradoDao;
 import hibernate.dao.impl.UnidadDeOrganizacionDaoImpl;
 import hibernate.dao.impl.CargoDaoImpl;
 import hibernate.dao.impl.EstablecimientoDaoImpl;
+import hibernate.dao.impl.ExpedienteDaoImpl;
 import hibernate.dao.impl.InstitucionDaoImpl;
 import hibernate.dao.impl.LocalidadDaoImpl;
 import hibernate.dao.impl.ProfesionDaoImpl;
@@ -83,7 +85,7 @@ public class ConcursoBean implements Serializable {
     private List<Persona> listaPersonas;
     private Persona personaBuscada;
     private List<Persona> listaResultadoBusquedaPersona;
-    private List<Resolucion> listaReoluciones;
+    private List<Resolucion> listaResoluciones;
 
     /**
      * Creates a new instance of ConcursoBean
@@ -116,7 +118,7 @@ public class ConcursoBean implements Serializable {
         personaBuscada = new Persona();
         listaResultadoBusquedaPersona = new ArrayList<Persona>();
 
-        listaReoluciones = new ArrayList<Resolucion>();
+        listaResoluciones = new ArrayList<Resolucion>();
     }
 
     public boolean isBanderaModificacionParcial() {
@@ -287,12 +289,12 @@ public class ConcursoBean implements Serializable {
         this.listaResultadoBusquedaPersona = listaResultadoBusquedaPersona;
     }
 
-    public List<Resolucion> getListaReoluciones() {
-        return listaReoluciones;
+    public List<Resolucion> getListaResoluciones() {
+        return listaResoluciones;
     }
 
-    public void setListaReoluciones(List<Resolucion> listaReoluciones) {
-        this.listaReoluciones = listaReoluciones;
+    public void setListaResoluciones(List<Resolucion> listaReoluciones) {
+        this.listaResoluciones = listaReoluciones;
     }
 
     /**
@@ -448,10 +450,17 @@ public class ConcursoBean implements Serializable {
     }
 
     public void validarPestania(TabChangeEvent event) {
+        RequestContext context = RequestContext.getCurrentInstance();
+        System.out.println("Se ha seleccionado la pestaña de [" + event.getTab().getTitle() + "}");
+        nuevoMensajeInfo("Registro Provincial de Concursos de Salud", "Pestaña Activa: " + event.getTab().getTitle());
         switch (event.getTab().getTitle()) {
-            case "Expediente": {
+            case "Resoluciones": {
                 ResolucionDao resDao = new ResolucionDaoImpl();
-                listaReoluciones = resDao.getResoluciones("700-01268/2012");
+                ExpedienteDao expDao = new ExpedienteDaoImpl();
+               
+                
+                listaResoluciones = resDao.getResoluciones(expDao.getExpediente("700-01268/2012"));
+                context.update("tabuladorPestañero:formResoluciones");
                 break;
             }
         }
@@ -474,7 +483,20 @@ public class ConcursoBean implements Serializable {
     }
 
     public void guardarExpediente() {
-        nuevoMensajeInfo("Registro de Concursos de Salud - EXPEDIENTE", "Número: " + expedienteNuevo.getNumeroExpediente() + "\nRégimen: " + expedienteNuevo.getRegimen() + "\nSituación: " + expedienteNuevo.getSituacion());
+        try {
+            for (UnidadDeOrganizacion unidad : listaUnidadDeOrganizacions) {
+                if (unidad.getCodigoUnidadDeOrganizacion() == expedienteNuevo.getUnidadDeOrganizacion().getCodigoUnidadDeOrganizacion()) {
+                    expedienteNuevo.setUnidadDeOrganizacion(unidad);
+                    break;
+                }
+            }
+            expedienteNuevo.setNumeroExpediente(expedienteNuevo.getUnidadDeOrganizacion().getCodigoUnidadDeOrganizacion() + "-" + expedienteNuevo.getNumero() + "/" + expedienteNuevo.getAnio());
+
+            nuevoMensajeInfo("Registro de Concursos de Salud - EXPEDIENTE", "Número: " + expedienteNuevo.getNumeroExpediente() + "\nRégimen: " + expedienteNuevo.getRegimen() + "\nSituación: " + expedienteNuevo.getSituacion());
+        }catch(Exception ex1){
+            ex1.printStackTrace();
+        }
+
     }
 
     public void guardarResolucion() {

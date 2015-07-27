@@ -6,6 +6,7 @@
 
 package hibernate.dao;
 
+import dominio.Expediente;
 import dominio.Resolucion;
 import java.util.List;
 
@@ -16,7 +17,7 @@ import java.util.List;
 public interface ResolucionDao {
     public List<Resolucion> getAll();
     public Resolucion getResolucion(int idResolucion);
-    public List<Resolucion> getResoluciones(String numeroExpediente);
+    public List<Resolucion> getResoluciones(Expediente expediente);
     public void insertar(Resolucion resolucion);
     public void eliminar(Resolucion resolucion);
     public void modificar(Resolucion resolucion);
