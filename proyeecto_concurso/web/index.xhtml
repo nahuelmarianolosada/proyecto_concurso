@@ -18,7 +18,7 @@
 
                         <p:tabView activeIndex="3" effect="fade" effectDuration="fast" id="tabuladorPestañero" >
                             <p:effect type="bounce" event="onchange" />
-                            <p:ajax event="tabChange" listener="#{beanConcurso.obtenerEstablecimiento()}" update="tabuladorPestañero:formExpedientes:msg,:formCargoNuevo"/>
+                            <p:ajax event="tabChange"  listener="#{beanConcurso.validarPestania}" update="tabuladorPestañero:formExpedientes:msg,:formCargoNuevo"/>
                             <!--
                                                             PESTAÑA DE EXPEDIENTES-->
 
@@ -59,12 +59,12 @@
                                         <p:column>
                                             <h:outputText value="Establecimiento" />
                                             <p:selectOneMenu id="cmbEstablecimiento" value="#{beanConcurso.cargoNuevo.establecimiento.codigoSiisa}" required="true" requiredMessage="Seleccione un Establecimiento" style="width: 20em;" filter="true" >
-                                                <p:ajax listener="#{beanConcurso.obtenerEstablecimiento()}" update=":formCargoNuevo" />
+                                                <p:ajax listener="#{beanConcurso.obtenerEstablecimiento}" update=":formCargoNuevo" />
                                                 <f:selectItem noSelectionOption="true" itemLabel=" Seleccione un Establecimietno" itemValue="null" />
                                                 <f:selectItems var="establecimiento" value="#{beanConcurso.listaEstablecimientos}" itemLabel="#{establecimiento.nombre}" itemValue="#{establecimiento.codigoSiisa}" />
                                             </p:selectOneMenu>
                                         </p:column>
-                                        <p:commandButton id="btnGuardarNuevoExpediente" value="Guardar" actionListener="#{beanConcurso.validarExpedienteTab()}" update="tabuladorPestañero:formExpedientes:msg,:formCargoNuevo,tabuladorPestañero:formResoluciones" styleClass="btnVerde" />
+                                        <p:commandButton id="btnGuardarNuevoExpediente" value="Guardar" actionListener="#{beanConcurso.guardarExpediente}" update="tabuladorPestañero:formExpedientes:msg,:formCargoNuevo,tabuladorPestañero:formResoluciones" styleClass="btnVerde" />
                                     </h:panelGrid>
                                 </h:form>
                             </p:tab>
@@ -86,7 +86,7 @@
                                         </p:selectOneMenu>
 
                                         <h:outputText value="Numero de Resolución" />
-                                        <p:spinner id="spnNumeroResolucion" value="#{beanConcurso.resolucionNueva.numeroResolucion}" placeholder="Número de Resolucion" min="0" max="99999" required="true" requiredMessage="Ingrese el numero que figura en la resolucion" size="7" />
+                                        <p:spinner id="spnNumeroResolucion" value="#{beanConcurso.resolucionNueva.numeroResolucion}" placeholder="Número de Resolución" min="0" max="99999" required="true" requiredMessage="Ingrese el numero que figura en la resolucion" size="7" />
 
                                         <h:panelGrid columns="2">
                                             <h:outputText value="Modificacion Parcial: " />
@@ -94,7 +94,7 @@
                                                 <p:ajax listener="#{beanConcurso.cambiarEstadoModificacion()}" update="txtResolucionModificacion" />
                                             </p:inputSwitch>
                                         </h:panelGrid>
-                                        <p:inputText id="txtResolucionModificacion" placeholder="numero de resolucion" disabled="#{beanConcurso.banderaModificacionParcial}"/>
+                                        <p:inputText id="txtResolucionModificacion"  placeholder="numero de resolucion" disabled="#{beanConcurso.banderaModificacionParcial}" value="#{beanConcurso.resolucionNueva.modificaResolucion}"/>
 
                                         <h:panelGrid columns="2" >
                                             <h:outputText value="Prórroga: " />
@@ -102,7 +102,7 @@
                                                 <p:ajax listener="#{beanConcurso.cambiarEstadoProrroga()}" update="txtResolucionProrroga" />
                                             </p:inputSwitch>
                                         </h:panelGrid>
-                                        <p:inputText id="txtResolucionProrroga" placeholder="numero de resolucion" disabled="#{beanConcurso.banderaProrroga}" />
+                                        <p:inputText id="txtResolucionProrroga" placeholder="numero de resolucion" disabled="#{beanConcurso.banderaProrroga}" value="#{beanConcurso.resolucionNueva.prorrogaResolucion}" />
 
 
                                         <h:outputText value="Antecedente" />
@@ -141,6 +141,26 @@
                                         <p:calendar id="calFechaPublicacion" pattern="dd-MM-yyyy" mask="true" />
 
                                     </h:panelGrid>
+
+                                    <p:dataTable id="tblResoluciones" var="resolucion" value="#{beanConcurso.listaReoluciones}" rows="3"
+                                                 paginator="true"
+                                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                 rowsPerPageTemplate="3,5,10,15"
+                                                 reflow="true" 
+                                                 resizableColumns="true"
+                                                 >
+                                        <f:facet name="header">
+                                            Resoluciones en el expediente 700-01268/2012
+                                            <p:commandButton id="togglerResoluciones" type="button" value="Columns" style="float:right" icon="ui-icon-calculator" />
+                                            <p:columnToggler datasource="tblResoluciones" trigger="toggler" />
+                                        </f:facet>
+                                        <p:commandButton id="btnGuardarNuevaResolucion" value="Guardar" actionListener="#{beanConcurso.guardarResolucion()}" update="" styleClass="btnVerde" />
+                                        <p:column headerText="Id">
+                                            <h:outputText value="#{resolucion.idResolucion}" />
+                                        </p:column>
+                                        
+
+                                    </p:dataTable>
                                 </h:form>
                             </p:tab>
 

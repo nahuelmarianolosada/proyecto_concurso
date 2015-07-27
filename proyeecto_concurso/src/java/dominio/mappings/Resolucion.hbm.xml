@@ -53,10 +53,10 @@
         <property name="documento" type="string">
             <column name="documento" />
         </property>
-        <property name="modificaResolucion" type="java.lang.Integer">
+        <property name="modificaResolucion" type="string">
             <column name="modifica_resolucion" />
         </property>
-        <property name="prorrogaResolucion" type="java.lang.Integer">
+        <property name="prorrogaResolucion" type="string">
             <column name="prorroga_resolucion" />
         </property>
         <set name="cargos" table="cargo" inverse="true" lazy="true" fetch="select">

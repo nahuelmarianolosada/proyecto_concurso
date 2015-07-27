@@ -12,6 +12,7 @@ import hibernate.dao.ResolucionDao;
 import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 
 /**
  *
@@ -30,18 +31,16 @@ public class ResolucionDaoImpl extends HibernateUtil implements ResolucionDao{
     public Resolucion getResolucion(int idResolucion) {
         return (Resolucion) getSession().get(Resolucion.class, idResolucion);
     }
+    
+    
 
-//    @Override
-//    public Resolucion getResolucion(String user, String pass) {
-//        Criteria criteria = getSession().createCriteria(Resolucion.class);
-//        criteria.setMaxResults(1);
-//        criteria.add(Restrictions.eq("userName", user)).add(Restrictions.eq("pass", pass));
-//        if (criteria.list().size() > 0) {
-//            return (Resolucion) criteria.list().get(0);
-//        } else {
-//            return null;
-//        }
-//    }
+    @Override
+    public List<Resolucion> getResoluciones(String numeroExpediente) {
+        Criteria criteria = getSession().createCriteria(Resolucion.class);
+        criteria.add(Restrictions.eq("expediente", numeroExpediente));
+        List<Resolucion> lista = criteria.list();
+        return lista;
+    }
 
 //    @Override
 //    public int getNuevoId() {

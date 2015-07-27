@@ -28,8 +28,8 @@ public class Resolucion  implements java.io.Serializable {
      private Date fechaEjecucion;
      private Date fechaPublicacion;
      private String documento;
-     private Integer modificaResolucion;
-     private Integer prorrogaResolucion;
+     private String modificaResolucion;
+     private String prorrogaResolucion;
      private Set cargos = new HashSet(0);
      private Set concursos = new HashSet(0);
 
@@ -41,7 +41,7 @@ public class Resolucion  implements java.io.Serializable {
         this.numeroResolucion = numeroResolucion;
         this.idResolucion = idResolucion;
     }
-    public Resolucion(String numeroResolucion, Expediente expediente, Tribunal tribunal, int idResolucion, String estado, Boolean modificacion, Boolean prorroga, Boolean antecedente, Boolean oposicion, String clase, String agrupamiento, Date fechaApertura, Date fechaCierre, Date fechaEjecucion, Date fechaPublicacion, String documento, Integer modificaResolucion, Integer prorrogaResolucion, Set cargos, Set concursos) {
+    public Resolucion(String numeroResolucion, Expediente expediente, Tribunal tribunal, int idResolucion, String estado, Boolean modificacion, Boolean prorroga, Boolean antecedente, Boolean oposicion, String clase, String agrupamiento, Date fechaApertura, Date fechaCierre, Date fechaEjecucion, Date fechaPublicacion, String documento, String modificaResolucion, String prorrogaResolucion, Set cargos, Set concursos) {
        this.numeroResolucion = numeroResolucion;
        this.expediente = expediente;
        this.tribunal = tribunal;
@@ -176,18 +176,18 @@ public class Resolucion  implements java.io.Serializable {
     public void setDocumento(String documento) {
         this.documento = documento;
     }
-    public Integer getModificaResolucion() {
+    public String getModificaResolucion() {
         return this.modificaResolucion;
     }
     
-    public void setModificaResolucion(Integer modificaResolucion) {
+    public void setModificaResolucion(String modificaResolucion) {
         this.modificaResolucion = modificaResolucion;
     }
-    public Integer getProrrogaResolucion() {
+    public String getProrrogaResolucion() {
         return this.prorrogaResolucion;
     }
     
-    public void setProrrogaResolucion(Integer prorrogaResolucion) {
+    public void setProrrogaResolucion(String prorrogaResolucion) {
         this.prorrogaResolucion = prorrogaResolucion;
     }
     public Set getCargos() {

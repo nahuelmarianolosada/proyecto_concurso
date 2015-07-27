@@ -23,6 +23,7 @@ import hibernate.dao.EstablecimientoDao;
 import hibernate.dao.InstitucionDao;
 import hibernate.dao.LocalidadDao;
 import hibernate.dao.ProfesionDao;
+import hibernate.dao.ResolucionDao;
 import hibernate.dao.TribunalJuradoDao;
 import hibernate.dao.impl.UnidadDeOrganizacionDaoImpl;
 import hibernate.dao.impl.CargoDaoImpl;
@@ -30,6 +31,7 @@ import hibernate.dao.impl.EstablecimientoDaoImpl;
 import hibernate.dao.impl.InstitucionDaoImpl;
 import hibernate.dao.impl.LocalidadDaoImpl;
 import hibernate.dao.impl.ProfesionDaoImpl;
+import hibernate.dao.impl.ResolucionDaoImpl;
 import hibernate.dao.impl.TribunalJuradoDaoImpl;
 
 import java.io.Serializable;
@@ -45,6 +47,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
+import org.primefaces.event.TabChangeEvent;
 import org.primefaces.event.TransferEvent;
 import org.primefaces.event.UnselectEvent;
 import org.primefaces.model.DualListModel;
@@ -80,6 +83,7 @@ public class ConcursoBean implements Serializable {
     private List<Persona> listaPersonas;
     private Persona personaBuscada;
     private List<Persona> listaResultadoBusquedaPersona;
+    private List<Resolucion> listaReoluciones;
 
     /**
      * Creates a new instance of ConcursoBean
@@ -111,6 +115,8 @@ public class ConcursoBean implements Serializable {
 
         personaBuscada = new Persona();
         listaResultadoBusquedaPersona = new ArrayList<Persona>();
+
+        listaReoluciones = new ArrayList<Resolucion>();
     }
 
     public boolean isBanderaModificacionParcial() {
@@ -281,6 +287,14 @@ public class ConcursoBean implements Serializable {
         this.listaResultadoBusquedaPersona = listaResultadoBusquedaPersona;
     }
 
+    public List<Resolucion> getListaReoluciones() {
+        return listaReoluciones;
+    }
+
+    public void setListaReoluciones(List<Resolucion> listaReoluciones) {
+        this.listaReoluciones = listaReoluciones;
+    }
+
     /**
      *
      * M E T O D O S
@@ -386,18 +400,6 @@ public class ConcursoBean implements Serializable {
 //        System.out.println("ConcursoBean.onPostulanteAdjSeleccionado: Matricula del Postulante: " + postulanteAdjudicado.getNumero_de_matricula() + ". " + postulanteAdjudicado.getApellido());
     }
 
-//    public void onChangePostulanteAdjudicado() {
-//
-//        for (Postulante postulante : listaPostulantes) {
-//            if (postulante.getNumero_de_matricula().equals(postulanteAdjudicado.getNumero_de_matricula())) {
-//                postulanteAdjudicado = postulante;
-//                break;
-//            }
-//        }
-//        nuevoMensaje("Ingreso al onChangePostulanteAdjudicado", postulanteAdjudicado.getNumero_de_matricula() + " - " + postulanteAdjudicado.getApellido() + " " + postulanteAdjudicado.getNombre());
-//        System.out.println("ConcursoBean.onChangePostulanteAdjudicado: Datos del Postulante seleccionado: " + postulanteAdjudicado.getApellido() + " - " + postulanteAdjudicado.getNumero_de_matricula());
-//
-//    }
     public void nuevoMensajeInfo(String summary, String detail) {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,
                 summary, detail);
@@ -410,77 +412,6 @@ public class ConcursoBean implements Serializable {
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
 
-    /**
-     *
-     * PickList Tribunal
-     *
-     */
-//    private DualListModel<String> tribunal;
-//
-//    @PostConstruct
-//    public void init() {
-//
-//        List<String> tribunalSource = new ArrayList<String>();
-//        List<String> tribunalTarget = new ArrayList<String>();
-//
-//        tribunalSource.add("Ministerio de Salud");
-//        tribunalSource.add("Colegio");
-//        tribunalSource.add("Consejo");
-//        tribunalSource.add("Establecimiento");
-//        tribunalSource.add("Institución");
-//
-//        tribunal = new DualListModel<String>(tribunalSource, tribunalTarget);
-//
-//    }
-//
-//    public DualListModel<String> getTribunal() {
-//        return tribunal;
-//    }
-//
-//    public void setTribunal(DualListModel<String> tribunal) {
-//        this.tribunal = tribunal;
-//    }
-//
-//    public void onTransfer(TransferEvent event) {
-//
-//        if (event.getItems().size() == 1 && event.isAdd()) {
-//            StringBuilder builder = new StringBuilder();
-//            for (Object item : event.getItems()) {
-//                builder.append(item.toString());
-//            }
-//
-//            if (builder.toString().toLowerCase().equals("institución")) {
-//                InstitucionDao instDao = new InstitucionDaoImpl();
-//                listaInstituciones = instDao.getAll();
-//                
-//                RequestContext context = RequestContext.getCurrentInstance();
-//                context.execute("PF('dlgNuevoMiembroTribunalInstitucion').show();");
-//            }
-//
-//            nuevoMensajeInfo("Jurado Transferido", builder.toString());
-//
-//        } else if (!event.isRemove()) {
-//            nuevoMensajeAlerta("Error", "Seleccione solamente un tribunal");
-//        }
-//
-//        //mostrarDialogoNuevoMiembro();
-//    }
-//
-//    public void onSelect(SelectEvent event) {
-//        FacesContext context = FacesContext.getCurrentInstance();
-//        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Jurado Seleccionado", event.getObject().toString()));
-//
-//    }
-//
-//    public void onUnselect(UnselectEvent event) {
-//        FacesContext context = FacesContext.getCurrentInstance();
-//        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Jurado Deseleccionado", event.getObject().toString()));
-//    }
-//
-//    public void mostrarDialogoNuevoMiembro() {
-//        RequestContext context = RequestContext.getCurrentInstance();
-//        context.execute("PF('dlgNuevoMiembroTribunal').show();");
-//    }
     public void refreshListas() {
         UnidadDeOrganizacionDao unidadDao = new UnidadDeOrganizacionDaoImpl();
         listaUnidadDeOrganizacions = unidadDao.getAll();
@@ -498,9 +429,8 @@ public class ConcursoBean implements Serializable {
         listaInstituciones = instDao.getAll();
     }
 
-
     public void validarExpedienteTab() {
-        
+
         try {
             for (UnidadDeOrganizacion unidad : listaUnidadDeOrganizacions) {
                 if (unidad.getCodigoUnidadDeOrganizacion() == expedienteNuevo.getUnidadDeOrganizacion().getCodigoUnidadDeOrganizacion()) {
@@ -510,16 +440,26 @@ public class ConcursoBean implements Serializable {
             }
             expedienteNuevo.setNumeroExpediente(expedienteNuevo.getUnidadDeOrganizacion().getCodigoUnidadDeOrganizacion() + "-" + expedienteNuevo.getNumero() + "/" + expedienteNuevo.getAnio());
             nuevoMensajeInfo("Expediente " + expedienteNuevo.getIdExpediente(), "Numero de Expediente: " + expedienteNuevo.getNumeroExpediente() + "\nSituación: " + expedienteNuevo.getSituacion() + "\nRégimen: " + expedienteNuevo.getRegimen() + "\nEstablecimiento: " + expedienteNuevo.getUnidadDeOrganizacion().getNombreUnidad());
-            
+
         } catch (NullPointerException ex1) {
             nuevoMensajeAlerta("Error! " + ex1.getMessage(), ex1.getLocalizedMessage());
         }
-        
 
     }
 
-    public void obtenerEstablecimiento() {
+    public void validarPestaña(TabChangeEvent event) {
+        switch (event.getTab().getTitle()) {
+            case "Expediente": {
+                ResolucionDao resDao = new ResolucionDaoImpl();
+                listaReoluciones = resDao.getResoluciones("700-01268/2012");
+                break;
+            }
+        }
+    }
+
+    public void obtenerEstablecimiento(TabChangeEvent event) {
         try {
+            nuevoMensajeInfo("Registro provincial de concursos de Salud", "Pestaña activa: " + event.getTab().getTitle());
             System.out.println("ConcursoBean:obtenerEstablecimiento():\nBuscando el codigo del Establecimiento seleccionado: \nCodigoSiisa => " + cargoNuevo.getEstablecimiento().getCodigoSiisa() + "\tNombre => " + cargoNuevo.getEstablecimiento().getNombre());
             EstablecimientoDao establDao = new EstablecimientoDaoImpl();
             Establecimiento estEncontrado = establDao.getEstablecimiento(cargoNuevo.getEstablecimiento().getCodigoSiisa());
@@ -531,6 +471,18 @@ public class ConcursoBean implements Serializable {
         } catch (Exception exGeneral) {
             exGeneral.printStackTrace();
         }
+    }
+
+    public void guardarExpediente() {
+        nuevoMensajeInfo("Registro de Concursos de Salud - EXPEDIENTE", "Número: " + expedienteNuevo.getNumeroExpediente() + "\nRégimen: " + expedienteNuevo.getRegimen() + "\nSituación: " + expedienteNuevo.getSituacion());
+    }
+
+    public void guardarResolucion() {
+        resolucionNueva.setModificacion(banderaModificacionParcial);
+        resolucionNueva.setProrroga(banderaProrroga);
+        nuevoMensajeInfo("Registro de Concursos de Salud - RESOLUCIÓN", "NºResolucion: " + resolucionNueva.getNumeroResolucion()
+                + " - Estado: " + resolucionNueva.getEstado()
+                + "\nMod Parcial: " + resolucionNueva.getModificacion() + " " + resolucionNueva.getModificaResolucion());
     }
 
 }
