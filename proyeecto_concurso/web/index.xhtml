@@ -152,11 +152,20 @@
                                         <f:facet name="header">
                                             Resoluciones en el expediente 700-01268/2012
                                             <p:commandButton id="togglerResoluciones" type="button" value="Columns" style="float:right" icon="ui-icon-calculator" />
-                                            <p:columnToggler datasource="tblResoluciones" trigger="toggler" />
+                                            <p:columnToggler datasource="tblResoluciones" trigger="togglerResoluciones" />
                                         </f:facet>
                                         <p:commandButton id="btnGuardarNuevaResolucion" value="Guardar" actionListener="#{beanConcurso.guardarResolucion()}" update="" styleClass="btnVerde" />
                                         <p:column headerText="Id">
                                             <h:outputText value="#{resolucion.idResolucion}" />
+                                        </p:column>
+                                        <p:column headerText="Número">
+                                            <h:outputText value="#{resolucion.numeroResolucion}" />
+                                        </p:column>
+                                        <p:column headerText="Agrupamiento">
+                                            <h:outputText value="#{resolucion.agrupamiento}" />
+                                        </p:column>
+                                        <p:column headerText="Agrupamiento">
+                                            <h:outputText value="#{resolucion.expediente.numeroExpediente}" />
                                         </p:column>
                                         
 
