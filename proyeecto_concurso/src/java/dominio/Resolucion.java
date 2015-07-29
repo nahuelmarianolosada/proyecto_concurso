@@ -205,9 +205,7 @@ public class Resolucion  implements java.io.Serializable {
         this.concursos = concursos;
     }
 
-
-
-
+    
 }
 
 

@@ -14,13 +14,14 @@
                     <p:layoutUnit position="center">
 
                     </p:layoutUnit>
-                    <p:layoutUnit position="east" resizable="true"  size="600" minSize="500"  header="Formulario de Registro de Concursos" maxSize="800" collapsible="true" >
+                    <p:layoutUnit position="east" resizable="true"  size="700" minSize="600"  header="Formulario de Registro de Concursos" maxSize="800" collapsible="true" >
 
                         <p:tabView activeIndex="0" effect="fade" effectDuration="fast" id="tabuladorPestañero" >
                             <p:effect type="bounce" event="onchange" />
-                            <p:ajax event="tabChange"  listener="#{beanConcurso.validarPestania}" update="tabuladorPestañero:formExpedientes:msg,:formCargoNuevo"/>
+                            <p:ajax event="tabChange"  listener="#{beanConcurso.validarPestania}" update="tabuladorPestañero:formExpedientes:msg"/>
                             <!--
-                                                            PESTAÑA DE EXPEDIENTES-->
+                              PESTAÑA DE EXPEDIENTES
+                            -->
 
                             <p:tab title="Expediente" >
                                 <h:form id="formExpedientes">
@@ -30,18 +31,18 @@
                                             <h:outputText value="Datos Generales del Expediente" />
                                         </f:facet>
 
-                                        <p:selectOneMenu id="cmbUnidadExpediente" value="#{beanConcurso.expedienteNuevo.unidadDeOrganizacion.codigoUnidadDeOrganizacion}" required="true" requiredMessage="Seleccione un Àrea" filter="true" validatorMessage="Seleccione un área válida" >
+                                        <p:selectOneMenu id="cmbUnidadExpediente" value="#{beanExpediente.expedienteNuevo.unidadDeOrganizacion.codigoUnidadDeOrganizacion}" required="true" requiredMessage="Seleccione un Àrea" filter="true" validatorMessage="Seleccione un área válida" >
                                             <f:selectItem noSelectionOption="true" itemLabel=" Seleccione un Área" itemValue="null" />
-                                            <f:selectItems var="unidad" value="#{beanConcurso.listaUnidadDeOrganizacions}" itemLabel="#{unidad.nombreUnidad} (#{unidad.codigoUnidadDeOrganizacion})" itemValue="#{unidad.codigoUnidadDeOrganizacion}" />
+                                            <f:selectItems var="unidad" value="#{beanExpediente.listaUnidadDeOrganizacions}" itemLabel="#{unidad.nombreUnidad} (#{unidad.codigoUnidadDeOrganizacion})" itemValue="#{unidad.codigoUnidadDeOrganizacion}" />
                                         </p:selectOneMenu>
 
-                                        <p:spinner id="spnNumeroExpediente" value="#{beanConcurso.expedienteNuevo.numero}" placeholder="Número" min="0" max="9999" required="true" requiredMessage="Ingrese el Número que figura en el expediente" validatorMessage="Ingrese un numero de expediente válido"  />
+                                        <p:spinner id="spnNumeroExpediente" value="#{beanExpediente.expedienteNuevo.numero}" placeholder="Número" min="0" max="9999" required="true" requiredMessage="Ingrese el Número que figura en el expediente" validatorMessage="Ingrese un numero de expediente válido"  />
 
-                                        <p:spinner id="spnAnio" value="#{beanConcurso.expedienteNuevo.anio}" placeholder="Año" min="1950" max="2015" required="true" requiredMessage="Ingrese el año que figura en el expediente" validatorMessage="Ingrese un año válido" size="5" />
+                                        <p:spinner id="spnAnio" value="#{beanExpediente.expedienteNuevo.anio}" placeholder="Año" min="1950" max="2015" required="true" requiredMessage="Ingrese el año que figura en el expediente" validatorMessage="Ingrese un año válido" size="5" />
 
                                         <p:column>
                                             <h:outputText value="Régimen que aplica" />
-                                            <p:selectOneMenu id="cmbRegimenExpediente" value="#{beanConcurso.expedienteNuevo.regimen}" style="width:100%;">
+                                            <p:selectOneMenu id="cmbRegimenExpediente" value="#{beanExpediente.expedienteNuevo.regimen}" style="width:100%;">
                                                 <f:selectItem itemLabel="Profesional" itemValue="PROFESIONAL"/>
                                                 <f:selectItem itemLabel="Técnico" itemValue="TECNICO"/>
                                                 <f:selectItem itemLabel="General" itemValue="GENERAL"/>
@@ -50,22 +51,16 @@
 
                                         <p:column>
                                             <h:outputText value="Situación" />
-                                            <p:selectOneMenu id="cmbSituacionExpediente" value="#{beanConcurso.expedienteNuevo.situacion}" style="width:100%;">
+                                            <p:selectOneMenu id="cmbSituacionExpediente" value="#{beanExpediente.expedienteNuevo.situacion}" style="width:100%;">
                                                 <f:selectItem itemLabel="En ejecucion" itemValue="EN EJECUCION"/>
                                                 <f:selectItem itemLabel="Cancelado" itemValue="CANCELADO"/>
                                                 <f:selectItem itemLabel="Finalizado" itemValue="FINALIZADO"/>
                                             </p:selectOneMenu>
                                         </p:column>
-                                        <p:column>
-                                            <h:outputText value="Establecimiento" />
-                                            <p:selectOneMenu id="cmbEstablecimiento" value="#{beanConcurso.cargoNuevo.establecimiento.codigoSiisa}" required="true" requiredMessage="Seleccione un Establecimiento" style="width: 20em;" filter="true" >
-                                                <p:ajax listener="#{beanConcurso.obtenerEstablecimiento}" update=":formCargoNuevo" />
-                                                <f:selectItem noSelectionOption="true" itemLabel=" Seleccione un Establecimietno" itemValue="null" />
-                                                <f:selectItems var="establecimiento" value="#{beanConcurso.listaEstablecimientos}" itemLabel="#{establecimiento.nombre}" itemValue="#{establecimiento.codigoSiisa}" />
-                                            </p:selectOneMenu>
-                                        </p:column>
-                                        <p:commandButton id="btnGuardarNuevoExpediente" value="Guardar" actionListener="#{beanConcurso.guardarExpediente}" update="tabuladorPestañero:formExpedientes:msg,:formCargoNuevo,tabuladorPestañero:formResoluciones,:formNuevaResolucion" styleClass="btnVerde" />
+
+
                                     </h:panelGrid>
+                                    <p:commandButton id="btnGuardarNuevoExpediente" value="Guardar" actionListener="#{beanExpediente.guardarExpediente}" update="tabuladorPestañero:formExpedientes:msg,tabuladorPestañero:formResoluciones:tblResoluciones,lblEncabezadoNuevaResolucion" styleClass="btnVerde" />
                                 </h:form>
                             </p:tab>
 
@@ -76,19 +71,20 @@
                             <p:tab title="Resoluciones" >
                                 <h:form id="formResoluciones">
                                     <p:commandButton value="Nuevo" onclick="PF('dlgNuevaResolucion').show();" icon="ui-icon-plusthick" />
-                                    <p:dataTable id="tblResoluciones" var="resolucion" value="#{beanConcurso.listaResoluciones}" rows="3"
+                                    <p:dataTable id="tblResoluciones" var="resolucion" value="#{beanResolucion.listaResoluciones}" rows="1"
                                                  paginator="true"
                                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                                 rowsPerPageTemplate="3,5,10,15"
+                                                 rowsPerPageTemplate="1,3,5,10,15"
                                                  reflow="true" 
-                                                 resizableColumns="true"
-                                                 >
+                                                 
+                                                 draggableColumns="true"
+                                                 
+                                                 style="text-align: center; margin-top: 5px;">
                                         <f:facet name="header">
-                                            Resoluciones en el expediente 700-01268/2012
-                                            <p:commandButton id="togglerResoluciones" type="button" value="Columns" style="float:right" icon="ui-icon-calculator" />
+                                            <h:outputText id="lblNumeroDeExpedienteEnResolucion" value="Resoluciones en el expediente #{beanExpediente.expedienteNuevo.numeroExpediente}" />
+                                            <p:commandButton id="togglerResoluciones" type="button" value="Columnas" style="float:right" icon="ui-icon-calculator" />
                                             <p:columnToggler datasource="tblResoluciones" trigger="togglerResoluciones" />
                                         </f:facet>
-                                        <p:commandButton id="btnGuardarNuevaResolucion" value="Guardar" actionListener="#{beanConcurso.guardarResolucion()}" update="" styleClass="btnVerde" />
                                         <p:column headerText="Id">
                                             <h:outputText value="#{resolucion.idResolucion}" />
                                         </p:column>
@@ -98,10 +94,41 @@
                                         <p:column headerText="Agrupamiento">
                                             <h:outputText value="#{resolucion.agrupamiento}" />
                                         </p:column>
-                                        <p:column headerText="Numero de Expediente">
+                                        <p:column headerText="Expediente">
                                             <h:outputText value="#{resolucion.expediente.numeroExpediente}" />
                                         </p:column>
-
+                                        <p:column headerText="Oposición">
+                                            <h:outputText value="#{resolucion.oposicion}" />
+                                        </p:column>
+                                        <p:column headerText="Modificatoria">
+                                            <h:outputText value="#{resolucion.modificacion}" />
+                                        </p:column>
+                                        <p:column headerText="Clase">
+                                            <h:outputText value="#{resolucion.clase}" />
+                                        </p:column>
+                                        <p:column headerText="Apertura">
+                                            <h:outputText value="#{resolucion.fechaApertura}" >
+                                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                                            </h:outputText>
+                                        </p:column>
+                                        <p:column headerText="Cierre">
+                                            <h:outputText value="#{resolucion.fechaCierre}" >
+                                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                                            </h:outputText>
+                                        </p:column>
+                                        <p:column headerText="Ejecución">
+                                            <h:outputText value="#{resolucion.fechaEjecucion}" >
+                                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                                            </h:outputText>
+                                        </p:column>
+                                        <p:column headerText="Publicación">
+                                            <h:outputText value="#{resolucion.fechaPublicacion}" >
+                                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                                            </h:outputText>
+                                        </p:column>
+                                        <p:column headerText="Estado">
+                                            <h:outputText value="#{resolucion.estado}" />
+                                        </p:column>
 
                                     </p:dataTable>
                                 </h:form>
@@ -111,46 +138,7 @@
                                                             PESTAÑA DE CARGOS-->
 
                             <p:tab title="Cargos" >
-                                <h:form id="formCargos">
-                                    <h:panelGrid columns="2" >
-                                        <p:commandButton value="NuevoCargo" icon="ui-icon-plusthick" onclick="PF('dlgCargoNuevo').show();" />
-                                        <p:commandButton value="Actualizar" icon="ui-icon-refresh" />
-                                    </h:panelGrid>
 
-
-                                    <p:dataTable id="tblCargos" var="cargos" value="#{beanConcurso.listaCargos}" rows="3"
-                                                 paginator="true"
-                                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                                 rowsPerPageTemplate="3,5,10,15" reflow="true" >
-                                        <f:facet name="header">
-                                            Cargos Registrados
-                                        </f:facet>
-                                        <p:column headerText="Id">
-                                            <h:outputText value="#{cargos.idCargo}" />
-                                        </p:column>
-                                        <p:column headerText="Profesion">
-                                            <h:outputText value="#{cargos.profesion.nombreProfesion}" />
-                                        </p:column>
-                                        <p:column headerText="Especialidad">
-                                            <h:outputText value="#{cargos.especialidad}" />
-                                        </p:column>
-                                        <p:column headerText="Categoria">
-                                            <h:outputText value="#{cargos.categoria}" />
-                                        </p:column>
-                                        <p:column headerText="Función">
-                                            <h:outputText value="#{cargos.funcion}" />
-                                        </p:column>
-                                        <p:column headerText="Establecimiento">
-                                            <h:outputText value="#{cargos.establecimiento.nombre}" />
-                                        </p:column>
-                                        <p:column headerText="Resolución">
-                                            <h:outputText value="#{cargos.resolucion.numeroResolucion}" />
-                                        </p:column>
-                                        <p:column headerText="Cantidad">
-                                            <h:outputText value="#{cargos.cantidad}" />
-                                        </p:column>
-                                    </p:dataTable>
-                                </h:form>
                             </p:tab>
 
                             <!--
@@ -158,137 +146,7 @@
                             -->
 
                             <p:tab title="Tribunal" >
-                                <h:form id="formTribunal">
-                                    <p:fieldset id="fsDetalle" legend="Detalles del Jurado #{beanConcurso.juradoNuevo.idTribunalJurado}" toggleable="true" toggleSpeed="600" style="border: white; font-size: 0.99em;" collapsed="true">
-                                        <p:commandButton value="Buscar" onclick="PF('dlgBuscarPersona').show();" icon="ui-icon-search" style="margin-bottom: 5px;" />
-                                        <p:panelGrid columns="2" layout="grid"  >
-                                            <p:inputText placeholder="Nombre" value="#{beanConcurso.juradoNuevo.persona.nombres}" />
-                                            <p:inputText placeholder="Apellido" value="#{beanConcurso.juradoNuevo.persona.apellido}" />
 
-                                            <p:inputText placeholder="Dni" value="#{beanConcurso.juradoNuevo.persona.dni}" />
-                                            <p:inputText placeholder="Cuil" value="#{beanConcurso.juradoNuevo.persona.cuil}" />
-
-                                            <p:calendar id="calFechaNacimientoJurado" placeholder="Fecha de Nacimiento" pattern="dd-MM-yyyy" mask="true" value="#{beanConcurso.juradoNuevo.persona.fechaDeNacimiento}" />
-                                            <p:inputText placeholder="Nacionalidad" value="#{beanConcurso.juradoNuevo.persona.nacionalidad}" />
-
-                                            <p:inputText placeholder="Dirección" value="#{beanConcurso.juradoNuevo.persona.direccion}" />
-                                            <p:column>
-                                                <p:outputLabel for="cmbSexoJurado" value="Sexo:" style="vertical-align: middle;" />
-                                                <p:selectOneMenu id="cmbSexoJurado" value="#{beanConcurso.juradoNuevo.persona.sexo}" style="margin-left: 20px; vertical-align: middle;" >
-                                                    <f:selectItem itemLabel="Masculino" itemValue="M" />
-                                                    <f:selectItem itemLabel="Femenino" itemValue="F" />
-                                                </p:selectOneMenu>
-                                            </p:column>
-
-                                            <p:inputText placeholder="Teléfono" value="#{beanConcurso.juradoNuevo.persona.telefono}" />
-                                            <p:inputText placeholder="Email" value="#{beanConcurso.juradoNuevo.persona.email}" />
-
-                                        </p:panelGrid>
-                                        <p:panelGrid columns="1" layout="grid"  style="padding-top: 5px;border: white;margin-bottom: 5px;" >
-                                            <f:facet name="header">
-                                                <h:outputText value="Entidad que representa el Jurado" />
-                                            </f:facet>
-
-                                            <p:row>
-                                                <h:outputText value="Institución: " style="vertical-align: middle; margin-right: 10px;" />
-
-                                                <p:inputSwitch offLabel="No" onLabel="Si" value="#{beanConcurso.banderaInstitucion}" onchange="#{beanConcurso.habilitarCmbInstitucion()}" style="vertical-align: middle;margin-right: 10px;" >
-                                                    <p:ajax listener="#{beanConcurso.habilitarCmbInstitucion()}" update="cmbInstitucionJurado,lblInstitucion" />
-                                                </p:inputSwitch>
-
-                                                <p:autoComplete id="cmbInstitucionJurado" required="#{beanConcurso.banderaInstitucion}" disabled="#{beanConcurso.banderaInstitucion}" dropdown="true" value="#{beanConcurso.juradoNuevo.institucion.nombreInstitucion}" completeMethod="#{beanConcurso.buscarInstitucion}" placeholder="Nombre" style="vertical-align: middle;" >
-                                                    <p:ajax event="itemSelect" listener="#{beanConcurso.onInstitucionSeleccionada}" update="lblInstitucion,tabuladorPestañero:formExpedientes:msg" />
-                                                </p:autoComplete>
-
-                                                <h:outputText id="lblInstitucion" value="#{beanConcurso.juradoNuevo.institucion.nombreInstitucion}" style="margin-left: 20px; vertical-align: middle;" />
-                                            </p:row>
-
-                                            <p:row>
-                                                <h:outputText value="Establecimiento: " style="vertical-align: middle;" />
-
-                                                <p:inputSwitch offLabel="No" onLabel="Si" value="#{beanConcurso.banderaEstablecimiento}" onchange="#{beanConcurso.habilitarCmbEstablecimiento()}" style="vertical-align: middle; margin-right: 10px;" >
-                                                    <p:ajax listener="#{beanConcurso.habilitarCmbEstablecimiento()}" update="cmbEstablecimientoJurado,lblEstablecimiento" />
-                                                </p:inputSwitch>
-
-                                                <p:autoComplete id="cmbEstablecimientoJurado" required="#{beanConcurso.banderaEstablecimiento}" disabled="#{beanConcurso.banderaEstablecimiento}" dropdown="true" value="#{beanConcurso.juradoNuevo.establecimiento.nombre}" completeMethod="#{beanConcurso.buscarEstablecimiento}" style="vertical-align: middle; margin-right: 10px;" >
-                                                    <p:ajax event="itemSelect" listener="#{beanConcurso.onEstablecimientoSeleccionado}" update="lblEstablecimiento,tabuladorPestañero:formExpedientes:msg" />
-                                                </p:autoComplete>
-
-                                                <h:outputText id="lblEstablecimiento" value="#{beanConcurso.juradoNuevo.establecimiento.nombre}" style="margin-left: 20px; vertical-align: middle;" />
-                                            </p:row>
-                                        </p:panelGrid>
-                                        <p:panelGrid columns="3" layout="grid" >
-                                            <p:column>
-                                                <p:outputLabel for="cmbEstadoJurado" value="Estado:" style="vertical-align: middle;" />
-                                                <p:selectOneMenu id="cmbEstadoJurado" value="#{beanConcurso.juradoNuevo.estado}" style="margin-left: 20px; vertical-align: middle;" >
-                                                    <f:selectItem itemLabel="Jurado" itemValue="JURADO" />
-                                                    <f:selectItem itemLabel="Veedor" itemValue="VEEDOR" />
-                                                </p:selectOneMenu>
-                                            </p:column>
-
-                                            <p:selectBooleanCheckbox value="#{beanConcurso.juradoNuevo.presencia}"  label="Indica si el jurado asistió" itemLabel="Presencia" />
-
-                                            <p:column>
-                                                <p:outputLabel for="cmbCondicionJurado" value="Condición: " style="vertical-align: middle;" />
-                                                <p:selectOneMenu id="cmbCondicionJurado" value="#{beanConcurso.juradoNuevo.condicion}" style="margin-left: 20px; vertical-align: middle;" >
-                                                    <f:selectItem itemLabel="Titular" itemValue="TITULAR" />
-                                                    <f:selectItem itemLabel="Suplente" itemValue="SUPLENTE" />
-                                                </p:selectOneMenu>
-                                            </p:column>
-                                        </p:panelGrid>
-                                    </p:fieldset>
-
-
-                                    <p:dataTable id="tblTribunalJurado" var="jurado" value="#{beanConcurso.listaJurados}" rows="3"
-                                                 paginator="true"
-                                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                                 rowsPerPageTemplate="3,5,10,15"
-                                                 reflow="true" 
-                                                 resizableColumns="true"
-                                                 >
-                                        <f:facet name="header">
-                                            Jurados Registrados
-                                            <p:commandButton id="toggler" type="button" value="Columns" style="float:right" icon="ui-icon-calculator" />
-                                            <p:columnToggler datasource="tblTribunalJurado" trigger="toggler" />
-                                        </f:facet>
-
-                                        <p:column headerText="Condición">
-                                            <h:outputText value="#{jurado.condicion}" />
-                                        </p:column>
-                                        <p:column headerText="Tribunal">
-                                            <h:outputText value="#{jurado.tribunal.idTribunal}" />
-                                        </p:column>
-                                        <p:column headerText="Estado">
-                                            <h:outputText value="#{jurado.estado}" />
-                                        </p:column>
-                                        <p:column headerText="Presencia">
-                                            <h:outputText value="#{jurado.presencia}" />
-                                        </p:column>
-                                        <p:column headerText="Apellido">
-                                            <h:outputText value="#{jurado.persona.apellido}" />
-                                        </p:column>
-                                        <p:column headerText="Nombre">
-                                            <h:outputText value="#{jurado.persona.nombres}" />
-                                        </p:column>
-                                        <p:column headerText="Dni">
-                                            <h:outputText value="#{jurado.persona.dni}" />
-                                        </p:column>
-                                        <!--                                        <p:column headerText="Establecimiento">
-                                                                                    <h:outputText value="#{jurado.establecimiento.nombre}" />
-                                                                                </p:column>-->
-                                        <p:column headerText="Institucion">
-                                            <h:outputText value="#{jurado.institucion.nombreInstitucion}" />
-                                        </p:column>
-
-
-
-                                        <p:column style="width:20px;text-align: center" toggleable="false">
-                                            <p:commandButton update="tabuladorPestañero:formTribunal:fsDetalle" icon="ui-icon-search" title="Mostrar"  >
-                                                <f:setPropertyActionListener value="#{jurado}" target="#{beanConcurso.juradoNuevo}" />
-                                            </p:commandButton>
-                                        </p:column>
-                                    </p:dataTable>
-                                </h:form>
 
                             </p:tab>
 
@@ -317,147 +175,27 @@
                 </p:layout>
 
 
-                <p:dialog widgetVar="dlgBuscarPersona" header="Buscar Profesional de la Salud" modal="true" showEffect="fade" hideEffect="fade" draggable="true" resizable="true" closeOnEscape="true" width="525" >
-                    <h:form id="formBuscarPersona">
-                        <p:panelGrid layout="grid" columns="1"  >
-                            <p:column>
-                                <p:inputText value="#{beanConcurso.personaBuscada.dni}" placeholder="DNI de la Persona Buscada..." />
-                                <p:commandButton value="Buscar" actionListener="#{beanConcurso.buscarPersonaREFEPS()}" update="tblResultadoBusquedaPersona,tabuladorPestañero:formExpedientes:msg" icon="ui-icon-search" />
-                            </p:column>
-                        </p:panelGrid>
-                        <p:dataTable id="tblResultadoBusquedaPersona" value="#{beanConcurso.listaResultadoBusquedaPersona}" var="persona" paginator="true"
-                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                     rowsPerPageTemplate="5,10" emptyMessage="(Sin Resultados)" currentPageReportTemplate="{totalRecords} Profesionales Encontrados" rowKey="#{persona.idPersona}">
-                            <p:ajax event="rowSelect" listener="#{beanConcurso.onPersonaSeleccionada}" update="tabuladorPestañero:formTribunal" oncomplete="PF(dlgBuscarPersona).hide();" />
-
-                            <f:facet name="header">Personas Registradas en el Registro Nacional de Profesionales de la Salud</f:facet>
-                            <p:column headerText="Dni" sortBy="#{persona.dni}" >
-                                <h:outputText value="#{persona.dni}" />
-                            </p:column>
-                            <p:column headerText="Apellido" sortBy="#{persona.apellido}" >
-                                <h:outputText value="#{persona.apellido}" />
-                            </p:column>
-                            <p:column headerText="Nombre" sortBy="#{persona.nombres}" >
-                                <h:outputText value="#{persona.nombres}" />
-                            </p:column>
-                            <p:column headerText="Cuil" sortBy="#{persona.cuil}" >
-                                <h:outputText value="#{persona.cuil}" />
-                            </p:column>
-                            <p:column headerText="Fecha de Nacimiento" sortBy="#{persona.fechaDeNacimiento}" >
-                                <h:outputText value="#{persona.fechaDeNacimiento}" >
-                                    <f:convertDateTime pattern="dd/MM/yyyy" />
-                                </h:outputText>
-                            </p:column>
-                            <p:column headerText="Sexo" sortBy="#{persona.sexo}" >
-                                <h:outputText value="#{persona.sexo}" />
-                            </p:column>
-                            <p:column style="width:32px;text-align: center">
-                                <p:commandButton update="tabuladorPestañero:formTribunal" oncomplete="PF('dlgBuscarPersona').hide()" icon="ui-icon-check" title="Seleccionar">
-                                    <f:setPropertyActionListener value="#{persona}" target="#{beanConcurso.juradoNuevo.persona}" />
-                                </p:commandButton>
-                            </p:column>
-
-
-                        </p:dataTable>
-                    </h:form>
-                </p:dialog>
-
-
-                <p:dialog header="Cargo Nuevo #{beanConcurso.resolucionNueva.numeroResolucion}" widgetVar="dlgCargoNuevo" modal="true" showEffect="fade" hideEffect="fade" draggable="true" resizable="true" closeOnEscape="true" >
-                    <h:form id="formCargoNuevo">
-                        <p:fieldset legend="ID: #{beanConcurso.cargoNuevo.idCargo}" >
-                            <p:outputLabel value="Establecimiento: #{beanConcurso.cargoNuevo.establecimiento.nombre}" /><br />
-                            <p:outputLabel value="Resolución: #{beanConcurso.resolucionNueva.expediente.numeroExpediente}" />
-                            <h:panelGrid columns="2" cellpadding="4">
-
-                                <p:inputText value="#{beanConcurso.cargoNuevo.especialidad}" placeholder="Especialidad" />
-                                <p:inputText value="#{beanConcurso.cargoNuevo.categoria}" placeholder="Categoria" />
-                                <p:spinner value="#{beanConcurso.cargoNuevo.adicional}" placeholder="Cantidad de Horas" />
-                                <p:spinner value="#{beanConcurso.cargoNuevo.cantidad}" placeholder="Cantidad de Cargos" />
-
-                            </h:panelGrid>
-
-                            <h:panelGrid columns="1" cellpadding="3">
-                                <p:outputLabel for="cmbFuncion" value="Función: " />
-                                <p:selectOneMenu id="cmbFuncion" style="width:100%;" value="#{beanConcurso.cargoNuevo.funcion}">
-                                    <f:selectItem itemLabel="No se especifica" itemValue="" noSelectionOption="true" />
-                                    <f:selectItem itemLabel="Profesional en General" itemValue="0" />
-                                    <f:selectItem itemLabel="Profesional en Guardia Activa" itemValue="1" />
-                                    <f:selectItem itemLabel="Jefe de Unidad" itemValue="2" />
-                                    <f:selectItem itemLabel="Jefe de Servicio" itemValue="3" />
-                                    <f:selectItem itemLabel="Jefe de Departamento" itemValue="4" />
-                                </p:selectOneMenu>
-                                <p:outputLabel for="cmbAreaDesempenio" value="Área de Desempeño: " />
-                                <p:selectOneMenu id="cmbAreaDesempenio" style="width:100%;" value="#{beanConcurso.cargoNuevo.areaDeDesempenio}">
-                                    <f:selectItem itemLabel="Seleccionar un área" itemValue="" noSelectionOption="true" itemDisabled="true" />
-                                    <f:selectItem itemLabel="Unidad de Guardia" itemValue="1" />
-                                    <f:selectItem itemLabel="Unidad Sanitaria" itemValue="2" />
-                                    <f:selectItem itemLabel="Servicio Asistencial" itemValue="3" />
-                                    <f:selectItem itemLabel="Servicio Sanitario" itemValue="4" />
-                                    <f:selectItem itemLabel="Departamento" itemValue="5" />
-                                </p:selectOneMenu>
-                                <h:outputText value="Modalidad: " />
-                                <p:selectOneMenu id="cmbModalidadCargo" value="#{beanConcurso.cargoNuevo.modalidad}" style="width:100%;">
-                                    <f:selectItem itemLabel="Único" itemValue="ÚNICO"/>
-                                    <f:selectItem itemLabel="Eventual" itemValue="EVENTUAL" itemDisabled="true"/>
-                                    <f:selectItem itemLabel="Temporario" itemValue="TEMPORARIO" itemDisabled="true" />
-                                    <f:selectItem itemLabel="Contrato Especial" itemValue="CONTRATO ESPECIAL" itemDisabled="true" />
-                                    <f:selectItem itemLabel="Plazo Determinado" itemValue="PLAZO DETERMINADO" itemDisabled="true" />
-                                    <f:selectItem itemLabel="Ad Honorem" itemValue="AD HONOREM" itemDisabled="true" />
-                                    <f:selectItem itemLabel="Residencias" itemValue="RESIDENCIAS" itemDisabled="true" />
-                                </p:selectOneMenu>
-
-                                <h:outputText value="Fecha del acta de la formulacion de Perfil " />
-                                <p:calendar id="calFechaActaFormulacionPerfil" pattern="dd-MM-yyyy" mask="true" />
-                                <br />
-                                <h:outputText value="Enunciación: " />
-                                <p:selectOneMenu id="cmbEnunciacion" style="width:100%;" value="#{beanConcurso.cargoNuevo.enunciacion}">
-                                    <f:selectItem itemLabel="Renuncia" itemValue="RENUNCIA"/>
-                                    <f:selectItem itemLabel="Destitución" itemValue="DESTITUCION"/>
-                                    <f:selectItem itemLabel="Cumplimiento de Periodo" itemValue="CUMPLIMIENTO DE PERIODO"/>
-                                    <f:selectItem itemLabel="Fusión del Cargo" itemValue="FUSION DEL CARGO"/>
-                                    <f:selectItem itemLabel="Muerte" itemValue="MUERTE"/>
-                                    <f:selectItem itemLabel="Jubilación" itemValue="JUBILACION"/>
-                                    <f:selectItem itemLabel="Retiro" itemValue="RETIRO"/>
-                                </p:selectOneMenu>
-                            </h:panelGrid>
-                        </p:fieldset>
-                    </h:form>
-                </p:dialog>
-
-                <!-- 
-                   DIALOGO NUEVO MIEMBRO DEL TRIBUNAL
+                <!--                
+                DIALOGO PARA UNA NUEVA RESOLUCION                
                 -->
-                <p:dialog id="dlgNuevoMiembroTribunalInstitucion" appendTo="@(body)" header="Ingrese nuevo Miembro del Tribunal" widgetVar="dlgNuevoMiembroTribunalInstitucion" modal="true" showEffect="blind" hideEffect="explode" resizable="true" closable="true" closeOnEscape="true">
-                    <h:form id="formNuevoMiembroTribunal">
-                        <p:panel header="Categoria">
-                            <p:outputLabel for="cmbInstitucion" value="Entidad que representa: " />
-                            <p:selectOneMenu id="cmbInstitucion" value="#{beanConcurso.categoriaJurado}" style="width: 100% !important;" >
-                                <f:selectItem itemLabel="Seleccionar una Institución" itemValue="" noSelectionOption="true" itemDisabled="true" />
-                                <f:selectItems var="institucion" value="#{beanConcurso.listaInstituciones}" itemLabel="#{institucion.nombreInstitucion}" itemValue="#{institucion.idInstitucion}" />
-                            </p:selectOneMenu>
-                        </p:panel>                                       
-                        <p:panel header="Datos del Jurado" >
-                            <p:outputLabel value="Nombre: " />
-                            <p:inputText value="#{beanConcurso.juradoNuevo.persona.nombres}" />
-                            <p:outputLabel value="Apellido: " />
-                            <p:inputText value="#{beanConcurso.juradoNuevo.persona.apellido}" />
-                            <p:outputLabel value="Dni: " />
-                            <p:inputText value="#{beanConcurso.juradoNuevo.persona.dni}" />
-
-                        </p:panel>                                       
-
-                        <br />
-                        <p:commandButton icon="ui-icon-closethick" oncomplete="PF('dlgNuevoMiembroTribunal').hide();"  />
-                    </h:form>
-                </p:dialog>
-
-                <p:dialog id="dlgNuevaResolucion" appendTo="@(body)" header="Resolucion Nueva" widgetVar="dlgNuevaResolucion" modal="true" showEffect="blind" hideEffect="explode" resizable="true" closable="true" closeOnEscape="true" >
+                <p:dialog id="dlgNuevaResolucion" appendTo="@(body)" widgetVar="dlgNuevaResolucion" modal="true" showEffect="blind" hideEffect="explode" resizable="true" closable="true" closeOnEscape="true" >
+                    <f:facet name="header">
+                        <h:outputText id="lblEncabezadoNuevaResolucion" value="Resolucion Nueva - Exp. #{beanExpediente.expedienteNuevo.numeroExpediente}" />
+                    </f:facet>
                     <h:form id="formNuevaResolucion">
-                        
+
+                        <p:panelGrid columns="4" layout="grid" >
+                            <h:outputText value="Numero de Resolución" />
+                            <p:spinner id="spnNumeroResolucion" value="#{beanResolucion.resolucionNueva.numeroResolucion}" placeholder="Número de Resolución" min="0" max="99999" required="true" requiredMessage="Ingrese el numero que figura en la resolucion"  maxlength="6" />
+                            <p:selectOneMenu id="cmbDependenciaNumeroResolucion" value="#{beanResolucion.dependenciaNumeroResolucion}" required="true" requiredMessage="Seleccione una dependencia" >
+                                <f:selectItem itemLabel="S" itemValue="S" />
+                                <f:selectItem itemLabel="SPPRS" itemValue="SPPRS" />
+                            </p:selectOneMenu>
+                            <p:spinner id="spnAnioNumeroResolucion" value="#{beanResolucion.resolucionNueva.numeroResolucion}" placeholder="Año" min="1950" max="2020" required="true" requiredMessage="Ingrese el año que figura en la resolucion"  maxlength="4" />
+                        </p:panelGrid>
                         <h:panelGrid columns="4" cellpadding="3" frame="box" styleClass="panelAlta" >
                             <f:facet name="header"> 
-                                Expediente: #{beanConcurso.expedienteNuevo.numeroExpediente} 
+                                <h:outputText value="Expediente: #{beanExpediente.expedienteNuevo.numeroExpediente}" id="lblEncabezadoExpediente" /> 
                             </f:facet>
                             <h:outputText value="Estado" />
                             <p:selectOneMenu id="cmbEstadoResolucion" style="width:100%;" >
@@ -465,41 +203,8 @@
                                 <f:selectItem itemLabel="Finalizado" itemValue="FINALIZADO"/>
                             </p:selectOneMenu>
 
-                            <h:outputText value="Numero de Resolución" />
-                            <p:spinner id="spnNumeroResolucion" value="#{beanConcurso.resolucionNueva.numeroResolucion}" placeholder="Número de Resolución" min="0" max="99999" required="true" requiredMessage="Ingrese el numero que figura en la resolucion" size="7" />
-
-                            <h:panelGrid columns="2">
-                                <h:outputText value="Modificacion Parcial: " />
-                                <p:inputSwitch offLabel="No" onLabel="Si" value="#{beanConcurso.banderaModificacionParcial}" onchange="#{beanConcurso.cambiarEstadoModificacion()}" >
-                                    <p:ajax listener="#{beanConcurso.cambiarEstadoModificacion()}" update="txtResolucionModificacion" />
-                                </p:inputSwitch>
-                            </h:panelGrid>
-                            <p:inputText id="txtResolucionModificacion"  placeholder="numero de resolucion" disabled="#{beanConcurso.banderaModificacionParcial}" value="#{beanConcurso.resolucionNueva.modificaResolucion}"/>
-
-                            <h:panelGrid columns="2" >
-                                <h:outputText value="Prórroga: " />
-                                <p:inputSwitch onchange="#{beanConcurso.cambiarEstadoProrroga()}" offLabel="No" onLabel="Si" value="#{beanConcurso.banderaProrroga}">
-                                    <p:ajax listener="#{beanConcurso.cambiarEstadoProrroga()}" update="txtResolucionProrroga" />
-                                </p:inputSwitch>
-                            </h:panelGrid>
-                            <p:inputText id="txtResolucionProrroga" placeholder="numero de resolucion" disabled="#{beanConcurso.banderaProrroga}" value="#{beanConcurso.resolucionNueva.prorrogaResolucion}" />
-
-
-                            <h:outputText value="Antecedente" />
-                            <p:selectBooleanCheckbox value="#{beanConcurso.resolucionNueva.antecedente}" />
-
-
-                            <h:outputText value="Oposición" />
-                            <p:selectBooleanCheckbox value="#{beanConcurso.resolucionNueva.oposicion}" />
-
-                            <h:outputText value="Clase" />
-                            <p:selectOneMenu id="cmbClaseResolucion" style="width:100%;" value="#{beanConcurso.resolucionNueva.clase}" >
-                                <f:selectItem itemLabel="Ordinario" itemValue="ORDINARIO"/>
-                                <f:selectItem itemLabel="Extraordinario" itemValue="EXTRAORDINARIO"/>
-                            </p:selectOneMenu>
-
                             <h:outputText value="Agrupamiento: " />
-                            <p:selectOneMenu id="cmbAgrupamientoCargo" value="0" style="width:100%;">
+                            <p:selectOneMenu id="cmbAgrupamientoCargo" value="0" style="width:100%;" filter="true" >
                                 <f:selectItem itemLabel="Administrativo" itemValue="0"/>
                                 <f:selectItem itemLabel="Profesional" itemValue="1"/>
                                 <f:selectItem itemLabel="Técnico" itemValue="2"/>
@@ -507,6 +212,37 @@
                                 <f:selectItem itemLabel="Servicios Generales" itemValue="4"/>
                                 <f:selectItem itemLabel="Profesional Asistencial" itemValue="5"/>
                             </p:selectOneMenu>
+                            <h:panelGrid columns="2">
+                                <h:outputText value="Modificacion Parcial: " />
+                                <p:inputSwitch offLabel="No" onLabel="Si" value="#{beanResolucion.banderaModificacionParcial}" onchange="#{beanResolucion.cambiarEstadoModificacion()}" >
+                                    <p:ajax listener="#{beanResolucion.cambiarEstadoModificacion()}" update="txtResolucionModificacion" />
+                                </p:inputSwitch>
+                            </h:panelGrid>
+                            <p:inputText id="txtResolucionModificacion"  placeholder="numero de resolucion" disabled="#{beanResolucion.banderaModificacionParcial}" value="#{beanResolucion.resolucionNueva.modificaResolucion}"/>
+
+                            <h:panelGrid columns="2" >
+                                <h:outputText value="Prórroga: " />
+                                <p:inputSwitch onchange="#{beanResolucion.cambiarEstadoProrroga()}" offLabel="No" onLabel="Si" value="#{beanResolucion.banderaProrroga}">
+                                    <p:ajax listener="#{beanResolucion.cambiarEstadoProrroga()}" update="txtResolucionProrroga" />
+                                </p:inputSwitch>
+                            </h:panelGrid>
+                            <p:inputText id="txtResolucionProrroga" placeholder="numero de resolucion" disabled="#{beanResolucion.banderaProrroga}" value="#{beanResolucion.resolucionNueva.prorrogaResolucion}" />
+
+
+                            <h:outputText value="Antecedente" />
+                            <p:selectBooleanCheckbox value="#{beanResolucion.resolucionNueva.antecedente}" />
+
+
+                            <h:outputText value="Oposición" />
+                            <p:selectBooleanCheckbox value="#{beanResolucion.resolucionNueva.oposicion}" />
+
+                            <h:outputText value="Clase" />
+                            <p:selectOneMenu id="cmbClaseResolucion" style="width:100%;" value="#{beanResolucion.resolucionNueva.clase}" >
+                                <f:selectItem itemLabel="Ordinario" itemValue="ORDINARIO"/>
+                                <f:selectItem itemLabel="Extraordinario" itemValue="EXTRAORDINARIO"/>
+                            </p:selectOneMenu>
+                            
+                            <p:column /><p:column />
 
                             <h:outputText value="Apertura: " />
                             <p:calendar id="calFechaApertura" pattern="dd-MM-yyyy" mask="true" />
@@ -521,8 +257,11 @@
                             <p:calendar id="calFechaPublicacion" pattern="dd-MM-yyyy" mask="true" />
 
                         </h:panelGrid>
+                        <p:commandButton id="btnGuardarNuevaResolucion" value="Guardar" actionListener="#{beanResolucion.guardarResolucion()}" update="tabuladorPestañero:formResoluciones:tblResoluciones" styleClass="btnVerde" />
                     </h:form>
                 </p:dialog>
+
+
 
             </ui:define>
         </ui:composition>

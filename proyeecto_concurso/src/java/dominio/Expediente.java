@@ -108,6 +108,13 @@ public class Expediente  implements java.io.Serializable {
         this.resolucions = resolucions;
     }
 
+    @Override
+    public String toString() {
+        return "Expediente{" + "numeroExpediente=" + numeroExpediente + ", unidadDeOrganizacion=" + unidadDeOrganizacion.getNombreUnidad() + ", idExpediente=" + idExpediente + ", numero=" + numero + ", situacion=" + situacion + ", regimen=" + regimen + ", anio=" + anio + '}';
+    }
+    
+    
+
 
 
 
