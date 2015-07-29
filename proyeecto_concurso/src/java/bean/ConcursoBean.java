@@ -57,7 +57,8 @@ import org.primefaces.model.DualListModel;
 
 /**
  *
- * @author Nahuel Losada
+ * @author Nahuel Mariano Losada
+ * 
  */
 @ManagedBean(name = "beanConcurso")
 @ViewScoped
