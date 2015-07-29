@@ -15,6 +15,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
+import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -32,7 +33,7 @@ public class ResolucionBean extends ConcursoBean implements Serializable {
     private Resolucion resolucionNueva;
     private List<Resolucion> listaResoluciones;
     private String dependenciaNumeroResolucion;
-    
+
     @ManagedProperty("#{beanExpediente}")
     private ExpedienteBean beanExpediente;
 
@@ -85,8 +86,6 @@ public class ResolucionBean extends ConcursoBean implements Serializable {
         this.beanExpediente = beanExpediente;
     }
 
-    
-    
     /**
      * Creates a new instance of ResolucionBean
      */
@@ -121,13 +120,19 @@ public class ResolucionBean extends ConcursoBean implements Serializable {
 //            objetoBean = (nombreDelBean) objeto;
 //        }
 
-        resolucionNueva.setExpediente(beanExpediente.getExpedienteNuevo());
-        
-        resolucionNueva.setModificacion(banderaModificacionParcial);
-        resolucionNueva.setProrroga(banderaProrroga);
-        listaResoluciones.add(resolucionNueva);
-        nuevoMensajeInfo("Registro de Concursos de Salud - RESOLUCIÓN", "NºResolucion: " + resolucionNueva.getNumeroResolucion()
-                + " guardada éxitosamente");
+        try {
+            resolucionNueva.setExpediente(beanExpediente.getExpedienteNuevo());
+
+            resolucionNueva.setModificacion(banderaModificacionParcial);
+            resolucionNueva.setProrroga(banderaProrroga);
+            listaResoluciones.add(resolucionNueva);
+
+            nuevoMensajeInfo("Registro de Concursos de Salud - RESOLUCIÓN", "NºResolucion: " + resolucionNueva.getNumeroResolucion()
+                    + " guardada éxitosamente");
+        } catch (Exception ex1) {
+            ex1.printStackTrace();
+            nuevoMensajeAlerta("Registro de Concursos de Salud ERROR!", "Error al guardar la resolucion. Detalles: " + ex1.getCause());
+        }
     }
 
 }
