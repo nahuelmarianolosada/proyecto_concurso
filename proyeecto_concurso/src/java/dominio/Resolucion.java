@@ -205,6 +205,12 @@ public class Resolucion  implements java.io.Serializable {
         this.concursos = concursos;
     }
 
+    @Override
+    public String toString() {
+        return "Resolucion{" + "numeroResolucion=" + numeroResolucion + ", expediente=" + expediente.getNumeroExpediente() + ", tribunal=" + tribunal.getIdTribunal() + ", idResolucion=" + idResolucion + ", estado=" + estado + ", modificacion=" + modificacion + ", prorroga=" + prorroga + ", antecedente=" + antecedente + ", oposicion=" + oposicion + ", clase=" + clase + ", agrupamiento=" + agrupamiento + ", fechaApertura=" + fechaApertura + ", fechaCierre=" + fechaCierre + ", fechaEjecucion=" + fechaEjecucion + ", fechaPublicacion=" + fechaPublicacion + ", documento=" + documento + ", modificaResolucion=" + modificaResolucion + ", prorrogaResolucion=" + prorrogaResolucion + '}';
+    }
+
+    
     
 }
 

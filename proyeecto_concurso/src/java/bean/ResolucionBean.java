@@ -6,6 +6,7 @@
 package bean;
 
 import dominio.Resolucion;
+import dominio.Tribunal;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +34,7 @@ public class ResolucionBean extends ConcursoBean implements Serializable {
     private Resolucion resolucionNueva;
     private List<Resolucion> listaResoluciones;
     private String dependenciaNumeroResolucion;
+    private boolean datosValidos;//Bandera que se referencia a la vista para habilitar la pestaña siguiente
 
     @ManagedProperty("#{beanExpediente}")
     private ExpedienteBean beanExpediente;
@@ -86,6 +88,15 @@ public class ResolucionBean extends ConcursoBean implements Serializable {
         this.beanExpediente = beanExpediente;
     }
 
+    public boolean isDatosValidos() {
+        return datosValidos;
+    }
+
+    public void setDatosValidos(boolean datosValidos) {
+        this.datosValidos = datosValidos;
+    }
+
+    
     /**
      * Creates a new instance of ResolucionBean
      */
@@ -94,6 +105,7 @@ public class ResolucionBean extends ConcursoBean implements Serializable {
         banderaProrroga = false;
         resolucionNueva = new Resolucion();
         listaResoluciones = new ArrayList<Resolucion>();
+        datosValidos = false;
     }
 
     //METODOS
@@ -125,13 +137,17 @@ public class ResolucionBean extends ConcursoBean implements Serializable {
 
             resolucionNueva.setModificacion(banderaModificacionParcial);
             resolucionNueva.setProrroga(banderaProrroga);
+            resolucionNueva.setTribunal(new Tribunal());
             listaResoluciones.add(resolucionNueva);
 
+            System.err.println(resolucionNueva.toString());
+            
             nuevoMensajeInfo("Registro de Concursos de Salud - RESOLUCIÓN", "NºResolucion: " + resolucionNueva.getNumeroResolucion()
                     + " guardada éxitosamente");
+            datosValidos = true;
         } catch (Exception ex1) {
             ex1.printStackTrace();
-            nuevoMensajeAlerta("Registro de Concursos de Salud ERROR!", "Error al guardar la resolucion. Detalles: " + ex1.getCause());
+            nuevoMensajeAlerta("Error al guardar la resolucion", " " + ex1.toString());
         }
     }
 

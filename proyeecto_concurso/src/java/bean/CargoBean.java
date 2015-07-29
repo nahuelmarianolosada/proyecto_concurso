@@ -27,6 +27,7 @@ public class CargoBean extends ConcursoBean implements Serializable {
     private Cargo cargoNuevo;
     private List<Cargo> listaCargosVacantes;
     private Cargo cargoSeleccionado;
+    private boolean datosValidos;//Bandera que se referencia a la vista para habilitar la pestaña siguiente
 
     /**
      * Creates a new instance of CargoBean
@@ -72,6 +73,15 @@ public class CargoBean extends ConcursoBean implements Serializable {
     public void setCargoSeleccionado(Cargo cargoSeleccionado) {
         this.cargoSeleccionado = cargoSeleccionado;
     }
+
+    public boolean isDatosValidos() {
+        return datosValidos;
+    }
+
+    public void setDatosValidos(boolean datosValidos) {
+        this.datosValidos = datosValidos;
+    }
+    
     
     
     

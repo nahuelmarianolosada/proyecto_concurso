@@ -30,7 +30,8 @@ public class ExpedienteBean extends ConcursoBean implements Serializable {
     //ATRIBUTOS
     private Expediente expedienteNuevo;//Expediente que se va a guardar
     private List<UnidadDeOrganizacion> listaUnidadDeOrganizacions; //lista que se utiliza para cargar el combo con las areas
-
+    private boolean datosValidos;//Bandera que se referencia a la vista para habilitar la pestaña siguiente
+    
     //GETTERS & SETTERS
     public Expediente getExpedienteNuevo() {
         return expedienteNuevo;
@@ -48,6 +49,16 @@ public class ExpedienteBean extends ConcursoBean implements Serializable {
         this.listaUnidadDeOrganizacions = listaUnidadDeOrganizacions;
     }
 
+    public boolean isDatosValidos() {
+        return datosValidos;
+    }
+
+    public void setDatosValidos(boolean datosValidos) {
+        this.datosValidos = datosValidos;
+    }
+
+    
+    
     /**
      * CONSTRUCTOR VACIO Creates a new instance of ExpedienteBean
      */
@@ -56,6 +67,7 @@ public class ExpedienteBean extends ConcursoBean implements Serializable {
         expedienteNuevo = new Expediente("", new UnidadDeOrganizacion(), 0, Integer.getInteger(""), "", "", Integer.getInteger(""));
         System.out.println("ExpedienteBean.ExpedienteBean() => " + expedienteNuevo.toString());
         refreshListas();
+        datosValidos = false;
     }
 
     //METODOS
@@ -105,7 +117,8 @@ public class ExpedienteBean extends ConcursoBean implements Serializable {
                 }
             }
             expedienteNuevo.setNumeroExpediente(expedienteNuevo.getUnidadDeOrganizacion().getCodigoUnidadDeOrganizacion() + "-" + expedienteNuevo.getNumero() + "/" + expedienteNuevo.getAnio());
-
+            datosValidos = true;
+            System.err.println(expedienteNuevo.toString());
             nuevoMensajeInfo("Registro de Concursos de Salud - EXPEDIENTE", "Número: " + expedienteNuevo.getNumeroExpediente() + "\nRégimen: " + expedienteNuevo.getRegimen() + "\nSituación: " + expedienteNuevo.getSituacion());
         } catch (Exception ex1) {
             ex1.printStackTrace();
