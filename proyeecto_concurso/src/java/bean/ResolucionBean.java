@@ -140,6 +140,7 @@ public class ResolucionBean extends ConcursoBean implements Serializable {
             resolucionNueva.setTribunal(new Tribunal());
             listaResoluciones.add(resolucionNueva);
 
+            pasarVistaDePestania();
             System.err.println(resolucionNueva.toString());
             
             nuevoMensajeInfo("Registro de Concursos de Salud - RESOLUCIÓN", "NºResolucion: " + resolucionNueva.getNumeroResolucion()

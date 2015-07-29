@@ -5,55 +5,13 @@
  */
 package bean;
 
-import dominio.UnidadDeOrganizacion;
-import dominio.Cargo;
-import dominio.Establecimiento;
-import dominio.Expediente;
-import dominio.Institucion;
-import dominio.Localidad;
-import dominio.Persona;
-import dominio.Profesion;
-import dominio.Resolucion;
-import dominio.Tribunal;
-import dominio.TribunalJurado;
-import hibernate.HibernateUtil;
-import hibernate.dao.UnidadDeOrganizacionDao;
-import hibernate.dao.CargoDao;
-import hibernate.dao.EstablecimientoDao;
-import hibernate.dao.ExpedienteDao;
-import hibernate.dao.InstitucionDao;
-import hibernate.dao.LocalidadDao;
-import hibernate.dao.ProfesionDao;
-import hibernate.dao.ResolucionDao;
-import hibernate.dao.TribunalJuradoDao;
-import hibernate.dao.impl.UnidadDeOrganizacionDaoImpl;
-import hibernate.dao.impl.CargoDaoImpl;
-import hibernate.dao.impl.EstablecimientoDaoImpl;
-import hibernate.dao.impl.ExpedienteDaoImpl;
-import hibernate.dao.impl.InstitucionDaoImpl;
-import hibernate.dao.impl.LocalidadDaoImpl;
-import hibernate.dao.impl.ProfesionDaoImpl;
-import hibernate.dao.impl.ResolucionDaoImpl;
-import hibernate.dao.impl.TribunalJuradoDaoImpl;
 
 import java.io.Serializable;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import org.primefaces.context.RequestContext;
-import org.primefaces.event.SelectEvent;
 import org.primefaces.event.TabChangeEvent;
-import org.primefaces.event.TransferEvent;
-import org.primefaces.event.UnselectEvent;
-import org.primefaces.model.DualListModel;
 
 /**
  *
@@ -65,7 +23,7 @@ import org.primefaces.model.DualListModel;
 public class ConcursoBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
+    private static int numeroDePestania = 0;//Indice en la pestaña "tabuladorPestañero"
         
         
 //    @ManagedProperty("#{beanResolucion}")
@@ -94,6 +52,16 @@ public class ConcursoBean implements Serializable {
 
         //refreshListas();
     }
+
+    public int getNumeroDePestania() {
+        return numeroDePestania;
+    }
+
+    public void setNumeroDePestania(int numeroDePestania) {
+        this.numeroDePestania = numeroDePestania;
+    }
+
+    
 
     
 
@@ -172,6 +140,12 @@ public class ConcursoBean implements Serializable {
      * M E T O D O S
      *
      */
+    
+    
+    public static void pasarVistaDePestania(){
+        numeroDePestania+=1;
+        System.out.println("ConcursoBean.pasarVistaDePagina(): La pestaña ahora es " + numeroDePestania);
+    }
 //    public List<String> buscarInstitucion(String nombreInstitucion) {
 //        InstitucionDao instDao = new InstitucionDaoImpl();
 //        List<String> results = new ArrayList<String>();

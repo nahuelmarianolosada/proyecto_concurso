@@ -32,6 +32,7 @@ public class ExpedienteBean extends ConcursoBean implements Serializable {
     private List<UnidadDeOrganizacion> listaUnidadDeOrganizacions; //lista que se utiliza para cargar el combo con las areas
     private boolean datosValidos;//Bandera que se referencia a la vista para habilitar la pestaña siguiente
     
+    
     //GETTERS & SETTERS
     public Expediente getExpedienteNuevo() {
         return expedienteNuevo;
@@ -94,11 +95,7 @@ public class ExpedienteBean extends ConcursoBean implements Serializable {
                 }
             }
 
-            //Seteamos el numero para que tenga un formato de 6 cifras
-            String numString = String.valueOf(expedienteNuevo.getNumero());
-            char[] vectorCaracteres = new char[numString.length()];
-            numString.getChars(0, numString.length(), vectorCaracteres, 0);
-
+            
             expedienteNuevo.setNumeroExpediente(expedienteNuevo.getUnidadDeOrganizacion().getCodigoUnidadDeOrganizacion() + "-" + expedienteNuevo.getNumero() + "/" + expedienteNuevo.getAnio());
             nuevoMensajeInfo("Expediente " + expedienteNuevo.getIdExpediente(), "Numero de Expediente: " + expedienteNuevo.getNumeroExpediente() + "\nSituación: " + expedienteNuevo.getSituacion() + "\nRégimen: " + expedienteNuevo.getRegimen() + "\nEstablecimiento: " + expedienteNuevo.getUnidadDeOrganizacion().getNombreUnidad());
 
@@ -118,6 +115,8 @@ public class ExpedienteBean extends ConcursoBean implements Serializable {
             }
             expedienteNuevo.setNumeroExpediente(expedienteNuevo.getUnidadDeOrganizacion().getCodigoUnidadDeOrganizacion() + "-" + expedienteNuevo.getNumero() + "/" + expedienteNuevo.getAnio());
             datosValidos = true;
+            
+            pasarVistaDePestania();
             System.err.println(expedienteNuevo.toString());
             nuevoMensajeInfo("Registro de Concursos de Salud - EXPEDIENTE", "Número: " + expedienteNuevo.getNumeroExpediente() + "\nRégimen: " + expedienteNuevo.getRegimen() + "\nSituación: " + expedienteNuevo.getSituacion());
         } catch (Exception ex1) {

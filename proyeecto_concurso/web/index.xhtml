@@ -16,7 +16,7 @@
                     </p:layoutUnit>
                     <p:layoutUnit position="east" resizable="true"  size="700" minSize="600"  header="Formulario de Registro de Concursos" maxSize="800" collapsible="true" >
 
-                        <p:tabView activeIndex="0" effect="fade" effectDuration="fast" id="tabuladorPestañero" >
+                        <p:tabView activeIndex="#{beanConcurso.numeroDePestania}" effect="fade" effectDuration="fast" id="tabuladorPestañero" >
                             <p:effect type="bounce" event="onchange" />
                             <p:ajax event="tabChange"  listener="#{beanConcurso.validarPestania}" update="tabuladorPestañero:formExpedientes:msg"/>
                             <!--
@@ -60,7 +60,7 @@
 
 
                                     </h:panelGrid>
-                                    <p:commandButton id="btnGuardarNuevoExpediente" value="Guardar" actionListener="#{beanExpediente.guardarExpediente}" update="tabuladorPestañero,tabuladorPestañero:formExpedientes:msg,tabuladorPestañero:formResoluciones:tblResoluciones,lblEncabezadoNuevaResolucion" styleClass="btnVerde" />
+                                    <p:commandButton id="btnGuardarNuevoExpediente" value="Guardar" actionListener="#{beanExpediente.guardarExpediente}" icon="ui-icon-disk" update="tabuladorPestañero,tabuladorPestañero:formExpedientes:msg,tabuladorPestañero:formResoluciones:tblResoluciones,lblEncabezadoNuevaResolucion" styleClass="btnVerde" />
                                 </h:form>
                             </p:tab>
 
