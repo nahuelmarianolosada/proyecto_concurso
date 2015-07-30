@@ -15,9 +15,9 @@ import org.primefaces.event.TabChangeEvent;
 
 /**
  *
+ * @author Nahuel Mariano Seba
  * 
  * 
- * @author Nahuel Mariano Losada
  * 
  */
 @ManagedBean(name = "beanConcurso")
