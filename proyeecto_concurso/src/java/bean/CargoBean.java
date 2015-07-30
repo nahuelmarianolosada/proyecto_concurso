@@ -41,10 +41,10 @@ public class CargoBean extends ConcursoBean implements Serializable {
     public CargoBean() {
 //        cargoNuevo = new Cargo(getListaEstablecimientos().get(0), getListaProfesiones().get(0));
         CargoDao cargoDao = new CargoDaoImpl();
-        cargoNuevo = new Cargo();
+        cargoNuevo = new Cargo(generarIdNuevoCargo());
         listaCargos = cargoDao.getListaCargosDeResolucion(cargoNuevo.getResolucion());
-        inicializarCargo();
-        cargoSeleccionado = new Cargo(generarIdNuevoCargo());
+
+        cargoSeleccionado = new Cargo();
         datosValidos = false;
     }
 
@@ -87,19 +87,7 @@ public class CargoBean extends ConcursoBean implements Serializable {
      * obtiene la última resolución.
      *
      */
-    public void inicializarCargo() {
 
-//        CargoDao cargoDao = new CargoDaoImpl();
-//        ResolucionDao resDao = new ResolucionDaoImpl();
-//        ultimaResolucion = resDao.obtenerUltimaResolucion();
-//        listaCargos = cargoDao.getListaCargosDeResolucion(ultimaResolucion);
-        
-//        System.out.println("Lista de cargos");
-//        for (Cargo cargo : listaCargos) {
-//            System.out.println(cargo.getIdCargo());
-//        }
-
-    }
 
     /**
      *
