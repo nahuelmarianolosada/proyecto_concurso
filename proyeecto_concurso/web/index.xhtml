@@ -25,7 +25,7 @@
 
                             <p:tab title="Expediente" id="tabExpediente" >
                                 <h:form id="formExpedientes">
-                                    <p:growl id="msg" showDetail="true" escape="false" sticky="false" life="5000" />
+                                    <p:growl id="msg" showDetail="true" escape="false" sticky="true" life="5000" />
                                     <h:panelGrid columns="3" cellpadding="3" frame="box" styleClass="panelAlta" >
                                         <f:facet name="header" class="encabezadoPanel">
                                             <h:outputText value="Datos Generales del Expediente" />
@@ -178,7 +178,7 @@
                 <!--                
                 DIALOGO PARA UNA NUEVA RESOLUCION                
                 -->
-                <p:dialog id="dlgNuevaResolucion" appendTo="@(body)" widgetVar="dlgNuevaResolucion" modal="true" showEffect="blind" hideEffect="explode" resizable="true" closable="true" closeOnEscape="true" >
+                <p:dialog id="dlgNuevaResolucion" appendTo="@(body)" widgetVar="dlgNuevaResolucion" modal="true" showEffect="blind" hideEffect="blind" resizable="true" closable="true" closeOnEscape="true" >
                     <f:facet name="header">
                         <h:outputText id="lblEncabezadoNuevaResolucion" value="Resolucion Nueva - Exp. #{beanExpediente.expedienteNuevo.numeroExpediente}" />
                     </f:facet>
