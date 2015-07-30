@@ -307,16 +307,20 @@
                             <p:column /><p:column />
 
                             <h:outputText value="Apertura: " />
-                            <p:calendar id="calFechaApertura" value="#{beanResolucion.resolucionNueva.fechaApertura}" pattern="dd-MM-yyyy" mask="true" />
+                            <p:calendar id="calFechaApertura" value="#{beanResolucion.resolucionNueva.fechaApertura}" pattern="dd-MM-yyyy" mask="true" >
+                                <p:ajax event="dateSelect" listener="#{beanResolucion.onDateSelect}" update="calFechaCierre,calFechaEjecucion" />
+                            </p:calendar>
 
                             <h:outputText value="Ejecución: " />
-                            <p:calendar id="calFechaEjecucion" value="#{beanResolucion.resolucionNueva.fechaEjecucion}" pattern="dd-MM-yyyy" mask="true" />
+                            <p:calendar id="calFechaEjecucion" value="#{beanResolucion.resolucionNueva.fechaEjecucion}" mindate="#{beanResolucion.resolucionNueva.fechaApertura}" pattern="dd-MM-yyyy" mask="true" />
 
                             <h:outputText value="Cierrre de inscripciones: " />
-                            <p:calendar id="calFechaCierre" value="#{beanResolucion.resolucionNueva.fechaCierre}" pattern="dd-MM-yyyy" mask="true" />
+                            <p:calendar id="calFechaCierre" value="#{beanResolucion.resolucionNueva.fechaCierre}" mindate="#{beanResolucion.resolucionNueva.fechaApertura}" pattern="dd-MM-yyyy" mask="true" >
+                                <p:ajax event="dateSelect" listener="#{beanResolucion.onDateSelect}" update="calFechaPublicacion" />
+                            </p:calendar>
 
                             <h:outputText value="Publicación de Resultados" />
-                            <p:calendar id="calFechaPublicacion" value="#{beanResolucion.resolucionNueva.fechaPublicacion}" pattern="dd-MM-yyyy" mask="true" />
+                            <p:calendar id="calFechaPublicacion" value="#{beanResolucion.resolucionNueva.fechaPublicacion}" mindate="#{beanResolucion.resolucionNueva.fechaCierre}" pattern="dd-MM-yyyy" mask="true" />
 
                         </h:panelGrid>
                         <p:commandButton id="btnGuardarNuevaResolucion" icon="ui-icon-disk" value="Guardar" actionListener="#{beanResolucion.guardarResolucion()}" oncomplete="PF('dlgNuevaResolucion').hide();" update="tabuladorPestañero,tabuladorPestañero:formResoluciones:tblResoluciones,tabuladorPestañero:formExpedientes:msg,tabuladorPestañero:formCargos:tblCargos" styleClass="btnVerde"  >

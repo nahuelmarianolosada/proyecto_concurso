@@ -10,13 +10,12 @@ import dominio.Tribunal;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpSession;
-import org.primefaces.context.RequestContext;
+import org.primefaces.event.SelectEvent;
+import org.primefaces.event.UnselectEvent;
 
 /**
  *
@@ -144,6 +143,10 @@ public class ResolucionBean extends ConcursoBean implements Serializable {
         }
     }
 
+    public void onDateSelect(SelectEvent event) {
+        
+    }
+
     public void guardarResolucion() {
 //        Object objeto = context.getExternalContext().getSessionMap().get("nombreDelBean");
 //        nombreDelBean objetoBean = null;
@@ -164,7 +167,6 @@ public class ResolucionBean extends ConcursoBean implements Serializable {
 
 //            RequestContext context = RequestContext.getCurrentInstance();
 //            context.update("tabuladorPestañero:formCargos:tblCargos");
-
             pasarVistaDePestania();
             System.err.println("ResolucionBean.guardarResolucion() => " + resolucionNueva.toString());
 
