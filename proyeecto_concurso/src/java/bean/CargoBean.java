@@ -45,7 +45,7 @@ public class CargoBean extends ConcursoBean implements Serializable {
         listaCargosVacantes = new ArrayList<Cargo>();
         inicializarCargo();
         cargoSeleccionado = new Cargo();
-
+        datosValidos = false;
     }
 
     //GETTERS & SETTERS
