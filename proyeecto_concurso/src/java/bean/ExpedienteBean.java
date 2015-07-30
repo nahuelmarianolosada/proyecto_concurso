@@ -7,7 +7,9 @@ package bean;
 
 import dominio.Expediente;
 import dominio.UnidadDeOrganizacion;
+import hibernate.dao.ExpedienteDao;
 import hibernate.dao.UnidadDeOrganizacionDao;
+import hibernate.dao.impl.ExpedienteDaoImpl;
 import hibernate.dao.impl.UnidadDeOrganizacionDaoImpl;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -31,6 +33,7 @@ public class ExpedienteBean extends ConcursoBean implements Serializable {
     private Expediente expedienteNuevo;//Expediente que se va a guardar
     private List<UnidadDeOrganizacion> listaUnidadDeOrganizacions; //lista que se utiliza para cargar el combo con las areas
     private boolean datosValidos;//Bandera que se referencia a la vista para habilitar la pestaña siguiente
+    private List<Expediente> listaExpedientes;
 
     //GETTERS & SETTERS
     public Expediente getExpedienteNuevo() {
@@ -57,6 +60,16 @@ public class ExpedienteBean extends ConcursoBean implements Serializable {
         this.datosValidos = datosValidos;
     }
 
+    public List<Expediente> getListaExpedientes() {
+        return listaExpedientes;
+    }
+
+    public void setListaExpedientes(List<Expediente> listaExpedientes) {
+        this.listaExpedientes = listaExpedientes;
+    }
+
+    
+    
     /**
      * CONSTRUCTOR VACIO Creates a new instance of ExpedienteBean
      */
@@ -66,6 +79,9 @@ public class ExpedienteBean extends ConcursoBean implements Serializable {
         System.out.println("ExpedienteBean.ExpedienteBean() => " + expedienteNuevo.toString());
         refreshListas();
         datosValidos = false;
+        
+        ExpedienteDao expedienteDao = new ExpedienteDaoImpl();
+        listaExpedientes = expedienteDao.getAll();
     }
 
     //METODOS

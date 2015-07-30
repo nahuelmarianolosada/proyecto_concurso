@@ -12,7 +12,34 @@
                 <p:layout style="min-height:200px; height: 32.7em;" stateful="enabled" >
 
                     <p:layoutUnit position="center" resizable="true">
+                        <h:form> 
+                            <p:dataScroller value="#{beanResolucion.listaResoluciones}" var="resolucion" chunkSize="5" mode="inline" scrollHeight="383" >
+                                <f:facet name="header">
+                                    Expedientes Registrados
+                                </f:facet>
 
+                                <h:panelGrid columns="1" style="width:100%" >
+                                    <p:outputPanel>
+                                        <h:panelGrid columns="2" cellpadding="5">
+                                            <f:facet name="header" >
+                                                Expediente 
+                                                <h:outputText value="Id: #{resolucion.expediente.idExpediente} - Num: #{resolucion.expediente.numeroExpediente}" style="font-weight: bold"/>
+                                            </f:facet>
+                                            <h:outputText value="Id Resolucion:" />
+                                            <h:outputText value="#{resolucion.idResolucion}" style="font-weight: bold"/>
+
+                                            <h:outputText value="Numero de Resolucion:" />
+                                            <h:outputText value="#{resolucion.numeroResolucion}" style="font-weight: bold"/>
+
+                                            <h:outputText value="Agrupamiento:" />
+                                            <h:outputText value="#{resolucion.agrupamiento}" style="font-weight: bold"/>
+                                            
+                                        </h:panelGrid>
+                                        <p:separator />
+                                    </p:outputPanel>
+                                </h:panelGrid>
+                            </p:dataScroller>
+                        </h:form>
                     </p:layoutUnit>
                     <p:layoutUnit position="east" resizable="true"  size="700" minSize="600"  header="Formulario de Registro de Concursos" maxSize="800" collapsible="true" >
 

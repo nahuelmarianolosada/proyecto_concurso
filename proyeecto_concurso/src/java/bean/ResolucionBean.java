@@ -7,6 +7,8 @@ package bean;
 
 import dominio.Resolucion;
 import dominio.Tribunal;
+import hibernate.dao.ResolucionDao;
+import hibernate.dao.impl.ResolucionDaoImpl;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -124,6 +126,9 @@ public class ResolucionBean extends ConcursoBean implements Serializable {
         resolucionNueva = new Resolucion();
         listaResoluciones = new ArrayList<Resolucion>();
         datosValidos = false;
+        
+        ResolucionDao resolucionDao = new ResolucionDaoImpl();
+        listaResoluciones = resolucionDao.getAll();
     }
 
     //METODOS
