@@ -43,7 +43,7 @@ public class CargoBean extends ConcursoBean implements Serializable {
     public CargoBean() {
 //        cargoNuevo = new Cargo(getListaEstablecimientos().get(0), getListaProfesiones().get(0));
         listaCargosVacantes = new ArrayList<Cargo>();
-        listaCargosVacantes.add(new Cargo());
+        inicializarCargo();
         cargoSeleccionado = new Cargo();
 
     }
@@ -105,6 +105,12 @@ public class CargoBean extends ConcursoBean implements Serializable {
         listaCargos = cargoDao.getListaCargosDeResolucion(ultimaResolucion);
         cargoNuevo = new Cargo(generarIdNuevoCargo(), ultimaResolucion);
         context.update("tabuladorPestañero:formCargos:tblCargos");
+        System.out.println("Lista de cargos");
+        for (Cargo cargo : listaCargos) {
+             System.out.println(cargo.getIdCargo());
+        }
+         
+            
 
     }
     //Obtiene la ultima resolución cargada.

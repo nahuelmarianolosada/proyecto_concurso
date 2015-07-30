@@ -19,6 +19,7 @@ import javax.faces.context.FacesContext;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.TabChangeEvent;
 import bean.CargoBean;
+import javax.servlet.http.HttpSession;
 /**
  *
  * @author Nahuel Mariano
@@ -266,7 +267,9 @@ public class ConcursoBean implements Serializable {
             }
             case "Cargos": {
                 setNumeroDePestania(2);
-                CargoBean cargoBean= new CargoBean();
+                FacesContext context= javax.faces.context.FacesContext.getCurrentInstance();
+                HttpSession session =(HttpSession) context.getExternalContext().getSession(false);
+                CargoBean cargoBean= (CargoBean)session.getAttribute("beanCargo");
                 cargoBean.inicializarCargo();
                 break;
             }
