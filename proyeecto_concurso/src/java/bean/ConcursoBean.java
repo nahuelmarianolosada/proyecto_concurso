@@ -15,9 +15,7 @@ import org.primefaces.event.TabChangeEvent;
 
 /**
  *
- * @author Nahuel Mariano Seba
- * 
- * 
+ * @author Nahuel Mariano
  * 
  */
 @ManagedBean(name = "beanConcurso")
@@ -252,9 +250,16 @@ public class ConcursoBean implements Serializable {
         System.out.println("ConcursoBean.validarPestania() => mostrando [" + event.getTab().getTitle() + "}");
         nuevoMensajeInfo("Registro Provincial de Concursos de Salud", "Pestaña Activa: " + event.getTab().getTitle());
         switch (event.getTab().getTitle()) {
+            case "Expediente": {
+                setNumeroDePestania(0);
+                break;
+            }
             case "Resoluciones": {
-//                ResolucionDao resDao = new ResolucionDaoImpl();
-//                ExpedienteDao expDao = new ExpedienteDaoImpl();
+                setNumeroDePestania(1);
+                break;
+            }
+            case "Cargos": {
+                setNumeroDePestania(2);
                 break;
             }
         }

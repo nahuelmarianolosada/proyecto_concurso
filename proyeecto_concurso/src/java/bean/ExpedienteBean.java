@@ -31,8 +31,7 @@ public class ExpedienteBean extends ConcursoBean implements Serializable {
     private Expediente expedienteNuevo;//Expediente que se va a guardar
     private List<UnidadDeOrganizacion> listaUnidadDeOrganizacions; //lista que se utiliza para cargar el combo con las areas
     private boolean datosValidos;//Bandera que se referencia a la vista para habilitar la pestaña siguiente
-    
-    
+
     //GETTERS & SETTERS
     public Expediente getExpedienteNuevo() {
         return expedienteNuevo;
@@ -58,8 +57,6 @@ public class ExpedienteBean extends ConcursoBean implements Serializable {
         this.datosValidos = datosValidos;
     }
 
-    
-    
     /**
      * CONSTRUCTOR VACIO Creates a new instance of ExpedienteBean
      */
@@ -95,7 +92,6 @@ public class ExpedienteBean extends ConcursoBean implements Serializable {
                 }
             }
 
-            
             expedienteNuevo.setNumeroExpediente(expedienteNuevo.getUnidadDeOrganizacion().getCodigoUnidadDeOrganizacion() + "-" + expedienteNuevo.getNumero() + "/" + expedienteNuevo.getAnio());
             nuevoMensajeInfo("Expediente " + expedienteNuevo.getIdExpediente(), "Numero de Expediente: " + expedienteNuevo.getNumeroExpediente() + "\nSituación: " + expedienteNuevo.getSituacion() + "\nRégimen: " + expedienteNuevo.getRegimen() + "\nEstablecimiento: " + expedienteNuevo.getUnidadDeOrganizacion().getNombreUnidad());
 
@@ -114,11 +110,14 @@ public class ExpedienteBean extends ConcursoBean implements Serializable {
                 }
             }
             expedienteNuevo.setNumeroExpediente(expedienteNuevo.getUnidadDeOrganizacion().getCodigoUnidadDeOrganizacion() + "-" + expedienteNuevo.getNumero() + "/" + expedienteNuevo.getAnio());
-            datosValidos = true;
-            
-            pasarVistaDePestania();
-            System.err.println(expedienteNuevo.toString());
-            nuevoMensajeInfo("Registro de Concursos de Salud - EXPEDIENTE", "Número: " + expedienteNuevo.getNumeroExpediente() + "\nRégimen: " + expedienteNuevo.getRegimen() + "\nSituación: " + expedienteNuevo.getSituacion());
+
+            if (expedienteNuevo.esValido()) {
+                datosValidos = true;
+                pasarVistaDePestania();
+                nuevoMensajeInfo("Registro de Concursos de Salud - EXPEDIENTE", "Número: " + expedienteNuevo.getNumeroExpediente() + "\nRégimen: " + expedienteNuevo.getRegimen() + "\nSituación: " + expedienteNuevo.getSituacion());
+            }
+            System.err.println("ExpedienteBean.guardarExpediente() => " + expedienteNuevo.toString());
+
         } catch (Exception ex1) {
             ex1.printStackTrace();
         }

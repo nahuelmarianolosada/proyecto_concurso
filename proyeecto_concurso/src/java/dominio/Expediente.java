@@ -113,7 +113,13 @@ public class Expediente  implements java.io.Serializable {
         return "Expediente{" + "numeroExpediente=" + numeroExpediente + ", unidadDeOrganizacion=(" + unidadDeOrganizacion.getCodigoUnidadDeOrganizacion() + ") " +  unidadDeOrganizacion.getNombreUnidad() + ", idExpediente=" + idExpediente + ", numero=" + numero + ", situacion=" + situacion + ", regimen=" + regimen + ", anio=" + anio + '}';
     }
     
-    
+    public boolean esValido(){
+        boolean esValido = false;
+        if(this.idExpediente != null && !this.numeroExpediente.equals("") && this.unidadDeOrganizacion != null && this.numero != null && !this.regimen.equals("") && !this.situacion.equals("")){
+            esValido = true;
+        }
+        return esValido;
+    }
 
 
 
