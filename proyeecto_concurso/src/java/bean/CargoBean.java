@@ -11,6 +11,12 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import org.primefaces.context.RequestContext;
+import hibernate.dao.ResolucionDao;
+import hibernate.dao.impl.ResolucionDaoImpl;
+import hibernate.dao.CargoDao;
+import hibernate.dao.impl.CargoDaoImpl;
+import dominio.Resolucion;
 
 /**
  *
@@ -25,8 +31,10 @@ public class CargoBean extends ConcursoBean implements Serializable {
     //ATRIBUTOS
     private List<Cargo> listaCargos;
     private Cargo cargoNuevo;
+    private Cargo ultimoCargo;
     private List<Cargo> listaCargosVacantes;
     private Cargo cargoSeleccionado;
+    private Resolucion ultimaResolucion;
     private boolean datosValidos;//Bandera que se referencia a la vista para habilitar la pestaña siguiente
 
     /**
@@ -35,13 +43,12 @@ public class CargoBean extends ConcursoBean implements Serializable {
     public CargoBean() {
 //        cargoNuevo = new Cargo(getListaEstablecimientos().get(0), getListaProfesiones().get(0));
         listaCargosVacantes = new ArrayList<Cargo>();
-        listaCargosVacantes.add(new Cargo());
+        inicializarCargo();
         cargoSeleccionado = new Cargo();
+        datosValidos = false;
     }
-    
-    
-    //GETTERS & SETTERS
 
+    //GETTERS & SETTERS
     public List<Cargo> getListaCargos() {
         return listaCargos;
     }
@@ -81,8 +88,47 @@ public class CargoBean extends ConcursoBean implements Serializable {
     public void setDatosValidos(boolean datosValidos) {
         this.datosValidos = datosValidos;
     }
+
+    /**
+     * 
+     * Método que setea el cargo Nuevo asignandole el nuevo Id de cargo y obtiene
+     * la última resolución.
+     * 
+     */
     
     
-    
-    
+    public void inicializarCargo() {
+        RequestContext context = RequestContext.getCurrentInstance();
+        CargoDao cargoDao = new CargoDaoImpl();
+        ResolucionDao resDao = new ResolucionDaoImpl();
+        ultimaResolucion = resDao.obtenerUltimaResolucion();
+        listaCargos = cargoDao.getListaCargosDeResolucion(ultimaResolucion);
+        cargoNuevo = new Cargo(generarIdNuevoCargo(), ultimaResolucion);
+        context.update("tabuladorPestañero:formCargos:tblCargos");
+        System.out.println("Lista de cargos");
+        for (Cargo cargo : listaCargos) {
+             System.out.println(cargo.getIdCargo());
+        }
+         
+            
+
+    }
+    //Obtiene la ultima resolución cargada.
+
+    public Resolucion obtenerUltimaResolucion() {
+
+        Resolucion resolucionEntidad = new Resolucion();
+        ResolucionDao resDao = new ResolucionDaoImpl();
+        resolucionEntidad = resDao.obtenerUltimaResolucion();
+        return resolucionEntidad;
+
+    }
+
+    //Genera el Id del Nuevo Cargo a grabar
+    public int generarIdNuevoCargo() {
+        CargoDao resCarg = new CargoDaoImpl();
+        return (resCarg.generarNuevoIdCargo());
+
+    }
+
 }

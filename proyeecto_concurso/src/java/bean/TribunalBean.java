@@ -32,7 +32,8 @@ public class TribunalBean extends ConcursoBean implements Serializable {
     private List<Persona> listaPersonas;
     private Persona personaBuscada;
     private List<Persona> listaResultadoBusquedaPersona;
-
+    private boolean datosValidos;
+    
     /**
      * Creates a new instance of TribunalBean
      */
@@ -42,6 +43,7 @@ public class TribunalBean extends ConcursoBean implements Serializable {
         listaJurados = tribJura.getAll();
         personaBuscada = new Persona();
         listaResultadoBusquedaPersona = new ArrayList<Persona>();
+        datosValidos = false;
 
 //        try {
 //            juradoNuevo = new TribunalJurado(getListaInstituciones().get(0), getListaEstablecimientos().get(0), new Persona(Integer.getInteger(""), Long.getLong("")));
@@ -98,6 +100,15 @@ public class TribunalBean extends ConcursoBean implements Serializable {
     public void setListaResultadoBusquedaPersona(List<Persona> listaResultadoBusquedaPersona) {
         this.listaResultadoBusquedaPersona = listaResultadoBusquedaPersona;
     }
+
+    public boolean isDatosValidos() {
+        return datosValidos;
+    }
+
+    public void setDatosValidos(boolean datosValidos) {
+        this.datosValidos = datosValidos;
+    }
+    
     
     
     //METODOS

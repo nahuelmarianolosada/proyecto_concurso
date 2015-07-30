@@ -6,16 +6,23 @@
 package bean;
 
 
+import dominio.Resolucion;
+import hibernate.dao.CargoDao;
+import hibernate.dao.ResolucionDao;
+import hibernate.dao.impl.CargoDaoImpl;
+import hibernate.dao.impl.ResolucionDaoImpl;
 import java.io.Serializable;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.TabChangeEvent;
-
+import bean.CargoBean;
+import javax.servlet.http.HttpSession;
 /**
  *
- * @author Nahuel Mariano Losada
+ * @author Nahuel Mariano
  * 
  */
 @ManagedBean(name = "beanConcurso")
@@ -250,9 +257,20 @@ public class ConcursoBean implements Serializable {
         System.out.println("ConcursoBean.validarPestania() => mostrando [" + event.getTab().getTitle() + "}");
         nuevoMensajeInfo("Registro Provincial de Concursos de Salud", "Pestaña Activa: " + event.getTab().getTitle());
         switch (event.getTab().getTitle()) {
+            case "Expediente": {
+                setNumeroDePestania(0);
+                break;
+            }
             case "Resoluciones": {
-//                ResolucionDao resDao = new ResolucionDaoImpl();
-//                ExpedienteDao expDao = new ExpedienteDaoImpl();
+                setNumeroDePestania(1);
+                break;
+            }
+            case "Cargos": {
+                setNumeroDePestania(2);
+                FacesContext context= javax.faces.context.FacesContext.getCurrentInstance();
+                HttpSession session =(HttpSession) context.getExternalContext().getSession(false);
+                CargoBean cargoBean= (CargoBean)session.getAttribute("beanCargo");
+                cargoBean.inicializarCargo();
                 break;
             }
         }

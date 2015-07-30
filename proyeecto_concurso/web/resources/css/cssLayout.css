@@ -155,6 +155,23 @@ h3, .subtitulo{
     font-size: 1.0em;
 }
 
+.ui-growl-message {
+    width: 275px !important;
+}
+
+.ui-growl{
+    width: 350px !important;
+}
+
+/*
+    Seteo del msje growl para especificar el color
+*/
+.ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight {
+    background: #ebedec !important;
+    color:black;
+    opacity: 0.9 !important;
+}
+
 .ui-grid-col-3 {
     margin-right: 5px;
 }
@@ -215,8 +232,8 @@ h3, .subtitulo{
     background-color: #98A642;
     color: white;
     width: 100%;
-    
-    
+
+
 }
 
 #bottom .ui-panelgrid .ui-widget-content{

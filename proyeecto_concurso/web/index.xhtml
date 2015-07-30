@@ -11,7 +11,7 @@
             <ui:define name="content">
                 <p:layout style="min-height:200px; height: 32.7em;" stateful="enabled" >
 
-                    <p:layoutUnit position="center">
+                    <p:layoutUnit position="center" resizable="true">
 
                     </p:layoutUnit>
                     <p:layoutUnit position="east" resizable="true"  size="700" minSize="600"  header="Formulario de Registro de Concursos" maxSize="800" collapsible="true" >
@@ -76,7 +76,7 @@
                                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                                  rowsPerPageTemplate="1,3,5,10,15"
                                                  reflow="true" 
-                                                 
+                                                 emptyMessage="Sin cargos Registrados"
                                                  draggableColumns="true"
                                                  
                                                  style="text-align: center; margin-top: 5px;">
@@ -137,15 +137,60 @@
                             <!--
                                                             PESTAÑA DE CARGOS-->
 
-                            <p:tab title="Cargos" id="tabCargos" disabled="#{!beanResolucion.datosValidos}" >
+                            <p:tab title="Cargos" id="tabCargos" disabled="false" >
+                                
+                                   <h:form id="formCargos">
+        
+                                    <h:panelGrid columns="2" >
+                                        <p:commandButton value="NuevoCargo" icon="ui-icon-plusthick" onclick="PF('dlgCargoNuevo').show();" />
+                                        <p:commandButton value="Actualizar" icon="ui-icon-refresh" />
+                                    </h:panelGrid>
 
+
+                                       <p:dataTable id="tblCargos" var="cargos" value="#{beanCargo.listaCargos}" rows="3"
+                                                 paginator="true"
+                                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                 rowsPerPageTemplate="3,5,10,15" reflow="true" >
+                                       
+                                        <f:facet name="header">
+                                            <h:outputText id="lblNumeroResolucionCargo" value="Resolución: " />
+                                        </f:facet>
+                                        <p:column headerText="Id">
+                                            <h:outputText value="#{cargos.idCargo}" />
+                                        </p:column>
+                                        <p:column headerText="Profesion">
+                                            <h:outputText value="#{cargos.profesion.nombreProfesion}" />
+                                        </p:column>
+                                        <p:column headerText="Especialidad">
+                                            <h:outputText value="#{cargos.especialidad}" />
+                                        </p:column>
+                                        <p:column headerText="Categoria">
+                                            <h:outputText value="#{cargos.categoria}" />
+                                        </p:column>
+                                        <p:column headerText="Función">
+                                            <h:outputText value="#{cargos.funcion}" />
+                                        </p:column>
+                                        <p:column headerText="Establecimiento">
+                                            <h:outputText value="#{cargos.establecimiento.nombre}" />
+                                        </p:column>
+                                        <p:column headerText="Resolución">
+                                            <h:outputText value="#{cargos.resolucion.numeroResolucion}" />
+                                        </p:column>
+                                        <p:column headerText="Cantidad">
+                                            <h:outputText value="#{cargos.cantidad}" />
+                                        </p:column>
+                                    </p:dataTable>
+                                </h:form>
+                                
+                                
                             </p:tab>
 
                             <!--
+                            
                                 PESTAÑA TRIBUNAL
                             -->
 
-                            <p:tab title="Tribunal" >
+                            <p:tab title="Tribunal" id="tabTribunal" disabled="#{!beanCargo.datosValidos}" >
 
 
                             </p:tab>
@@ -153,7 +198,7 @@
                             <!--
                                                             PESTAÑA POSTULANTES-->
 
-                            <p:tab title="Postulantes" >
+                            <p:tab title="Postulantes" id="tabPostulantes" disabled="#{!beanTribunal.datosValidos}" >
                                 <h:panelGrid columns="2" cellpadding="3" frame="box" styleClass="panelAlta" >
 
                                 </h:panelGrid>
@@ -162,7 +207,7 @@
                             <!--
                                                             PESTAÑA RESULTADO-->
 
-                            <p:tab title="Resultado" >
+                            <p:tab title="Resultado" id="tabResultado" disabled="true" >
                                 <h:panelGrid columns="2" cellpadding="3" frame="box" styleClass="panelAlta" >
 
                                 </h:panelGrid>
@@ -178,7 +223,7 @@
                 <!--                
                 DIALOGO PARA UNA NUEVA RESOLUCION                
                 -->
-                <p:dialog id="dlgNuevaResolucion" appendTo="@(body)" widgetVar="dlgNuevaResolucion" modal="true" showEffect="blind" hideEffect="explode" resizable="true" closable="true" closeOnEscape="true" >
+                <p:dialog id="dlgNuevaResolucion" appendTo="@(body)" widgetVar="dlgNuevaResolucion" modal="true" showEffect="blind" hideEffect="blind" resizable="true" closable="true" closeOnEscape="true" >
                     <f:facet name="header">
                         <h:outputText id="lblEncabezadoNuevaResolucion" value="Resolucion Nueva - Exp. #{beanExpediente.expedienteNuevo.numeroExpediente}" />
                     </f:facet>
@@ -191,7 +236,7 @@
                                 <f:selectItem itemLabel="S" itemValue="S" />
                                 <f:selectItem itemLabel="SPPRS" itemValue="SPPRS" />
                             </p:selectOneMenu>
-                            <p:spinner id="spnAnioNumeroResolucion" value="#{beanResolucion.resolucionNueva.numeroResolucion}" placeholder="Año" min="1950" max="2020" required="true" requiredMessage="Ingrese el año que figura en la resolucion"  maxlength="4" />
+                            <p:spinner id="spnAnioNumeroResolucion" value="#{beanResolucion.anioNumeroResolucion}" placeholder="Año" min="1950" max="2020" required="true" requiredMessage="Ingrese el año que figura en la resolucion"  maxlength="4" />
                         </p:panelGrid>
                         <h:panelGrid columns="4" cellpadding="3" frame="box" styleClass="panelAlta" >
                             <f:facet name="header"> 
@@ -205,12 +250,12 @@
 
                             <h:outputText value="Agrupamiento: " />
                             <p:selectOneMenu id="cmbAgrupamientoCargo" value="#{beanResolucion.resolucionNueva.agrupamiento}" style="width:100%;" filter="true" >
-                                <f:selectItem itemLabel="Administrativo" itemValue="0"/>
-                                <f:selectItem itemLabel="Profesional" itemValue="1"/>
-                                <f:selectItem itemLabel="Técnico" itemValue="2"/>
-                                <f:selectItem itemLabel="Mantenimiento y Producción" itemValue="3"/>
-                                <f:selectItem itemLabel="Servicios Generales" itemValue="4"/>
-                                <f:selectItem itemLabel="Profesional Asistencial" itemValue="5"/>
+                                <f:selectItem itemLabel="Administrativo" itemValue="ADMINISTRATIVO"/>
+                                <f:selectItem itemLabel="Profesional" itemValue="PROFESIONAL"/>
+                                <f:selectItem itemLabel="Técnico" itemValue="TECNICO"/>
+                                <f:selectItem itemLabel="Mantenimiento y Producción" itemValue="MANTENIMIENTO Y PRODUCCION"/>
+                                <f:selectItem itemLabel="Servicios Generales" itemValue="SERVICIOS GENERALES"/>
+                                <f:selectItem itemLabel="Profesional Asistencial" itemValue="PROFESIONAL ASISTENCIAL"/>
                             </p:selectOneMenu>
                             <h:panelGrid columns="2">
                                 <h:outputText value="Modificacion Parcial: " />

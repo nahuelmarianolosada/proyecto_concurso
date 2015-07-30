@@ -77,6 +77,8 @@ public class ResolucionDaoImpl extends HibernateUtil implements ResolucionDao{
         }
     }
 
+    
+    
 //    @Override
 //    public void eliminarById(int id_resolucion) {
 //        try {
@@ -109,5 +111,12 @@ public class ResolucionDaoImpl extends HibernateUtil implements ResolucionDao{
             e.printStackTrace();
             getSession().getTransaction().rollback();
         }
+    }
+    @Override
+    public Resolucion obtenerUltimaResolucion(){
+       Criteria criteria = getSession().createCriteria(Resolucion.class);
+       criteria.addOrder(Order.desc("idResolucion"));
+       return (Resolucion)criteria.list().get(0);
+       
     }
 }
