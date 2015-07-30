@@ -20,10 +20,10 @@
 
                                 <h:panelGrid columns="1" style="width:100%" >
                                     <p:outputPanel>
-                                        <h:panelGrid columns="2" cellpadding="5">
+                                        <h:panelGrid columns="6" cellpadding="5">
                                             <f:facet name="header" >
                                                 Expediente 
-                                                <h:outputText value="Id: #{resolucion.expediente.idExpediente} - Num: #{resolucion.expediente.numeroExpediente}" style="font-weight: bold"/>
+                                                <h:outputText value="Id: #{resolucion.expediente.idExpediente} - Num: #{resolucion.expediente.numeroExpediente} - UDO: #{resolucion.expediente.unidadDeOrganizacion.nombreUnidad}" style="font-weight: bold"/>
                                             </f:facet>
                                             <h:outputText value="Id Resolucion:" />
                                             <h:outputText value="#{resolucion.idResolucion}" style="font-weight: bold"/>
@@ -54,7 +54,7 @@
                             -->
                             <p:tab title="Expediente" id="tabExpediente" >
                                 <h:form id="formExpedientes">
-                                    <p:growl id="msg" showDetail="true" escape="false" sticky="false" life="5000" />
+                                    <p:growl id="msg" showDetail="true" escape="false" sticky="false" life="5000"  />
                                     <h:panelGrid columns="3" cellpadding="3" frame="box" styleClass="panelAlta" >
                                         <f:facet name="header" class="encabezadoPanel">
                                             <h:outputText value="Datos Generales del Expediente" />
@@ -272,10 +272,7 @@
                     </f:facet>
                     <h:form id="formNuevaResolucion">
                         <h:panelGrid columns="4" cellpadding="3" frame="box" styleClass="panelAlta" >
-                            <f:facet name="header"> 
-                                <h:outputText value="Expediente: #{beanExpediente.expedienteNuevo.numeroExpediente}" id="lblEncabezadoExpediente" /> 
-                            </f:facet>
-
+                            
                             <h:outputText value="Numero de Resolución" />
                             <p:spinner id="spnNumeroResolucion" value="#{beanResolucion.resolucionNueva.numeroResolucion}" placeholder="Número de Resolución" min="0" max="99999" required="true" requiredMessage="Ingrese el numero que figura en la resolucion"  maxlength="6" />
 
