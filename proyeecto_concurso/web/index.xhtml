@@ -72,14 +72,14 @@
                                 <h:form id="formResoluciones">
                                     <p:commandButton value="Nuevo" onclick="PF('dlgNuevaResolucion').show();" icon="ui-icon-plusthick" />
                                     <p:dataTable  id="tblResoluciones" var="resolucion" value="#{beanResolucion.listaResoluciones}" rows="1"
-                                                 paginator="true"
-                                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                                 rowsPerPageTemplate="1,3,5,10,15"
-                                                 reflow="true" 
-                                                 emptyMessage="Sin cargos Registrados"
-                                                 draggableColumns="true"
-                                                 
-                                                 style="text-align: center; margin-top: 5px;">
+                                                  paginator="true"
+                                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                  rowsPerPageTemplate="1,3,5,10,15"
+                                                  reflow="true" 
+                                                  emptyMessage="Sin cargos Registrados"
+                                                  draggableColumns="true"
+
+                                                  style="text-align: center; margin-top: 5px;">
                                         <f:facet name="header">
                                             <h:outputText id="lblNumeroDeExpedienteEnResolucion" value="Resoluciones en el expediente #{beanExpediente.expedienteNuevo.numeroExpediente}" />
                                             <p:commandButton id="togglerResoluciones" type="button" value="Columnas" style="float:right" icon="ui-icon-calculator" />
@@ -138,22 +138,22 @@
                                                             PESTAÑA DE CARGOS-->
 
                             <p:tab title="Cargos" id="tabCargos" disabled="false" >
-                                
-                                   <h:form id="formCargos">
-        
+
+                                <h:form id="formCargos">
+
                                     <h:panelGrid columns="2" >
                                         <p:commandButton value="NuevoCargo" icon="ui-icon-plusthick" onclick="PF('dlgCargoNuevo').show();" />
                                         <p:commandButton value="Actualizar" icon="ui-icon-refresh" />
                                     </h:panelGrid>
 
 
-                                       <p:dataTable id="tblCargos" var="cargos" value="#{beanCargo.listaCargos}" rows="3"
+                                    <p:dataTable id="tblCargos" var="cargos" value="#{beanCargo.listaCargos}" rows="3"
                                                  paginator="true"
                                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                                  rowsPerPageTemplate="3,5,10,15" reflow="true" >
-                                       
+
                                         <f:facet name="header">
-                                            <h:outputText id="lblNumeroResolucionCargo" value="Resolución: " />
+                                            <h:outputText id="lblNumeroResolucionCargo" value="Expediente: #{beanCargo.cargoNuevo.resolucion.expediente.numeroExpediente} - Resolución: #{beanCargo.cargoNuevo.resolucion.numeroResolucion}" />
                                         </f:facet>
                                         <p:column headerText="Id">
                                             <h:outputText value="#{cargos.idCargo}" />
@@ -181,8 +181,8 @@
                                         </p:column>
                                     </p:dataTable>
                                 </h:form>
-                                
-                                
+
+
                             </p:tab>
 
                             <!--
@@ -286,7 +286,7 @@
                                 <f:selectItem itemLabel="Ordinario" itemValue="ORDINARIO"/>
                                 <f:selectItem itemLabel="Extraordinario" itemValue="EXTRAORDINARIO"/>
                             </p:selectOneMenu>
-                            
+
                             <p:column /><p:column />
 
                             <h:outputText value="Apertura: " />
@@ -297,12 +297,14 @@
 
                             <h:outputText value="Cierrre de inscripciones: " />
                             <p:calendar id="calFechaCierre" value="#{beanResolucion.resolucionNueva.fechaCierre}" pattern="dd-MM-yyyy" mask="true" />
-                            
+
                             <h:outputText value="Publicación de Resultados" />
                             <p:calendar id="calFechaPublicacion" value="#{beanResolucion.resolucionNueva.fechaPublicacion}" pattern="dd-MM-yyyy" mask="true" />
 
                         </h:panelGrid>
-                        <p:commandButton id="btnGuardarNuevaResolucion" icon="ui-icon-disk" value="Guardar" actionListener="#{beanResolucion.guardarResolucion()}" onstart="PF('dlgNuevaResolucion').hide();" update="tabuladorPestañero,tabuladorPestañero:formResoluciones:tblResoluciones,tabuladorPestañero:formExpedientes:msg" styleClass="btnVerde"  />
+                        <p:commandButton id="btnGuardarNuevaResolucion" icon="ui-icon-disk" value="Guardar" actionListener="#{beanResolucion.guardarResolucion()}" oncomplete="PF('dlgNuevaResolucion').hide();" update="tabuladorPestañero,tabuladorPestañero:formResoluciones:tblResoluciones,tabuladorPestañero:formExpedientes:msg,tabuladorPestañero:formCargos:tblCargos" styleClass="btnVerde"  >
+                            <f:setPropertyActionListener value="#{beanResolucion.resolucionNueva}" target="#{beanCargo.cargoNuevo.resolucion}" />
+                        </p:commandButton>
                     </h:form>
                 </p:dialog>
 

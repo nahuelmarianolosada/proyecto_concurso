@@ -28,6 +28,12 @@ public class Cargo implements java.io.Serializable {
     public Cargo() {
     }
 
+    public Cargo(int idCargo) {
+        this.idCargo = idCargo;
+    }
+
+    
+    
     public Cargo(Establecimiento establecimiento, Profesion profesion) {
         this.establecimiento = establecimiento;
         this.profesion = profesion;

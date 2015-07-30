@@ -267,10 +267,6 @@ public class ConcursoBean implements Serializable {
             }
             case "Cargos": {
                 setNumeroDePestania(2);
-                FacesContext context= javax.faces.context.FacesContext.getCurrentInstance();
-                HttpSession session =(HttpSession) context.getExternalContext().getSession(false);
-                CargoBean cargoBean= (CargoBean)session.getAttribute("beanCargo");
-                cargoBean.inicializarCargo();
                 break;
             }
         }
