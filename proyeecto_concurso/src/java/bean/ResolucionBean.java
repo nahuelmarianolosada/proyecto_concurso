@@ -35,7 +35,8 @@ public class ResolucionBean extends ConcursoBean implements Serializable {
     private List<Resolucion> listaResoluciones;
     private String dependenciaNumeroResolucion;
     private boolean datosValidos;//Bandera que se referencia a la vista para habilitar la pestaña siguiente
-
+    private int anioNumeroResolucion;
+    
     @ManagedProperty("#{beanExpediente}")
     private ExpedienteBean beanExpediente;
 
@@ -96,6 +97,16 @@ public class ResolucionBean extends ConcursoBean implements Serializable {
         this.datosValidos = datosValidos;
     }
 
+    public int getAnioNumeroResolucion() {
+        return anioNumeroResolucion;
+    }
+
+    public void setAnioNumeroResolucion(int anioNumeroResolucion) {
+        this.anioNumeroResolucion = anioNumeroResolucion;
+    }
+    
+    
+
     
     /**
      * Creates a new instance of ResolucionBean
@@ -134,7 +145,8 @@ public class ResolucionBean extends ConcursoBean implements Serializable {
 
         try {
             resolucionNueva.setExpediente(beanExpediente.getExpedienteNuevo());
-
+            String numeroResolucion = resolucionNueva.getNumeroResolucion();
+            resolucionNueva.setNumeroResolucion(numeroResolucion + "-" + dependenciaNumeroResolucion + "/" + anioNumeroResolucion);
             resolucionNueva.setModificacion(banderaModificacionParcial);
             resolucionNueva.setProrroga(banderaProrroga);
             resolucionNueva.setTribunal(new Tribunal());
