@@ -6,13 +6,19 @@
 package bean;
 
 
+import dominio.Resolucion;
+import hibernate.dao.CargoDao;
+import hibernate.dao.ResolucionDao;
+import hibernate.dao.impl.CargoDaoImpl;
+import hibernate.dao.impl.ResolucionDaoImpl;
 import java.io.Serializable;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.TabChangeEvent;
-
+import bean.CargoBean;
 /**
  *
  * @author Nahuel Mariano
@@ -260,6 +266,8 @@ public class ConcursoBean implements Serializable {
             }
             case "Cargos": {
                 setNumeroDePestania(2);
+                CargoBean cargoBean= new CargoBean();
+                cargoBean.inicializarCargo();
                 break;
             }
         }

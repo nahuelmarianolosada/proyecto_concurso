@@ -137,11 +137,65 @@
                             <!--
                                                             PESTAÑA DE CARGOS-->
 
-                            <p:tab title="Cargos" id="tabCargos" disabled="#{!beanResolucion.datosValidos}" >
+                            <p:tab title="Cargos" id="tabCargos" disabled="false" >
+                                
+                                   <h:form id="formCargos">
+        
+                                    <h:panelGrid columns="2" >
+                                        <p:commandButton value="NuevoCargo" icon="ui-icon-plusthick" onclick="PF('dlgCargoNuevo').show();" />
+                                        <p:commandButton value="Actualizar" icon="ui-icon-refresh" />
+                                    </h:panelGrid>
 
+
+                                       <p:dataTable id="tblCargos" var="cargos" value="#{beanCargo.listaCargos}" rows="3"
+                                                 paginator="true"
+                                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                 rowsPerPageTemplate="3,5,10,15" reflow="true" >
+                                       
+                                        <f:facet name="header">
+                                            <h:outputText id="lblNumeroResolucionCargo" value="Resolución: " />
+                                        </f:facet>
+                                        <p:column headerText="Id">
+                                            <h:outputText value="#{cargos.idCargo}" />
+                                        </p:column>
+                                        <p:column headerText="Profesion">
+                                            <h:outputText value="#{cargos.profesion.nombreProfesion}" />
+                                        </p:column>
+                                        <p:column headerText="Especialidad">
+                                            <h:outputText value="#{cargos.especialidad}" />
+                                        </p:column>
+                                        <p:column headerText="Categoria">
+                                            <h:outputText value="#{cargos.categoria}" />
+                                        </p:column>
+                                        <p:column headerText="Función">
+                                            <h:outputText value="#{cargos.funcion}" />
+                                        </p:column>
+                                        <p:column headerText="Establecimiento">
+                                            <h:outputText value="#{cargos.establecimiento.nombre}" />
+                                        </p:column>
+                                        <p:column headerText="Resolución">
+                                            <h:outputText value="#{cargos.resolucion.numeroResolucion}" />
+                                        </p:column>
+                                        <p:column headerText="Cantidad">
+                                            <h:outputText value="#{cargos.cantidad}" />
+                                        </p:column>
+                                    </p:dataTable>
+                                </h:form>
+                                
+                                
                             </p:tab>
 
                             <!--
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
                                 PESTAÑA TRIBUNAL
                             -->
 

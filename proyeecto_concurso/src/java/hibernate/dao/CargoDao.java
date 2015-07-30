@@ -8,6 +8,7 @@ package hibernate.dao;
 
 import dominio.Cargo;
 import java.util.List;
+import dominio.Resolucion;
 
 /**
  *
@@ -19,4 +20,7 @@ public interface CargoDao {
     public void insertar(Cargo cargo);
     public void eliminar(Cargo cargo);
     public void modificar(Cargo cargo);
+     public List<Cargo> getListaCargosDeResolucion(Resolucion resolucion);
+    public int generarNuevoIdCargo();
+    
 }
