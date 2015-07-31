@@ -53,6 +53,24 @@ public class CargoBean extends ConcursoBean implements Serializable {
         return listaCargos;
     }
 
+    public Cargo getUltimoCargo() {
+        return ultimoCargo;
+    }
+
+    public void setUltimoCargo(Cargo ultimoCargo) {
+        this.ultimoCargo = ultimoCargo;
+    }
+
+    public Resolucion getUltimaResolucion() {
+        return ultimaResolucion;
+    }
+
+    public void setUltimaResolucion(Resolucion ultimaResolucion) {
+        this.ultimaResolucion = ultimaResolucion;
+    }
+
+
+        
     public void setListaCargos(List<Cargo> listaCargos) {
         this.listaCargos = listaCargos;
     }
@@ -130,5 +148,6 @@ public class CargoBean extends ConcursoBean implements Serializable {
         return (resCarg.generarNuevoIdCargo());
 
     }
+    
 
 }

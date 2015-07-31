@@ -5,12 +5,16 @@
  */
 package bean;
 
-
 import dominio.Resolucion;
 import hibernate.dao.CargoDao;
+import dominio.Cargo;
 import hibernate.dao.ResolucionDao;
 import hibernate.dao.impl.CargoDaoImpl;
 import hibernate.dao.impl.ResolucionDaoImpl;
+import hibernate.dao.EstablecimientoDao;
+import hibernate.dao.impl.EstablecimientoDaoImpl;
+import hibernate.dao.InstitucionDao;
+import hibernate.dao.impl.InstitucionDaoImpl;
 import java.io.Serializable;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -20,19 +24,26 @@ import org.primefaces.context.RequestContext;
 import org.primefaces.event.TabChangeEvent;
 import bean.CargoBean;
 import javax.servlet.http.HttpSession;
+import dominio.Establecimiento;
+import dominio.Institucion;        
+
 /**
  *
  * @author Nahuel Mariano
- * 
+ *
  */
+import java.util.List;
+
 @ManagedBean(name = "beanConcurso")
 @ViewScoped
 public class ConcursoBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private static int numeroDePestania = 0;//Indice en la pestaña "tabuladorPestañero"
-        
-        
+    private Cargo cargo;
+    private boolean banderaInstitucion;
+    private boolean banderaEstablecimiento;
+    
 //    @ManagedProperty("#{beanResolucion}")
 //    private ResolucionBean beanResolucion;
 //
@@ -43,34 +54,40 @@ public class ConcursoBean implements Serializable {
 //    private TribunalBean beanTribunal;
 //    private List<Profesion> listaProfesiones;
 //
-//    private List<Establecimiento> listaEstablecimientos;
-//
-//    private List<Institucion> listaInstituciones;
+    private List<Establecimiento> listaEstablecimientos;
+    private List<Institucion> listaInstituciones;
 //
 //    private boolean banderaInstitucion;
 //    private boolean banderaEstablecimiento;
 //
 //    private List<Localidad> listaLocalidades;
+
     /**
      * Creates a new instance of ConcursoBean
      */
     public ConcursoBean() {
         //init();
-
-        //refreshListas();
+ 
+        refreshListas();
+        Cargo cargo = new Cargo();
+  
     }
 
     public int getNumeroDePestania() {
         return numeroDePestania;
     }
 
+    public Cargo getCargo() {
+        return cargo;
+    }
+
+    public void setCargo(Cargo cargo) {
+        this.cargo = cargo;
+    }
+
     public void setNumeroDePestania(int numeroDePestania) {
         this.numeroDePestania = numeroDePestania;
     }
-
-    
-
-    
 
 //    public TribunalBean getBeanTribunal() {
 //        return beanTribunal;
@@ -103,13 +120,13 @@ public class ConcursoBean implements Serializable {
 //        this.listaProfesiones = listaProfesiones;
 //    }
 //
-//    public List<Establecimiento> getListaEstablecimientos() {
-//        return listaEstablecimientos;
-//    }
-//
-//    public void setListaEstablecimientos(List<Establecimiento> listaEstablecimientos) {
-//        this.listaEstablecimientos = listaEstablecimientos;
-//    }
+    public List<Establecimiento> getListaEstablecimientos() {
+        return listaEstablecimientos;
+    }
+
+    public void setListaEstablecimientos(List<Establecimiento> listaEstablecimientos) {
+        this.listaEstablecimientos = listaEstablecimientos;
+    }
 //
 //    public List<Institucion> getListaInstituciones() {
 //        return listaInstituciones;
@@ -142,15 +159,15 @@ public class ConcursoBean implements Serializable {
 //    public void setListaLocalidades(List<Localidad> listaLocalidades) {
 //        this.listaLocalidades = listaLocalidades;
 //    }
+
     /**
      *
      * M E T O D O S
      *
      */
-    
-    
-    public static void pasarVistaDePestania(){
-        numeroDePestania+=1;
+
+    public static void pasarVistaDePestania() {
+        numeroDePestania += 1;
         System.out.println("ConcursoBean.pasarVistaDePagina(): La pestaña ahora es " + numeroDePestania);
     }
 //    public List<String> buscarInstitucion(String nombreInstitucion) {
@@ -192,32 +209,36 @@ public class ConcursoBean implements Serializable {
 //        }
 //        nuevoMensajeInfo("Registro Provincial de Concursos de Salud", beanTribunal.getJuradoNuevo().getEstablecimiento().getCodigoSiisa() + " " + beanTribunal.getJuradoNuevo().getEstablecimiento().getNombre());
 //    }
-//    public void habilitarCmbInstitucion() {
-//        if (banderaInstitucion) {
-//            banderaInstitucion = false;
-//        } else {
-//            if (listaInstituciones == null) {
-//                InstitucionDao instDao = new InstitucionDaoImpl();
-//                listaInstituciones = instDao.getAll();
-//            }
-//            banderaInstitucion = true;
-//        }
-//    }
-//    public void habilitarCmbEstablecimiento() {
-//        if (banderaEstablecimiento) {
-//            banderaEstablecimiento = false;
-//        } else {
-//            if (listaEstablecimientos == null) {
-//                EstablecimientoDao estDao = new EstablecimientoDaoImpl();
-//                listaEstablecimientos = estDao.getAll();
-//            }
-//            banderaEstablecimiento = true;
-//        }
-//    }
+    
+    
+    public void habilitarCmbInstitucion() {
+        if (banderaInstitucion) {
+            banderaInstitucion = false;
+        } else {
+            if (listaInstituciones == null) {
+                InstitucionDao instDao = new InstitucionDaoImpl();
+                listaInstituciones = instDao.getAll();
+            }
+            banderaInstitucion = true;
+        }
+    }
+
+    public void habilitarCmbEstablecimiento() {
+        if (banderaEstablecimiento) {
+            banderaEstablecimiento = false;
+        } else {
+            if (listaEstablecimientos == null) {
+                EstablecimientoDao estDao = new EstablecimientoDaoImpl();
+                listaEstablecimientos = estDao.getAll();
+            }
+            banderaEstablecimiento = true;
+        }
+    }
 //    public void onPostulanteAdjSeleccionado() {
 //
 ////        System.out.println("ConcursoBean.onPostulanteAdjSeleccionado: Matricula del Postulante: " + postulanteAdjudicado.getNumero_de_matricula() + ". " + postulanteAdjudicado.getApellido());
 //    }
+
     public void nuevoMensajeInfo(String summary, String detail) {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,
                 summary, detail);
@@ -230,30 +251,29 @@ public class ConcursoBean implements Serializable {
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
 
-//    public void refreshListas() {
-//
-//        ProfesionDao profDao = new ProfesionDaoImpl();
-//        listaProfesiones = profDao.getAll();
-//
-//        CargoDao cargoDao = new CargoDaoImpl();
-////        beanCargo.setListaCargos(cargoDao.getAll());
-//
-//        EstablecimientoDao establecimientoDao = new EstablecimientoDaoImpl();
-//        listaEstablecimientos = establecimientoDao.getAll();
-//
-//        InstitucionDao instDao = new InstitucionDaoImpl();
-//        listaInstituciones = instDao.getAll();
-//    }
-    
+    public void refreshListas() {
+
+        //ProfesionDao profDao = new ProfesionDaoImpl();
+        //listaProfesiones = profDao.getAll();
+
+        CargoDao cargoDao = new CargoDaoImpl();
+//    beanCargo.setListaCargos(cargoDao.getAll());
+
+
+  //      InstitucionDao instDao = new InstitucionDaoImpl();
+   //     listaInstituciones = instDao.getAll();
+          EstablecimientoDao establecimientoDao = new EstablecimientoDaoImpl();
+        listaEstablecimientos = establecimientoDao.getAll();
+    }
     /**
-     * 
-     * Método que se llama cada vez que se pasa de pestaña, mostrando con un 
+     *
+     * Método que se llama cada vez que se pasa de pestaña, mostrando con un
      * mensaje informativo el nombre de la pestaña que se va a mostrar
-     * 
+     *
      * @param event Evento que recibe
      */
     public void validarPestania(TabChangeEvent event) {
-        
+
         System.out.println("ConcursoBean.validarPestania() => mostrando [" + event.getTab().getTitle() + "}");
         nuevoMensajeInfo("Registro Provincial de Concursos de Salud", "Pestaña Activa: " + event.getTab().getTitle());
         switch (event.getTab().getTitle()) {
@@ -267,29 +287,24 @@ public class ConcursoBean implements Serializable {
             }
             case "Cargos": {
                 setNumeroDePestania(2);
-                FacesContext context= javax.faces.context.FacesContext.getCurrentInstance();
-                HttpSession session =(HttpSession) context.getExternalContext().getSession(false);
-                CargoBean cargoBean= (CargoBean)session.getAttribute("beanCargo");
-                cargoBean.inicializarCargo();
+
                 break;
             }
         }
     }
-    
 
-//    public void obtenerEstablecimiento(TabChangeEvent event) {
-//        try {
-//            nuevoMensajeInfo("Registro provincial de concursos de Salud", "Pestaña activa: " + event.getTab().getTitle());
-//            //System.out.println("ConcursoBean:obtenerEstablecimiento():\nBuscando el codigo del Establecimiento seleccionado: \nCodigoSiisa => " + beanCargo.getCargoNuevo().getEstablecimiento().getCodigoSiisa() + "\tNombre => " + beanCargo.getCargoNuevo().getEstablecimiento().getNombre());
-//            EstablecimientoDao establDao = new EstablecimientoDaoImpl();
-//            //Establecimiento estEncontrado = establDao.getEstablecimiento(beanCargo.getCargoNuevo().getEstablecimiento().getCodigoSiisa());
-////            if (estEncontrado != null) {
-////                beanCargo.getCargoNuevo().setEstablecimiento(estEncontrado);
-////            } else {
-////                System.out.println("No se encontro el establecimiento con el codigo ");
-////            }
-//        } catch (Exception exGeneral) {
-//            exGeneral.printStackTrace();
-//        }
-//    }
+    public void obtenerEstablecimiento(TabChangeEvent event) {
+        try {
+            nuevoMensajeInfo("Registro provincial de concursos de Salud", "Pestaña activa: " + event.getTab().getTitle());
+            EstablecimientoDao establDao = new EstablecimientoDaoImpl();
+            Establecimiento estEncontrado = establDao.getEstablecimiento(cargo.getEstablecimiento().getCodigoSiisa());
+            if (estEncontrado != null) {
+                cargo.setEstablecimiento(estEncontrado);
+            } else {
+                System.out.println("No se encontro el establecimiento con el codigo ");
+            }
+        } catch (Exception exGeneral) {
+            exGeneral.printStackTrace();
+        }
+    }
 }

@@ -72,14 +72,14 @@
                                 <h:form id="formResoluciones">
                                     <p:commandButton value="Nuevo" onclick="PF('dlgNuevaResolucion').show();" icon="ui-icon-plusthick" />
                                     <p:dataTable  id="tblResoluciones" var="resolucion" value="#{beanResolucion.listaResoluciones}" rows="1"
-                                                 paginator="true"
-                                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                                 rowsPerPageTemplate="1,3,5,10,15"
-                                                 reflow="true" 
-                                                 emptyMessage="Sin cargos Registrados"
-                                                 draggableColumns="true"
-                                                 
-                                                 style="text-align: center; margin-top: 5px;">
+                                                  paginator="true"
+                                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                  rowsPerPageTemplate="1,3,5,10,15"
+                                                  reflow="true" 
+                                                  emptyMessage="Sin cargos Registrados"
+                                                  draggableColumns="true"
+
+                                                  style="text-align: center; margin-top: 5px;">
                                         <f:facet name="header">
                                             <h:outputText id="lblNumeroDeExpedienteEnResolucion" value="Resoluciones en el expediente #{beanExpediente.expedienteNuevo.numeroExpediente}" />
                                             <p:commandButton id="togglerResoluciones" type="button" value="Columnas" style="float:right" icon="ui-icon-calculator" />
@@ -138,22 +138,22 @@
                                                             PESTAÑA DE CARGOS-->
 
                             <p:tab title="Cargos" id="tabCargos" disabled="false" >
-                                
-                                   <h:form id="formCargos">
-        
+
+                                <h:form id="formCargos">
+
                                     <h:panelGrid columns="2" >
                                         <p:commandButton value="NuevoCargo" icon="ui-icon-plusthick" onclick="PF('dlgCargoNuevo').show();" />
                                         <p:commandButton value="Actualizar" icon="ui-icon-refresh" />
                                     </h:panelGrid>
 
 
-                                       <p:dataTable id="tblCargos" var="cargos" value="#{beanCargo.listaCargos}" rows="3"
+                                    <p:dataTable id="tblCargos" var="cargos" value="#{beanCargo.listaCargos}" rows="3"
                                                  paginator="true"
                                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                                  rowsPerPageTemplate="3,5,10,15" reflow="true" >
-                                       
+
                                         <f:facet name="header">
-                                            <h:outputText id="lblNumeroResolucionCargo" value="Resolución: " />
+                                            <h:outputText id="lblNumeroResolucionCargo" value="Resolución: #{beanCargo.cargoNuevo.resolucion.numeroResolucion} " />
                                         </f:facet>
                                         <p:column headerText="Id">
                                             <h:outputText value="#{cargos.idCargo}" />
@@ -181,8 +181,8 @@
                                         </p:column>
                                     </p:dataTable>
                                 </h:form>
-                                
-                                
+
+
                             </p:tab>
 
                             <!--
@@ -286,7 +286,7 @@
                                 <f:selectItem itemLabel="Ordinario" itemValue="ORDINARIO"/>
                                 <f:selectItem itemLabel="Extraordinario" itemValue="EXTRAORDINARIO"/>
                             </p:selectOneMenu>
-                            
+
                             <p:column /><p:column />
 
                             <h:outputText value="Apertura: " />
@@ -305,8 +305,78 @@
                         <p:commandButton id="btnGuardarNuevaResolucion" icon="ui-icon-disk" value="Guardar" actionListener="#{beanResolucion.guardarResolucion()}" onstart="PF('dlgNuevaResolucion').hide();" update="tabuladorPestañero,tabuladorPestañero:formResoluciones:tblResoluciones,tabuladorPestañero:formExpedientes:msg" styleClass="btnVerde"  />
                     </h:form>
                 </p:dialog>
+                <!-- 
+                      DIALOGO NUEVO CARGO
+                -->
 
+                <p:dialog header="Cargo Nuevo"  widgetVar="dlgCargoNuevo" modal="true" showEffect="fade" hideEffect="fade" draggable="true" resizable="true" closeOnEscape="true" >
+                    <h:form id="formCargoNuevo">
+                        <p:fieldset legend="ID: #{beanCargo.cargoNuevo.idCargo}" >
+                            <p:inputText value="Resolución: #{beanCargo.ultimaResolucion.numeroResolucion}"/>
+                            <br/>
+                            <p:inputText value="Establecimiento :" />
+<!--                            <p:selectOneMenu id="cmbEstablecimiento" value="#{beanConcurso.cargo.establecimiento.codigoSiisa}" required="true" requiredMessage="Seleccione un Establecimiento" style="width: 20em;" filter="true" >
+                                <p:ajax listener="#{beanConcurso.obtenerEstablecimiento}" update=":formCargoNuevo" />
+                                <f:selectItem noSelectionOption="true" itemLabel=" Seleccione un Establecimietno" itemValue="null" />
+                                <f:selectItems var="establecimiento" value="#{beanConcurso.listaEstablecimientos}" itemLabel="#{establecimiento.nombre}" itemValue="#{establecimiento.codigoSiisa}" />
+                            </p:selectOneMenu>-->
 
+                            <h:panelGrid columns="2" cellpadding="4">
+
+                                <p:inputText value="#{beanCargo.cargoNuevo.especialidad}" placeholder="Especialidad" />
+                                <p:inputText value="#{beanCargo.cargoNuevo.categoria}" placeholder="Categoria" />
+                                <p:spinner value="#{beanCargo.cargoNuevo.adicional}" placeholder="Cantidad de Horas" />
+                                <p:spinner value="#{beanCargo.cargoNuevo.cantidad}" placeholder="Cantidad de Cargos" />
+
+                            </h:panelGrid>
+
+                            <h:panelGrid columns="1" cellpadding="3">
+                                <p:outputLabel for="cmbFuncion" value="Función: " />
+                                <p:selectOneMenu id="cmbFuncion" style="width:100%;" value="#{beanCargo.cargoNuevo.funcion}">
+                                    <f:selectItem itemLabel="No se especifica" itemValue="" noSelectionOption="true" />
+                                    <f:selectItem itemLabel="Profesional en General" itemValue="0" />
+                                    <f:selectItem itemLabel="Profesional en Guardia Activa" itemValue="1" />
+                                    <f:selectItem itemLabel="Jefe de Unidad" itemValue="2" />
+                                    <f:selectItem itemLabel="Jefe de Servicio" itemValue="3" />
+                                    <f:selectItem itemLabel="Jefe de Departamento" itemValue="4" />
+                                </p:selectOneMenu>
+                                <p:outputLabel for="cmbAreaDesempenio" value="Área de Desempeño: " />
+                                <p:selectOneMenu id="cmbAreaDesempenio" style="width:100%;" value="#{beanCargo.cargoNuevo.areaDeDesempenio}">
+                                    <f:selectItem itemLabel="Seleccionar un área" itemValue="" noSelectionOption="true" itemDisabled="true" />
+                                    <f:selectItem itemLabel="Unidad de Guardia" itemValue="1" />
+                                    <f:selectItem itemLabel="Unidad Sanitaria" itemValue="2" />
+                                    <f:selectItem itemLabel="Servicio Asistencial" itemValue="3" />
+                                    <f:selectItem itemLabel="Servicio Sanitario" itemValue="4" />
+                                    <f:selectItem itemLabel="Departamento" itemValue="5" />
+                                </p:selectOneMenu>
+                                <h:outputText value="Modalidad: " />
+                                <p:selectOneMenu id="cmbModalidadCargo" value="#{beanCargo.cargoNuevo.modalidad}" style="width:100%;">
+                                    <f:selectItem itemLabel="Único" itemValue="ÚNICO"/>
+                                    <f:selectItem itemLabel="Eventual" itemValue="EVENTUAL" itemDisabled="true"/>
+                                    <f:selectItem itemLabel="Temporario" itemValue="TEMPORARIO" itemDisabled="true" />
+                                    <f:selectItem itemLabel="Contrato Especial" itemValue="CONTRATO ESPECIAL" itemDisabled="true" />
+                                    <f:selectItem itemLabel="Plazo Determinado" itemValue="PLAZO DETERMINADO" itemDisabled="true" />
+                                    <f:selectItem itemLabel="Ad Honorem" itemValue="AD HONOREM" itemDisabled="true" />
+                                    <f:selectItem itemLabel="Residencias" itemValue="RESIDENCIAS" itemDisabled="true" />
+                                </p:selectOneMenu>
+
+                                <h:outputText value="Fecha del acta de la formulacion de Perfil " />
+                                <p:calendar id="calFechaActaFormulacionPerfil" pattern="dd-MM-yyyy" mask="true" />
+                                <br />
+                                <h:outputText value="Enunciación: " />
+                                <p:selectOneMenu id="cmbEnunciacion" style="width:100%;" value="#{beanCargo.cargoNuevo.enunciacion}">
+                                    <f:selectItem itemLabel="Renuncia" itemValue="RENUNCIA"/>
+                                    <f:selectItem itemLabel="Destitución" itemValue="DESTITUCION"/>
+                                    <f:selectItem itemLabel="Cumplimiento de Periodo" itemValue="CUMPLIMIENTO DE PERIODO"/>
+                                    <f:selectItem itemLabel="Fusión del Cargo" itemValue="FUSION DEL CARGO"/>
+                                    <f:selectItem itemLabel="Muerte" itemValue="MUERTE"/>
+                                    <f:selectItem itemLabel="Jubilación" itemValue="JUBILACION"/>
+                                    <f:selectItem itemLabel="Retiro" itemValue="RETIRO"/>
+                                </p:selectOneMenu>
+                            </h:panelGrid>
+                        </p:fieldset>
+                    </h:form>
+                </p:dialog>
 
             </ui:define>
         </ui:composition>

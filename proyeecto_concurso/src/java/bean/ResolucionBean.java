@@ -164,4 +164,6 @@ public class ResolucionBean extends ConcursoBean implements Serializable {
         }
     }
 
+    
+    
 }
