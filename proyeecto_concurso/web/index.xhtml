@@ -12,20 +12,49 @@
                 <p:layout style="min-height:200px; height: 32.7em;" stateful="enabled" >
 
                     <p:layoutUnit position="center" resizable="true">
+                        <h:form> 
+                            <p:dataScroller value="#{beanResolucion.listaResoluciones}" var="resolucion" chunkSize="5" mode="inline" scrollHeight="383" >
+                                <f:facet name="header">
+                                    Expedientes Registrados
+                                </f:facet>
 
+                                <h:panelGrid columns="1" style="width:100%" >
+                                    <p:outputPanel>
+                                        <h:panelGrid columns="6" cellpadding="5">
+                                            <f:facet name="header" >
+                                                Expediente 
+                                                <h:outputText value="Id: #{resolucion.expediente.idExpediente} - Num: #{resolucion.expediente.numeroExpediente} - UDO: #{resolucion.expediente.unidadDeOrganizacion.nombreUnidad}" style="font-weight: bold"/>
+                                            </f:facet>
+                                            <h:outputText value="Id Resolucion:" />
+                                            <h:outputText value="#{resolucion.idResolucion}" style="font-weight: bold"/>
+
+                                            <h:outputText value="Numero de Resolucion:" />
+                                            <h:outputText value="#{resolucion.numeroResolucion}" style="font-weight: bold"/>
+
+                                            <h:outputText value="Agrupamiento:" />
+                                            <h:outputText value="#{resolucion.agrupamiento}" style="font-weight: bold"/>
+                                            
+                                        </h:panelGrid>
+                                        <p:separator />
+                                    </p:outputPanel>
+                                </h:panelGrid>
+                            </p:dataScroller>
+                        </h:form>
                     </p:layoutUnit>
                     <p:layoutUnit position="east" resizable="true"  size="700" minSize="600"  header="Formulario de Registro de Concursos" maxSize="800" collapsible="true" >
 
                         <p:tabView activeIndex="#{beanConcurso.numeroDePestania}" effect="fade" effectDuration="fast" id="tabuladorPestañero" >
                             <p:effect type="bounce" event="onchange" />
                             <p:ajax event="tabChange"  listener="#{beanConcurso.validarPestania}" update="tabuladorPestañero:formExpedientes:msg"/>
-                            <!--
-                              PESTAÑA DE EXPEDIENTES
-                            -->
 
+                            <!--   
+                            **********************************
+                            PESTAÑA EXPEDIENTES
+                            **********************************
+                            -->
                             <p:tab title="Expediente" id="tabExpediente" >
                                 <h:form id="formExpedientes">
-                                    <p:growl id="msg" showDetail="true" escape="false" sticky="false" life="5000" />
+                                    <p:growl id="msg" showDetail="true" escape="false" sticky="false" life="5000"  />
                                     <h:panelGrid columns="3" cellpadding="3" frame="box" styleClass="panelAlta" >
                                         <f:facet name="header" class="encabezadoPanel">
                                             <h:outputText value="Datos Generales del Expediente" />
@@ -65,9 +94,11 @@
                             </p:tab>
 
 
-                            <!--
-                                                            PESTAÑA DE RESOLUCIONES-->
-
+                            <!--   
+                            **********************************
+                            PESTAÑA RESOLUCIONES  
+                            **********************************
+                            -->
                             <p:tab title="Resoluciones"  id="tabResoluciones" disabled="#{!beanExpediente.datosValidos}" >
                                 <h:form id="formResoluciones">
                                     <p:commandButton value="Nuevo" onclick="PF('dlgNuevaResolucion').show();" icon="ui-icon-plusthick" />
@@ -134,8 +165,6 @@
                                 </h:form>
                             </p:tab>
 
-                            <!--
-                                                            PESTAÑA DE CARGOS-->
 
                             <p:tab title="Cargos" id="tabCargos" disabled="false" >
 
@@ -185,28 +214,35 @@
 
                             </p:tab>
 
-                            <!--
-                            
-                                PESTAÑA TRIBUNAL
-                            -->
 
+                            <!--   
+                            **********************************
+                            PESTAÑA TRIBUNAL 
+                            **********************************
+                            -->
                             <p:tab title="Tribunal" id="tabTribunal" disabled="#{!beanCargo.datosValidos}" >
 
 
                             </p:tab>
 
-                            <!--
-                                                            PESTAÑA POSTULANTES-->
 
+                            <!--   
+                            **********************************
+                            PESTAÑA POSTULANTES 
+                            **********************************
+                            -->
                             <p:tab title="Postulantes" id="tabPostulantes" disabled="#{!beanTribunal.datosValidos}" >
                                 <h:panelGrid columns="2" cellpadding="3" frame="box" styleClass="panelAlta" >
 
                                 </h:panelGrid>
                             </p:tab>
 
-                            <!--
-                                                            PESTAÑA RESULTADO-->
 
+                            <!--   
+                            **********************************
+                            PESTAÑA RESULTADO
+                            **********************************
+                            -->
                             <p:tab title="Resultado" id="tabResultado" disabled="true" >
                                 <h:panelGrid columns="2" cellpadding="3" frame="box" styleClass="panelAlta" >
 
@@ -220,28 +256,28 @@
                 </p:layout>
 
 
-                <!--                
-                DIALOGO PARA UNA NUEVA RESOLUCION                
+                <!--   
+                **********************************
+                DIALOGO PARA UNA NUEVA RESOLUCION  
+                **********************************
                 -->
                 <p:dialog id="dlgNuevaResolucion" appendTo="@(body)" widgetVar="dlgNuevaResolucion" modal="true" showEffect="blind" hideEffect="blind" resizable="true" closable="true" closeOnEscape="true" >
                     <f:facet name="header">
                         <h:outputText id="lblEncabezadoNuevaResolucion" value="Resolucion Nueva - Exp. #{beanExpediente.expedienteNuevo.numeroExpediente}" />
                     </f:facet>
                     <h:form id="formNuevaResolucion">
-
-                        <p:panelGrid columns="4" layout="grid" >
+                        <h:panelGrid columns="4" cellpadding="3" frame="box" styleClass="panelAlta" >
+                            
                             <h:outputText value="Numero de Resolución" />
                             <p:spinner id="spnNumeroResolucion" value="#{beanResolucion.resolucionNueva.numeroResolucion}" placeholder="Número de Resolución" min="0" max="99999" required="true" requiredMessage="Ingrese el numero que figura en la resolucion"  maxlength="6" />
+
                             <p:selectOneMenu id="cmbDependenciaNumeroResolucion" value="#{beanResolucion.dependenciaNumeroResolucion}" required="true" requiredMessage="Seleccione una dependencia" >
                                 <f:selectItem itemLabel="S" itemValue="S" />
                                 <f:selectItem itemLabel="SPPRS" itemValue="SPPRS" />
                             </p:selectOneMenu>
+
                             <p:spinner id="spnAnioNumeroResolucion" value="#{beanResolucion.anioNumeroResolucion}" placeholder="Año" min="1950" max="2020" required="true" requiredMessage="Ingrese el año que figura en la resolucion"  maxlength="4" />
-                        </p:panelGrid>
-                        <h:panelGrid columns="4" cellpadding="3" frame="box" styleClass="panelAlta" >
-                            <f:facet name="header"> 
-                                <h:outputText value="Expediente: #{beanExpediente.expedienteNuevo.numeroExpediente}" id="lblEncabezadoExpediente" /> 
-                            </f:facet>
+
                             <h:outputText value="Estado" />
                             <p:selectOneMenu id="cmbEstadoResolucion" value="#{beanResolucion.resolucionNueva.estado}" style="width:100%;" >
                                 <f:selectItem itemLabel="En ejecucion" itemValue="EN EJECUCION"/>
@@ -290,19 +326,25 @@
                             <p:column /><p:column />
 
                             <h:outputText value="Apertura: " />
-                            <p:calendar id="calFechaApertura" value="#{beanResolucion.resolucionNueva.fechaApertura}" pattern="dd-MM-yyyy" mask="true" />
-
-                            <h:outputText value="Cierrre de inscripciones: " />
-                            <p:calendar id="calFechaCierre" value="#{beanResolucion.resolucionNueva.fechaCierre}" pattern="dd-MM-yyyy" mask="true" />
+                            <p:calendar id="calFechaApertura" value="#{beanResolucion.resolucionNueva.fechaApertura}" pattern="dd-MM-yyyy" mask="true" >
+                                <p:ajax event="dateSelect" listener="#{beanResolucion.onDateSelect}" update="calFechaCierre,calFechaEjecucion" />
+                            </p:calendar>
 
                             <h:outputText value="Ejecución: " />
-                            <p:calendar id="calFechaEjecucion" value="#{beanResolucion.resolucionNueva.fechaEjecucion}" pattern="dd-MM-yyyy" mask="true" />
+                            <p:calendar id="calFechaEjecucion" value="#{beanResolucion.resolucionNueva.fechaEjecucion}" mindate="#{beanResolucion.resolucionNueva.fechaApertura}" pattern="dd-MM-yyyy" mask="true" />
+
+                            <h:outputText value="Cierrre de inscripciones: " />
+                            <p:calendar id="calFechaCierre" value="#{beanResolucion.resolucionNueva.fechaCierre}" mindate="#{beanResolucion.resolucionNueva.fechaApertura}" pattern="dd-MM-yyyy" mask="true" >
+                                <p:ajax event="dateSelect" listener="#{beanResolucion.onDateSelect}" update="calFechaPublicacion" />
+                            </p:calendar>
 
                             <h:outputText value="Publicación de Resultados" />
-                            <p:calendar id="calFechaPublicacion" value="#{beanResolucion.resolucionNueva.fechaPublicacion}" pattern="dd-MM-yyyy" mask="true" />
+                            <p:calendar id="calFechaPublicacion" value="#{beanResolucion.resolucionNueva.fechaPublicacion}" mindate="#{beanResolucion.resolucionNueva.fechaCierre}" pattern="dd-MM-yyyy" mask="true" />
 
                         </h:panelGrid>
-                        <p:commandButton id="btnGuardarNuevaResolucion" icon="ui-icon-disk" value="Guardar" actionListener="#{beanResolucion.guardarResolucion()}" onstart="PF('dlgNuevaResolucion').hide();" update="tabuladorPestañero,tabuladorPestañero:formResoluciones:tblResoluciones,tabuladorPestañero:formExpedientes:msg" styleClass="btnVerde"  />
+                        <p:commandButton id="btnGuardarNuevaResolucion" icon="ui-icon-disk" value="Guardar" actionListener="#{beanResolucion.guardarResolucion()}" oncomplete="PF('dlgNuevaResolucion').hide();" update="tabuladorPestañero,tabuladorPestañero:formResoluciones:tblResoluciones,tabuladorPestañero:formExpedientes:msg,tabuladorPestañero:formCargos:tblCargos" styleClass="btnVerde"  >
+                            <f:setPropertyActionListener value="#{beanResolucion.resolucionNueva}" target="#{beanCargo.cargoNuevo.resolucion}" />
+                        </p:commandButton>
                     </h:form>
                 </p:dialog>
                 <!-- 
