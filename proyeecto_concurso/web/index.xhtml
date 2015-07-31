@@ -164,7 +164,12 @@
                                     </p:dataTable>
                                 </h:form>
                             </p:tab>
-
+                            
+                               <!--   
+                            **********************************
+                            PESTAÑA RESOLUCIONES  
+                            **********************************
+                            -->
 
                             <p:tab title="Cargos" id="tabCargos" disabled="false" >
 
@@ -357,11 +362,7 @@
                             <p:inputText value="Resolución: #{beanCargo.ultimaResolucion.numeroResolucion}"/>
                             <br/>
                             <p:inputText value="Establecimiento :" />
-<!--                            <p:selectOneMenu id="cmbEstablecimiento" value="#{beanConcurso.cargo.establecimiento.codigoSiisa}" required="true" requiredMessage="Seleccione un Establecimiento" style="width: 20em;" filter="true" >
-                                <p:ajax listener="#{beanConcurso.obtenerEstablecimiento}" update=":formCargoNuevo" />
-                                <f:selectItem noSelectionOption="true" itemLabel=" Seleccione un Establecimietno" itemValue="null" />
-                                <f:selectItems var="establecimiento" value="#{beanConcurso.listaEstablecimientos}" itemLabel="#{establecimiento.nombre}" itemValue="#{establecimiento.codigoSiisa}" />
-                            </p:selectOneMenu>-->
+
 
                             <h:panelGrid columns="2" cellpadding="4">
 

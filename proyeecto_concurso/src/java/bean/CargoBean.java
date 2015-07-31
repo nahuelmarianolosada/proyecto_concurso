@@ -33,6 +33,7 @@ public class CargoBean extends ConcursoBean implements Serializable {
     private Cargo cargoNuevo;
     private Cargo ultimoCargo;
     private Cargo cargoSeleccionado;
+    private Resolucion ultimaResolucion;
     private boolean datosValidos;//Bandera que se referencia a la vista para habilitar la pestaña siguiente
 
     /**
@@ -65,12 +66,10 @@ public class CargoBean extends ConcursoBean implements Serializable {
         return ultimaResolucion;
     }
 
-    public void setUltimaResolucion(Resolucion ultimaResolucion) {
-        this.ultimaResolucion = ultimaResolucion;
+    public void setUltimaResolucion(Resolucion ultimaresolucion) {
+        this.ultimaResolucion = ultimaresolucion;
     }
 
-
-        
     public void setListaCargos(List<Cargo> listaCargos) {
         this.listaCargos = listaCargos;
     }
@@ -102,11 +101,16 @@ public class CargoBean extends ConcursoBean implements Serializable {
     /**
      *
      * Método que setea el cargo Nuevo asignandole el nuevo Id de cargo y
+     
+     
+     public 
+     
+     
+     
+     
      * obtiene la última resolución.
      *
      */
-
-
     /**
      *
      * Obtiene la ultima resolución cargada.
@@ -126,6 +130,5 @@ public class CargoBean extends ConcursoBean implements Serializable {
         return (resCarg.generarNuevoIdCargo());
 
     }
-    
 
 }
