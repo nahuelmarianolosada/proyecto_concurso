@@ -7,11 +7,9 @@ package bean;
 
 import dominio.Cargo;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import org.primefaces.context.RequestContext;
 import hibernate.dao.ResolucionDao;
 import hibernate.dao.impl.ResolucionDaoImpl;
 import hibernate.dao.CargoDao;
@@ -43,7 +41,6 @@ public class CargoBean extends ConcursoBean implements Serializable {
 //        cargoNuevo = new Cargo(getListaEstablecimientos().get(0), getListaProfesiones().get(0));
         CargoDao cargoDao = new CargoDaoImpl();
         cargoNuevo = new Cargo(generarIdNuevoCargo());
-        listaCargos = cargoDao.getListaCargosDeResolucion(cargoNuevo.getResolucion());
 
         cargoSeleccionado = new Cargo();
         datosValidos = false;
@@ -98,19 +95,6 @@ public class CargoBean extends ConcursoBean implements Serializable {
         this.datosValidos = datosValidos;
     }
 
-    /**
-     *
-     * Método que setea el cargo Nuevo asignandole el nuevo Id de cargo y
-     
-     
-     public 
-     
-     
-     
-     
-     * obtiene la última resolución.
-     *
-     */
     /**
      *
      * Obtiene la ultima resolución cargada.

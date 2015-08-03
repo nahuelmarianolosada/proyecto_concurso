@@ -8,16 +8,17 @@ package bean;
 import dominio.Expediente;
 import dominio.UnidadDeOrganizacion;
 import hibernate.dao.ExpedienteDao;
+import hibernate.dao.ResolucionDao;
 import hibernate.dao.UnidadDeOrganizacionDao;
 import hibernate.dao.impl.ExpedienteDaoImpl;
+import hibernate.dao.impl.ResolucionDaoImpl;
 import hibernate.dao.impl.UnidadDeOrganizacionDaoImpl;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 
 /**
  *
@@ -34,6 +35,9 @@ public class ExpedienteBean extends ConcursoBean implements Serializable {
     private List<UnidadDeOrganizacion> listaUnidadDeOrganizacions; //lista que se utiliza para cargar el combo con las areas
     private boolean datosValidos;//Bandera que se referencia a la vista para habilitar la pestaña siguiente
     private List<Expediente> listaExpedientes;
+    
+    @ManagedProperty("#{beanResolucion}")
+    private ResolucionBean beanResolucion;
 
     //GETTERS & SETTERS
     public Expediente getExpedienteNuevo() {
@@ -68,6 +72,15 @@ public class ExpedienteBean extends ConcursoBean implements Serializable {
         this.listaExpedientes = listaExpedientes;
     }
 
+    public ResolucionBean getBeanResolucion() {
+        return beanResolucion;
+    }
+
+    public void setBeanResolucion(ResolucionBean beanResolucion) {
+        this.beanResolucion = beanResolucion;
+    }
+
+    
     
     
     /**
@@ -128,6 +141,9 @@ public class ExpedienteBean extends ConcursoBean implements Serializable {
             expedienteNuevo.setNumeroExpediente(expedienteNuevo.getUnidadDeOrganizacion().getCodigoUnidadDeOrganizacion() + "-" + expedienteNuevo.getNumero() + "/" + expedienteNuevo.getAnio());
 
             if (expedienteNuevo.esValido()) {
+                beanResolucion.getResolucionNueva().setExpediente(expedienteNuevo);
+                ResolucionDao resDao = new ResolucionDaoImpl();
+                beanResolucion.setListaResoluciones(resDao.getResoluciones(expedienteNuevo));
                 datosValidos = true;
                 pasarVistaDePestania();
                 nuevoMensajeInfo("Registro de Concursos de Salud - EXPEDIENTE", "Número: " + expedienteNuevo.getNumeroExpediente() + "\nRégimen: " + expedienteNuevo.getRegimen() + "\nSituación: " + expedienteNuevo.getSituacion());

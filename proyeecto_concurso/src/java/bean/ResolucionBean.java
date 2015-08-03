@@ -38,8 +38,7 @@ public class ResolucionBean extends ConcursoBean implements Serializable {
     private boolean datosValidos;//Bandera que se referencia a la vista para habilitar la pestaña siguiente
     private int anioNumeroResolucion;
 
-    @ManagedProperty("#{beanExpediente}")
-    private ExpedienteBean beanExpediente;
+    
 
     @ManagedProperty("#{beanCargo}")
     private CargoBean beanCargo;
@@ -85,13 +84,7 @@ public class ResolucionBean extends ConcursoBean implements Serializable {
         this.dependenciaNumeroResolucion = dependenciaNumeroResolucion;
     }
 
-    public ExpedienteBean getBeanExpediente() {
-        return beanExpediente;
-    }
-
-    public void setBeanExpediente(ExpedienteBean beanExpediente) {
-        this.beanExpediente = beanExpediente;
-    }
+    
 
     public boolean isDatosValidos() {
         return datosValidos;
@@ -126,9 +119,8 @@ public class ResolucionBean extends ConcursoBean implements Serializable {
         resolucionNueva = new Resolucion();
         listaResoluciones = new ArrayList<Resolucion>();
         datosValidos = false;
-        
-        ResolucionDao resolucionDao = new ResolucionDaoImpl();
-        listaResoluciones = resolucionDao.getAll();
+        ResolucionDao resDao = new ResolucionDaoImpl();
+        listaResoluciones = resDao.getAll();
     }
 
     //METODOS
@@ -153,14 +145,8 @@ public class ResolucionBean extends ConcursoBean implements Serializable {
     }
 
     public void guardarResolucion() {
-//        Object objeto = context.getExternalContext().getSessionMap().get("nombreDelBean");
-//        nombreDelBean objetoBean = null;
-//        if (objeto != null) {
-//            objetoBean = (nombreDelBean) objeto;
-//        }
 
         try {
-            resolucionNueva.setExpediente(beanExpediente.getExpedienteNuevo());
             String numeroResolucion = resolucionNueva.getNumeroResolucion();
             resolucionNueva.setNumeroResolucion(numeroResolucion + "-" + dependenciaNumeroResolucion + "/" + anioNumeroResolucion);
             resolucionNueva.setModificacion(banderaModificacionParcial);
@@ -169,9 +155,7 @@ public class ResolucionBean extends ConcursoBean implements Serializable {
             listaResoluciones.add(resolucionNueva);
 
             beanCargo.getCargoNuevo().setResolucion(resolucionNueva);
-
-//            RequestContext context = RequestContext.getCurrentInstance();
-//            context.update("tabuladorPestañero:formCargos:tblCargos");
+            
             pasarVistaDePestania();
             System.err.println("ResolucionBean.guardarResolucion() => " + resolucionNueva.toString());
 
