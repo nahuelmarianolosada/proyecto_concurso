@@ -32,7 +32,11 @@ public class Cargo implements java.io.Serializable {
         this.idCargo = idCargo;
     }
 
-    
+    public Cargo(int idCargo, Profesion profesion) {
+        this.idCargo = idCargo;
+        this.profesion = profesion;
+    }
+
     
     public Cargo(Establecimiento establecimiento, Profesion profesion) {
         this.establecimiento = establecimiento;
@@ -181,4 +185,11 @@ public class Cargo implements java.io.Serializable {
         this.convocatorias = convocatorias;
     }
 
+    @Override
+    public String toString() {
+        return "Cargo{" + "idCargo=" + idCargo + ", resolucion=" + resolucion.getNumeroResolucion() + ", establecimiento=" + establecimiento.getNombre() + ", profesion=" + profesion.getNombreProfesion() + ", especialidad=" + especialidad + ", categoria=" + categoria + ", adicional=" + adicional + ", funcion=" + funcion + ", areaDeDesempenio=" + areaDeDesempenio + ", modalidad=" + modalidad + ", fechaActaFormulacionPerfil=" + fechaActaFormulacionPerfil + ", enunciacion=" + enunciacion + ", cantidad=" + cantidad + '}';
+    }
+
+    
+    
 }
