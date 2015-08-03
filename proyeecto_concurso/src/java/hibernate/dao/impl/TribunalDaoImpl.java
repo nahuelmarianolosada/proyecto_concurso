@@ -74,5 +74,13 @@ public class TribunalDaoImpl extends HibernateUtil implements TribunalDao{
             getSession().getTransaction().rollback();
         }
     }
-    
+      public int generarNuevoIdTribunal() {
+          
+        Criteria criteria = getSession().createCriteria(Tribunal.class);
+        criteria.addOrder(Order.desc("idTribunal"));
+        Tribunal ultimoTribunal = (Tribunal) criteria.list().get(0);
+        return ultimoTribunal.getIdTribunal()+ 1;
+        
+       }
+ 
 }

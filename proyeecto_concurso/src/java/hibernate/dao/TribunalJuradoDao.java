@@ -19,4 +19,5 @@ public interface TribunalJuradoDao {
     public void insertar(TribunalJurado tribunalJurado);
     public void eliminar(TribunalJurado tribunalJurado);
     public void modificar(TribunalJurado tribunalJurado);
+    public int generarNuevoIdJurado();
 }
