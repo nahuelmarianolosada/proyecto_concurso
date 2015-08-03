@@ -225,8 +225,56 @@
                             PESTAÑA TRIBUNAL 
                             **********************************
                             -->
-                            <p:tab title="Tribunal" id="tabTribunal" disabled="#{!beanCargo.datosValidos}" >
+                          <!--   
+                            **********************************
+                            PESTAÑA TRIBUNAL 
+                            **********************************
+                            -->
+                            <p:tab title="Tribunal" id="tabTribunal" disabled="false" >
 
+                                <h:form id="formTribunal">
+
+                                    <h:panelGrid columns="2" >
+                                        <p:commandButton value="Nuevo tribunal" icon="ui-icon-plusthick"  onclick="PF('dlgNuevoJurado').show();"/>
+                                        <p:commandButton value="Actualizar" icon="ui-icon-refresh" />
+                                    </h:panelGrid>
+
+
+                                    <p:dataTable id="tblCargos" var="tribunal" value="#{beanTribunal.listaJurados}" rows="3"
+                                                 paginator="true"
+                                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                 rowsPerPageTemplate="3,5,10,15" reflow="true" >
+
+                                        <f:facet name="header">
+                                            <h:outputText id="lvlTribunales" value="JURADOS " />
+                                        </f:facet>
+                                        <p:column headerText="Id">
+                                            <h:outputText value="#{tribunal.idTribunalJurado}" />
+                                        </p:column>
+                                        <p:column headerText="Nombres">
+                                            <h:outputText value="#{tribunal.persona.nombres}" />
+                                        </p:column>
+                                        <p:column headerText="Apellido">
+                                            <h:outputText value="#{tribunal.persona.apellido}" />
+
+                                        </p:column>
+                                        <p:column headerText="Estado">
+                                            <h:outputText value="#{tribunal.estado}" />
+                                        </p:column>
+                                        <p:column headerText="Presencia">
+                                            <h:outputText value="#{tribunal.presencia}" />
+                                        </p:column>
+                                        <p:column headerText="Condicion">
+                                            <h:outputText value="#{tribunal.condicion}" />
+                                        </p:column>
+                                        <p:column headerText="Nombre de insitución">
+                                            <h:outputText value="#{tribunal.institucion.nombreInstitucion}" />
+                                        </p:column>
+                                        <p:column headerText="Nombre establecimiento">
+                                            <h:outputText value="#{tribunal.establecimiento.nombre}" />
+                                        </p:column>
+                                    </p:dataTable>
+                                </h:form>
 
                             </p:tab>
 
@@ -417,10 +465,41 @@
                                     <f:selectItem itemLabel="Retiro" itemValue="RETIRO"/>
                                 </p:selectOneMenu>
                             </h:panelGrid>
+                            
                         </p:fieldset>
                     </h:form>
                 </p:dialog>
+   <!-- 
+                     DIALOGO NUEVO JURADO
+                -->
 
+                <p:dialog header="Nuevo Jurado"  widgetVar="dlgNuevoJurado" modal="true" showEffect="fade" hideEffect="fade" draggable="true" resizable="true" closeOnEscape="true" >
+                    <h:form id="formJuradoNuevo">
+                        <p:fieldset legend="ID: " >
+                            <h:panelGrid columns="2" cellpadding="4">
+                                <p:outputLabel value="Resolución : #{beanCargo.cargoNuevo.resolucion.numeroResolucion}"/>
+                                <p:inputText placeholder="DNI"/>
+                                    <h:outputText value="Nombres" /> 
+                                    <p:inputText />
+                                    <h:outputText value="Apellido" />
+                                    <p:inputText/> 
+                                    <p:inputText placeholder="Profesión"/>    
+                             </h:panelGrid>
+                            <h:panelGrid columns="2" cellpadding="4">
+                             <h:outputText value="Estado" />     
+                             <p:selectBooleanCheckbox value="#{beanTribunal.juradoNuevo.estado}" />
+                               <h:outputText value="Presencia" />     
+                               <p:selectBooleanCheckbox value="#{beanTribunal.juradoNuevo.presencia}" />
+                            <h:outputText value="Condición" />
+                            <p:selectOneMenu id="cmbCondicionJurado" value="#{beanTribunal.juradoNuevo.presencia}" style="width:100%;" >
+                                <f:selectItem itemLabel="Titular" itemValue="TITULAR"/>
+                                <f:selectItem itemLabel="Suplente" itemValue="SUPLENTE"/>
+                            </p:selectOneMenu> 
+                               
+                             </h:panelGrid>
+                                   </p:fieldset>
+                    </h:form>
+                </p:dialog>
             </ui:define>
         </ui:composition>
     </h:body>
