@@ -6,6 +6,7 @@
 package bean;
 
 import dominio.Cargo;
+import dominio.Establecimiento;
 import dominio.Profesion;
 import java.io.Serializable;
 import java.util.List;
@@ -16,8 +17,11 @@ import hibernate.dao.impl.ResolucionDaoImpl;
 import hibernate.dao.CargoDao;
 import hibernate.dao.impl.CargoDaoImpl;
 import dominio.Resolucion;
+import hibernate.dao.EstablecimientoDao;
 import hibernate.dao.ProfesionDao;
+import hibernate.dao.impl.EstablecimientoDaoImpl;
 import hibernate.dao.impl.ProfesionDaoImpl;
+import java.util.ArrayList;
 
 /**
  *
@@ -51,6 +55,8 @@ public class CargoBean extends ConcursoBean implements Serializable {
 
         cargoSeleccionado = new Cargo();
         datosValidos = false;
+        
+        listaCargos = new ArrayList<Cargo>();
 
     }
 
@@ -137,7 +143,31 @@ public class CargoBean extends ConcursoBean implements Serializable {
             ProfesionDao profDao = new ProfesionDaoImpl();
             Profesion profEncontrada = profDao.getProfesion(cargoNuevo.getProfesion().getIdProfesion());
             cargoNuevo.setProfesion(profEncontrada);
-            System.out.println("Cargo: " + cargoNuevo.toString());
+            obtenerEstablecimiento(cargoNuevo);
+            System.out.println("\033[32mCargoBean.guardarNuevoCargo() => Cargo Nuevo: " + cargoNuevo.toString());
+            listaCargos.add(cargoNuevo);
+            datosValidos = true;
+            pasarVistaDePestania();
+        } catch (Exception exGeneral) {
+            exGeneral.printStackTrace();
+        }
+    }
+    
+    
+    /**
+     * 
+     * Metodo que setea, si existe, el establecimiento en el cargo
+     */
+    public void obtenerEstablecimiento(Cargo cargo) {
+        try {
+            
+            EstablecimientoDao establDao = new EstablecimientoDaoImpl();
+            Establecimiento estEncontrado = establDao.getEstablecimiento(cargo.getEstablecimiento().getCodigoSiisa());
+            if (estEncontrado != null) {
+                cargo.setEstablecimiento(estEncontrado);
+            } else {
+                System.out.println("\033[31mCargoBean.obtenerEstablecimiento() => No se encontro el establecimiento con el codigo ");
+            }
         } catch (Exception exGeneral) {
             exGeneral.printStackTrace();
         }
