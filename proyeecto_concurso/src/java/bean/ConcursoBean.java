@@ -40,7 +40,6 @@ public class ConcursoBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private static int numeroDePestania = 0;//Indice en la pestaña "tabuladorPestañero"
-    private Cargo cargo;
     private boolean banderaInstitucion;
     private boolean banderaEstablecimiento;
     
@@ -77,13 +76,7 @@ public class ConcursoBean implements Serializable {
         return numeroDePestania;
     }
 
-    public Cargo getCargo() {
-        return cargo;
-    }
-
-    public void setCargo(Cargo cargo) {
-        this.cargo = cargo;
-    }
+   
 
     public void setNumeroDePestania(int numeroDePestania) {
         this.numeroDePestania = numeroDePestania;
@@ -127,14 +120,14 @@ public class ConcursoBean implements Serializable {
     public void setListaEstablecimientos(List<Establecimiento> listaEstablecimientos) {
         this.listaEstablecimientos = listaEstablecimientos;
     }
-//
-//    public List<Institucion> getListaInstituciones() {
-//        return listaInstituciones;
-//    }
-//
-//    public void setListaInstituciones(List<Institucion> listaInstituciones) {
-//        this.listaInstituciones = listaInstituciones;
-//    }
+
+    public List<Institucion> getListaInstituciones() {
+        return listaInstituciones;
+    }
+
+    public void setListaInstituciones(List<Institucion> listaInstituciones) {
+        this.listaInstituciones = listaInstituciones;
+    }
 //
 //    public boolean isBanderaInstitucion() {
 //        return banderaInstitucion;
@@ -260,9 +253,9 @@ public class ConcursoBean implements Serializable {
 //    beanCargo.setListaCargos(cargoDao.getAll());
 
 
-  //      InstitucionDao instDao = new InstitucionDaoImpl();
-   //     listaInstituciones = instDao.getAll();
-          EstablecimientoDao establecimientoDao = new EstablecimientoDaoImpl();
+       InstitucionDao instDao = new InstitucionDaoImpl();
+       listaInstituciones = instDao.getAll();
+        EstablecimientoDao establecimientoDao = new EstablecimientoDaoImpl();
         listaEstablecimientos = establecimientoDao.getAll();
     }
     /**
@@ -293,18 +286,6 @@ public class ConcursoBean implements Serializable {
         }
     }
 
-    public void obtenerEstablecimiento(TabChangeEvent event) {
-        try {
-            nuevoMensajeInfo("Registro provincial de concursos de Salud", "Pestaña activa: " + event.getTab().getTitle());
-            EstablecimientoDao establDao = new EstablecimientoDaoImpl();
-            Establecimiento estEncontrado = establDao.getEstablecimiento(cargo.getEstablecimiento().getCodigoSiisa());
-            if (estEncontrado != null) {
-                cargo.setEstablecimiento(estEncontrado);
-            } else {
-                System.out.println("No se encontro el establecimiento con el codigo ");
-            }
-        } catch (Exception exGeneral) {
-            exGeneral.printStackTrace();
-        }
+   
     }
-}
+
