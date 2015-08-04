@@ -69,6 +69,8 @@ public class ConcursoBean implements Serializable {
         return numeroDePestania;
     }
 
+   
+
     public void setNumeroDePestania(int numeroDePestania) {
         this.numeroDePestania = numeroDePestania;
     }
@@ -111,14 +113,14 @@ public class ConcursoBean implements Serializable {
     public void setListaEstablecimientos(List<Establecimiento> listaEstablecimientos) {
         this.listaEstablecimientos = listaEstablecimientos;
     }
-//
-//    public List<Institucion> getListaInstituciones() {
-//        return listaInstituciones;
-//    }
-//
-//    public void setListaInstituciones(List<Institucion> listaInstituciones) {
-//        this.listaInstituciones = listaInstituciones;
-//    }
+
+    public List<Institucion> getListaInstituciones() {
+        return listaInstituciones;
+    }
+
+    public void setListaInstituciones(List<Institucion> listaInstituciones) {
+        this.listaInstituciones = listaInstituciones;
+    }
 //
 //    public boolean isBanderaInstitucion() {
 //        return banderaInstitucion;
@@ -237,10 +239,13 @@ public class ConcursoBean implements Serializable {
 
         //ProfesionDao profDao = new ProfesionDaoImpl();
         //listaProfesiones = profDao.getAll();
-        //CargoDao cargoDao = new CargoDaoImpl();
-        //beanCargo.setListaCargos(cargoDao.getAll());
-        //InstitucionDao instDao = new InstitucionDaoImpl();
-        //listaInstituciones = instDao.getAll();
+
+        CargoDao cargoDao = new CargoDaoImpl();
+//    beanCargo.setListaCargos(cargoDao.getAll());
+
+
+       InstitucionDao instDao = new InstitucionDaoImpl();
+       listaInstituciones = instDao.getAll();
         EstablecimientoDao establecimientoDao = new EstablecimientoDaoImpl();
         listaEstablecimientos = establecimientoDao.getAll();
     }
@@ -272,4 +277,6 @@ public class ConcursoBean implements Serializable {
             }
         }
     }
-}
+
+   
+    }

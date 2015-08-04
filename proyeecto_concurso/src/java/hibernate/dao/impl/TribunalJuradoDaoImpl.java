@@ -5,8 +5,10 @@
  */
 package hibernate.dao.impl;
 
+import dominio.Tribunal;
 import dominio.TribunalJurado;
 import hibernate.HibernateUtil;
+import static hibernate.HibernateUtil.getSession;
 import hibernate.dao.TribunalJuradoDao;
 import java.util.List;
 import org.hibernate.Criteria;
@@ -70,5 +72,15 @@ public class TribunalJuradoDaoImpl extends HibernateUtil implements TribunalJura
             e.printStackTrace();
             getSession().getTransaction().rollback();
         }
+    }
+    
+      public int generarNuevoIdJurado() {
+
+        Criteria criteria = getSession().createCriteria(TribunalJurado.class);
+        criteria.addOrder(Order.desc("idTribunalJurado"));
+        TribunalJurado ultimoTribunalJurado = (TribunalJurado) criteria.list().get(0);
+        return ultimoTribunalJurado.getIdTribunalJurado()+ 1;
+        
+
     }
 }
