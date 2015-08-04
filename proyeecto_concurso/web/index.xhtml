@@ -376,13 +376,13 @@
                                 <p:ajax event="dateSelect" listener="#{beanResolucion.onDateSelect}" update="calFechaCierre,calFechaEjecucion" />
                             </p:calendar>
 
-                            <h:outputText value="Ejecución: " />
-                            <p:calendar id="calFechaEjecucion" value="#{beanResolucion.resolucionNueva.fechaEjecucion}" mindate="#{beanResolucion.resolucionNueva.fechaApertura}" pattern="dd-MM-yyyy" mask="true" />
-
                             <h:outputText value="Cierrre de inscripciones: " />
                             <p:calendar id="calFechaCierre" value="#{beanResolucion.resolucionNueva.fechaCierre}" mindate="#{beanResolucion.resolucionNueva.fechaApertura}" pattern="dd-MM-yyyy" mask="true" >
-                                <p:ajax event="dateSelect" listener="#{beanResolucion.onDateSelect}" update="calFechaPublicacion" />
+                                <p:ajax event="dateSelect" listener="#{beanResolucion.onDateSelect}" update="calFechaPublicacion,calFechaEjecucion" />
                             </p:calendar>
+
+                            <h:outputText value="Ejecución: " />
+                            <p:calendar id="calFechaEjecucion" value="#{beanResolucion.resolucionNueva.fechaEjecucion}" mindate="#{beanResolucion.resolucionNueva.fechaCierre}" pattern="dd-MM-yyyy" mask="true" />
 
                             <h:outputText value="Publicación de Resultados" />
                             <p:calendar id="calFechaPublicacion" value="#{beanResolucion.resolucionNueva.fechaPublicacion}" mindate="#{beanResolucion.resolucionNueva.fechaCierre}" pattern="dd-MM-yyyy" mask="true" />
@@ -407,7 +407,6 @@
                             <br/>
                             <h:outputText value="Establecimiento:" />
                             <p:selectOneMenu id="cmbEstablecimiento" value="#{beanCargo.cargoNuevo.establecimiento.codigoSiisa}" required="true" requiredMessage="Seleccione un Establecimiento" style="width: 100%;" filter="true" >
-                                <p:ajax listener="#{beanConcurso.obtenerEstablecimiento}" update="" />
                                 <f:selectItem noSelectionOption="true" itemLabel=" Seleccione un Establecimietno" itemValue="null" />
                                 <f:selectItems var="establecimiento" value="#{beanConcurso.listaEstablecimientos}" itemLabel="#{establecimiento.nombre}" itemValue="#{establecimiento.codigoSiisa}" />
                             </p:selectOneMenu>
@@ -429,21 +428,21 @@
 
                                 <p:outputLabel for="cmbFuncion" value="Función: " />
                                 <p:selectOneMenu id="cmbFuncion" style="width:100%;" value="#{beanCargo.cargoNuevo.funcion}">
-                                    <f:selectItem itemLabel="No se especifica" itemValue="" noSelectionOption="true" />
-                                    <f:selectItem itemLabel="Profesional en General" itemValue="0" />
-                                    <f:selectItem itemLabel="Profesional en Guardia Activa" itemValue="1" />
-                                    <f:selectItem itemLabel="Jefe de Unidad" itemValue="2" />
-                                    <f:selectItem itemLabel="Jefe de Servicio" itemValue="3" />
-                                    <f:selectItem itemLabel="Jefe de Departamento" itemValue="4" />
+                                    <f:selectItem itemLabel="No se especifica" itemValue="NO SE ESPECIFICA"  />
+                                    <f:selectItem itemLabel="Profesional en General" itemValue="PROFESIONAL EN GENERAL" />
+                                    <f:selectItem itemLabel="Profesional en Guardia Activa" itemValue="PROFESIONAL EN GUARDIA ACTIVA" />
+                                    <f:selectItem itemLabel="Jefe de Unidad" itemValue="JEFE DE UNIDAD" />
+                                    <f:selectItem itemLabel="Jefe de Servicio" itemValue="JEFE DE SERVICIO" />
+                                    <f:selectItem itemLabel="Jefe de Departamento" itemValue="JEFE DE DEPARTAMENTO" />
                                 </p:selectOneMenu>
                                 <p:outputLabel for="cmbAreaDesempenio" value="Área de Desempeño: " />
                                 <p:selectOneMenu id="cmbAreaDesempenio" style="width:100%;" value="#{beanCargo.cargoNuevo.areaDeDesempenio}">
                                     <f:selectItem itemLabel="Seleccionar un área" itemValue="" noSelectionOption="true" itemDisabled="true" />
-                                    <f:selectItem itemLabel="Unidad de Guardia" itemValue="1" />
-                                    <f:selectItem itemLabel="Unidad Sanitaria" itemValue="2" />
-                                    <f:selectItem itemLabel="Servicio Asistencial" itemValue="3" />
-                                    <f:selectItem itemLabel="Servicio Sanitario" itemValue="4" />
-                                    <f:selectItem itemLabel="Departamento" itemValue="5" />
+                                    <f:selectItem itemLabel="Unidad de Guardia" itemValue="UNIDAD DE GUARDIA" />
+                                    <f:selectItem itemLabel="Unidad Sanitaria" itemValue="UNIDAD SANITARIA" />
+                                    <f:selectItem itemLabel="Servicio Asistencial" itemValue="SERVICIO ASISTENCIAL" />
+                                    <f:selectItem itemLabel="Servicio Sanitario" itemValue="SERVICIO SANITARIO" />
+                                    <f:selectItem itemLabel="Departamento" itemValue="DEPARTAMENTO" />
                                 </p:selectOneMenu>
                                 <h:outputText value="Modalidad: " />
                                 <p:selectOneMenu id="cmbModalidadCargo" value="#{beanCargo.cargoNuevo.modalidad}" style="width:100%;">

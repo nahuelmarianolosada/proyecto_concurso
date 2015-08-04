@@ -157,7 +157,7 @@ public class ResolucionBean extends ConcursoBean implements Serializable {
             beanCargo.getCargoNuevo().setResolucion(resolucionNueva);
             
             pasarVistaDePestania();
-            System.err.println("ResolucionBean.guardarResolucion() => " + resolucionNueva.toString());
+            System.err.println("\033[32mResolucionBean.guardarResolucion() => " + resolucionNueva.toString());
 
             nuevoMensajeInfo("Registro de Concursos de Salud - RESOLUCIÓN", "NºResolucion: " + resolucionNueva.getNumeroResolucion()
                     + " guardada éxitosamente");

@@ -5,12 +5,9 @@
  */
 package bean;
 
-import dominio.Resolucion;
 import hibernate.dao.CargoDao;
 import dominio.Cargo;
-import hibernate.dao.ResolucionDao;
 import hibernate.dao.impl.CargoDaoImpl;
-import hibernate.dao.impl.ResolucionDaoImpl;
 import hibernate.dao.EstablecimientoDao;
 import hibernate.dao.impl.EstablecimientoDaoImpl;
 import hibernate.dao.InstitucionDao;
@@ -20,12 +17,9 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import org.primefaces.context.RequestContext;
 import org.primefaces.event.TabChangeEvent;
-import bean.CargoBean;
-import javax.servlet.http.HttpSession;
 import dominio.Establecimiento;
-import dominio.Institucion;        
+import dominio.Institucion;
 
 /**
  *
@@ -40,10 +34,9 @@ public class ConcursoBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private static int numeroDePestania = 0;//Indice en la pestaña "tabuladorPestañero"
-    private Cargo cargo;
     private boolean banderaInstitucion;
     private boolean banderaEstablecimiento;
-    
+
 //    @ManagedProperty("#{beanResolucion}")
 //    private ResolucionBean beanResolucion;
 //
@@ -67,22 +60,13 @@ public class ConcursoBean implements Serializable {
      */
     public ConcursoBean() {
         //init();
- 
+
         refreshListas();
-        Cargo cargo = new Cargo();
-  
+
     }
 
     public int getNumeroDePestania() {
         return numeroDePestania;
-    }
-
-    public Cargo getCargo() {
-        return cargo;
-    }
-
-    public void setCargo(Cargo cargo) {
-        this.cargo = cargo;
     }
 
     public void setNumeroDePestania(int numeroDePestania) {
@@ -165,7 +149,6 @@ public class ConcursoBean implements Serializable {
      * M E T O D O S
      *
      */
-
     public static void pasarVistaDePestania() {
         numeroDePestania += 1;
         System.out.println("ConcursoBean.pasarVistaDePagina(): La pestaña ahora es " + numeroDePestania);
@@ -209,8 +192,7 @@ public class ConcursoBean implements Serializable {
 //        }
 //        nuevoMensajeInfo("Registro Provincial de Concursos de Salud", beanTribunal.getJuradoNuevo().getEstablecimiento().getCodigoSiisa() + " " + beanTribunal.getJuradoNuevo().getEstablecimiento().getNombre());
 //    }
-    
-    
+
     public void habilitarCmbInstitucion() {
         if (banderaInstitucion) {
             banderaInstitucion = false;
@@ -255,16 +237,14 @@ public class ConcursoBean implements Serializable {
 
         //ProfesionDao profDao = new ProfesionDaoImpl();
         //listaProfesiones = profDao.getAll();
-
-        CargoDao cargoDao = new CargoDaoImpl();
-//    beanCargo.setListaCargos(cargoDao.getAll());
-
-
-  //      InstitucionDao instDao = new InstitucionDaoImpl();
-   //     listaInstituciones = instDao.getAll();
-          EstablecimientoDao establecimientoDao = new EstablecimientoDaoImpl();
+        //CargoDao cargoDao = new CargoDaoImpl();
+        //beanCargo.setListaCargos(cargoDao.getAll());
+        //InstitucionDao instDao = new InstitucionDaoImpl();
+        //listaInstituciones = instDao.getAll();
+        EstablecimientoDao establecimientoDao = new EstablecimientoDaoImpl();
         listaEstablecimientos = establecimientoDao.getAll();
     }
+
     /**
      *
      * Método que se llama cada vez que se pasa de pestaña, mostrando con un
@@ -290,21 +270,6 @@ public class ConcursoBean implements Serializable {
 
                 break;
             }
-        }
-    }
-
-    public void obtenerEstablecimiento(TabChangeEvent event) {
-        try {
-            nuevoMensajeInfo("Registro provincial de concursos de Salud", "Pestaña activa: " + event.getTab().getTitle());
-            EstablecimientoDao establDao = new EstablecimientoDaoImpl();
-            Establecimiento estEncontrado = establDao.getEstablecimiento(cargo.getEstablecimiento().getCodigoSiisa());
-            if (estEncontrado != null) {
-                cargo.setEstablecimiento(estEncontrado);
-            } else {
-                System.out.println("No se encontro el establecimiento con el codigo ");
-            }
-        } catch (Exception exGeneral) {
-            exGeneral.printStackTrace();
         }
     }
 }
