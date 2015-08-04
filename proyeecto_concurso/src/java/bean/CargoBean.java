@@ -49,7 +49,6 @@ public class CargoBean extends ConcursoBean implements Serializable {
 //        cargoNuevo = new Cargo(getListaEstablecimientos().get(0), getListaProfesiones().get(0));
         ProfesionDao profDao = new ProfesionDaoImpl();
         listaProfesiones = profDao.getAll();
-        CargoDao cargoDao = new CargoDaoImpl();
         cargoNuevo = new Cargo(generarIdNuevoCargo(), listaProfesiones.get(0));
         cargoNuevo.setEstablecimiento(super.getListaEstablecimientos().get(0));
 
@@ -145,7 +144,14 @@ public class CargoBean extends ConcursoBean implements Serializable {
             cargoNuevo.setProfesion(profEncontrada);
             obtenerEstablecimiento(cargoNuevo);
             System.out.println("\033[32mCargoBean.guardarNuevoCargo() => Cargo Nuevo: " + cargoNuevo.toString());
+            
+            //Obtenemos la resolucion para asignarsela al siguiente cargo que se cargue
+            Resolucion res = cargoNuevo.getResolucion();
+            
             listaCargos.add(cargoNuevo);
+            cargoNuevo = new Cargo(generarIdNuevoCargo(), listaProfesiones.get(0));
+            cargoNuevo.setEstablecimiento(getListaEstablecimientos().get(0));
+            cargoNuevo.setResolucion(res);
             if (listaCargos.size() > 0) {
                 datosValidos = true;
             }

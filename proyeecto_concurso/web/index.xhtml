@@ -176,7 +176,7 @@
                                 <h:form id="formCargos">
 
                                     <h:panelGrid columns="2" >
-                                        <p:commandButton value="NuevoCargo" icon="ui-icon-plusthick" onclick="PF('dlgCargoNuevo').show();" />
+                                        <p:commandButton value="NuevoCargo" icon="ui-icon-plusthick" oncomplete="PF('dlgCargoNuevo').show();" update=":formCargoNuevo" />
                                         <p:commandButton value="Actualizar" icon="ui-icon-refresh" />
                                     </h:panelGrid>
 
@@ -400,7 +400,7 @@
                 DIALOGO PARA UN CARGO NUEVO
                 **********************************
                 -->
-                <p:dialog header="Cargo Nuevo"  widgetVar="dlgCargoNuevo" modal="true" showEffect="fade" hideEffect="fade" draggable="true" resizable="true" closeOnEscape="true" minWidth="373" >
+                <p:dialog header="Cargo Nuevo"  widgetVar="dlgCargoNuevo" id="dlgCargoNuevo" modal="true" showEffect="fade" hideEffect="fade" draggable="true" resizable="true" closeOnEscape="true" minWidth="373" >
                     <h:form id="formCargoNuevo">
                         <p:fieldset legend="ID: #{beanCargo.cargoNuevo.idCargo}"  >
                             <h:outputText value="Numero de Resolución:" />
