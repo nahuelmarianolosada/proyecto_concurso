@@ -125,7 +125,7 @@ public class ExpedienteBean extends ConcursoBean implements Serializable {
             nuevoMensajeInfo("Expediente " + expedienteNuevo.getIdExpediente(), "Numero de Expediente: " + expedienteNuevo.getNumeroExpediente() + "\nSituación: " + expedienteNuevo.getSituacion() + "\nRégimen: " + expedienteNuevo.getRegimen() + "\nEstablecimiento: " + expedienteNuevo.getUnidadDeOrganizacion().getNombreUnidad());
 
         } catch (NullPointerException ex1) {
-            nuevoMensajeAlerta("Error! " + ex1.getMessage(), ex1.getLocalizedMessage());
+            nuevoMensajeAlerta("\033[31mError! " + ex1.getMessage(), ex1.getLocalizedMessage());
         }
 
     }
@@ -148,7 +148,7 @@ public class ExpedienteBean extends ConcursoBean implements Serializable {
                 pasarVistaDePestania();
                 nuevoMensajeInfo("Registro de Concursos de Salud - EXPEDIENTE", "Número: " + expedienteNuevo.getNumeroExpediente() + "\nRégimen: " + expedienteNuevo.getRegimen() + "\nSituación: " + expedienteNuevo.getSituacion());
             }
-            System.err.println("ExpedienteBean.guardarExpediente() => " + expedienteNuevo.toString());
+            System.out.println("\033[32mExpedienteBean.guardarExpediente() => " + expedienteNuevo.toString());
 
         } catch (Exception ex1) {
             ex1.printStackTrace();
