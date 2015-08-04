@@ -214,6 +214,7 @@
                                             <h:outputText value="#{cargos.cantidad}" />
                                         </p:column>
                                     </p:dataTable>
+                                    <p:commandButton id="btnGuardarCargos" value="Guardar" actionListener="#{beanCargo.guardarCargos}" icon="ui-icon-disk" update="tabuladorPestañero,tabuladorPestañero:formExpedientes:msg" styleClass="btnVerde" disabled="#{!beanCargo.datosValidos}" />
                                 </h:form>
 
 

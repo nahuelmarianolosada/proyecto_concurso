@@ -55,7 +55,7 @@ public class CargoBean extends ConcursoBean implements Serializable {
 
         cargoSeleccionado = new Cargo();
         datosValidos = false;
-        
+
         listaCargos = new ArrayList<Cargo>();
 
     }
@@ -146,21 +146,31 @@ public class CargoBean extends ConcursoBean implements Serializable {
             obtenerEstablecimiento(cargoNuevo);
             System.out.println("\033[32mCargoBean.guardarNuevoCargo() => Cargo Nuevo: " + cargoNuevo.toString());
             listaCargos.add(cargoNuevo);
-            datosValidos = true;
-            pasarVistaDePestania();
+            if (listaCargos.size() > 0) {
+                datosValidos = true;
+            }
+            
         } catch (Exception exGeneral) {
             exGeneral.printStackTrace();
         }
     }
     
-    
     /**
      * 
+     * Metodo que guarda todos los cargos precargados en la lista
+     */
+    public void guardarCargos(){
+        nuevoMensajeInfo("Registro de concursos de Salud", listaCargos.size() + " cargos fueron cargados");
+        pasarVistaDePestania();
+    }
+
+    /**
+     *
      * Metodo que setea, si existe, el establecimiento en el cargo
      */
     public void obtenerEstablecimiento(Cargo cargo) {
         try {
-            
+
             EstablecimientoDao establDao = new EstablecimientoDaoImpl();
             Establecimiento estEncontrado = establDao.getEstablecimiento(cargo.getEstablecimiento().getCodigoSiisa());
             if (estEncontrado != null) {
