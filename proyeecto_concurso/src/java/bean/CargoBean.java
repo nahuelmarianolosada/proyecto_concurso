@@ -137,7 +137,10 @@ public class CargoBean extends ConcursoBean implements Serializable {
             ProfesionDao profDao = new ProfesionDaoImpl();
             Profesion profEncontrada = profDao.getProfesion(cargoNuevo.getProfesion().getIdProfesion());
             cargoNuevo.setProfesion(profEncontrada);
-            System.out.println("Cargo: " + cargoNuevo.toString());
+            System.out.println("CargoBean.guardarNuevoCargo() => Cargo Nuevo: " + cargoNuevo.toString());
+            listaCargos.add(cargoNuevo);
+            datosValidos = true;
+            pasarVistaDePestania();
         } catch (Exception exGeneral) {
             exGeneral.printStackTrace();
         }
