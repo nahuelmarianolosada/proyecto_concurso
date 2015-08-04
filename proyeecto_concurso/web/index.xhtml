@@ -408,7 +408,6 @@
                             <br/>
                             <h:outputText value="Establecimiento:" />
                             <p:selectOneMenu id="cmbEstablecimiento" value="#{beanCargo.cargoNuevo.establecimiento.codigoSiisa}" required="true" requiredMessage="Seleccione un Establecimiento" style="width: 100%;" filter="true" >
-                                <p:ajax listener="#{beanConcurso.obtenerEstablecimiento}" update="" />
                                 <f:selectItem noSelectionOption="true" itemLabel=" Seleccione un Establecimietno" itemValue="null" />
                                 <f:selectItems var="establecimiento" value="#{beanConcurso.listaEstablecimientos}" itemLabel="#{establecimiento.nombre}" itemValue="#{establecimiento.codigoSiisa}" />
                             </p:selectOneMenu>

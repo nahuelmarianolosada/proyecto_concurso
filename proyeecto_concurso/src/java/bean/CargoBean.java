@@ -167,6 +167,7 @@ public class CargoBean extends ConcursoBean implements Serializable {
     /**
      *
      * Metodo que setea, si existe, el establecimiento en el cargo
+     * @param cargo cargo al que se desea establecer el establecimiento
      */
     public void obtenerEstablecimiento(Cargo cargo) {
         try {
