@@ -6,6 +6,7 @@
 package bean;
 
 import dominio.Cargo;
+import dominio.Profesion;
 import java.io.Serializable;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
@@ -15,6 +16,8 @@ import hibernate.dao.impl.ResolucionDaoImpl;
 import hibernate.dao.CargoDao;
 import hibernate.dao.impl.CargoDaoImpl;
 import dominio.Resolucion;
+import hibernate.dao.ProfesionDao;
+import hibernate.dao.impl.ProfesionDaoImpl;
 
 /**
  *
@@ -33,17 +36,22 @@ public class CargoBean extends ConcursoBean implements Serializable {
     private Cargo cargoSeleccionado;
     private Resolucion ultimaResolucion;
     private boolean datosValidos;//Bandera que se referencia a la vista para habilitar la pestaña siguiente
+    private List<Profesion> listaProfesiones;
 
     /**
      * Creates a new instance of CargoBean
      */
     public CargoBean() {
 //        cargoNuevo = new Cargo(getListaEstablecimientos().get(0), getListaProfesiones().get(0));
+        ProfesionDao profDao = new ProfesionDaoImpl();
+        listaProfesiones = profDao.getAll();
         CargoDao cargoDao = new CargoDaoImpl();
-        cargoNuevo = new Cargo(generarIdNuevoCargo());
+        cargoNuevo = new Cargo(generarIdNuevoCargo(), listaProfesiones.get(0));
+        cargoNuevo.setEstablecimiento(super.getListaEstablecimientos().get(0));
 
         cargoSeleccionado = new Cargo();
         datosValidos = false;
+
     }
 
     //GETTERS & SETTERS
@@ -95,6 +103,15 @@ public class CargoBean extends ConcursoBean implements Serializable {
         this.datosValidos = datosValidos;
     }
 
+    public List<Profesion> getListaProfesiones() {
+        return listaProfesiones;
+    }
+
+    public void setListaProfesiones(List<Profesion> listaProfesiones) {
+        this.listaProfesiones = listaProfesiones;
+    }
+
+    //METODOS
     /**
      *
      * Obtiene la ultima resolución cargada.
@@ -113,6 +130,17 @@ public class CargoBean extends ConcursoBean implements Serializable {
         CargoDao resCarg = new CargoDaoImpl();
         return (resCarg.generarNuevoIdCargo());
 
+    }
+
+    public void guardarNuevoCargo() {
+        try {
+            ProfesionDao profDao = new ProfesionDaoImpl();
+            Profesion profEncontrada = profDao.getProfesion(cargoNuevo.getProfesion().getIdProfesion());
+            cargoNuevo.setProfesion(profEncontrada);
+            System.out.println("Cargo: " + cargoNuevo.toString());
+        } catch (Exception exGeneral) {
+            exGeneral.printStackTrace();
+        }
     }
 
 }

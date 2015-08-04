@@ -73,6 +73,7 @@ public class TribunalJuradoDaoImpl extends HibernateUtil implements TribunalJura
             getSession().getTransaction().rollback();
         }
     }
+    
       public int generarNuevoIdJurado() {
 
         Criteria criteria = getSession().createCriteria(TribunalJurado.class);

@@ -33,7 +33,7 @@
 
                                             <h:outputText value="Agrupamiento:" />
                                             <h:outputText value="#{resolucion.agrupamiento}" style="font-weight: bold"/>
-                                            
+
                                         </h:panelGrid>
                                         <p:separator />
                                     </p:outputPanel>
@@ -164,11 +164,11 @@
                                     </p:dataTable>
                                 </h:form>
                             </p:tab>
-                            
-                               <!--   
-                            **********************************
-                            PESTAÑA CARGO
-                            **********************************
+
+                            <!--   
+                         **********************************
+                         PESTAÑA CARGO
+                         **********************************
                             -->
 
                             <p:tab title="Cargos" id="tabCargos" disabled="#{!beanResolucion.datosValidos}" >
@@ -220,7 +220,6 @@
                             </p:tab>
 
 
-                        
                           <!--   
                             **********************************
                             PESTAÑA TRIBUNAL 
@@ -236,7 +235,7 @@
                                     </h:panelGrid>
 
 
-                                    <p:dataTable id="tblJurados" var="tribunal" value="#{beanTribunal.listaJurados}" rows="3"
+                                    <p:dataTable id="tblTribunal" var="tribunal" value="#{beanTribunal.listaJurados}" rows="3"
                                                  paginator="true"
                                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                                  rowsPerPageTemplate="3,5,10,15" reflow="true" >
@@ -316,7 +315,7 @@
                     </f:facet>
                     <h:form id="formNuevaResolucion">
                         <h:panelGrid columns="4" cellpadding="3" frame="box" styleClass="panelAlta" >
-                            
+
                             <h:outputText value="Numero de Resolución" />
                             <p:spinner id="spnNumeroResolucion" value="#{beanResolucion.resolucionNueva.numeroResolucion}" placeholder="Número de Resolución" min="0" max="99999" required="true" requiredMessage="Ingrese el numero que figura en la resolucion"  maxlength="6" />
 
@@ -391,23 +390,29 @@
                             <p:calendar id="calFechaPublicacion" value="#{beanResolucion.resolucionNueva.fechaPublicacion}" mindate="#{beanResolucion.resolucionNueva.fechaCierre}" pattern="dd-MM-yyyy" mask="true" />
 
                         </h:panelGrid>
-                        <p:commandButton id="btnGuardarNuevaResolucion" icon="ui-icon-disk" value="Guardar" actionListener="#{beanResolucion.guardarResolucion()}" oncomplete="PF('dlgNuevaResolucion').hide();" update="tabuladorPestañero,tabuladorPestañero:formResoluciones:tblResoluciones,tabuladorPestañero:formExpedientes:msg,tabuladorPestañero:formCargos:tblCargos" styleClass="btnVerde"  >
+                        <p:commandButton id="btnGuardarNuevaResolucion" icon="ui-icon-disk" value="Guardar" actionListener="#{beanResolucion.guardarResolucion()}" oncomplete="PF('dlgNuevaResolucion').hide();" update="tabuladorPestañero,tabuladorPestañero:formResoluciones:tblResoluciones,tabuladorPestañero:formExpedientes:msg,tabuladorPestañero:formCargos:tblCargos,:formCargoNuevo:txtCargoNuevoResolucion" styleClass="btnVerde"  >
                             <f:setPropertyActionListener value="#{beanResolucion.resolucionNueva}" target="#{beanCargo.cargoNuevo.resolucion}" />
                         </p:commandButton>
                     </h:form>
                 </p:dialog>
-                <!-- 
-                      DIALOGO NUEVO CARGO
-                -->
 
+                <!--   
+                **********************************
+                DIALOGO PARA UN CARGO NUEVO
+                **********************************
+                -->
                 <p:dialog header="Cargo Nuevo"  widgetVar="dlgCargoNuevo" modal="true" showEffect="fade" hideEffect="fade" draggable="true" resizable="true" closeOnEscape="true" >
                     <h:form id="formCargoNuevo">
-                        <p:fieldset legend="ID: #{beanCargo.cargoNuevo.idCargo}" >
-                            <p:inputText value="Resolución: #{beanCargo.ultimaResolucion.numeroResolucion}"/>
+                        <p:fieldset legend="ID: #{beanCargo.cargoNuevo.idCargo}"  >
+                            <h:outputText value="Numero de Resolución:" />
+                            <p:inputText id="txtCargoNuevoResolucion" value="#{beanCargo.cargoNuevo.resolucion.numeroResolucion}"/>
                             <br/>
-                            <p:inputText value="Establecimiento :" />
-
-
+                            <h:outputText value="Establecimiento:" />
+                            <p:selectOneMenu id="cmbEstablecimiento" value="#{beanCargo.cargoNuevo.establecimiento.codigoSiisa}" required="true" requiredMessage="Seleccione un Establecimiento" style="width: 100%;" filter="true" >
+                                <p:ajax listener="#{beanConcurso.obtenerEstablecimiento}" update="" />
+                                <f:selectItem noSelectionOption="true" itemLabel=" Seleccione un Establecimietno" itemValue="null" />
+                                <f:selectItems var="establecimiento" value="#{beanConcurso.listaEstablecimientos}" itemLabel="#{establecimiento.nombre}" itemValue="#{establecimiento.codigoSiisa}" />
+                            </p:selectOneMenu>
                             <h:panelGrid columns="2" cellpadding="4">
 
                                 <p:inputText value="#{beanCargo.cargoNuevo.especialidad}" placeholder="Especialidad" />
@@ -418,6 +423,12 @@
                             </h:panelGrid>
 
                             <h:panelGrid columns="1" cellpadding="3">
+                                <p:outputLabel for="cmbProfesion" value="Profesión: " />
+                                <p:selectOneMenu id="cmbProfesion" style="width:100%;" value="#{beanCargo.cargoNuevo.profesion.idProfesion}" filter="true">
+                                    <f:selectItem itemLabel="No se especifica" itemValue="" noSelectionOption="true" />
+                                    <f:selectItems var="profesion" value="#{beanCargo.listaProfesiones}" itemLabel="#{profesion.nombreProfesion}" itemValue="#{profesion.idProfesion}" />
+                                </p:selectOneMenu>
+
                                 <p:outputLabel for="cmbFuncion" value="Función: " />
                                 <p:selectOneMenu id="cmbFuncion" style="width:100%;" value="#{beanCargo.cargoNuevo.funcion}">
                                     <f:selectItem itemLabel="No se especifica" itemValue="" noSelectionOption="true" />
@@ -448,8 +459,8 @@
                                 </p:selectOneMenu>
 
                                 <h:outputText value="Fecha del acta de la formulacion de Perfil " />
-                                <p:calendar id="calFechaActaFormulacionPerfil" pattern="dd-MM-yyyy" mask="true" />
-                                <br />
+                                <p:calendar id="calFechaActaFormulacionPerfil" pattern="dd-MM-yyyy" mask="true" value="#{beanCargo.cargoNuevo.fechaActaFormulacionPerfil}" />
+                                
                                 <h:outputText value="Enunciación: " />
                                 <p:selectOneMenu id="cmbEnunciacion" style="width:100%;" value="#{beanCargo.cargoNuevo.enunciacion}">
                                     <f:selectItem itemLabel="Renuncia" itemValue="RENUNCIA"/>
