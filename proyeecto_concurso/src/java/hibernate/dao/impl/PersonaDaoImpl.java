@@ -21,11 +21,54 @@ public class PersonaDaoImpl extends HibernateUtil implements PersonaDao{
      @Override
     public List<Persona> getAllPersona() {
         Criteria criteria = getSession().createCriteria(Persona.class);
-        criteria.addOrder(Order.asc("idProfesion"));
+        criteria.addOrder(Order.asc("idPersona"));
         List<Persona> lista = criteria.list();
         return lista;
     }
     
+     @Override
+    public Persona getPersona(int idPersona) {
+        return (Persona)getSession().get(Persona.class, idPersona);
+    }
+
+    @Override
+    public void insertar(Persona persona) {
+        try {
+            getSession().beginTransaction();
+            getSession().save(persona);
+            getSession().getTransaction().commit();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            getSession().getTransaction().rollback();
+        }
+    }
+
+    @Override
+    public void eliminar(Persona persona) {
+        try {
+            getSession().beginTransaction();
+            getSession().delete(persona);
+            getSession().getTransaction().commit();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            getSession().getTransaction().rollback();
+        }
+    }
+
+    @Override
+    public void modificar(Persona persona) {
+        try {
+            getSession().beginTransaction();
+            getSession().update(persona);
+            getSession().getTransaction().commit();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            getSession().getTransaction().rollback();
+        }
+    }
     
     
     
