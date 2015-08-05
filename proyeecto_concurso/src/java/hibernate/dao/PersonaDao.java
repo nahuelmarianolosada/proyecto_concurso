@@ -6,10 +6,14 @@
 
 package hibernate.dao;
 
+import java.util.List;
+import dominio.Persona;
 /**
  *
  * @author favio
  */
-public class PersonaDao {
+public interface PersonaDao {
     
+    
+    public List<Persona> getAllPersona();
 }
