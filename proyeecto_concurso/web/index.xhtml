@@ -278,7 +278,7 @@
                             PESTAÑA POSTULANTES 
                             **********************************
                             -->
-                            <p:tab title="Postulantes" id="tabPostulantes" disabled="#{!beanTribunal.datosValidos}" >
+                            <p:tab title="Postulantes" id="tabPostulantes" disabled="false" >
                                 <h:form id="formPostulantes">
                                     <p:panel id="pnlBuscarPostulanteNuevo" header="Buscar Postulante" toggleable="true" closable="false" toggleSpeed="700" widgetVar="pnlPostulanteNuevo" style="margin-bottom:20px">
                                         <h:panelGrid columns="4" cellpadding="5">
@@ -291,7 +291,33 @@
                                                 <f:selectItem itemLabel="Apellido" itemValue="apellido" />
                                                 <f:selectItem itemLabel="Dni" itemValue="dni" />
                                             </p:selectOneMenu>
-                                            <p:commandButton id="btnBuscarPostulante" value="Buscar" actionListener="#{beanPostulante.buscado}" icon="ui-icon-search" disabled="#{!beanPostulante.banderaBtn}" />
+                                            <p:commandButton id="btnBuscarPostulante" value="Buscar" actionListener="#{beanPostulante.buscarPorCriterio()}" icon="ui-icon-search" disabled="#{!beanPostulante.banderaBtn}" update="tabuladorPestañero:formExpedientes:msg,pnlDatosNuevoPostulante" />
+                                        </h:panelGrid>
+                                        <h:panelGrid id="pnlDatosNuevoPostulante" columns="4" cellpadding="5">
+                                            <h:outputText value="Nombre" />
+                                            <p:inputText id="txtNombreNuevoPostulante" value="#{beanPostulante.nuevoPostulante.persona.nombres}" />
+
+                                            <h:outputText value="Apellido" />
+                                            <p:inputText id="txtApellidoNuevoPostulante" value="#{beanPostulante.nuevoPostulante.persona.apellido}" />
+
+                                            <h:outputText value="Dni" />
+                                            <p:inputText id="txtDniNuevoPostulante" value="#{beanPostulante.nuevoPostulante.persona.dni}" />
+
+                                            <h:outputText value="Cuil" />
+                                            <p:inputText id="txtCuilNuevoPostulante" value="#{beanPostulante.nuevoPostulante.persona.cuil}" />
+
+                                            <h:outputText value="Fecha de Nacimiento" />
+                                            <p:calendar id="calFechaNacNuevoPostulante" value="#{beanPostulante.nuevoPostulante.persona.fechaDeNacimiento}" pattern="dd-MM-yyyy" mask="true" />
+
+                                            <h:outputText value="Direccion" />
+                                            <p:inputText id="txtDireccionNuevoPostulante" value="#{beanPostulante.nuevoPostulante.persona.direccion}" />
+
+                                            <h:outputText value="Sexo" />
+                                            <p:inputText id="txtSexoNuevoPostulante" value="#{beanPostulante.nuevoPostulante.persona.sexo}" />
+
+                                            <h:outputText value="Teléfono" />
+                                            <p:inputText id="txtTelefonoNuevoPostulante" value="#{beanPostulante.nuevoPostulante.persona.telefono}" />
+
                                         </h:panelGrid>
                                     </p:panel>
                                 </h:form>
@@ -417,7 +443,7 @@
                     <h:form id="formCargoNuevo">
                         <p:fieldset legend="ID: #{beanCargo.cargoNuevo.idCargo}"  >
                             <h:outputText value="Numero de Resolución:" />
-                            <p:inputText id="txtCargoNuevoResolucion" value="#{beanCargo.cargoNuevo.resolucion.numeroResolucion}"/>
+                            <p:inputText id="txtCargoNuevoResolucion" value="#{beanCargo.cargoNuevo.resolucion.numeroResolucion}" />
                             <br/>
                             <h:outputText value="Establecimiento:" />
                             <p:selectOneMenu id="cmbEstablecimiento" value="#{beanCargo.cargoNuevo.establecimiento.codigoSiisa}" required="true" requiredMessage="Seleccione un Establecimiento" style="width: 100%;" filter="true" >
@@ -487,10 +513,10 @@
                         <p:commandButton id="btnGuardarNuevoCargo" oncomplete="PF('dlgCargoNuevo').hide();" value="Guardar" actionListener="#{beanCargo.guardarNuevoCargo}" icon="ui-icon-disk" update="tabuladorPestañero,tabuladorPestañero:formExpedientes:msg,tabuladorPestañero:formCargos:tblCargos" styleClass="btnVerde" />
                     </h:form>
                 </p:dialog>
-                   <!--   
-                **********************************
-                DIALOGO PARA NUEVO JURADO
-                **********************************
+                <!--   
+             **********************************
+             DIALOGO PARA NUEVO JURADO
+             **********************************
                 -->
 
                 <p:dialog id="dialogoNuevoJurado" header="Nuevo Jurado - Resolución : #{beanCargo.cargoNuevo.resolucion.numeroResolucion}"  widgetVar="dlgNuevoJurado" modal="true" showEffect="fade" hideEffect="fade" draggable="true" resizable="true" closeOnEscape="true" >
@@ -533,6 +559,40 @@
                             </p:selectOneMenu>   
                             <p:commandButton id="btnGuardarJurado" value="Guardar" actionListener="#{beanTribunal.guardarJurado()}" icon="ui-icon-disk" update="tabuladorPestañero" styleClass="btnVerde" />
                         </p:fieldset>
+                    </h:form>
+                </p:dialog>
+
+                <!--   
+             **********************************
+             DIALOGO PARA SELECCIONAR UNA PERSONA
+             **********************************
+                -->
+
+                <p:dialog id="dlgPersonaResultado" header="Seleccione una persona"  widgetVar="dlgPersonaResultado" modal="true" showEffect="fade" hideEffect="fade" draggable="true" resizable="true" closeOnEscape="true" style="width: 50%;" >
+                    <h:form id="formPersonaResultado">
+                        <p:dataTable id="tblResultado" var="persona" value="#{beanPostulante.listaResultado}" selectionMode="single" selection="#{beanPostulante.postulanteSeleccionado}" rowKey="#{persona.idPersona}">
+                            <f:facet name="header">
+                                Personas Coincidentes
+                            </f:facet>
+                            <p:ajax event="rowSelect" listener="#{beanPostulante.seleccionarPersona}" update="tabuladorPestañero:formPostulantes" />
+                            <p:ajax event="rowUnselect" listener="#{beanPostulante.deseleccionarPersona}" update="tabuladorPestañero:formPostulantes" />
+                            <p:column headerText="Documento" sortBy="#{persona.dni}">
+                                <h:outputText value="#{persona.dni}" />
+                            </p:column>
+                            <p:column headerText="Nombre" sortBy="#{persona.nombres}">
+                                <h:outputText value="#{persona.nombres}" />
+                            </p:column>
+                            <p:column headerText="Apellido" sortBy="#{persona.apellido}">
+                                <h:outputText value="#{persona.apellido}" />
+                            </p:column>
+                            <p:column headerText="Sexo" sortBy="#{persona.sexo}">
+                                <h:outputText value="#{persona.sexo}" />
+                            </p:column>
+                            <p:column headerText="Nacionalidad" sortBy="#{persona.nacionalidad}">
+                                <h:outputText value="#{persona.nacionalidad}" />
+                            </p:column>
+
+                        </p:dataTable>
                     </h:form>
                 </p:dialog>
 

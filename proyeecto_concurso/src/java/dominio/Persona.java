@@ -25,7 +25,6 @@ public class Persona  implements java.io.Serializable {
      private String telefono;
      private String email;
      private Long cuil;
-     private Integer edad;
      private Set convocatorias = new HashSet(0);
      private Set tribunalJurados = new HashSet(0);
      private Set personals = new HashSet(0);
@@ -45,7 +44,7 @@ public class Persona  implements java.io.Serializable {
     
     
     
-    public Persona(int idPersona, Localidad localidadByLocalidadNacimiento, Localidad localidadByIdLocalidadDireccion, Integer dni, String nombres, String apellido, String sexo, String nacionalidad, Date fechaDeNacimiento, String direccion, String telefono, String email, Long cuil, Integer edad, Set convocatorias, Set tribunalJurados, Set personals) {
+    public Persona(int idPersona, Localidad localidadByLocalidadNacimiento, Localidad localidadByIdLocalidadDireccion, Integer dni, String nombres, String apellido, String sexo, String nacionalidad, Date fechaDeNacimiento, String direccion, String telefono, String email, Long cuil, Set convocatorias, Set tribunalJurados, Set personals) {
        this.idPersona = idPersona;
        this.localidadByLocalidadNacimiento = localidadByLocalidadNacimiento;
        this.localidadByIdLocalidadDireccion = localidadByIdLocalidadDireccion;
@@ -59,7 +58,6 @@ public class Persona  implements java.io.Serializable {
        this.telefono = telefono;
        this.email = email;
        this.cuil = cuil;
-       this.edad = edad;
        this.convocatorias = convocatorias;
        this.tribunalJurados = tribunalJurados;
        this.personals = personals;
@@ -156,13 +154,7 @@ public class Persona  implements java.io.Serializable {
     public void setCuil(Long cuil) {
         this.cuil = cuil;
     }
-    public Integer getEdad() {
-        return this.edad;
-    }
     
-    public void setEdad(Integer edad) {
-        this.edad = edad;
-    }
     public Set getConvocatorias() {
         return this.convocatorias;
     }
@@ -184,8 +176,14 @@ public class Persona  implements java.io.Serializable {
     public void setPersonals(Set personals) {
         this.personals = personals;
     }
+
+    @Override
+    public String toString() {
+        return "Persona{idPersona=" + idPersona + ", localidadByLocalidadNacimiento=" + localidadByLocalidadNacimiento.getNombreDeLocalidad() + ", localidadByIdLocalidadDireccion=" + localidadByIdLocalidadDireccion.getNombreDeLocalidad() + ", dni=" + dni + ", nombres=" + nombres + ", apellido=" + apellido + ", sexo=" + sexo + ", nacionalidad=" + nacionalidad + ", fechaDeNacimiento=" + fechaDeNacimiento + ", direccion=" + direccion + ", telefono=" + telefono + ", email=" + email + ", cuil=" + cuil + '}';
+    }
     
 
+    
 
 
 

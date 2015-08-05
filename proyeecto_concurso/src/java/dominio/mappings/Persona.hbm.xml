@@ -44,9 +44,7 @@
         <property name="cuil" type="java.lang.Long">
             <column name="cuil" />
         </property>
-        <property name="edad" type="java.lang.Integer">
-            <column name="edad" />
-        </property>
+        
         <set name="convocatorias" table="convocatoria" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="persona_dni_persona" not-null="true" />

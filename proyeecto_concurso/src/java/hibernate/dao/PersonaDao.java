@@ -24,4 +24,9 @@ public interface PersonaDao {
 
     public void modificar(Persona persona);
     
+    public Persona buscarPorDni(Integer dni);
+    
+    public List<Persona> buscarPorNombre(String nombre);
+    
+    public List<Persona> buscarPorApellido(String apellido);
 }
