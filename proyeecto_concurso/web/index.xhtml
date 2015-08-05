@@ -279,9 +279,22 @@
                             **********************************
                             -->
                             <p:tab title="Postulantes" id="tabPostulantes" disabled="#{!beanTribunal.datosValidos}" >
-                                <h:panelGrid columns="2" cellpadding="3" frame="box" styleClass="panelAlta" >
-
-                                </h:panelGrid>
+                                <h:form id="formPostulantes">
+                                    <p:panel id="pnlBuscarPostulanteNuevo" header="Buscar Postulante" toggleable="true" closable="false" toggleSpeed="700" widgetVar="pnlPostulanteNuevo" style="margin-bottom:20px">
+                                        <h:panelGrid columns="4" cellpadding="5">
+                                            <p:inputText id="txtBuscarPostulante" value="#{beanPostulante.buscado}" maxlength="25" placeholder="Buscar..."  >
+                                                <p:ajax event="keyup" update="btnBuscarPostulante" listener="#{beanPostulante.validarBuscador}" />
+                                            </p:inputText>
+                                            <h:outputText value="en" />
+                                            <p:selectOneMenu id="cmbCriterioBusqueda" value="#{beanPostulante.criterio}">
+                                                <f:selectItem itemLabel="Nombre" itemValue="nombre" />
+                                                <f:selectItem itemLabel="Apellido" itemValue="apellido" />
+                                                <f:selectItem itemLabel="Dni" itemValue="dni" />
+                                            </p:selectOneMenu>
+                                            <p:commandButton id="btnBuscarPostulante" value="Buscar" actionListener="#{beanPostulante.buscado}" icon="ui-icon-search" disabled="#{!beanPostulante.banderaBtn}" />
+                                        </h:panelGrid>
+                                    </p:panel>
+                                </h:form>
                             </p:tab>
 
 
@@ -346,7 +359,7 @@
                                     <p:ajax listener="#{beanResolucion.cambiarEstadoModificacion()}" update="txtResolucionModificacion" />
                                 </p:inputSwitch>
                             </h:panelGrid>
-                            <p:inputText id="txtResolucionModificacion"  placeholder="numero de resolucion" disabled="#{beanResolucion.banderaModificacionParcial}" value="#{beanResolucion.resolucionNueva.modificaResolucion}"/>
+                            <p:inputText id="txtResolucionModificacion"  placeholder="numero de resolucion" disabled="#{beanResolucion.banderaModificacionParcial}" value="#{beanResolucion.resolucionNueva.modificaResolucion}" maxlength="10"/>
 
                             <h:panelGrid columns="2" >
                                 <h:outputText value="Prórroga: " />
@@ -354,7 +367,7 @@
                                     <p:ajax listener="#{beanResolucion.cambiarEstadoProrroga()}" update="txtResolucionProrroga" />
                                 </p:inputSwitch>
                             </h:panelGrid>
-                            <p:inputText id="txtResolucionProrroga" placeholder="numero de resolucion" disabled="#{beanResolucion.banderaProrroga}" value="#{beanResolucion.resolucionNueva.prorrogaResolucion}" />
+                            <p:inputText id="txtResolucionProrroga" placeholder="numero de resolucion" disabled="#{beanResolucion.banderaProrroga}" value="#{beanResolucion.resolucionNueva.prorrogaResolucion}" maxlength="10" />
 
 
                             <h:outputText value="Antecedente" />
@@ -413,8 +426,8 @@
                             </p:selectOneMenu>
                             <h:panelGrid columns="2" cellpadding="4">
 
-                                <p:inputText value="#{beanCargo.cargoNuevo.especialidad}" placeholder="Especialidad" />
-                                <p:inputText value="#{beanCargo.cargoNuevo.categoria}" placeholder="Categoria" />
+                                <p:inputText value="#{beanCargo.cargoNuevo.especialidad}" placeholder="Especialidad" maxlength="30" />
+                                <p:inputText value="#{beanCargo.cargoNuevo.categoria}" placeholder="Categoria" maxlength="30" />
                                 <p:spinner value="#{beanCargo.cargoNuevo.adicional}" placeholder="Cantidad de Horas" />
                                 <p:spinner value="#{beanCargo.cargoNuevo.cantidad}" placeholder="Cantidad de Cargos" />
 
@@ -474,8 +487,14 @@
                         <p:commandButton id="btnGuardarNuevoCargo" oncomplete="PF('dlgCargoNuevo').hide();" value="Guardar" actionListener="#{beanCargo.guardarNuevoCargo}" icon="ui-icon-disk" update="tabuladorPestañero,tabuladorPestañero:formExpedientes:msg,tabuladorPestañero:formCargos:tblCargos" styleClass="btnVerde" />
                     </h:form>
                 </p:dialog>
-                <!-- 
-                                  DIALOGO NUEVO JURADO
+
+
+
+
+                <!--   
+                **********************************
+                DIALOGO PARA UN CARGO NUEVO
+                **********************************
                 -->
 
                 <p:dialog header="Nuevo Jurado - Resolución : #{beanCargo.cargoNuevo.resolucion.numeroResolucion}"  widgetVar="dlgNuevoJurado" modal="true" showEffect="fade" hideEffect="fade" draggable="true" resizable="true" closeOnEscape="true" >
@@ -520,6 +539,8 @@
                         </p:fieldset>
                     </h:form>
                 </p:dialog>
+
+
             </ui:define>
         </ui:composition>
     </h:body>

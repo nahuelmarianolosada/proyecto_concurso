@@ -26,6 +26,13 @@ public class Convocatoria  implements java.io.Serializable {
         this.cargo = cargo;
         this.persona = persona;
     }
+
+    public Convocatoria(Persona persona) {
+        this.persona = persona;
+    }
+    
+    
+    
     public Convocatoria(int idInscripcion, Cargo cargo, Persona persona, Integer fojas, Double antecedentes, Double oposicion, Double puntaje) {
        this.idInscripcion = idInscripcion;
        this.cargo = cargo;
