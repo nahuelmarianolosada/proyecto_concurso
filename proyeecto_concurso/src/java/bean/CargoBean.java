@@ -49,13 +49,12 @@ public class CargoBean extends ConcursoBean implements Serializable {
 //        cargoNuevo = new Cargo(getListaEstablecimientos().get(0), getListaProfesiones().get(0));
         ProfesionDao profDao = new ProfesionDaoImpl();
         listaProfesiones = profDao.getAll();
-        CargoDao cargoDao = new CargoDaoImpl();
         cargoNuevo = new Cargo(generarIdNuevoCargo(), listaProfesiones.get(0));
         cargoNuevo.setEstablecimiento(super.getListaEstablecimientos().get(0));
 
         cargoSeleccionado = new Cargo();
         datosValidos = false;
-        
+
         listaCargos = new ArrayList<Cargo>();
 
     }
@@ -145,22 +144,40 @@ public class CargoBean extends ConcursoBean implements Serializable {
             cargoNuevo.setProfesion(profEncontrada);
             obtenerEstablecimiento(cargoNuevo);
             System.out.println("\033[32mCargoBean.guardarNuevoCargo() => Cargo Nuevo: " + cargoNuevo.toString());
+            
+            //Obtenemos la resolucion para asignarsela al siguiente cargo que se cargue
+            Resolucion res = cargoNuevo.getResolucion();
+            
             listaCargos.add(cargoNuevo);
-            datosValidos = true;
-            pasarVistaDePestania();
+            cargoNuevo = new Cargo(generarIdNuevoCargo(), listaProfesiones.get(0));
+            cargoNuevo.setEstablecimiento(getListaEstablecimientos().get(0));
+            cargoNuevo.setResolucion(res);
+            if (listaCargos.size() > 0) {
+                datosValidos = true;
+            }
+            
         } catch (Exception exGeneral) {
             exGeneral.printStackTrace();
         }
     }
     
-    
     /**
      * 
+     * Metodo que guarda todos los cargos precargados en la lista
+     */
+    public void guardarCargos(){
+        nuevoMensajeInfo("Registro de concursos de Salud", listaCargos.size() + " cargos fueron cargados");
+        pasarVistaDePestania();
+    }
+
+    /**
+     *
      * Metodo que setea, si existe, el establecimiento en el cargo
+     * @param cargo cargo al que se desea establecer el establecimiento
      */
     public void obtenerEstablecimiento(Cargo cargo) {
         try {
-            
+
             EstablecimientoDao establDao = new EstablecimientoDaoImpl();
             Establecimiento estEncontrado = establDao.getEstablecimiento(cargo.getEstablecimiento().getCodigoSiisa());
             if (estEncontrado != null) {
