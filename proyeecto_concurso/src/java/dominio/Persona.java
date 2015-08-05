@@ -184,6 +184,7 @@ public class Persona  implements java.io.Serializable {
     public void setPersonals(Set personals) {
         this.personals = personals;
     }
+    
 
 
 
