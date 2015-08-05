@@ -102,5 +102,13 @@ public class TribunalJurado implements java.io.Serializable {
     public void setCondicion(String condicion) {
         this.condicion = condicion;
     }
+    
+     public boolean esValido(){
+        boolean esValido = false;
+        if(!String.valueOf(idTribunalJurado).equals("")&& (String.valueOf(institucion.getIdInstitucion()).equals(""))){
+            esValido = true;
+        }
+        return esValido;
+    }
 
 }

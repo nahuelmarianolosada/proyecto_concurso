@@ -229,7 +229,7 @@
                                 <h:form id="formTribunal">
 
                                     <h:panelGrid columns="2" >
-                                        <p:commandButton value="Nuevo tribunal" icon="ui-icon-plusthick"  onclick="PF('dlgNuevoJurado').show();"/>
+                                        <p:commandButton value="Nuevo tribunal" icon="ui-icon-plusthick"  oncomplete="PF('dlgNuevoJurado').show();" update="dialogoNuevoJurado"/>
                                         <p:commandButton value="Actualizar" icon="ui-icon-refresh" />
                                     </h:panelGrid>
 
@@ -407,7 +407,7 @@
                             <br/>
                             <h:outputText value="Establecimiento:" />
                             <p:selectOneMenu id="cmbEstablecimiento" value="#{beanCargo.cargoNuevo.establecimiento.codigoSiisa}" required="true" requiredMessage="Seleccione un Establecimiento" style="width: 100%;" filter="true" >
-                                <p:ajax listener="#{beanConcurso.obtenerEstablecimiento}" update="" />
+                              
                                 <f:selectItem noSelectionOption="true" itemLabel=" Seleccione un Establecimietno" itemValue="null" />
                                 <f:selectItems var="establecimiento" value="#{beanConcurso.listaEstablecimientos}" itemLabel="#{establecimiento.nombre}" itemValue="#{establecimiento.codigoSiisa}" />
                             </p:selectOneMenu>
@@ -474,11 +474,13 @@
                         <p:commandButton id="btnGuardarNuevoCargo" oncomplete="PF('dlgCargoNuevo').hide();" value="Guardar" actionListener="#{beanCargo.guardarNuevoCargo}" icon="ui-icon-disk" update="tabuladorPestañero,tabuladorPestañero:formExpedientes:msg,tabuladorPestañero:formCargos:tblCargos" styleClass="btnVerde" />
                     </h:form>
                 </p:dialog>
-                <!-- 
-                                  DIALOGO NUEVO JURADO
+                   <!--   
+                **********************************
+                DIALOGO PARA NUEVO JURADO
+                **********************************
                 -->
 
-                <p:dialog header="Nuevo Jurado - Resolución : #{beanCargo.cargoNuevo.resolucion.numeroResolucion}"  widgetVar="dlgNuevoJurado" modal="true" showEffect="fade" hideEffect="fade" draggable="true" resizable="true" closeOnEscape="true" >
+                <p:dialog id="dialogoNuevoJurado" header="Nuevo Jurado - Resolución : #{beanCargo.cargoNuevo.resolucion.numeroResolucion}"  widgetVar="dlgNuevoJurado" modal="true" showEffect="fade" hideEffect="fade" draggable="true" resizable="true" closeOnEscape="true" >
                     <h:form id="formJuradoNuevo">
                         <p:fieldset legend="ID: #{beanTribunal.juradoNuevo.idTribunalJurado}" >
 
@@ -516,7 +518,7 @@
                                 <f:selectItem noSelectionOption="true" itemLabel=" Seleccione una Establecimiento" itemValue="null" />
                                 <f:selectItems var="establecimiento" value="#{beanConcurso.listaEstablecimientos}" itemLabel="#{establecimiento.nombre} (#{establecimiento.idEstablecimiento})" itemValue="#{establecimiento.idEstablecimiento}" />
                             </p:selectOneMenu>   
-
+                            <p:commandButton id="btnGuardarJurado" value="Guardar" actionListener="#{beanTribunal.guardarJurado()}" icon="ui-icon-disk" update="tabuladorPestañero" styleClass="btnVerde" />
                         </p:fieldset>
                     </h:form>
                 </p:dialog>

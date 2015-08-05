@@ -140,6 +140,42 @@ public class TribunalBean extends ConcursoBean implements Serializable {
         }
     }
     
-    
+     public void guardarJurado() {
+         
+         
+         try {
+           
+             
+             
+         
+         }
+         catch(Exception ex1){
+         ex1.printStackTrace();
+         }
+         
+//         try {
+//             for (UnidadDeOrganizacion unidad : listaUnidadDeOrganizacions) {
+//                 if (unidad.getCodigoUnidadDeOrganizacion() == expedienteNuevo.getUnidadDeOrganizacion().getCodigoUnidadDeOrganizacion()) {
+//                     expedienteNuevo.setUnidadDeOrganizacion(unidad);
+//                     break;
+//                 }
+//             }
+//             expedienteNuevo.setNumeroExpediente(expedienteNuevo.getUnidadDeOrganizacion().getCodigoUnidadDeOrganizacion() + "-" + expedienteNuevo.getNumero() + "/" + expedienteNuevo.getAnio());
+//
+//             if (expedienteNuevo.esValido()) {
+//                 beanResolucion.getResolucionNueva().setExpediente(expedienteNuevo);
+//                 ResolucionDao resDao = new ResolucionDaoImpl();
+//                 beanResolucion.setListaResoluciones(resDao.getResoluciones(expedienteNuevo));
+//                 datosValidos = true;
+//                 pasarVistaDePestania();
+//                 nuevoMensajeInfo("Registro de Concursos de Salud - EXPEDIENTE", "Número: " + expedienteNuevo.getNumeroExpediente() + "\nRégimen: " + expedienteNuevo.getRegimen() + "\nSituación: " + expedienteNuevo.getSituacion());
+//             }
+//             System.out.println("\033[32mExpedienteBean.guardarExpediente() => " + expedienteNuevo.toString());
+//
+//         } catch (Exception ex1) {
+//             ex1.printStackTrace();
+//         }
+
+    }
 
 }
