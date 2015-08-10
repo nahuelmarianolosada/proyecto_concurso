@@ -330,9 +330,8 @@
                                             </p:inputText>
 
                                             <h:outputText value="Email" />
-                                            <p:inputText id="txtEmailNuevoPostulante" value="#{beanPostulante.nuevoPostulante.persona.email}" maxlength="25" >
-                                                <f:validator validatorId="custom.emailValidator" />
-                                            </p:inputText>
+                                            <p:inputText id="txtEmailNuevoPostulante" value="#{beanPostulante.nuevoPostulante.persona.email}" maxlength="25" />
+                                                
 
                                         </h:panelGrid>
 
@@ -361,26 +360,6 @@
 
                                         <p:commandButton id="btnGuardarNuevoPostulante" value="Guardar" actionListener="#{beanPostulante.guardarNuevoPostulante}" icon="ui-icon-disk" update="tabuladorPestañero,tabuladorPestañero:formExpedientes:msg" styleClass="btnVerde" validateClient="true" />
                                     </h:form>
-
-                                    <script type="text/javascript">
-                                        /**
-                                         * Faces Validator
-                                         */
-                                        PrimeFaces.validator['custom.emailValidator'] = {
-                                            pattern: /\S+@\S+/,
-                                            validate: function(element, value) {
-                                                //use element.data() to access validation metadata, in this case there is none.
-                                                if (!this.pattern.test(value)) {
-                                                    throw {
-                                                        summary: 'Validation Error',
-                                                        detail: value + ' is not a valid email.'
-                                                    }
-                                                }
-                                            }
-                                        };
-
-
-                                    </script>
 
                                 </p:panel>
 

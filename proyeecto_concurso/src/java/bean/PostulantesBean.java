@@ -200,6 +200,7 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
                 break;
             }
         }
+        
         System.out.println("\033[32mPostulantesBean.guardarNuevoPostulante() => " + nuevoPostulante.toString());
         nuevoMensajeInfo("Registro Provincial de Concursos", "Postulante " + nuevoPostulante.getIdInscripcion() + " guardado");
     }
