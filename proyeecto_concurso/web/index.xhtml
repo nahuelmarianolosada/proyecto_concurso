@@ -335,7 +335,7 @@
                                         </h:panelGrid>
 
                                         <p:separator />
-                                        
+
                                         <h:outputText value="Cargo:" />
                                         <p:selectOneMenu id="cmbCargoPostulante" value="#{beanPostulante.nuevoPostulante.cargo.idCargo}" filter="true" required="true" requiredMessage="Seleccione un cargo para el postulante" >
                                             <f:selectItems var="cargo" value="#{beanCargo.listaCargos}" itemLabel="#{cargo.profesion.nombreProfesion} (#{cargo.funcion})" itemValue="#{cargo.idCargo}" />
@@ -597,8 +597,9 @@
                                 <f:selectItem noSelectionOption="true" itemLabel=" Seleccione una Establecimiento" itemValue="null" />
                                 <f:selectItems var="establecimiento" value="#{beanConcurso.listaEstablecimientos}" itemLabel="#{establecimiento.nombre} (#{establecimiento.idEstablecimiento})" itemValue="#{establecimiento.idEstablecimiento}" />
                             </p:selectOneMenu>   
-                            <p:commandButton id="btnGuardarJurado" value="Guardar" actionListener="#{beanTribunal.guardarJurado()}" icon="ui-icon-disk" update="tabuladorPestañero" styleClass="btnVerde" />
+
                         </p:fieldset>
+                        <p:commandButton id="btnGuardarJurado" value="Guardar" actionListener="#{beanTribunal.guardarJurado()}" icon="ui-icon-disk" update="tabuladorPestañero:formTribunal" styleClass="btnVerde" />
                     </h:form>
                 </p:dialog>
 
