@@ -41,6 +41,7 @@ public class CargoBean extends ConcursoBean implements Serializable {
     private Resolucion ultimaResolucion;
     private boolean datosValidos;//Bandera que se referencia a la vista para habilitar la pestaña siguiente
     private List<Profesion> listaProfesiones;
+    private Integer cantidad;
 
     /**
      * Creates a new instance of CargoBean
@@ -115,6 +116,16 @@ public class CargoBean extends ConcursoBean implements Serializable {
     public void setListaProfesiones(List<Profesion> listaProfesiones) {
         this.listaProfesiones = listaProfesiones;
     }
+
+    public Integer getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(Integer cantidad) {
+        this.cantidad = cantidad;
+    }
+    
+    
 
     //METODOS
     /**

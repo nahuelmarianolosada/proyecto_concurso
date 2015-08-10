@@ -8,7 +8,6 @@
     <property name="hibernate.connection.username">nmlosada</property>
     <property name="hibernate.connection.password">siisa1234</property>
     <property name="hibernate.hbm2ddl.auto">update</property>
-    
     <mapping resource="dominio/mappings/Persona.hbm.xml"/>
     <mapping resource="dominio/mappings/UnidadDeOrganizacion.hbm.xml"/>
     <mapping resource="dominio/mappings/Cargo.hbm.xml"/>
@@ -24,6 +23,6 @@
     <mapping resource="dominio/mappings/Institucion.hbm.xml"/>
     <mapping resource="dominio/mappings/TribunalJurado.hbm.xml"/>
     <mapping resource="dominio/mappings/TipoUsuario.hbm.xml"/>
-    <mapping resource="dominio/mappings/Convocatoria.hbm.xml"/>
+    <mapping resource="dominio/mappings/Postulante.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

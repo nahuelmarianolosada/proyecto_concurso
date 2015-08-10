@@ -22,7 +22,7 @@ public class Cargo implements java.io.Serializable {
     private String modalidad;
     private Date fechaActaFormulacionPerfil;
     private String enunciacion;
-    private Integer cantidad;
+    
     private Set convocatorias = new HashSet(0);
 
     public Cargo() {
@@ -56,7 +56,7 @@ public class Cargo implements java.io.Serializable {
         this.profesion = profesion;
     }
 
-    public Cargo(int idCargo, Resolucion resolucion, Establecimiento establecimiento, Profesion profesion, String especialidad, String categoria, Integer adicional, String funcion, String areaDeDesempenio, String modalidad, Date fechaActaFormulacionPerfil, String enunciacion, Integer cantidad, Set convocatorias) {
+    public Cargo(int idCargo, Resolucion resolucion, Establecimiento establecimiento, Profesion profesion, String especialidad, String categoria, Integer adicional, String funcion, String areaDeDesempenio, String modalidad, Date fechaActaFormulacionPerfil, String enunciacion, Set convocatorias) {
         this.idCargo = idCargo;
         this.resolucion = resolucion;
         this.establecimiento = establecimiento;
@@ -69,7 +69,7 @@ public class Cargo implements java.io.Serializable {
         this.modalidad = modalidad;
         this.fechaActaFormulacionPerfil = fechaActaFormulacionPerfil;
         this.enunciacion = enunciacion;
-        this.cantidad = cantidad;
+        
         this.convocatorias = convocatorias;
     }
 
@@ -169,13 +169,7 @@ public class Cargo implements java.io.Serializable {
         this.enunciacion = enunciacion;
     }
 
-    public Integer getCantidad() {
-        return this.cantidad;
-    }
-
-    public void setCantidad(Integer cantidad) {
-        this.cantidad = cantidad;
-    }
+   
 
     public Set getConvocatorias() {
         return this.convocatorias;
@@ -187,7 +181,7 @@ public class Cargo implements java.io.Serializable {
 
     @Override
     public String toString() {
-        return "Cargo{" + "idCargo=" + idCargo + ", resolucion=" + resolucion.getNumeroResolucion() + ", establecimiento=" + establecimiento.getNombre() + ", profesion=" + profesion.getNombreProfesion() + ", especialidad=" + especialidad + ", categoria=" + categoria + ", adicional=" + adicional + ", funcion=" + funcion + ", areaDeDesempenio=" + areaDeDesempenio + ", modalidad=" + modalidad + ", fechaActaFormulacionPerfil=" + fechaActaFormulacionPerfil + ", enunciacion=" + enunciacion + ", cantidad=" + cantidad + '}';
+        return "Cargo{" + "idCargo=" + idCargo + ", resolucion=" + resolucion.getNumeroResolucion() + ", establecimiento=" + establecimiento.getNombre() + ", profesion=" + profesion.getNombreProfesion() + ", especialidad=" + especialidad + ", categoria=" + categoria + ", adicional=" + adicional + ", funcion=" + funcion + ", areaDeDesempenio=" + areaDeDesempenio + ", modalidad=" + modalidad + ", fechaActaFormulacionPerfil=" + fechaActaFormulacionPerfil + ", enunciacion=" + enunciacion + '}';
     }
 
     

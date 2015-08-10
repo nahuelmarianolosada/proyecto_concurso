@@ -17,9 +17,7 @@
         <property name="resultado" type="string">
             <column name="resultado" not-null="true" />
         </property>
-        <property name="cantidadCubierto" type="java.lang.Integer">
-            <column name="cantidad_cubierto" />
-        </property>
+        
         <property name="resolucionNumeroConcurso" type="string">
             <column name="resolucion_numero_concurso" />
         </property>

@@ -210,9 +210,7 @@
                                         <p:column headerText="Resolución">
                                             <h:outputText value="#{cargos.resolucion.numeroResolucion}" />
                                         </p:column>
-                                        <p:column headerText="Cantidad">
-                                            <h:outputText value="#{cargos.cantidad}" />
-                                        </p:column>
+                                        
                                     </p:dataTable>
                                     <p:commandButton id="btnGuardarCargos" value="Guardar" actionListener="#{beanCargo.guardarCargos}" icon="ui-icon-disk" update="tabuladorPestañero,tabuladorPestañero:formExpedientes:msg" styleClass="btnVerde" disabled="#{!beanCargo.datosValidos}" />
                                 </h:form>
@@ -331,16 +329,11 @@
 
                                             <h:outputText value="Email" />
                                             <p:inputText id="txtEmailNuevoPostulante" value="#{beanPostulante.nuevoPostulante.persona.email}" maxlength="25" />
-                                                
+
 
                                         </h:panelGrid>
 
                                         <p:separator />
-
-                                        <h:outputText value="Cargo:" />
-                                        <p:selectOneMenu id="cmbCargoPostulante" value="#{beanPostulante.nuevoPostulante.cargo.idCargo}" filter="true" required="true" requiredMessage="Seleccione un cargo para el postulante" >
-                                            <f:selectItems var="cargo" value="#{beanCargo.listaCargos}" itemLabel="#{cargo.profesion.nombreProfesion} (#{cargo.funcion})" itemValue="#{cargo.idCargo}" />
-                                        </p:selectOneMenu>
 
                                         <h:panelGrid columns="4">
                                             <p:inputText id="txtAntecedentePostulante" value="#{beanPostulante.nuevoPostulante.antecedentes}" placeholder="Antecedente">
@@ -373,7 +366,7 @@
                             -->
                             <p:tab title="Resultado" id="tabResultado" disabled="true" >
                                 <h:panelGrid columns="2" cellpadding="3" frame="box" styleClass="panelAlta" >
-
+                                    
                                 </h:panelGrid>
                             </p:tab>
 
@@ -497,7 +490,7 @@
                                 <p:inputText value="#{beanCargo.cargoNuevo.especialidad}" placeholder="Especialidad" maxlength="30" />
                                 <p:inputText value="#{beanCargo.cargoNuevo.categoria}" placeholder="Categoria" maxlength="30" />
                                 <p:spinner value="#{beanCargo.cargoNuevo.adicional}" placeholder="Cantidad de Horas" />
-                                <p:spinner value="#{beanCargo.cargoNuevo.cantidad}" placeholder="Cantidad de Cargos" />
+                                <p:spinner value="#{beanCargo.cantidad}" placeholder="Cantidad de Cargos" />
 
                             </h:panelGrid>
 

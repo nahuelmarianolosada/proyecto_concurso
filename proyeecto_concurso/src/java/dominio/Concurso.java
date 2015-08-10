@@ -14,7 +14,6 @@ public class Concurso  implements java.io.Serializable {
      private Resolucion resolucion;
      private Date fechaConcurso;
      private String resultado;
-     private Integer cantidadCubierto;
      private String resolucionNumeroConcurso;
 
     public Concurso() {
@@ -25,12 +24,11 @@ public class Concurso  implements java.io.Serializable {
         this.idConcurso = idConcurso;
         this.resultado = resultado;
     }
-    public Concurso(int idConcurso, Resolucion resolucion, Date fechaConcurso, String resultado, Integer cantidadCubierto, String resolucionNumeroConcurso) {
+    public Concurso(int idConcurso, Resolucion resolucion, Date fechaConcurso, String resultado, String resolucionNumeroConcurso) {
        this.idConcurso = idConcurso;
        this.resolucion = resolucion;
        this.fechaConcurso = fechaConcurso;
        this.resultado = resultado;
-       this.cantidadCubierto = cantidadCubierto;
        this.resolucionNumeroConcurso = resolucionNumeroConcurso;
     }
    
@@ -62,13 +60,7 @@ public class Concurso  implements java.io.Serializable {
     public void setResultado(String resultado) {
         this.resultado = resultado;
     }
-    public Integer getCantidadCubierto() {
-        return this.cantidadCubierto;
-    }
     
-    public void setCantidadCubierto(Integer cantidadCubierto) {
-        this.cantidadCubierto = cantidadCubierto;
-    }
     public String getResolucionNumeroConcurso() {
         return this.resolucionNumeroConcurso;
     }

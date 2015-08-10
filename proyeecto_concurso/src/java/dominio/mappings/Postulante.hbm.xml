@@ -3,7 +3,7 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 24/07/2015 09:37:25 by Hibernate Tools 3.6.0 -->
 <hibernate-mapping>
-    <class name="dominio.Convocatoria" table="convocatoria" schema="public">
+    <class name="dominio.Postulante" table="postulante" schema="public">
         <id name="idInscripcion" type="int">
             <column name="id_inscripcion" />
             <generator class="assigned" />
