@@ -330,7 +330,9 @@
                                             </p:inputText>
 
                                             <h:outputText value="Email" />
-                                            <p:inputText id="txtEmailNuevoPostulante" value="#{beanPostulante.nuevoPostulante.persona.email}" maxlength="25" />
+                                            <p:inputText id="txtEmailNuevoPostulante" value="#{beanPostulante.nuevoPostulante.persona.email}" maxlength="25" >
+                                                <f:validator validatorId="custom.emailValidator" />
+                                            </p:inputText>
 
                                         </h:panelGrid>
 
@@ -357,8 +359,29 @@
                                             <p:spinner value="#{beanPostulante.nuevoPostulante.fojas}" min="0" max="100" />
                                         </h:panelGrid>
 
-                                        <p:commandButton id="btnGuardarNuevoPostulante" value="Guardar" actionListener="#{beanPostulante.guardarNuevoPostulante}" icon="ui-icon-disk" update="tabuladorPestañero,tabuladorPestañero:formExpedientes:msg" styleClass="btnVerde" />
+                                        <p:commandButton id="btnGuardarNuevoPostulante" value="Guardar" actionListener="#{beanPostulante.guardarNuevoPostulante}" icon="ui-icon-disk" update="tabuladorPestañero,tabuladorPestañero:formExpedientes:msg" styleClass="btnVerde" validateClient="true" />
                                     </h:form>
+
+                                    <script type="text/javascript">
+                                        /**
+                                         * Faces Validator
+                                         */
+                                        PrimeFaces.validator['custom.emailValidator'] = {
+                                            pattern: /\S+@\S+/,
+                                            validate: function(element, value) {
+                                                //use element.data() to access validation metadata, in this case there is none.
+                                                if (!this.pattern.test(value)) {
+                                                    throw {
+                                                        summary: 'Validation Error',
+                                                        detail: value + ' is not a valid email.'
+                                                    }
+                                                }
+                                            }
+                                        };
+
+
+                                    </script>
+
                                 </p:panel>
 
                             </p:tab>
@@ -601,6 +624,7 @@
                         </p:fieldset>
                         <p:commandButton id="btnGuardarJurado" value="Guardar" actionListener="#{beanTribunal.guardarJurado()}" icon="ui-icon-disk" update="tabuladorPestañero:formTribunal" styleClass="btnVerde" />
                     </h:form>
+
                 </p:dialog>
 
                 <!--   
