@@ -563,14 +563,18 @@
                     <h:form id="formJuradoNuevo">
                         <p:fieldset legend="ID: #{beanTribunal.juradoNuevo.idTribunalJurado}" >
 
-                            <h:panelGrid columns="4" cellpadding="4" cellspacing="2">
+                            <h:panelGrid columns="3" cellpadding="4" cellspacing="2">
                                 <h:outputText value="Nombres" /> 
-                                <p:inputText />
+                                <p:inputText  id ="outNombre" value="#{beanTribunal.buscado}">
+                                    <p:ajax event="keyup" update="btnBuscarProfesional" listener="#{beanTribunal.validarBuscador()}" />
+                                </p:inputText>
+                                <p:commandButton id="btnBuscarProfesional"  icon="ui-icon-search" disabled="#{!beanTribunal.banderaBtn}"  />
                                 <h:outputText value="Apellido" />
                                 <p:inputText/> 
-
+                            </h:panelGrid>
+                            <h:panelGrid columns="4" cellpadding="4" cellspacing="2">
                                 <h:outputText value="Estado :"/>
-                                <p:selectOneMenu id="cmbEstadoJurado" value="#{beanTribunal.juradoNuevo.estado}" style="width:100%;" >
+                                <p:selectOneMenu id="cmbEstadoJurado" value="#{beanTribunal.juradoNuevo.estado}" style="width:100px;" >
                                     <f:selectItem itemLabel="jurado" itemValue="JURADO"/>
                                     <f:selectItem itemLabel="veedor" itemValue="VEEDOR"/>
                                 </p:selectOneMenu>
@@ -582,7 +586,7 @@
 
 
                                 <h:outputText value="Condición" />
-                                <p:selectOneMenu id="cmbCondicionJurado" value="#{beanTribunal.juradoNuevo.presencia}" style="width:100%;" >
+                                <p:selectOneMenu id="cmbCondicionJurado" value="#{beanTribunal.juradoNuevo.presencia}" style="width:100px;" >
                                     <f:selectItem itemLabel="Titular" itemValue="TITULAR"/>
                                     <f:selectItem itemLabel="Suplente" itemValue="SUPLENTE"/>
                                 </p:selectOneMenu> 
@@ -602,6 +606,9 @@
                         <p:commandButton id="btnGuardarJurado" value="Guardar" actionListener="#{beanTribunal.guardarJurado()}" icon="ui-icon-disk" update="tabuladorPestañero:formTribunal" styleClass="btnVerde" />
                     </h:form>
                 </p:dialog>
+
+
+
 
                 <!--   
              **********************************
