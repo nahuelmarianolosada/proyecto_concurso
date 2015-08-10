@@ -24,4 +24,6 @@ public interface PersonaDao {
 
     public void modificar(Persona persona);
     
+
+    
 }

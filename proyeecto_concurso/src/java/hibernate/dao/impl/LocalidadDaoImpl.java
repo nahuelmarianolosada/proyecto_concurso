@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package hibernate.dao.impl;
 
 import dominio.Localidad;
@@ -19,8 +18,9 @@ import org.hibernate.criterion.Restrictions;
  *
  * @author SIISAJUJUY
  */
-public class LocalidadDaoImpl extends HibernateUtil implements LocalidadDao{
-     @Override
+public class LocalidadDaoImpl extends HibernateUtil implements LocalidadDao {
+
+    @Override
     public List<Localidad> getAll() {
         Criteria criteria = getSession().createCriteria(Localidad.class);
         criteria.addOrder(Order.asc("idLocalidad"));
@@ -34,6 +34,28 @@ public class LocalidadDaoImpl extends HibernateUtil implements LocalidadDao{
     }
 
     @Override
+    public Localidad getLocalidadPorCodigo(long codigo_localidad) {
+
+        Localidad lo = new Localidad();
+
+//        Criteria criteria = getSession().createCriteria(Localidad.class);
+//        criteria.setMaxResults(1);
+//        criteria.add(Restrictions.eq("nombreDeLocalidad", nombreLocalidad).ignoreCase());
+        List<Localidad> lista = getAll();
+
+        for (Localidad localidad : lista) {
+            if (localidad.getCodigoLocalidad() == codigo_localidad) {
+                lo = localidad;
+                System.out.println("nombre de localiad " + lo.getNombreDeLocalidad() + " id Localidad " + lo.getIdLocalidad());
+
+            }
+        }
+
+        return lo;
+
+    }
+
+    @Override
     public List<Localidad> getLocalidad(String nombreLocalidad) {
         System.out.println("LocalidadDaoImpl.getLocalidad(" + nombreLocalidad + ")");
         List<Localidad> lista = new ArrayList<Localidad>();
@@ -42,7 +64,7 @@ public class LocalidadDaoImpl extends HibernateUtil implements LocalidadDao{
         criteria.add(Restrictions.ilike("nombreLocalidad", "%" + nombreLocalidad + "%"));
         criteria.addOrder(Order.asc("nombreLocalidad"));
         return lista = (List<Localidad>) criteria.list();
-        
+
     }
 
     @Override

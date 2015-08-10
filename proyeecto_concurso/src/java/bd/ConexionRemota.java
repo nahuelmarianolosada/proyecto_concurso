@@ -71,41 +71,10 @@ public class ConexionRemota {
     }
 
     public static void consultarVista() throws SQLException {
-//        String driver = "org.postgresql.Driver";
-//
-//        String connectString = "jdbc:postgresql://localhost:5432/concursosDB";
-//        String user = "nmlosada";
-//        String password = "siisa1234";
-//        Statement stmt = null;
-//        Connection con = null;
-//
-//        try {
-//            Class.forName(driver);
-//            con = DriverManager.getConnection(connectString, user, password);
-//            stmt = con.createStatement();
-//
-//            //UTILIZANDO UNA CONSULTA NORMAL
-//            String consultaSQL = "SELECT * FROM vw_usuarios";
-//            ResultSet rs = stmt.executeQuery(consultaSQL);
-//
-//            int contadorDeRegistros = 1;
-//
-//            while (rs.next()) {
-//                System.out.println(contadorDeRegistros + " - CODIGO: " + rs.getString("id_usuario") + " NOMBRE COMPLETO: " + rs.getString("apellido") + " " + rs.getString("nombre"));
-//                contadorDeRegistros += 1;
-//            }
-//
-//        } catch (Exception e) {
-//            System.out.println(e.getMessage());
-//            e.printStackTrace();
-//        } finally {
-//            stmt.close();
-//            con.close();
-//        }
+
 
         String driver = "org.postgresql.Driver";
-        //String connectString = "jdbc:postgresql://192.168.137.175:5432/concurso";
-        String connectString = "jdbc:postgresql://localhost:5432/siisaDB";
+                String connectString = "jdbc:postgresql://localhost:5432/siisaDB";
         String user = "nmlosada";
         String password = "siisa1234";
 
@@ -114,15 +83,14 @@ public class ConexionRemota {
             Connection con = DriverManager.getConnection(connectString, user, password);
             Statement stmt = con.createStatement();
 
-            //probarHibernate();
-            //UTILIZANDO UNA CONSULTA NORMAL
+          //UTILIZANDO UNA CONSULTA NORMAL
             String consultaSQL = "SELECT * FROM \"vw_profesionalCompleto\" WHERE numero_documento = '" + 23053786 + "';";
             ResultSet rs = stmt.executeQuery(consultaSQL);
 
             int contadorDeRegistros = 1;
             
             while (rs.next()) {
-                System.out.println(contadorDeRegistros + " - CODIGO: " + rs.getLong("codigo_de_profesional") + " - Nombre Completo: " + rs.getString("nombre"));
+                System.out.println(contadorDeRegistros + " - CODIGO: " + rs.getLong("codigo_de_profesional") + " - Nombre Completo: " + rs.getString("nombrecompleto")+" -Profesión: "+rs.getString("profmat"));
                 contadorDeRegistros += 1;
             }
             stmt.close();

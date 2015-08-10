@@ -3,18 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package bd;
 
-import dominio.Establecimiento;
-import dominio.Persona;
-import dominio.Localidad;
-import hibernate.dao.EstablecimientoDao;
-import hibernate.dao.impl.EstablecimientoDaoImpl;
-import hibernate.dao.LocalidadDao;
+import hibernate.dao.impl.TribunalJuradoDaoImpl;
 import hibernate.dao.impl.LocalidadDaoImpl;
+import hibernate.dao.LocalidadDao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
+import dominio.Persona;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,14 +21,11 @@ import java.util.List;
  *
  * @author favio
  */
-public class Testing {
+public class ConexionRefeps {
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
+    public List<Persona> buscarProfesionalRefepsNombreCompleto(String nombreCompleto) {
 
-        LocalidadDao daoLocalidad = new LocalidadDaoImpl();
+       LocalidadDao daoLocalidad = new LocalidadDaoImpl();
         List<Persona> listaPersona = new ArrayList();
 
         String driver = "org.postgresql.Driver";
@@ -42,7 +38,7 @@ public class Testing {
             Connection con = DriverManager.getConnection(connectString, user, password);
             Statement stmt = con.createStatement();
 
-            String consultaSQL = "SELECT * FROM \"vw_profesionalDatosPersonales\" WHERE nombreCompleto like upper('%pedro%');";
+            String consultaSQL = "SELECT * FROM \"vw_profesionalDatosPersonales\" WHERE nombreCompleto like upper('%"+nombreCompleto+"%');";
             ResultSet rs = stmt.executeQuery(consultaSQL);
 
             int contadorDeRegistros = 0;
@@ -75,11 +71,14 @@ public class Testing {
                 System.out.println(person.getNombres() + " " + person.getApellido() + " " + person.getLocalidadByLocalidadNacimiento().getCodigoLocalidad());
 
             }
+            
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
         }
+
+        return listaPersona;
 
     }
 

@@ -25,4 +25,6 @@ public interface LocalidadDao {
     public void eliminar(Localidad localidad);
 
     public void modificar(Localidad localidad);
+   
+    public Localidad getLocalidadPorCodigo(long codigo_localidad);
 }

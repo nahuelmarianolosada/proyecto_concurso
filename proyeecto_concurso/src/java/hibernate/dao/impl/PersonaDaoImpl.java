@@ -69,9 +69,7 @@ public class PersonaDaoImpl extends HibernateUtil implements PersonaDao{
             getSession().getTransaction().rollback();
         }
     }
-    
-    
-    
+
     
     
 }
