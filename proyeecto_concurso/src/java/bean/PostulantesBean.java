@@ -6,7 +6,7 @@
 package bean;
 
 import dominio.Cargo;
-import dominio.Convocatoria;
+import dominio.Postulante;
 import dominio.Persona;
 import hibernate.dao.PersonaDao;
 import hibernate.dao.impl.PersonaDaoImpl;
@@ -28,8 +28,8 @@ import org.primefaces.event.UnselectEvent;
 public class PostulantesBean extends ConcursoBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private Convocatoria nuevoPostulante;
-    private List<Convocatoria> listaPostulantes;
+    private Postulante nuevoPostulante;
+    private List<Postulante> listaPostulantes;
     private List<Persona> listaResultado;
     private Persona postulanteSeleccionado;
     private boolean datosValidos, banderaBtn;
@@ -42,26 +42,26 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
      * Creates a new instance of PostulantesBean
      */
     public PostulantesBean() {
-        nuevoPostulante = new Convocatoria(new Persona());
+        nuevoPostulante = new Postulante(new Persona());
         nuevoPostulante.setCargo(new Cargo());
     }
 
     /*
      GETTERS && SETTERS
      */
-    public Convocatoria getNuevoPostulante() {
+    public Postulante getNuevoPostulante() {
         return nuevoPostulante;
     }
 
-    public void setNuevoPostulante(Convocatoria nuevoPostulante) {
+    public void setNuevoPostulante(Postulante nuevoPostulante) {
         this.nuevoPostulante = nuevoPostulante;
     }
 
-    public List<Convocatoria> getListaPostulantes() {
+    public List<Postulante> getListaPostulantes() {
         return listaPostulantes;
     }
 
-    public void setListaPostulantes(List<Convocatoria> listaPostulantes) {
+    public void setListaPostulantes(List<Postulante> listaPostulantes) {
         this.listaPostulantes = listaPostulantes;
     }
 
@@ -202,6 +202,7 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
                 break;
             }
         }
+        
         System.out.println("\033[32mPostulantesBean.guardarNuevoPostulante() => " + nuevoPostulante.toString());
         nuevoMensajeInfo("Registro Provincial de Concursos", "Postulante " + nuevoPostulante.getIdInscripcion() + " guardado");
     }

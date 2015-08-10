@@ -12,7 +12,7 @@
   <table-filter match-name="resolucion"/>
   <table-filter match-name="tipo_usuario"/>
   <table-filter match-name="cargo"/>
-  <table-filter match-name="convocatoria"/>
+  <table-filter match-name="postulante"/>
   <table-filter match-name="tribunal_jurado"/>
   <table-filter match-name="usuario"/>
   <table-filter match-name="profesion"/>

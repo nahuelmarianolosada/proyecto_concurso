@@ -1,54 +1,50 @@
-<?xml version="1.0"?>
-<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 24/07/2015 09:37:25 by Hibernate Tools 3.6.0 -->
 <hibernate-mapping>
-    <class name="dominio.Cargo" table="cargo" schema="public">
-        <id name="idCargo" type="int">
-            <column name="id_cargo" />
-            <generator class="assigned" />
-        </id>
-        <many-to-one name="resolucion" class="dominio.Resolucion" fetch="select">
-            <column name="numero_resolucion" />
-        </many-to-one>
-        <many-to-one name="establecimiento" class="dominio.Establecimiento" fetch="select">
-            <column name="codigo_establecimiento" not-null="true" />
-        </many-to-one>
-        <many-to-one name="profesion" class="dominio.Profesion" fetch="select">
-            <column name="id_profesion" not-null="true" />
-        </many-to-one>
-        <property name="especialidad" type="string">
-            <column name="especialidad" />
-        </property>
-        <property name="categoria" type="string">
-            <column name="categoria" />
-        </property>
-        <property name="adicional" type="java.lang.Integer">
-            <column name="adicional" />
-        </property>
-        <property name="funcion" type="string">
-            <column name="funcion" />
-        </property>
-        <property name="areaDeDesempenio" type="string">
-            <column name="area_de_desempenio" />
-        </property>
-        <property name="modalidad" type="string">
-            <column name="modalidad" />
-        </property>
-        <property name="fechaActaFormulacionPerfil" type="date">
-            <column name="fecha_acta_formulacion_perfil" length="13" />
-        </property>
-        <property name="enunciacion" type="string">
-            <column name="enunciacion" />
-        </property>
-        <property name="cantidad" type="java.lang.Integer">
-            <column name="cantidad" />
-        </property>
-        <set name="convocatorias" table="convocatoria" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="id_cargo" not-null="true" />
-            </key>
-            <one-to-many class="dominio.Convocatoria" />
-        </set>
-    </class>
+  <class name="dominio.Cargo" schema="public" table="cargo">
+    <id name="idCargo" type="int">
+      <column name="id_cargo"/>
+      <generator class="assigned"/>
+    </id>
+    <many-to-one class="dominio.Resolucion" fetch="select" name="resolucion">
+      <column name="numero_resolucion"/>
+    </many-to-one>
+    <many-to-one class="dominio.Establecimiento" fetch="select" name="establecimiento">
+      <column name="codigo_establecimiento" not-null="true"/>
+    </many-to-one>
+    <many-to-one class="dominio.Profesion" fetch="select" name="profesion">
+      <column name="id_profesion" not-null="true"/>
+    </many-to-one>
+    <property name="especialidad" type="string">
+      <column name="especialidad"/>
+    </property>
+    <property name="categoria" type="string">
+      <column name="categoria"/>
+    </property>
+    <property name="adicional" type="java.lang.Integer">
+      <column name="adicional"/>
+    </property>
+    <property name="funcion" type="string">
+      <column name="funcion"/>
+    </property>
+    <property name="areaDeDesempenio" type="string">
+      <column name="area_de_desempenio"/>
+    </property>
+    <property name="modalidad" type="string">
+      <column name="modalidad"/>
+    </property>
+    <property name="fechaActaFormulacionPerfil" type="date">
+      <column length="13" name="fecha_acta_formulacion_perfil"/>
+    </property>
+    <property name="enunciacion" type="string">
+      <column name="enunciacion"/>
+    </property>
+    <set fetch="select" inverse="true" lazy="true" name="convocatorias" table="convocatoria">
+      <key>
+        <column name="id_cargo" not-null="true"/>
+      </key>
+      <one-to-many class="dominio.Postulante"/>
+    </set>
+  </class>
 </hibernate-mapping>
