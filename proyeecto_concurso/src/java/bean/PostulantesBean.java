@@ -5,6 +5,7 @@
  */
 package bean;
 
+import dominio.Cargo;
 import dominio.Convocatoria;
 import dominio.Persona;
 import hibernate.dao.PersonaDao;
@@ -12,6 +13,7 @@ import hibernate.dao.impl.PersonaDaoImpl;
 import java.io.Serializable;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
@@ -33,12 +35,15 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
     private boolean datosValidos, banderaBtn;
     private String buscado, criterio;
 
+    @ManagedProperty("#{beanCargo}")
+    private CargoBean beanCargo;
+
     /**
      * Creates a new instance of PostulantesBean
      */
     public PostulantesBean() {
         nuevoPostulante = new Convocatoria(new Persona());
-
+        nuevoPostulante.setCargo(new Cargo());
     }
 
     /*
@@ -108,11 +113,14 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
         this.postulanteSeleccionado = postulanteSeleccionado;
     }
 
-    
+    public CargoBean getBeanCargo() {
+        return beanCargo;
+    }
 
-    
-    
-    
+    public void setBeanCargo(CargoBean beanCargo) {
+        this.beanCargo = beanCargo;
+    }
+
     /*
      METODOS
      */
@@ -135,7 +143,7 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
                 }
                 case "nombre": {
                     listaResultado = personaDao.buscarPorNombre(buscado);
-                    
+
                     if (listaResultado != null) {
                         context.execute("PF('dlgPersonaResultado').show();");
                         context.update("dlgPersonaResultado");
@@ -146,8 +154,8 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
                     break;
                 }
                 case "apellido": {
-                   listaResultado = personaDao.buscarPorApellido(buscado);
-                    
+                    listaResultado = personaDao.buscarPorApellido(buscado);
+
                     if (listaResultado != null) {
                         context.execute("PF('dlgPersonaResultado').show();");
                         context.update("dlgPersonaResultado");
@@ -172,7 +180,7 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
     }
 
     public void seleccionarPersona(SelectEvent event) {
-        nuevoPostulante.setPersona((Persona)event.getObject());
+        nuevoPostulante.setPersona((Persona) event.getObject());
         RequestContext context = RequestContext.getCurrentInstance();
         context.execute("PF('dlgPersonaResultado').hide();");
         //FacesMessage msg = new FacesMessage("Car Selected", ((Car) event.getObject()).getId());
@@ -183,6 +191,17 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
         nuevoPostulante.setPersona(new Persona());
 //        FacesMessage msg = new FacesMessage("Car Unselected", ((Car) event.getObject()).getId());
 //        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+
+    public void guardarNuevoPostulante() {
+        for (Cargo cargo : beanCargo.getListaCargos()) {
+            if(cargo.getIdCargo() == nuevoPostulante.getCargo().getIdCargo()){
+                nuevoPostulante.setCargo(cargo);
+                break;
+            }
+        }
+        System.out.println("\033[32mPostulantesBean.guardarNuevoPostulante() => " + nuevoPostulante.toString());
+        nuevoMensajeInfo("Registro Provincial de Concursos", "Postulante " + nuevoPostulante.getIdInscripcion() + " guardado");
     }
 
 }

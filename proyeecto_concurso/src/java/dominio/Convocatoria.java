@@ -93,7 +93,12 @@ public class Convocatoria  implements java.io.Serializable {
         this.puntaje = puntaje;
     }
 
+    @Override
+    public String toString() {
+        return "Convocatoria{" + "idInscripcion=" + idInscripcion + ", cargo=" + cargo.getFuncion() + ", persona=" + persona.toString() + ",\n fojas=" + fojas + ", antecedentes=" + antecedentes + ", oposicion=" + oposicion + ", puntaje=" + puntaje + '}';
+    }
 
+    
 
 
 }

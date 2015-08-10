@@ -279,8 +279,9 @@
                             **********************************
                             -->
                             <p:tab title="Postulantes" id="tabPostulantes" disabled="false" >
-                                <h:form id="formPostulantes">
-                                    <p:panel id="pnlBuscarPostulanteNuevo" header="Buscar Postulante" toggleable="true" closable="false" toggleSpeed="700" widgetVar="pnlPostulanteNuevo" style="margin-bottom:20px">
+
+                                <p:panel id="pnlBuscarPostulanteNuevo" header="Datos del Postulante" toggleable="true" closable="false" toggleSpeed="700" widgetVar="pnlPostulanteNuevo" style="margin-bottom:20px">
+                                    <h:form id="formBuscarPostulante">
                                         <h:panelGrid columns="4" cellpadding="5">
                                             <p:inputText id="txtBuscarPostulante" value="#{beanPostulante.buscado}" maxlength="25" placeholder="Buscar..."  >
                                                 <p:ajax event="keyup" update="btnBuscarPostulante" listener="#{beanPostulante.validarBuscador}" />
@@ -291,36 +292,75 @@
                                                 <f:selectItem itemLabel="Apellido" itemValue="apellido" />
                                                 <f:selectItem itemLabel="Dni" itemValue="dni" />
                                             </p:selectOneMenu>
-                                            <p:commandButton id="btnBuscarPostulante" value="Buscar" actionListener="#{beanPostulante.buscarPorCriterio()}" icon="ui-icon-search" disabled="#{!beanPostulante.banderaBtn}" update="tabuladorPestañero:formExpedientes:msg,pnlDatosNuevoPostulante" />
+                                            <p:commandButton id="btnBuscarPostulante" value="Buscar" actionListener="#{beanPostulante.buscarPorCriterio()}" icon="ui-icon-search" disabled="#{!beanPostulante.banderaBtn}" update="tabuladorPestañero:formExpedientes:msg,tabuladorPestañero:formPostulantes:pnlDatosNuevoPostulante" />
                                         </h:panelGrid>
+                                    </h:form>
+                                    <p:separator />
+                                    <h:form id="formPostulantes">
                                         <h:panelGrid id="pnlDatosNuevoPostulante" columns="4" cellpadding="5">
                                             <h:outputText value="Nombre" />
-                                            <p:inputText id="txtNombreNuevoPostulante" value="#{beanPostulante.nuevoPostulante.persona.nombres}" />
+                                            <p:inputText id="txtNombreNuevoPostulante" value="#{beanPostulante.nuevoPostulante.persona.nombres}" required="true" requiredMessage="Ingrese el nombre del postulante" maxlength="25" />
 
                                             <h:outputText value="Apellido" />
-                                            <p:inputText id="txtApellidoNuevoPostulante" value="#{beanPostulante.nuevoPostulante.persona.apellido}" />
+                                            <p:inputText id="txtApellidoNuevoPostulante" value="#{beanPostulante.nuevoPostulante.persona.apellido}" required="true" requiredMessage="Ingrese el apellido del postulante" maxlength="25" />
 
                                             <h:outputText value="Dni" />
-                                            <p:inputText id="txtDniNuevoPostulante" value="#{beanPostulante.nuevoPostulante.persona.dni}" />
+                                            <p:inputText id="txtDniNuevoPostulante" value="#{beanPostulante.nuevoPostulante.persona.dni}" required="true" requiredMessage="Ingrese el DNI del postulante" maxlength="9" converterMessage="Ingrese unicamente números para el DNI" >
+                                                <f:convertNumber integerOnly="true" />
+                                            </p:inputText>
 
                                             <h:outputText value="Cuil" />
-                                            <p:inputText id="txtCuilNuevoPostulante" value="#{beanPostulante.nuevoPostulante.persona.cuil}" />
+                                            <p:inputText id="txtCuilNuevoPostulante" value="#{beanPostulante.nuevoPostulante.persona.cuil}" maxlength="12" />
 
                                             <h:outputText value="Fecha de Nacimiento" />
-                                            <p:calendar id="calFechaNacNuevoPostulante" value="#{beanPostulante.nuevoPostulante.persona.fechaDeNacimiento}" pattern="dd-MM-yyyy" mask="true" />
+                                            <p:calendar id="calFechaNacNuevoPostulante" value="#{beanPostulante.nuevoPostulante.persona.fechaDeNacimiento}" pattern="dd-MM-yyyy" mask="true" required="true" requiredMessage="Ingrese la fecha de nacimiento del postulante" />
 
                                             <h:outputText value="Direccion" />
                                             <p:inputText id="txtDireccionNuevoPostulante" value="#{beanPostulante.nuevoPostulante.persona.direccion}" />
 
                                             <h:outputText value="Sexo" />
-                                            <p:inputText id="txtSexoNuevoPostulante" value="#{beanPostulante.nuevoPostulante.persona.sexo}" />
+                                            <p:selectOneRadio id="console" value="#{radioView.console}">
+                                                <f:selectItem itemLabel="Masculino" itemValue="M" />
+                                                <f:selectItem itemLabel="Femenino" itemValue="F" />
+                                            </p:selectOneRadio>
 
                                             <h:outputText value="Teléfono" />
-                                            <p:inputText id="txtTelefonoNuevoPostulante" value="#{beanPostulante.nuevoPostulante.persona.telefono}" />
+                                            <p:inputText id="txtTelefonoNuevoPostulante" value="#{beanPostulante.nuevoPostulante.persona.telefono}" converterMessage="Ingrese unicamente numeros para el teléfono" maxlength="15" >
+                                                <f:convertNumber integerOnly="true" />
+                                            </p:inputText>
+
+                                            <h:outputText value="Email" />
+                                            <p:inputText id="txtEmailNuevoPostulante" value="#{beanPostulante.nuevoPostulante.persona.email}" maxlength="25" />
 
                                         </h:panelGrid>
-                                    </p:panel>
-                                </h:form>
+
+                                        <p:separator />
+                                        
+                                        <h:outputText value="Cargo:" />
+                                        <p:selectOneMenu id="cmbCargoPostulante" value="#{beanPostulante.nuevoPostulante.cargo.idCargo}" filter="true" required="true" requiredMessage="Seleccione un cargo para el postulante" >
+                                            <f:selectItems var="cargo" value="#{beanCargo.listaCargos}" itemLabel="#{cargo.profesion.nombreProfesion} (#{cargo.funcion})" itemValue="#{cargo.idCargo}" />
+                                        </p:selectOneMenu>
+
+                                        <h:panelGrid columns="4">
+                                            <p:inputText id="txtAntecedentePostulante" value="#{beanPostulante.nuevoPostulante.antecedentes}" placeholder="Antecedente">
+                                                <f:convertNumber maxFractionDigits="2" pattern="###.##" />
+                                            </p:inputText>
+
+                                            <p:inputText id="txtOposicionPostulante" value="#{beanPostulante.nuevoPostulante.oposicion}" placeholder="Oposicion">
+                                                <f:convertNumber maxFractionDigits="2" pattern="###.##" />
+                                            </p:inputText>
+
+                                            <p:inputText id="txtPuntajePostulante" value="#{beanPostulante.nuevoPostulante.puntaje}" placeholder="Puntaje">
+                                                <f:convertNumber maxFractionDigits="2" pattern="###.##" />
+                                            </p:inputText>
+
+                                            <p:spinner value="#{beanPostulante.nuevoPostulante.fojas}" min="0" max="100" />
+                                        </h:panelGrid>
+
+                                        <p:commandButton id="btnGuardarNuevoPostulante" value="Guardar" actionListener="#{beanPostulante.guardarNuevoPostulante}" icon="ui-icon-disk" update="tabuladorPestañero,tabuladorPestañero:formExpedientes:msg" styleClass="btnVerde" />
+                                    </h:form>
+                                </p:panel>
+
                             </p:tab>
 
 
