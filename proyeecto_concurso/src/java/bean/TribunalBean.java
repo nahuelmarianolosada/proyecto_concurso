@@ -21,6 +21,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import bd.ConexionRefeps;
 import com.sun.javafx.scene.control.skin.VirtualFlow;
+import org.primefaces.context.RequestContext;
+import org.primefaces.event.SelectEvent;
+import org.primefaces.event.UnselectEvent;
 
 /**
  *
@@ -39,9 +42,9 @@ public class TribunalBean extends ConcursoBean implements Serializable {
     private Persona personaBuscada;
     private List<Persona> listaResultadoBusquedaPersona;
     private boolean datosValidos;
-    private String nombreCompletoJurado;
     private String buscado;
     private boolean banderaBtn;
+    private Persona tribunalSeleccionado;
 
     /**
      * Creates a new instance of TribunalBean
@@ -59,11 +62,7 @@ public class TribunalBean extends ConcursoBean implements Serializable {
         juradoNuevo = new TribunalJurado(tribJuraDao.generarNuevoIdJurado());
         banderaBtn=false;
 
-//        try {
-//            juradoNuevo = new TribunalJurado(getListaInstituciones().get(0), getListaEstablecimientos().get(0), new Persona(Integer.getInteger(""), Long.getLong("")));
-//        } catch (Exception exGeneral) {
-//            exGeneral.printStackTrace();
-//        }
+
     }
 
     //GETTERS && SETTERS
@@ -131,14 +130,6 @@ public class TribunalBean extends ConcursoBean implements Serializable {
         this.datosValidos = datosValidos;
     }
 
-    public String getNombreCompletoJurado() {
-        return nombreCompletoJurado;
-    }
-
-    public void setNombreCompletoJurado(String nombreCompletoJurado) {
-        this.nombreCompletoJurado = nombreCompletoJurado;
-    }
-
     public String getBuscado() {
         return buscado;
     }
@@ -155,22 +146,51 @@ public class TribunalBean extends ConcursoBean implements Serializable {
         this.banderaBtn = banderaBtn;
     }
 
+    public Persona getTribunalSeleccionado() {
+        return tribunalSeleccionado;
+    }
+
+    public void setTribunalSeleccionado(Persona tribunalSeleccionado) {
+        this.tribunalSeleccionado = tribunalSeleccionado;
+    }
+
     
     //METODOS
     public void buscarPersonaREFEPS() {
 
         ConexionRefeps conexionRefeps = new ConexionRefeps();
-        listaPersonas=conexionRefeps.buscarProfesionalRefepsNombreCompleto(nombreCompletoJurado);
+        listaPersonas=conexionRefeps.buscarProfesionalRefepsNombreCompleto(buscado);
+        
+        
+        
+        
         
     }
 
     public void validarBuscador() {
         if (buscado.isEmpty()) {
             banderaBtn = false;
+            
         } else {
             banderaBtn = true;
         }
     }
+    
+        public void seleccionarPersona(SelectEvent event) {
+       juradoNuevo.setPersona((Persona) event.getObject());
+        RequestContext context = RequestContext.getCurrentInstance();
+        context.execute("PF('dlgProfesionalesResultado').hide();");
+        //FacesMessage msg = new FacesMessage("Car Selected", ((Car) event.getObject()).getId());
+        //FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+
+    public void deseleccionarPersona(UnselectEvent event) {
+        juradoNuevo.setPersona(new Persona());
+//        FacesMessage msg = new FacesMessage("Car Unselected", ((Car) event.getObject()).getId());
+//        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+    
+    
     public void guardarJurado() {
 
         try {

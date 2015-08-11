@@ -25,8 +25,8 @@ public class ConexionRefeps {
 
     public List<Persona> buscarProfesionalRefepsNombreCompleto(String nombreCompleto) {
 
-       LocalidadDao daoLocalidad = new LocalidadDaoImpl();
-        List<Persona> listaPersona = new ArrayList();
+        LocalidadDao daoLocalidad = new LocalidadDaoImpl();
+        List<Persona> listaPersona = new ArrayList<Persona>();
 
         String driver = "org.postgresql.Driver";
         String connectString = "jdbc:postgresql://localhost:5432/siisaDB";
@@ -38,16 +38,16 @@ public class ConexionRefeps {
             Connection con = DriverManager.getConnection(connectString, user, password);
             Statement stmt = con.createStatement();
 
-            String consultaSQL = "SELECT * FROM \"vw_profesionalDatosPersonales\" WHERE nombreCompleto like upper('%"+nombreCompleto+"%');";
+            String consultaSQL = "SELECT * FROM \"vw_profesionalDatosPersonales\" WHERE nombreCompleto like upper('%" + nombreCompleto + "%');";
             ResultSet rs = stmt.executeQuery(consultaSQL);
 
             int contadorDeRegistros = 0;
 
             while (rs.next()) {
                 //  System.out.println(contadorDeRegistros + " - CODIGO: " + rs.getLong("codigo_de_profesional") + " - Nombre Completo: " + rs.getString("nombrecompleto") + " - dNI: " + rs.getString("numero_documento"));
-                contadorDeRegistros += 1;
+                contadorDeRegistros = contadorDeRegistros + 1;
                 Persona persona = new Persona();
-                
+                persona.setIdPersona(contadorDeRegistros);
                 persona.setDni(Integer.parseInt(rs.getString("numero_documento")));
                 persona.setApellido(rs.getString("apellido"));
                 persona.setNombres(rs.getString("nombre"));
@@ -57,8 +57,8 @@ public class ConexionRefeps {
                 persona.setDireccion(rs.getString("direccion"));
                 persona.setTelefono(rs.getString("tel1"));
                 persona.setEmail(rs.getString("email"));
-                persona.setLocalidadByLocalidadNacimiento(daoLocalidad.getLocalidadPorCodigo(rs.getLong("localidad_nac")));
 
+//  persona.setLocalidadByLocalidadNacimiento(daoLocalidad.getLocalidadPorCodigo(rs.getLong("localidad_nac")));
                 listaPersona.add(persona);
 
             }
@@ -66,13 +66,11 @@ public class ConexionRefeps {
             stmt.close();
             con.close();
 
-            System.out.println("Nombres    Apellido    Localidad Nacimiento");
-            for (Persona person : listaPersona) {
-                System.out.println(person.getNombres() + " " + person.getApellido() + " " + person.getLocalidadByLocalidadNacimiento().getCodigoLocalidad());
-
-            }
-            
-
+//            System.out.println("Nombres    Apellido    Localidad Nacimiento");
+//            for (Persona person : listaPersona) {
+//                System.out.println(person.getNombres() + " " + person.getApellido());
+//
+//            }
         } catch (Exception e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
