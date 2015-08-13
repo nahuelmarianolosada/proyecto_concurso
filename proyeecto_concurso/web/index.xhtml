@@ -162,6 +162,9 @@
                                         </p:column>
 
                                     </p:dataTable>
+                                    
+                                    <p:commandButton id="btnGuardarListaResoluciones" value="Guardar" actionListener="#{beanResolucion.guardarListaResoluciones()}" icon="ui-icon-disk" update="tabuladorPestañero,tabuladorPestañero:formExpedientes:msg" styleClass="btnVerde" />
+                                    
                                 </h:form>
                             </p:tab>
 
@@ -335,6 +338,19 @@
 
                                         <p:separator />
 
+
+
+                                        <h:panelGrid columns="3">
+                                            <h:outputText value="Ganador del Cargo" />
+                                            <p:inputSwitch offLabel="No" onLabel="Si" value="#{beanPostulante.banderaGanador}" onchange="#{beanPostulante.cambiarEstadoGanador()}" >
+                                                <p:ajax listener="#{beanPostulante.cambiarEstadoGanador()}" update="cmbCargoPostulante" />
+                                            </p:inputSwitch>
+                                            <p:selectOneMenu id="cmbCargoPostulante" value="#{beanPostulante.nuevoPostulante.cargo.idCargo}" required="true" requiredMessage="Seleccione un cargo" filter="true" validatorMessage="Seleccione un cargo válido" disabled="#{beanPostulante.banderaGanador}" >
+                                                <f:selectItem noSelectionOption="true" itemLabel=" Seleccione un Cargo" itemValue="null" />
+                                                <f:selectItems var="cargo" value="#{beanCargo.listaCargos}" itemLabel="#{cargo.funcion} (#{cargo.categoria})" itemValue="#{cargo.idCargo}" />
+                                            </p:selectOneMenu>
+                                        </h:panelGrid>
+
                                         <h:panelGrid columns="4">
                                             <p:inputText id="txtAntecedentePostulante" value="#{beanPostulante.nuevoPostulante.antecedentes}" placeholder="Antecedente">
                                                 <f:convertNumber maxFractionDigits="2" pattern="###.##" />
@@ -365,8 +381,11 @@
                             **********************************
                             -->
                             <p:tab title="Resultado" id="tabResultado" disabled="true" >
-                                <h:panelGrid columns="2" cellpadding="3" frame="box" styleClass="panelAlta" >
-
+                                <h:panelGrid columns="2" cellpadding="3" frame="box" styleClass="panelAlta" columnClasses="label, value" >
+                                    <f:facet name="header">
+                                        <h:outputText value="Expediente:" />
+                                    </f:facet>
+                                    <h:outputText value="Número:" />
                                 </h:panelGrid>
                             </p:tab>
 

@@ -32,7 +32,7 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
     private List<Postulante> listaPostulantes;
     private List<Persona> listaResultado;
     private Persona postulanteSeleccionado;
-    private boolean datosValidos, banderaBtn;
+    private boolean datosValidos, banderaBtn, banderaGanador;
     private String buscado, criterio;
 
     @ManagedProperty("#{beanCargo}")
@@ -44,6 +44,7 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
     public PostulantesBean() {
         nuevoPostulante = new Postulante(new Persona());
         nuevoPostulante.setCargo(new Cargo());
+        banderaGanador = false;
     }
 
     /*
@@ -119,10 +120,14 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
         return buscado;
     }
 
-    public void setBuscado(String buscado) {
-        this.buscado = buscado;
+    public boolean isBanderaGanador() {
+        return banderaGanador;
     }
-    
+
+    public void setBanderaGanador(boolean banderaGanador) {
+        this.banderaGanador = banderaGanador;
+    }
+
     /*
      METODOS
      */
@@ -197,14 +202,22 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
 
     public void guardarNuevoPostulante() {
         for (Cargo cargo : beanCargo.getListaCargos()) {
-            if(cargo.getIdCargo() == nuevoPostulante.getCargo().getIdCargo()){
+            if (cargo.getIdCargo() == nuevoPostulante.getCargo().getIdCargo()) {
                 nuevoPostulante.setCargo(cargo);
                 break;
             }
         }
-        
+
         System.out.println("\033[32mPostulantesBean.guardarNuevoPostulante() => " + nuevoPostulante.toString());
         nuevoMensajeInfo("Registro Provincial de Concursos", "Postulante " + nuevoPostulante.getIdInscripcion() + " guardado");
+    }
+
+    public void cambiarEstadoGanador() {
+        if (banderaGanador) {
+            banderaGanador = false;
+        } else {
+            banderaGanador = true;
+        }
     }
 
 }

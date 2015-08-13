@@ -15,9 +15,7 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import org.primefaces.event.SelectEvent;
-import org.primefaces.event.UnselectEvent;
 
 /**
  *
@@ -156,7 +154,7 @@ public class ResolucionBean extends ConcursoBean implements Serializable {
 
             beanCargo.getCargoNuevo().setResolucion(resolucionNueva);
             
-            pasarVistaDePestania();
+            //pasarVistaDePestania();
             System.err.println("\033[32mResolucionBean.guardarResolucion() => " + resolucionNueva.toString());
 
             nuevoMensajeInfo("Registro de Concursos de Salud - RESOLUCIÓN", "NºResolucion: " + resolucionNueva.getNumeroResolucion()
@@ -168,6 +166,9 @@ public class ResolucionBean extends ConcursoBean implements Serializable {
         }
     }
 
+    public void guardarListaResoluciones(){
+        setListaFinalResoluciones(listaResoluciones);
+    }
     
     
 }

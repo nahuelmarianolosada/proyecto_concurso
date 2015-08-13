@@ -19,7 +19,11 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import org.primefaces.event.TabChangeEvent;
 import dominio.Establecimiento;
+import dominio.Expediente;
 import dominio.Institucion;
+import dominio.Postulante;
+import dominio.Resolucion;
+import dominio.Tribunal;
 
 /**
  *
@@ -36,33 +40,21 @@ public class ConcursoBean implements Serializable {
     private static int numeroDePestania = 0;//Indice en la pestaña "tabuladorPestañero"
     private boolean banderaInstitucion;
     private boolean banderaEstablecimiento;
-
-//    @ManagedProperty("#{beanResolucion}")
-//    private ResolucionBean beanResolucion;
-//
-//    @ManagedProperty("#{beanCargo}")
-//    private CargoBean beanCargo;
-//
-//    @ManagedProperty("#{beanTribunal}")
-//    private TribunalBean beanTribunal;
-//    private List<Profesion> listaProfesiones;
-//
     private List<Establecimiento> listaEstablecimientos;
     private List<Institucion> listaInstituciones;
-//
-//    private boolean banderaInstitucion;
-//    private boolean banderaEstablecimiento;
-//
-//    private List<Localidad> listaLocalidades;
+
+    private Expediente expedienteFinalCargado;
+    private List<Resolucion> listaFinalResoluciones;
+    private List<Cargo> listaFinalCargos;
+    private List<Tribunal> listaFinalJurados;
+    private List<Postulante> listaFinalPostulantes;
 
     /**
      * Creates a new instance of ConcursoBean
      */
     public ConcursoBean() {
         //init();
-
         refreshListas();
-
     }
 
     public int getNumeroDePestania() {
@@ -73,37 +65,6 @@ public class ConcursoBean implements Serializable {
         this.numeroDePestania = numeroDePestania;
     }
 
-//    public TribunalBean getBeanTribunal() {
-//        return beanTribunal;
-//    }
-//
-//    public void setBeanTribunal(TribunalBean beanTribunal) {
-//        this.beanTribunal = beanTribunal;
-//    }
-//
-//    public CargoBean getBeanCargo() {
-//        return beanCargo;
-//    }
-//
-//    public void setBeanCargo(CargoBean beanCargo) {
-//        this.beanCargo = beanCargo;
-//    }
-//
-//    public ResolucionBean getBeanResolucion() {
-//        return beanResolucion;
-//    }
-//
-//    public void setBeanResolucion(ResolucionBean beanResolucion) {
-//        this.beanResolucion = beanResolucion;
-//    }
-//    public List<Profesion> getListaProfesiones() {
-//        return listaProfesiones;
-//    }
-//
-//    public void setListaProfesiones(List<Profesion> listaProfesiones) {
-//        this.listaProfesiones = listaProfesiones;
-//    }
-//
     public List<Establecimiento> getListaEstablecimientos() {
         return listaEstablecimientos;
     }
@@ -119,31 +80,48 @@ public class ConcursoBean implements Serializable {
     public void setListaInstituciones(List<Institucion> listaInstituciones) {
         this.listaInstituciones = listaInstituciones;
     }
-//
-//    public boolean isBanderaInstitucion() {
-//        return banderaInstitucion;
-//    }
-//
-//    public void setBanderaInstitucion(boolean banderaInstitucion) {
-//        this.banderaInstitucion = banderaInstitucion;
-//    }
-//
-//    public boolean isBanderaEstablecimiento() {
-//        return banderaEstablecimiento;
-//    }
-//
-//    public void setBanderaEstablecimiento(boolean banderaEstablecimiento) {
-//        this.banderaEstablecimiento = banderaEstablecimiento;
-//    }
-//
-//    public List<Localidad> getListaLocalidades() {
-//        return listaLocalidades;
-//    }
-//
-//    public void setListaLocalidades(List<Localidad> listaLocalidades) {
-//        this.listaLocalidades = listaLocalidades;
-//    }
 
+    public Expediente getExpedienteFinalCargado() {
+        return expedienteFinalCargado;
+    }
+
+    public void setExpedienteFinalCargado(Expediente expedienteFinalCargado) {
+        this.expedienteFinalCargado = expedienteFinalCargado;
+    }
+
+    public List<Resolucion> getListaFinalResoluciones() {
+        return listaFinalResoluciones;
+    }
+
+    public void setListaFinalResoluciones(List<Resolucion> listaFinalResoluciones) {
+        this.listaFinalResoluciones = listaFinalResoluciones;
+    }
+
+    public List<Cargo> getListaFinalCargos() {
+        return listaFinalCargos;
+    }
+
+    public void setListaFinalCargos(List<Cargo> listaFinalCargos) {
+        this.listaFinalCargos = listaFinalCargos;
+    }
+
+    public List<Tribunal> getListaFinalJurados() {
+        return listaFinalJurados;
+    }
+
+    public void setListaFinalJurados(List<Tribunal> listaFinalJurados) {
+        this.listaFinalJurados = listaFinalJurados;
+    }
+
+    public List<Postulante> getListaFinalPostulantes() {
+        return listaFinalPostulantes;
+    }
+
+    public void setListaFinalPostulantes(List<Postulante> listaFinalPostulantes) {
+        this.listaFinalPostulantes = listaFinalPostulantes;
+    }
+
+    
     /**
      *
      * M E T O D O S
@@ -153,45 +131,6 @@ public class ConcursoBean implements Serializable {
         numeroDePestania += 1;
         System.out.println("ConcursoBean.pasarVistaDePagina(): La pestaña ahora es " + numeroDePestania);
     }
-//    public List<String> buscarInstitucion(String nombreInstitucion) {
-//        InstitucionDao instDao = new InstitucionDaoImpl();
-//        List<String> results = new ArrayList<String>();
-//
-//        for (Institucion inst : instDao.getInstitucion(nombreInstitucion)) {
-//            results.add(inst.getNombreInstitucion());
-//        }
-//
-//        return results;
-//    }
-//    public void onInstitucionSeleccionada(SelectEvent event) {
-//        for (Institucion inst : listaInstituciones) {
-//            if (inst.getIdInstitucion() == beanTribunal.getJuradoNuevo().getInstitucion().getIdInstitucion()) {
-//                beanTribunal.getJuradoNuevo().setInstitucion(inst);
-//                break;
-//            }
-//        }
-//        //nuevoMensajeInfo("Registro Provincial de Concursos de Salud", event.getObject().toString());
-//        nuevoMensajeInfo("Registro Provincial de Concursos de Salud", beanTribunal.getJuradoNuevo().getInstitucion().getIdInstitucion() + " " + beanTribunal.getJuradoNuevo().getInstitucion().getNombreInstitucion());
-//    }
-//    public List<String> buscarEstablecimiento(String nombreEstablecimiento) {
-//        EstablecimientoDao instDao = new EstablecimientoDaoImpl();
-//        List<String> results = new ArrayList<String>();
-//
-//        for (Establecimiento estab : instDao.getEstablecimiento(nombreEstablecimiento)) {
-//            results.add(estab.getNombre());
-//        }
-//
-//        return results;
-//    }
-//    public void onEstablecimientoSeleccionado(SelectEvent event) {
-//        for (Establecimiento estab : listaEstablecimientos) {
-//            if (estab.getNombre() == beanTribunal.getJuradoNuevo().getEstablecimiento().getNombre()) {
-//                beanTribunal.getJuradoNuevo().setEstablecimiento(estab);
-//                break;
-//            }
-//        }
-//        nuevoMensajeInfo("Registro Provincial de Concursos de Salud", beanTribunal.getJuradoNuevo().getEstablecimiento().getCodigoSiisa() + " " + beanTribunal.getJuradoNuevo().getEstablecimiento().getNombre());
-//    }
 
     public void habilitarCmbInstitucion() {
         if (banderaInstitucion) {
@@ -216,10 +155,6 @@ public class ConcursoBean implements Serializable {
             banderaEstablecimiento = true;
         }
     }
-//    public void onPostulanteAdjSeleccionado() {
-//
-////        System.out.println("ConcursoBean.onPostulanteAdjSeleccionado: Matricula del Postulante: " + postulanteAdjudicado.getNumero_de_matricula() + ". " + postulanteAdjudicado.getApellido());
-//    }
 
     public void nuevoMensajeInfo(String summary, String detail) {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,
