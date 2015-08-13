@@ -586,17 +586,30 @@
                 -->
 
                 <p:dialog id="dialogoNuevoJurado" header="Nuevo Jurado - Resolución : #{beanCargo.cargoNuevo.resolucion.numeroResolucion}"  widgetVar="dlgNuevoJurado" modal="true" showEffect="fade" hideEffect="fade" draggable="true" resizable="true" closeOnEscape="true" >
-                    <h:form id="formJuradoNuevo">
-                        <p:fieldset legend="ID: #{beanTribunal.juradoNuevo.idTribunalJurado}" >
 
-                            <h:panelGrid columns="4" cellpadding="4" cellspacing="2">
+
+                    <p:fieldset legend="ID: #{beanTribunal.juradoNuevo.idTribunalJurado}" >
+                         <h:form id="formBuscarJurado">
+                            <h:panelGrid columns="3" cellpadding="4" cellspacing="2">
+                                <h:outputText value="Buscar Jurado :" /> 
+                                <p:inputText  id ="outNombre" value="#{beanTribunal.buscado}">
+                                    <p:ajax event="keyup" update="btnBuscarProfesional" listener="#{beanTribunal.validarBuscador()}" />
+                                </p:inputText>
+                                <p:commandButton id="btnBuscarProfesional" actionListener="#{beanTribunal.buscarPersonaREFEPS()}" icon="ui-icon-search" disabled="#{!beanTribunal.banderaBtn}" oncomplete="PF('dlgProfesionalesResultado').show();" update="dlgSeleccionJuradoRefeps" />
+                            </h:panelGrid>
+                             </h:form>
+                               <h:form id="formJuradoNuevo">
+                        <p:separator/>
+             
+                            <h:panelGrid columns="2" cellpadding="4" cellspacing="2">
                                 <h:outputText value="Nombres" /> 
-                                <p:inputText />
+                                <p:inputText  id ="nombre" />
                                 <h:outputText value="Apellido" />
-                                <p:inputText/> 
-
+                                <p:inputText id="apellido"/> 
+                            </h:panelGrid>
+                            <h:panelGrid columns="4" cellpadding="4" cellspacing="2">
                                 <h:outputText value="Estado :"/>
-                                <p:selectOneMenu id="cmbEstadoJurado" value="#{beanTribunal.juradoNuevo.estado}" style="width:100%;" >
+                                <p:selectOneMenu id="cmbEstadoJurado" value="#{beanTribunal.juradoNuevo.estado}" style="width:100px;" >
                                     <f:selectItem itemLabel="jurado" itemValue="JURADO"/>
                                     <f:selectItem itemLabel="veedor" itemValue="VEEDOR"/>
                                 </p:selectOneMenu>
@@ -608,7 +621,7 @@
 
 
                                 <h:outputText value="Condición" />
-                                <p:selectOneMenu id="cmbCondicionJurado" value="#{beanTribunal.juradoNuevo.presencia}" style="width:100%;" >
+                                <p:selectOneMenu id="cmbCondicionJurado" value="#{beanTribunal.juradoNuevo.presencia}" style="width:100px;" >
                                     <f:selectItem itemLabel="Titular" itemValue="TITULAR"/>
                                     <f:selectItem itemLabel="Suplente" itemValue="SUPLENTE"/>
                                 </p:selectOneMenu> 
@@ -624,11 +637,39 @@
                                 <f:selectItems var="establecimiento" value="#{beanConcurso.listaEstablecimientos}" itemLabel="#{establecimiento.nombre} (#{establecimiento.idEstablecimiento})" itemValue="#{establecimiento.idEstablecimiento}" />
                             </p:selectOneMenu>   
 
-                        </p:fieldset>
-                        <p:commandButton id="btnGuardarJurado" value="Guardar" actionListener="#{beanTribunal.guardarJurado()}" icon="ui-icon-disk" update="tabuladorPestañero:formTribunal" styleClass="btnVerde" />
-                    </h:form>
 
+                            <p:commandButton id="btnGuardarJurado" value="Guardar" actionListener="#{beanTribunal.guardarJurado()}" icon="ui-icon-disk" update="tabuladorPestañero:formTribunal" styleClass="btnVerde" />
+                        </h:form>
+                    </p:fieldset>     
                 </p:dialog>
+
+                <!--   
+             **********************************
+             DIALOGO PARA SELECCIONAR JURADO
+             **********************************
+                -->
+                <p:dialog id="dlgSeleccionJuradoRefeps" header="Seleccione el Jurado"  widgetVar="dlgProfesionalesResultado" modal="true" showEffect="fade" hideEffect="fade" draggable="true" resizable="true" closeOnEscape="true" style="width: 50%;" >
+                    <h:form id="formJuradosRefeps">
+                        <p:dataTable id="tblResultadoBusqueda" var="persona" value="#{beanTribunal.listaPersonas}" >
+                            <f:facet name="header">
+                                Profesionales Coincidentes
+                            </f:facet>
+                    
+                            <p:column headerText="Documento" sortBy="#{persona.dni}">
+                                <h:outputText value="#{persona.dni}" />
+                            </p:column>
+                            <p:column headerText="Nombre" sortBy="#{persona.nombres}">
+                                <h:outputText value="#{persona.nombres}" />
+                            </p:column>
+                            <p:column headerText="Apellido" sortBy="#{persona.apellido}">
+                                <h:outputText value="#{persona.apellido}" />
+                            </p:column>
+                   
+
+                        </p:dataTable>
+                    </h:form>
+                </p:dialog>
+
 
                 <!--   
              **********************************

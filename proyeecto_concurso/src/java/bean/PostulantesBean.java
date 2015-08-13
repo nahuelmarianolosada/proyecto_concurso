@@ -74,13 +74,7 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
         this.datosValidos = datosValidos;
     }
 
-    public String getBuscado() {
-        return buscado;
-    }
-
-    public void setBuscado(String buscado) {
-        this.buscado = buscado;
-    }
+    
 
     public String getCriterio() {
         return criterio;
@@ -120,6 +114,10 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
 
     public void setBeanCargo(CargoBean beanCargo) {
         this.beanCargo = beanCargo;
+    }
+    
+   public String getBuscado() {
+        return buscado;
     }
 
     public boolean isBanderaGanador() {
