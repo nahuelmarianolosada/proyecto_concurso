@@ -107,5 +107,26 @@ public class PersonaDaoImpl extends HibernateUtil implements PersonaDao {
             return null;
         }
     }
-
+    @Override
+    public int generarIdNuevoPersona() {
+          
+        Criteria criteria = getSession().createCriteria(Persona.class);
+        criteria.addOrder(Order.desc("idPersona"));
+        Persona ultimaPersona = (Persona) criteria.list().get(0);
+        return ultimaPersona.getIdPersona()+ 1;
+        
+       } 
+    
+   @Override
+   public boolean existeDniPersona(Persona persona){
+       Criteria criteria = getSession().createCriteria(Persona.class);
+       criteria.add(Restrictions.eq("dni",persona.getDni()));
+        if (criteria.list().size() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+   
+   }
+    
 }

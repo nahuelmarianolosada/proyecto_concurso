@@ -7,6 +7,8 @@
 package hibernate.dao;
 
 import dominio.TribunalJurado;
+import dominio.Resolucion;
+import dominio.Tribunal;
 import java.util.List;
 
 /**
@@ -20,4 +22,5 @@ public interface TribunalJuradoDao {
     public void eliminar(TribunalJurado tribunalJurado);
     public void modificar(TribunalJurado tribunalJurado);
     public int generarNuevoIdJurado();
+    public List <TribunalJurado> getJuradosDelTribunal(Tribunal tribunal);
 }

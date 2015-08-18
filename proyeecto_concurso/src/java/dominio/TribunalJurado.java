@@ -16,6 +16,9 @@ public class TribunalJurado implements java.io.Serializable {
     private String condicion;
 
     public TribunalJurado() {
+        
+        
+        
     }
 
     public TribunalJurado(int idTribunalJurado) {
@@ -37,6 +40,22 @@ public class TribunalJurado implements java.io.Serializable {
         this.estado = estado;
         this.presencia = presencia;
         this.condicion = condicion;
+    }
+
+  
+    public TribunalJurado(int idJurado,TribunalJurado juradoNuevo,Tribunal tribunal) {
+        
+        this.idTribunalJurado= idJurado;
+        this.institucion = juradoNuevo.institucion;
+        this.persona=juradoNuevo.persona;
+        this.establecimiento=juradoNuevo.establecimiento;
+        this.tribunal=tribunal;
+        this.estado=juradoNuevo.estado;
+        this.presencia=juradoNuevo.presencia;
+        this.condicion=juradoNuevo.condicion;
+        
+        
+    
     }
 
     public int getIdTribunalJurado() {

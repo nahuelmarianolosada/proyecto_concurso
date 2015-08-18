@@ -8,6 +8,8 @@ package bean;
 import dominio.Persona;
 import dominio.TribunalJurado;
 import dominio.Tribunal;
+import dominio.Institucion;
+import dominio.Establecimiento;
 import hibernate.HibernateUtil;
 import hibernate.dao.TribunalJuradoDao;
 import hibernate.dao.impl.TribunalJuradoDaoImpl;
@@ -23,6 +25,10 @@ import bd.ConexionRefeps;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.UnselectEvent;
+import hibernate.dao.TribunalDao;
+import hibernate.dao.impl.TribunalDaoImpl;
+import hibernate.dao.PersonaDao;
+import hibernate.dao.impl.PersonaDaoImpl;
 
 /**
  *
@@ -43,7 +49,8 @@ public class TribunalBean extends ConcursoBean implements Serializable {
     private boolean datosValidos;
     private String buscado;
     private boolean banderaBtn;
-    private Persona tribunalSeleccionado;
+    private Persona juradoSeleccionado;
+    private List<TribunalJurado> listaJuradoNuevos;
 
     /**
      * Creates a new instance of TribunalBean
@@ -55,12 +62,15 @@ public class TribunalBean extends ConcursoBean implements Serializable {
         listaJurados = tribJuraDao.getAll();
         listaPersonas = new ArrayList<Persona>();
         personaBuscada = new Persona();
+        juradoSeleccionado = new Persona();
         listaResultadoBusquedaPersona = new ArrayList<Persona>();
         datosValidos = false;
         tribunalNuevo = new Tribunal(tribunalDao.generarNuevoIdTribunal());
-        juradoNuevo = new TribunalJurado(tribJuraDao.generarNuevoIdJurado());
-        banderaBtn=false;
-
+        juradoNuevo= new TribunalJurado(0,new Institucion(),juradoSeleccionado, new Establecimiento(), tribunalNuevo,"", true, "" );
+        banderaBtn = false;
+        listaJuradoNuevos = new ArrayList<TribunalJurado>();
+        
+       
 
     }
 
@@ -145,15 +155,22 @@ public class TribunalBean extends ConcursoBean implements Serializable {
         this.banderaBtn = banderaBtn;
     }
 
-    public Persona getTribunalSeleccionado() {
-        return tribunalSeleccionado;
+    public Persona getJuradoSeleccionado() {
+        return juradoSeleccionado;
     }
 
-    public void setTribunalSeleccionado(Persona tribunalSeleccionado) {
-        this.tribunalSeleccionado = tribunalSeleccionado;
+    public void setJuradoSeleccionado(Persona juradoSeleccionado) {
+        this.juradoSeleccionado = juradoSeleccionado;
     }
 
-    
+    public List<TribunalJurado> getListaJuradoNuevos() {
+        return listaJuradoNuevos;
+    }
+
+    public void setListaJuradoNuevos(List<TribunalJurado> listaJuradoNuevos) {
+        this.listaJuradoNuevos = listaJuradoNuevos;
+    }
+
     //METODOS
     public void buscarPersonaREFEPS() {
 
@@ -165,14 +182,14 @@ public class TribunalBean extends ConcursoBean implements Serializable {
     public void validarBuscador() {
         if (buscado.isEmpty()) {
             banderaBtn = false;
-            
+
         } else {
             banderaBtn = true;
         }
     }
-    
-        public void seleccionarPersona(SelectEvent event) {
-       juradoNuevo.setPersona((Persona) event.getObject());
+
+    public void seleccionarPersona(SelectEvent event) {
+        juradoNuevo.setPersona((Persona) event.getObject());
         RequestContext context = RequestContext.getCurrentInstance();
         context.execute("PF('dlgProfesionalesResultado').hide();");
         //FacesMessage msg = new FacesMessage("Car Selected", ((Car) event.getObject()).getId());
@@ -184,38 +201,51 @@ public class TribunalBean extends ConcursoBean implements Serializable {
 //        FacesMessage msg = new FacesMessage("Car Unselected", ((Car) event.getObject()).getId());
 //        FacesContext.getCurrentInstance().addMessage(null, msg);
     }
+
     
     
-    public void guardarJurado() {
+    public void guardarJuradoNuevo() {
 
         try {
 
+            TribunalJuradoDao juradoDao = new TribunalJuradoDaoImpl();
+            PersonaDao persDao = new PersonaDaoImpl();
+          
+            TribunalJurado  jurado = new TribunalJurado(juradoDao.generarNuevoIdJurado(),juradoNuevo,tribunalNuevo);
+            //Setea el jurado nuevo a cargar
+
+            //Agrega el jurado nuevo a la lista de jurados.
+           
+         
+            listaJuradoNuevos.add(jurado);
+            //GUarda el jurado
+        //    juradoDao.insertar(juradoNuevo);
+          System.out.println("nombres : " + jurado.getPersona().getNombres()+"apellido: "+jurado.getPersona().getApellido());
+        //Controla por el Dni si existe la persona cargada en la bd concurso.
+       //   if(!persDao.existeDniPersona(juradoSeleccionado)){
+            
+        //  persDao.insertar(juradoSeleccionado);
+         
+            
+       //     }
+           
+            for (TribunalJurado tribunalJurado : listaJuradoNuevos) {
+                 System.out.println("Id jurado: "+tribunalJurado.getIdTribunalJurado()+" nombres : " + tribunalJurado.getPersona().getNombres()+" apellido: "+tribunalJurado.getPersona().getApellido());
+            }
+            
         } catch (Exception ex1) {
             ex1.printStackTrace();
         }
 
-//         try {
-//             for (UnidadDeOrganizacion unidad : listaUnidadDeOrganizacions) {
-//                 if (unidad.getCodigoUnidadDeOrganizacion() == expedienteNuevo.getUnidadDeOrganizacion().getCodigoUnidadDeOrganizacion()) {
-//                     expedienteNuevo.setUnidadDeOrganizacion(unidad);
-//                     break;
-//                 }
-//             }
-//             expedienteNuevo.setNumeroExpediente(expedienteNuevo.getUnidadDeOrganizacion().getCodigoUnidadDeOrganizacion() + "-" + expedienteNuevo.getNumero() + "/" + expedienteNuevo.getAnio());
-//
-//             if (expedienteNuevo.esValido()) {
-//                 beanResolucion.getResolucionNueva().setExpediente(expedienteNuevo);
-//                 ResolucionDao resDao = new ResolucionDaoImpl();
-//                 beanResolucion.setListaResoluciones(resDao.getResoluciones(expedienteNuevo));
-//                 datosValidos = true;
-//                 pasarVistaDePestania();
-//                 nuevoMensajeInfo("Registro de Concursos de Salud - EXPEDIENTE", "Número: " + expedienteNuevo.getNumeroExpediente() + "\nRégimen: " + expedienteNuevo.getRegimen() + "\nSituación: " + expedienteNuevo.getSituacion());
-//             }
-//             System.out.println("\033[32mExpedienteBean.guardarExpediente() => " + expedienteNuevo.toString());
-//
-//         } catch (Exception ex1) {
-//             ex1.printStackTrace();
-//         }
+    }
+
+    public void guardarTribunalNuevo() {
+
+        TribunalDao tribunalDao = new TribunalDaoImpl();
+        tribunalNuevo.setCantidadMiembros((short)listaJuradoNuevos.size());
+        tribunalDao.insertar(tribunalNuevo);
+        listaJuradoNuevos.clear();
+  
     }
 
 }

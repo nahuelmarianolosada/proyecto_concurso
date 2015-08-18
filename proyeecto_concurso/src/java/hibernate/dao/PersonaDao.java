@@ -29,4 +29,8 @@ public interface PersonaDao {
     public List<Persona> buscarPorNombre(String nombre);
     
     public List<Persona> buscarPorApellido(String apellido);
+    
+    public int generarIdNuevoPersona();
+    
+    public boolean existeDniPersona(Persona persona);
 }

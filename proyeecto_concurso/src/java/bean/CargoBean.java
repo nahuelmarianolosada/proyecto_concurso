@@ -8,6 +8,8 @@ package bean;
 import dominio.Cargo;
 import dominio.Establecimiento;
 import dominio.Profesion;
+import dominio.TribunalJurado;
+import dominio.Tribunal;
 import java.io.Serializable;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
@@ -55,9 +57,12 @@ public class CargoBean extends ConcursoBean implements Serializable {
 
         cargoSeleccionado = new Cargo();
         datosValidos = false;
-
+            
         listaCargos = new ArrayList<Cargo>();
-
+        listaJurados =new ArrayList<TribunalJurado>();
+        juradoNuevo= new TribunalJurado();
+        tribunalNuevo= new Tribunal();
+        
     }
 
     //GETTERS & SETTERS

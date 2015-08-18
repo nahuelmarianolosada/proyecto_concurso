@@ -29,7 +29,6 @@ public class TribunalJuradoDaoImpl extends HibernateUtil implements TribunalJura
         return lista;
     }
 
-
     @Override
     public TribunalJurado getTribunalJurado(int idTribunalJurado) {
         return (TribunalJurado) getSession().get(TribunalJurado.class, idTribunalJurado);
@@ -73,14 +72,25 @@ public class TribunalJuradoDaoImpl extends HibernateUtil implements TribunalJura
             getSession().getTransaction().rollback();
         }
     }
-    
-      public int generarNuevoIdJurado() {
+
+    @Override
+    public int generarNuevoIdJurado() {
 
         Criteria criteria = getSession().createCriteria(TribunalJurado.class);
         criteria.addOrder(Order.desc("idTribunalJurado"));
         TribunalJurado ultimoTribunalJurado = (TribunalJurado) criteria.list().get(0);
-        return ultimoTribunalJurado.getIdTribunalJurado()+ 1;
-        
+        return ultimoTribunalJurado.getIdTribunalJurado() + 1;
 
     }
+
+    @Override
+    public List<TribunalJurado> getJuradosDelTribunal(Tribunal tribunal) {
+
+        Criteria criteria = getSession().createCriteria(TribunalJurado.class);
+        criteria.add(Restrictions.eq("tribunal", tribunal));
+        List<TribunalJurado> lista = criteria.list();
+        return lista;
+
+    }
+
 }
