@@ -229,7 +229,7 @@
                               PESTAÑA TRIBUNAL 
                               **********************************
                             -->
-                            <p:tab title="Tribunal" id="tabTribunal" disabled="false" >
+                            <p:tab title="Tribunal" id="tabTribunal" disabled="#{!beanCargo.datosValidos}" >
 
                                 <h:form id="formTribunal">
 
@@ -282,7 +282,7 @@
                             PESTAÑA POSTULANTES 
                             **********************************
                             -->
-                            <p:tab title="Postulantes" id="tabPostulantes" disabled="false" >
+                            <p:tab title="Postulantes" id="tabPostulantes" disabled="#{!beanTribunal.datosValidos}" >
                                 <h:form id="formPestañaPostulantes">
                                     <p:commandButton value="Nuevo" oncomplete="PF('dlgPostulanteNuevo').show();" icon="ui-icon-plusthick" style="margin-bottom: 5px;" />
                                                                       
@@ -755,7 +755,7 @@
                                 </p:inputSwitch>
                                 <p:selectOneMenu id="cmbCargoPostulante" value="#{beanPostulante.nuevoPostulante.cargo.idCargo}" required="true" requiredMessage="Seleccione un cargo" filter="true" validatorMessage="Seleccione un cargo válido" disabled="#{beanPostulante.banderaGanador}" converterMessage="Seleccione un cargo valido" >
                                     <f:selectItem noSelectionOption="true" itemLabel=" Seleccione un Cargo" itemValue="null" />
-                                    <f:selectItems var="cargo" value="#{beanCargo.listaCargos}" itemLabel="#{cargo.funcion} (#{cargo.categoria})" itemValue="#{cargo.idCargo}" />
+                                    <f:selectItems var="cargo" value="#{beanCargo.listaCargos}" itemLabel="#{cargo.funcion} - #{cargo.categoria} (#{cargo.cantidad})" itemValue="#{cargo.idCargo}" />
                                 </p:selectOneMenu>
                             </h:panelGrid>
 
