@@ -59,6 +59,7 @@ public class ConcursoBean implements Serializable {
         //init();
         refreshListas();
         listaFinalCargos = new ArrayList<>();
+        listaFinalPostulantes = new ArrayList<>();
     }
 
     public int getNumeroDePestania() {
