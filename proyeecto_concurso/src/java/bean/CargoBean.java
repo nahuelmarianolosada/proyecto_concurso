@@ -59,9 +59,7 @@ public class CargoBean extends ConcursoBean implements Serializable {
         datosValidos = false;
             
         listaCargos = new ArrayList<Cargo>();
-        listaJurados =new ArrayList<TribunalJurado>();
-        juradoNuevo= new TribunalJurado();
-        tribunalNuevo= new Tribunal();
+      
         
     }
 
