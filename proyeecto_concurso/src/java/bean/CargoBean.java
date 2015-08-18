@@ -8,6 +8,8 @@ package bean;
 import dominio.Cargo;
 import dominio.Establecimiento;
 import dominio.Profesion;
+import dominio.TribunalJurado;
+import dominio.Tribunal;
 import java.io.Serializable;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
@@ -42,7 +44,9 @@ public class CargoBean extends ConcursoBean implements Serializable {
     private boolean datosValidos;//Bandera que se referencia a la vista para habilitar la pestaña siguiente
     private List<Profesion> listaProfesiones;
     private Integer cantidad;
-
+    private List<TribunalJurado> listaJurados;
+    private TribunalJurado juradoNuevo;
+    private Tribunal tribunalNuevo;
     /**
      * Creates a new instance of CargoBean
      */
@@ -55,9 +59,12 @@ public class CargoBean extends ConcursoBean implements Serializable {
 
         cargoSeleccionado = new Cargo();
         datosValidos = false;
-
+            
         listaCargos = new ArrayList<Cargo>();
-
+        listaJurados =new ArrayList<TribunalJurado>();
+        juradoNuevo= new TribunalJurado();
+        tribunalNuevo= new Tribunal();
+        
     }
 
     //GETTERS & SETTERS
@@ -123,6 +130,30 @@ public class CargoBean extends ConcursoBean implements Serializable {
 
     public void setCantidad(Integer cantidad) {
         this.cantidad = cantidad;
+    }
+
+    public List<TribunalJurado> getListaJurados() {
+        return listaJurados;
+    }
+
+    public void setListaJurados(List<TribunalJurado> listaJurados) {
+        this.listaJurados = listaJurados;
+    }
+
+    public TribunalJurado getJuradoNuevo() {
+        return juradoNuevo;
+    }
+
+    public void setJuradoNuevo(TribunalJurado juradoNuevo) {
+        this.juradoNuevo = juradoNuevo;
+    }
+
+    public Tribunal getTribunalNuevo() {
+        return tribunalNuevo;
+    }
+
+    public void setTribunalNuevo(Tribunal tribunalNuevo) {
+        this.tribunalNuevo = tribunalNuevo;
     }
     
     
