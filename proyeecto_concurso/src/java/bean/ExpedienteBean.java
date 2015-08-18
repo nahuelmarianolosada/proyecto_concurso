@@ -146,7 +146,7 @@ public class ExpedienteBean extends ConcursoBean implements Serializable {
                 beanResolucion.setListaResoluciones(resDao.getResoluciones(expedienteNuevo));
                 
                 //Seteamos el Expediente Final
-                setExpedienteFinalCargado(expedienteNuevo);
+                super.setExpedienteFinalCargado(expedienteNuevo);
                 
                 datosValidos = true;
                 pasarVistaDePestania();

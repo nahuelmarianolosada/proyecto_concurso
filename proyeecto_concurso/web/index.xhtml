@@ -353,7 +353,7 @@
 
                                         <p:dataScroller value="#{beanConcurso.listaFinalResoluciones}" var="resolucion" chunkSize="5" mode="inline" scrollHeight="200" >
 
-                                            <h:panelGrid columns="1" style="width:100%" >
+                                            <h:panelGrid columns="2" style="width:100%" >
                                                 <p:outputPanel>
                                                     <h:panelGrid columns="6" cellpadding="5">
 
@@ -365,6 +365,12 @@
 
                                                         <h:outputText value="Agrupamiento:" />
                                                         <h:outputText value="#{resolucion.agrupamiento}" style="font-weight: bold"/>
+
+                                                        <h:outputText value="Es Antecedente:" />
+                                                        <h:outputText value="#{resolucion.antecedente}" style="font-weight: bold"/>
+
+                                                        <h:outputText value=":" />
+                                                        <h:outputText value="#{resolucion.antecedente}" style="font-weight: bold"/>
 
                                                     </h:panelGrid>
                                                     <p:separator />
