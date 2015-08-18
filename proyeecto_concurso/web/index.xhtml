@@ -218,7 +218,7 @@
                                         </p:column>
 
                                     </p:dataTable>
-                                    <p:commandButton id="btnGuardarCargos" value="Guardar" actionListener="#{beanCargo.guardarCargos}" icon="ui-icon-disk" update="tabuladorPestañero,tabuladorPestañero:formExpedientes:msg" styleClass="btnVerde" disabled="#{!beanCargo.datosValidos}" />
+                                    <p:commandButton id="btnGuardarCargos" value="Guardar" actionListener="#{beanCargo.guardarCargos()}" icon="ui-icon-disk" update="tabuladorPestañero,tabuladorPestañero:formExpedientes:msg" styleClass="btnVerde" disabled="#{beanCargo.listaCargos.isEmpty()}" />
                                 </h:form>
 
 
@@ -282,7 +282,7 @@
                             PESTAÑA POSTULANTES 
                             **********************************
                             -->
-                            <p:tab title="Postulantes" id="tabPostulantes" disabled="#{!beanTribunal.datosValidos}" >
+                            <p:tab title="Postulantes" id="tabPostulantes" disabled="#{!beanCargo.datosValidos}" >
                                 <h:form id="formPestañaPostulantes">
                                     <p:commandButton value="Nuevo" oncomplete="PF('dlgPostulanteNuevo').show();" icon="ui-icon-plusthick" style="margin-bottom: 5px;" />
                                                                       
@@ -323,7 +323,7 @@
                             PESTAÑA RESULTADO
                             **********************************
                             -->
-                            <p:tab title="Resultado" id="tabResultado" disabled="#{!beanPostulante.datosValidos}" >
+                            <p:tab title="Resultado" id="tabResultado" disabled="#{beanPostulante.listaPostulantes.isEmpty()}" >
                                 <h:form id="formResultadoConcurso">
                                     <h:panelGrid columns="2" cellpadding="3" frame="box" styleClass="panelAlta" columnClasses="label, value" >
                                         <f:facet name="header">
@@ -552,7 +552,7 @@
                                 </p:selectOneMenu>
                             </h:panelGrid>
                         </p:fieldset>
-                        <p:commandButton id="btnGuardarNuevoCargo" oncomplete="PF('dlgCargoNuevo').hide();" value="Guardar" actionListener="#{beanCargo.guardarNuevoCargo}" icon="ui-icon-disk" update="tabuladorPestañero,tabuladorPestañero:formExpedientes:msg,tabuladorPestañero:formCargos:tblCargos,formPostulantes:cmbCargoPostulante" styleClass="btnVerde" />
+                        <p:commandButton id="btnGuardarNuevoCargo" oncomplete="PF('dlgCargoNuevo').hide();" value="Guardar" actionListener="#{beanCargo.guardarNuevoCargo}" icon="ui-icon-disk" update="tabuladorPestañero,tabuladorPestañero:formExpedientes:msg,tabuladorPestañero:formCargos,formPostulantes:cmbCargoPostulante" styleClass="btnVerde" />
                     </h:form>
                 </p:dialog>
                 <!--   

@@ -182,7 +182,7 @@ public class ResolucionBean extends ConcursoBean implements Serializable {
 
             inicializarResolucionNueva();
 
-            datosValidos = true;
+            
         }
         catch (Exception ex1) {
             ex1.printStackTrace();
@@ -192,6 +192,7 @@ public class ResolucionBean extends ConcursoBean implements Serializable {
 
     public void guardarListaResoluciones() {
         setListaFinalResoluciones(listaResoluciones);
+        datosValidos = true;
     }
 
 }

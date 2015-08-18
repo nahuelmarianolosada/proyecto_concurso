@@ -25,6 +25,7 @@ import dominio.Postulante;
 import dominio.Resolucion;
 import dominio.Tribunal;
 import dominio.TribunalJurado;
+import java.util.ArrayList;
 
 /**
  *
@@ -57,6 +58,7 @@ public class ConcursoBean implements Serializable {
     public ConcursoBean() {
         //init();
         refreshListas();
+        listaFinalCargos = new ArrayList<>();
     }
 
     public int getNumeroDePestania() {

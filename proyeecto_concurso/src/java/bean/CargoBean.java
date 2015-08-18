@@ -41,6 +41,7 @@ public class CargoBean extends ConcursoBean implements Serializable {
     private Resolucion ultimaResolucion;
     private boolean datosValidos;//Bandera que se referencia a la vista para habilitar la pestaña siguiente
     private List<Profesion> listaProfesiones;
+    private boolean finalizoCarga;
 
     /**
      * Creates a new instance of CargoBean
@@ -116,6 +117,16 @@ public class CargoBean extends ConcursoBean implements Serializable {
         this.listaProfesiones = listaProfesiones;
     }
 
+    public boolean isFinalizoCarga() {
+        return finalizoCarga;
+    }
+
+    public void setFinalizoCarga(boolean finalizoCarga) {
+        this.finalizoCarga = finalizoCarga;
+    }
+
+    
+    
     //METODOS
     /**
      *
@@ -136,6 +147,8 @@ public class CargoBean extends ConcursoBean implements Serializable {
         return (resCarg.generarNuevoIdCargo());
 
     }
+    
+    
 
     public void guardarNuevoCargo() {
         if (cargoNuevo.getCantidad() > 0) {
@@ -150,15 +163,13 @@ public class CargoBean extends ConcursoBean implements Serializable {
                 cargoNuevo.setIdCargo(cargoNuevo.getIdCargo() + 1);
 
                 System.out.println("\033[32mCargoBean.guardarNuevoCargo() => Cargo Nuevo: " + cargoNuevo.toString());
-
+                finalizoCarga = true;
+                
                 //Obtenemos la resolucion para asignarsela al siguiente cargo que se cargue
                 Resolucion res = cargoNuevo.getResolucion();
                 cargoNuevo = new Cargo(generarIdNuevoCargo(), listaProfesiones.get(0));
                 cargoNuevo.setEstablecimiento(getListaEstablecimientos().get(0));
                 cargoNuevo.setResolucion(res);
-                if (listaCargos.size() > 0) {
-                    datosValidos = true;
-                }
 
             } catch (Exception exGeneral) {
                 exGeneral.printStackTrace();
@@ -175,9 +186,13 @@ public class CargoBean extends ConcursoBean implements Serializable {
      */
     public void guardarCargos() {
         int sumatoria = 0;
+        if (listaCargos.size() > 0) {
+            datosValidos = true;
+        }
+
         for (Cargo cargo : listaCargos) {
             for (int i = 0; i < cargo.getCantidad(); i++) {
-                getListaCargos().add(cargo);
+                super.getListaFinalCargos().add(cargo);
                 sumatoria++;
             }
         }
