@@ -229,7 +229,7 @@
                               PESTAÑA TRIBUNAL 
                               **********************************
                             -->
-                            <p:tab title="Tribunal" id="tabTribunal" disabled="#{!beanCargo.datosValidos}" >
+                            <p:tab title="Tribunal" id="tabTribunal" disabled="false" >
 
                                 <h:form id="formTribunal">
 
@@ -272,6 +272,7 @@
                                             <h:outputText value="#{tribunal.establecimiento.nombre}" />
                                         </p:column>
                                     </p:dataTable>
+                                   <p:commandButton id="btnGuardarNuevoTribunal" value="Guardar" actionListener="#{beanTribunal.guardarTribunalNuevo()}" icon="ui-icon-disk" update="tabuladorPestañero:formExpedientes:msg,tabuladorPestañero:formTribunal,:formJuradoNuevo"  styleClass="btnVerde"  />
                                 </h:form>
 
                             </p:tab>
@@ -610,7 +611,7 @@
 
                             </h:panelGrid>
 
-                            <p:selectOneMenu id="comboInstituciones" value="#{beanTribunal.juradoNuevo.institucion.idLocalidad}" required="true" requiredMessage="Seleccione una Institución" filter="true" validatorMessage="Seleccione una institución valida" >
+                            <p:selectOneMenu id="comboInstituciones" value="#{beanTribunal.juradoNuevo.institucion.idInstitucion}" required="true" requiredMessage="Seleccione una Institución" filter="true" validatorMessage="Seleccione una institución valida" >
                                 <f:selectItem noSelectionOption="true" itemLabel=" Seleccione una Institución" itemValue="null" />
                                 <f:selectItems var="institucion" value="#{beanConcurso.listaInstituciones}" itemLabel="#{institucion.nombreInstitucion} (#{institucion.idInstitucion})" itemValue="#{institucion.idInstitucion}" />
                             </p:selectOneMenu>    
@@ -619,7 +620,7 @@
                                 <f:selectItems var="establecimiento" value="#{beanConcurso.listaEstablecimientos}" itemLabel="#{establecimiento.nombre} (#{establecimiento.idEstablecimiento})" itemValue="#{establecimiento.idEstablecimiento}" />
                             </p:selectOneMenu>
                              <br/>
-                                         <p:commandButton id="btnGuardarJurado" value="Guardar" actionListener="#{beanTribunal.guardarJuradoNuevo()}" icon="ui-icon-disk" update="tabuladorPestañero:formExpedientes:msg,tabuladorPestañero:formTribunal,:formJuradoNuevo" styleClass="btnVerde" />
+                                         <p:commandButton id="btnGuardarJurado" value="Guardar" actionListener="#{beanTribunal.guardarJuradoNuevo()}" icon="ui-icon-disk" update="tabuladorPestañero:formExpedientes:msg,tabuladorPestañero:formTribunal,:formJuradoNuevo"  styleClass="btnVerde" />
                      
                         </h:form>
                   
