@@ -24,6 +24,7 @@ import dominio.Institucion;
 import dominio.Postulante;
 import dominio.Resolucion;
 import dominio.Tribunal;
+import dominio.TribunalJurado;
 
 /**
  *
@@ -31,6 +32,7 @@ import dominio.Tribunal;
  *
  */
 import java.util.List;
+import org.primefaces.context.RequestContext;
 
 @ManagedBean(name = "beanConcurso")
 @ViewScoped
@@ -46,7 +48,7 @@ public class ConcursoBean implements Serializable {
     private Expediente expedienteFinalCargado;
     private List<Resolucion> listaFinalResoluciones;
     private List<Cargo> listaFinalCargos;
-    private List<Tribunal> listaFinalJurados;
+    private List<TribunalJurado> listaFinalJurados;
     private List<Postulante> listaFinalPostulantes;
 
     /**
@@ -105,11 +107,11 @@ public class ConcursoBean implements Serializable {
         this.listaFinalCargos = listaFinalCargos;
     }
 
-    public List<Tribunal> getListaFinalJurados() {
+    public List<TribunalJurado> getListaFinalJurados() {
         return listaFinalJurados;
     }
 
-    public void setListaFinalJurados(List<Tribunal> listaFinalJurados) {
+    public void setListaFinalJurados(List<TribunalJurado> listaFinalJurados) {
         this.listaFinalJurados = listaFinalJurados;
     }
 
@@ -189,7 +191,6 @@ public class ConcursoBean implements Serializable {
      * @param event Evento que recibe
      */
     public void validarPestania(TabChangeEvent event) {
-
         System.out.println("ConcursoBean.validarPestania() => mostrando [" + event.getTab().getTitle() + "}");
         nuevoMensajeInfo("Registro Provincial de Concursos de Salud", "Pestaña Activa: " + event.getTab().getTitle());
         switch (event.getTab().getTitle()) {

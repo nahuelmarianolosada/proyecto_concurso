@@ -20,7 +20,6 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import bd.ConexionRefeps;
-import com.sun.javafx.scene.control.skin.VirtualFlow;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.UnselectEvent;

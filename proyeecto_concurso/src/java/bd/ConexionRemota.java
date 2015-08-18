@@ -25,7 +25,8 @@ public class ConexionRemota {
 
     public static void main(String[] args) {
         try {
-            consultarVista();
+            int num = Integer.getInteger("");
+            //consultarVista();
             //probarHibernate();
         } catch (Exception exGeneral) {
             System.out.println("Error!\n" + exGeneral.getMessage());
