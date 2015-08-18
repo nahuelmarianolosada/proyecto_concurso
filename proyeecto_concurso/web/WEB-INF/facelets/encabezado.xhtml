@@ -36,11 +36,7 @@
                         <p:commandButton id="btnAdministracionUsuarios" value="Administrar" type="button" icon="ui-icon-wrench" styleClass="btnAccederLogin" rendered="#{beanLogin.esAdmin()}"/>
                         <p:menu overlay="true" trigger="btnAdministracionUsuarios" my="left top" at="left bottom">
                             <p:submenu label="Gestión de Usuarios">
-                                <p:menuitem value="Nuevo" icon="ui-icon-plusthick" />
-                                <p:menuitem value="Editar"  icon="ui-icon-pencil"/>
-                                <p:menuitem value="Eliminar"  icon="ui-icon-closethick"/>
-                                <p:separator />
-                                <p:menuitem value="Gestionar" icon="ui-icon-clipboard" onclick="PF('dlgGestionUsuarios').show();"  />
+                                <p:menuitem value="Gestionar Usuarios" icon="ui-icon-clipboard" onclick="PF('dlgGestionUsuarios').show();"  />
                             </p:submenu>
                         </p:menu>
                     </h:form>

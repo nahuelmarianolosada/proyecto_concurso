@@ -29,6 +29,7 @@ import hibernate.dao.TribunalDao;
 import hibernate.dao.impl.TribunalDaoImpl;
 import hibernate.dao.PersonaDao;
 import hibernate.dao.impl.PersonaDaoImpl;
+import javax.faces.bean.ManagedProperty;
 
 /**
  *
@@ -51,7 +52,8 @@ public class TribunalBean extends ConcursoBean implements Serializable {
     private boolean banderaBtn;
     private Persona juradoSeleccionado;
     private List<TribunalJurado> listaJuradoNuevos;
-
+   @ManagedProperty("#{beanResolucion}")
+    private ResolucionBean beanResolucion;
     /**
      * Creates a new instance of TribunalBean
      */
@@ -257,6 +259,7 @@ public class TribunalBean extends ConcursoBean implements Serializable {
         System.out.println("Cantidad de jurados del tribunal : " + tribunalNuevo.getCantidadMiembros());
         //Setea el tirbunal nuevo.
         tribunalNuevo = new Tribunal(tribunalDao.generarNuevoIdTribunal());
+        beanResolucion.getListaResoluciones();
     }
 
 }

@@ -46,11 +46,11 @@ public class ConcursoBean implements Serializable {
     private List<Establecimiento> listaEstablecimientos;
     private List<Institucion> listaInstituciones;
 
-    private Expediente expedienteFinalCargado;
-    private List<Resolucion> listaFinalResoluciones;
-    private List<Cargo> listaFinalCargos;
-    private List<TribunalJurado> listaFinalJurados;
-    private List<Postulante> listaFinalPostulantes;
+    private static Expediente expedienteFinalCargado;
+    private static List<Resolucion> listaFinalResoluciones;
+    private static List<Cargo> listaFinalCargos;
+    private static List<TribunalJurado> listaFinalJurados;
+    private static List<Postulante> listaFinalPostulantes;
 
     /**
      * Creates a new instance of ConcursoBean
@@ -58,6 +58,8 @@ public class ConcursoBean implements Serializable {
     public ConcursoBean() {
         //init();
         refreshListas();
+        expedienteFinalCargado = new Expediente();
+        listaFinalResoluciones = new ArrayList<>();
         listaFinalCargos = new ArrayList<>();
         listaFinalPostulantes = new ArrayList<>();
     }
@@ -126,7 +128,6 @@ public class ConcursoBean implements Serializable {
         this.listaFinalPostulantes = listaFinalPostulantes;
     }
 
-    
     /**
      *
      * M E T O D O S
@@ -177,9 +178,8 @@ public class ConcursoBean implements Serializable {
 
         //ProfesionDao profDao = new ProfesionDaoImpl();
         //listaProfesiones = profDao.getAll();
-        CargoDao cargoDao = new CargoDaoImpl();
+        //CargoDao cargoDao = new CargoDaoImpl();
 //    beanCargo.setListaCargos(cargoDao.getAll());
-
         InstitucionDao instDao = new InstitucionDaoImpl();
         listaInstituciones = instDao.getAll();
         EstablecimientoDao establecimientoDao = new EstablecimientoDaoImpl();
@@ -219,6 +219,13 @@ public class ConcursoBean implements Serializable {
             }
             case "Resultado": {
                 setNumeroDePestania(5);
+                getExpedienteFinalCargado();
+                getListaFinalResoluciones();
+                Expediente exp = getExpedienteFinalCargado();
+                getListaFinalCargos();
+                getListaFinalPostulantes();
+                RequestContext context = RequestContext.getCurrentInstance();
+                context.update("tabuladorPestañero:formResultadoConcurso");
                 break;
             }
         }
