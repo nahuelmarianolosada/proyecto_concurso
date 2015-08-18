@@ -160,10 +160,6 @@ public class TribunalBean extends ConcursoBean implements Serializable {
         ConexionRefeps conexionRefeps = new ConexionRefeps();
         listaPersonas=conexionRefeps.buscarProfesionalRefepsNombreCompleto(buscado);
         
-        
-        
-        
-        
     }
 
     public void validarBuscador() {

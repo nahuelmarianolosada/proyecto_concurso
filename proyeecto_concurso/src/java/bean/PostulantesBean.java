@@ -11,6 +11,7 @@ import dominio.Persona;
 import hibernate.dao.PersonaDao;
 import hibernate.dao.impl.PersonaDaoImpl;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -45,6 +46,7 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
         nuevoPostulante = new Postulante(new Persona());
         nuevoPostulante.setCargo(new Cargo());
         banderaGanador = false;
+        listaPostulantes = new ArrayList<>();
     }
 
     /*
@@ -73,8 +75,6 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
     public void setDatosValidos(boolean datosValidos) {
         this.datosValidos = datosValidos;
     }
-
-    
 
     public String getCriterio() {
         return criterio;
@@ -112,11 +112,15 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
         return beanCargo;
     }
 
+    public void setBuscado(String buscado) {
+        this.buscado = buscado;
+    }
+
     public void setBeanCargo(CargoBean beanCargo) {
         this.beanCargo = beanCargo;
     }
-    
-   public String getBuscado() {
+
+    public String getBuscado() {
         return buscado;
     }
 
@@ -207,8 +211,10 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
                 break;
             }
         }
-        
-        datosValidos = true;
+
+        listaPostulantes.add(nuevoPostulante);
+        nuevoPostulante = new Postulante(new Persona());
+        nuevoPostulante.setCargo(new Cargo());
 
         System.out.println("\033[32mPostulantesBean.guardarNuevoPostulante() => " + nuevoPostulante.toString());
         nuevoMensajeInfo("Registro Provincial de Concursos", "Postulante " + nuevoPostulante.getIdInscripcion() + " guardado");
