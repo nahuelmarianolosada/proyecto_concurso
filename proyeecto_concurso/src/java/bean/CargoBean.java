@@ -59,7 +59,7 @@ public class CargoBean extends ConcursoBean implements Serializable {
         datosValidos = false;
             
         listaCargos = new ArrayList<Cargo>();
-
+      
         
     }
 
@@ -127,9 +127,10 @@ public class CargoBean extends ConcursoBean implements Serializable {
     public void setFinalizoCarga(boolean finalizoCarga) {
         this.finalizoCarga = finalizoCarga;
     }
+
     
-  
-  //METODOS
+    
+    //METODOS
     /**
      *
      * Obtiene la ultima resolución cargada.
