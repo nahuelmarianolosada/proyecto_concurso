@@ -43,10 +43,8 @@ public class CargoBean extends ConcursoBean implements Serializable {
     private Resolucion ultimaResolucion;
     private boolean datosValidos;//Bandera que se referencia a la vista para habilitar la pestaña siguiente
     private List<Profesion> listaProfesiones;
-    private Integer cantidad;
-    private List<TribunalJurado> listaJurados;
-    private TribunalJurado juradoNuevo;
-    private Tribunal tribunalNuevo;
+    private boolean finalizoCarga;
+
     /**
      * Creates a new instance of CargoBean
      */
@@ -124,40 +122,16 @@ public class CargoBean extends ConcursoBean implements Serializable {
         this.listaProfesiones = listaProfesiones;
     }
 
-    public Integer getCantidad() {
-        return cantidad;
+    public boolean isFinalizoCarga() {
+        return finalizoCarga;
     }
 
-    public void setCantidad(Integer cantidad) {
-        this.cantidad = cantidad;
+    public void setFinalizoCarga(boolean finalizoCarga) {
+        this.finalizoCarga = finalizoCarga;
     }
 
-    public List<TribunalJurado> getListaJurados() {
-        return listaJurados;
-    }
-
-    public void setListaJurados(List<TribunalJurado> listaJurados) {
-        this.listaJurados = listaJurados;
-    }
-
-    public TribunalJurado getJuradoNuevo() {
-        return juradoNuevo;
-    }
-
-    public void setJuradoNuevo(TribunalJurado juradoNuevo) {
-        this.juradoNuevo = juradoNuevo;
-    }
-
-    public Tribunal getTribunalNuevo() {
-        return tribunalNuevo;
-    }
-
-    public void setTribunalNuevo(Tribunal tribunalNuevo) {
-        this.tribunalNuevo = tribunalNuevo;
-    }
     
     
-
     //METODOS
     /**
      *
@@ -178,43 +152,63 @@ public class CargoBean extends ConcursoBean implements Serializable {
         return (resCarg.generarNuevoIdCargo());
 
     }
+    
+    
 
     public void guardarNuevoCargo() {
-        try {
-            ProfesionDao profDao = new ProfesionDaoImpl();
-            Profesion profEncontrada = profDao.getProfesion(cargoNuevo.getProfesion().getIdProfesion());
-            cargoNuevo.setProfesion(profEncontrada);
-            obtenerEstablecimiento(cargoNuevo);
-            System.out.println("\033[32mCargoBean.guardarNuevoCargo() => Cargo Nuevo: " + cargoNuevo.toString());
-            
-            //Obtenemos la resolucion para asignarsela al siguiente cargo que se cargue
-            Resolucion res = cargoNuevo.getResolucion();
-            
-            listaCargos.add(cargoNuevo);
-            cargoNuevo = new Cargo(generarIdNuevoCargo(), listaProfesiones.get(0));
-            cargoNuevo.setEstablecimiento(getListaEstablecimientos().get(0));
-            cargoNuevo.setResolucion(res);
-            if (listaCargos.size() > 0) {
-                datosValidos = true;
+        if (cargoNuevo.getCantidad() > 0) {
+            try {
+                ProfesionDao profDao = new ProfesionDaoImpl();
+                Profesion profEncontrada = profDao.getProfesion(cargoNuevo.getProfesion().getIdProfesion());
+                cargoNuevo.setProfesion(profEncontrada);
+                obtenerEstablecimiento(cargoNuevo);
+                System.out.println("CargoBean.guardarNuevoCargo() => Cantidad de Cargos: " + cargoNuevo.getCantidad());
+
+                listaCargos.add(cargoNuevo);
+                cargoNuevo.setIdCargo(cargoNuevo.getIdCargo() + 1);
+
+                System.out.println("\033[32mCargoBean.guardarNuevoCargo() => Cargo Nuevo: " + cargoNuevo.toString());
+                finalizoCarga = true;
+                
+                //Obtenemos la resolucion para asignarsela al siguiente cargo que se cargue
+                Resolucion res = cargoNuevo.getResolucion();
+                cargoNuevo = new Cargo(generarIdNuevoCargo(), listaProfesiones.get(0));
+                cargoNuevo.setEstablecimiento(getListaEstablecimientos().get(0));
+                cargoNuevo.setResolucion(res);
+
+            } catch (Exception exGeneral) {
+                exGeneral.printStackTrace();
             }
-            
-        } catch (Exception exGeneral) {
-            exGeneral.printStackTrace();
+        } else {
+            nuevoMensajeAlerta("Registro Provincial de Concursos de Salud", "La cantidad de cargos debe ser mayor a 0");
+            throw new NullPointerException("Cantidad igual a 0!");
         }
     }
-    
+
     /**
-     * 
+     *
      * Metodo que guarda todos los cargos precargados en la lista
      */
-    public void guardarCargos(){
-        nuevoMensajeInfo("Registro de concursos de Salud", listaCargos.size() + " cargos fueron cargados");
+    public void guardarCargos() {
+        int sumatoria = 0;
+        if (listaCargos.size() > 0) {
+            datosValidos = true;
+        }
+
+        for (Cargo cargo : listaCargos) {
+            for (int i = 0; i < cargo.getCantidad(); i++) {
+                super.getListaFinalCargos().add(cargo);
+                sumatoria++;
+            }
+        }
+        nuevoMensajeInfo("Registro de concursos de Salud", sumatoria + " cargos fueron cargados");
         pasarVistaDePestania();
     }
 
     /**
      *
      * Metodo que setea, si existe, el establecimiento en el cargo
+     *
      * @param cargo cargo al que se desea establecer el establecimiento
      */
     public void obtenerEstablecimiento(Cargo cargo) {

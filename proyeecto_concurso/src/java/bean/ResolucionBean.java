@@ -5,6 +5,7 @@
  */
 package bean;
 
+import dominio.Expediente;
 import dominio.Resolucion;
 import dominio.Tribunal;
 import hibernate.dao.ResolucionDao;
@@ -15,6 +16,8 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import org.hibernate.HibernateException;
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 
 /**
@@ -35,8 +38,6 @@ public class ResolucionBean extends ConcursoBean implements Serializable {
     private String dependenciaNumeroResolucion;
     private boolean datosValidos;//Bandera que se referencia a la vista para habilitar la pestaña siguiente
     private int anioNumeroResolucion;
-
-    
 
     @ManagedProperty("#{beanCargo}")
     private CargoBean beanCargo;
@@ -81,8 +82,6 @@ public class ResolucionBean extends ConcursoBean implements Serializable {
     public void setDependenciaNumeroResolucion(String dependenciaNumeroResolucion) {
         this.dependenciaNumeroResolucion = dependenciaNumeroResolucion;
     }
-
-    
 
     public boolean isDatosValidos() {
         return datosValidos;
@@ -139,7 +138,24 @@ public class ResolucionBean extends ConcursoBean implements Serializable {
     }
 
     public void onDateSelect(SelectEvent event) {
-        
+
+    }
+
+    public void inicializarResolucionNueva() {
+        banderaModificacionParcial = false;
+        banderaProrroga = false;
+
+        //En caso de que se guarden mas de una resolucion, seteamos
+        //que hace referencia al expediente de la resolucion
+        Expediente expedienteAuxiliar = resolucionNueva.getExpediente();
+
+        resolucionNueva = new Resolucion();
+        resolucionNueva.setExpediente(expedienteAuxiliar);
+//resolucionNueva.setExpediente(getExpedienteFinalCargado());
+        resolucionNueva.setTribunal(new Tribunal());
+
+        RequestContext context = RequestContext.getCurrentInstance();
+        context.update("dlgNuevaResolucion");
     }
 
     public void guardarResolucion() {
@@ -147,28 +163,36 @@ public class ResolucionBean extends ConcursoBean implements Serializable {
         try {
             String numeroResolucion = resolucionNueva.getNumeroResolucion();
             resolucionNueva.setNumeroResolucion(numeroResolucion + "-" + dependenciaNumeroResolucion + "/" + anioNumeroResolucion);
-            resolucionNueva.setModificacion(banderaModificacionParcial);
-            resolucionNueva.setProrroga(banderaProrroga);
+            if (banderaModificacionParcial) {
+                resolucionNueva.setModificacion(banderaModificacionParcial);
+            }
+            if (banderaProrroga) {
+                resolucionNueva.setProrroga(banderaProrroga);
+            }
             resolucionNueva.setTribunal(new Tribunal());
             listaResoluciones.add(resolucionNueva);
 
             beanCargo.getCargoNuevo().setResolucion(resolucionNueva);
-            
+
             //pasarVistaDePestania();
             System.err.println("\033[32mResolucionBean.guardarResolucion() => " + resolucionNueva.toString());
 
             nuevoMensajeInfo("Registro de Concursos de Salud - RESOLUCIÓN", "NºResolucion: " + resolucionNueva.getNumeroResolucion()
                     + " guardada éxitosamente");
-            datosValidos = true;
-        } catch (Exception ex1) {
+
+            inicializarResolucionNueva();
+
+            
+        }
+        catch (Exception ex1) {
             ex1.printStackTrace();
             nuevoMensajeAlerta("Error al guardar la resolucion", " " + ex1.toString());
         }
     }
 
-    public void guardarListaResoluciones(){
+    public void guardarListaResoluciones() {
         setListaFinalResoluciones(listaResoluciones);
+        datosValidos = true;
     }
-    
-    
+
 }

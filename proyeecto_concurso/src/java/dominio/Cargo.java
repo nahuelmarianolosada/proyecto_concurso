@@ -22,6 +22,7 @@ public class Cargo implements java.io.Serializable {
     private String modalidad;
     private Date fechaActaFormulacionPerfil;
     private String enunciacion;
+    private int cantidad;
     
     private Set convocatorias = new HashSet(0);
 
@@ -169,6 +170,14 @@ public class Cargo implements java.io.Serializable {
         this.enunciacion = enunciacion;
     }
 
+    public int getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
+    }
+
    
 
     public Set getConvocatorias() {
@@ -183,7 +192,9 @@ public class Cargo implements java.io.Serializable {
     public String toString() {
         return "Cargo{" + "idCargo=" + idCargo + ", resolucion=" + resolucion.getNumeroResolucion() + ", establecimiento=" + establecimiento.getNombre() + ", profesion=" + profesion.getNombreProfesion() + ", especialidad=" + especialidad + ", categoria=" + categoria + ", adicional=" + adicional + ", funcion=" + funcion + ", areaDeDesempenio=" + areaDeDesempenio + ", modalidad=" + modalidad + ", fechaActaFormulacionPerfil=" + fechaActaFormulacionPerfil + ", enunciacion=" + enunciacion + '}';
     }
+    
 
+    
     
     
 }
