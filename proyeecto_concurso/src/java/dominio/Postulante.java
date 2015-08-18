@@ -95,7 +95,7 @@ public class Postulante  implements java.io.Serializable {
 
     @Override
     public String toString() {
-        return "Convocatoria{" + "idInscripcion=" + idInscripcion + ", cargo=" + cargo.getFuncion() + ", persona=" + persona.toString() + ",\n fojas=" + fojas + ", antecedentes=" + antecedentes + ", oposicion=" + oposicion + ", puntaje=" + puntaje + '}';
+        return "Convocatoria{" + "idInscripcion=" + idInscripcion + ", cargo=" + cargo.getFuncion() + ", persona=" + persona.getApellido() + " " + persona.getNombres() + " - " + persona.getDni() + ",\n fojas=" + fojas + ", antecedentes=" + antecedentes + ", oposicion=" + oposicion + ", puntaje=" + puntaje + '}';
     }
 
     

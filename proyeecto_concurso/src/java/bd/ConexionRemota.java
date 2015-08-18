@@ -5,6 +5,7 @@
  */
 package bd;
 
+import dominio.Cargo;
 import dominio.Establecimiento;
 import dominio.TribunalJurado;
 import hibernate.dao.EstablecimientoDao;
@@ -16,6 +17,9 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -23,10 +27,14 @@ import java.sql.Statement;
  */
 public class ConexionRemota {
 
+    
     public static void main(String[] args) {
         try {
-            consultarVista();
+            //consultarVista();
             //probarHibernate();
+            
+            
+            
         } catch (Exception exGeneral) {
             System.out.println("Error!\n" + exGeneral.getMessage());
         }

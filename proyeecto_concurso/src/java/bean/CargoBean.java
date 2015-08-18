@@ -41,7 +41,6 @@ public class CargoBean extends ConcursoBean implements Serializable {
     private Resolucion ultimaResolucion;
     private boolean datosValidos;//Bandera que se referencia a la vista para habilitar la pestaña siguiente
     private List<Profesion> listaProfesiones;
-    private Integer cantidad;
 
     /**
      * Creates a new instance of CargoBean
@@ -117,16 +116,6 @@ public class CargoBean extends ConcursoBean implements Serializable {
         this.listaProfesiones = listaProfesiones;
     }
 
-    public Integer getCantidad() {
-        return cantidad;
-    }
-
-    public void setCantidad(Integer cantidad) {
-        this.cantidad = cantidad;
-    }
-    
-    
-
     //METODOS
     /**
      *
@@ -149,41 +138,57 @@ public class CargoBean extends ConcursoBean implements Serializable {
     }
 
     public void guardarNuevoCargo() {
-        try {
-            ProfesionDao profDao = new ProfesionDaoImpl();
-            Profesion profEncontrada = profDao.getProfesion(cargoNuevo.getProfesion().getIdProfesion());
-            cargoNuevo.setProfesion(profEncontrada);
-            obtenerEstablecimiento(cargoNuevo);
-            System.out.println("\033[32mCargoBean.guardarNuevoCargo() => Cargo Nuevo: " + cargoNuevo.toString());
-            
-            //Obtenemos la resolucion para asignarsela al siguiente cargo que se cargue
-            Resolucion res = cargoNuevo.getResolucion();
-            
-            listaCargos.add(cargoNuevo);
-            cargoNuevo = new Cargo(generarIdNuevoCargo(), listaProfesiones.get(0));
-            cargoNuevo.setEstablecimiento(getListaEstablecimientos().get(0));
-            cargoNuevo.setResolucion(res);
-            if (listaCargos.size() > 0) {
-                datosValidos = true;
+        if (cargoNuevo.getCantidad() > 0) {
+            try {
+                ProfesionDao profDao = new ProfesionDaoImpl();
+                Profesion profEncontrada = profDao.getProfesion(cargoNuevo.getProfesion().getIdProfesion());
+                cargoNuevo.setProfesion(profEncontrada);
+                obtenerEstablecimiento(cargoNuevo);
+                System.out.println("CargoBean.guardarNuevoCargo() => Cantidad de Cargos: " + cargoNuevo.getCantidad());
+
+                listaCargos.add(cargoNuevo);
+                cargoNuevo.setIdCargo(cargoNuevo.getIdCargo() + 1);
+
+                System.out.println("\033[32mCargoBean.guardarNuevoCargo() => Cargo Nuevo: " + cargoNuevo.toString());
+
+                //Obtenemos la resolucion para asignarsela al siguiente cargo que se cargue
+                Resolucion res = cargoNuevo.getResolucion();
+                cargoNuevo = new Cargo(generarIdNuevoCargo(), listaProfesiones.get(0));
+                cargoNuevo.setEstablecimiento(getListaEstablecimientos().get(0));
+                cargoNuevo.setResolucion(res);
+                if (listaCargos.size() > 0) {
+                    datosValidos = true;
+                }
+
+            } catch (Exception exGeneral) {
+                exGeneral.printStackTrace();
             }
-            
-        } catch (Exception exGeneral) {
-            exGeneral.printStackTrace();
+        } else {
+            nuevoMensajeAlerta("Registro Provincial de Concursos de Salud", "La cantidad de cargos debe ser mayor a 0");
+            throw new NullPointerException("Cantidad igual a 0!");
         }
     }
-    
+
     /**
-     * 
+     *
      * Metodo que guarda todos los cargos precargados en la lista
      */
-    public void guardarCargos(){
-        nuevoMensajeInfo("Registro de concursos de Salud", listaCargos.size() + " cargos fueron cargados");
+    public void guardarCargos() {
+        int sumatoria = 0;
+        for (Cargo cargo : listaCargos) {
+            for (int i = 0; i < cargo.getCantidad(); i++) {
+                getListaCargos().add(cargo);
+                sumatoria++;
+            }
+        }
+        nuevoMensajeInfo("Registro de concursos de Salud", sumatoria + " cargos fueron cargados");
         pasarVistaDePestania();
     }
 
     /**
      *
      * Metodo que setea, si existe, el establecimiento en el cargo
+     *
      * @param cargo cargo al que se desea establecer el establecimiento
      */
     public void obtenerEstablecimiento(Cargo cargo) {
