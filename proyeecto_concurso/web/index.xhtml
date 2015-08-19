@@ -229,14 +229,14 @@
                               PESTAÑA TRIBUNAL 
                               **********************************
                             -->
-                            <p:tab title="Tribunal" id="tabTribunal" disabled="false" >
+                            <p:tab title="Tribunal" id="tabTribunal" disabled="#{!beanResolucion.datosValidos}" >
 
                                 <h:form id="formTribunal">
-                                    <h:outputText value="Numero de Resolución:" />
-                                    <p:selectOneMenu id="cmbTribunalNuevoResolucion" value="#{resolucion.numeroResolucion}" required="true" requiredMessage="Seleccione una Resolución" style="width: 100%;" filter="true" >
-                                        <f:selectItems var="resolucion" value="#{beanResolucion.listaResoluciones}" itemLabel="#{resolucion.numeroResolucion}" itemValue="#{resolucion.numeroResolucion}" />
-                                    </p:selectOneMenu>   
                                     <h:panelGrid columns="2" >
+                                        <h:outputText value="Numero de Resolución:" />
+                                        <p:selectOneMenu id="cmbTribunalNuevoResolucion" value="#{beanResolucion.resolucionNueva.numeroResolucion}" required="true" requiredMessage="Seleccione una Resolución" style="width: 100px;" filter="true" >
+                                            <f:selectItems var="resolucion" value="#{beanResolucion.listaResoluciones}" itemLabel="#{resolucion.numeroResolucion}" itemValue="#{resolucion.numeroResolucion}" />
+                                        </p:selectOneMenu>   
                                         <p:commandButton value="Nuevo Jurado" icon="ui-icon-plusthick"  oncomplete="PF('dlgNuevoJurado').show();" update="dialogoNuevoJurado"/>
                                         <p:commandButton value="Actualizar" icon="ui-icon-refresh" />
                                     </h:panelGrid>
