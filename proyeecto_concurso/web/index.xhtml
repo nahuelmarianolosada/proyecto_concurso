@@ -229,10 +229,13 @@
                               PESTAÑA TRIBUNAL 
                               **********************************
                             -->
-                            <p:tab title="Tribunal" id="tabTribunal" disabled="#{!beanCargo.datosValidos}" >
+                            <p:tab title="Tribunal" id="tabTribunal" disabled="false" >
 
                                 <h:form id="formTribunal">
-
+                                    <h:outputText value="Numero de Resolución:" />
+                                    <p:selectOneMenu id="cmbTribunalNuevoResolucion" value="#{resolucion.numeroResolucion}" required="true" requiredMessage="Seleccione una Resolución" style="width: 100%;" filter="true" >
+                                        <f:selectItems var="resolucion" value="#{beanResolucion.listaResoluciones}" itemLabel="#{resolucion.numeroResolucion}" itemValue="#{resolucion.numeroResolucion}" />
+                                    </p:selectOneMenu>   
                                     <h:panelGrid columns="2" >
                                         <p:commandButton value="Nuevo Jurado" icon="ui-icon-plusthick"  oncomplete="PF('dlgNuevoJurado').show();" update="dialogoNuevoJurado"/>
                                         <p:commandButton value="Actualizar" icon="ui-icon-refresh" />
@@ -272,6 +275,7 @@
                                             <h:outputText value="#{tribunal.establecimiento.nombre}" />
                                         </p:column>
                                     </p:dataTable>
+                                    <p:commandButton id="btnGuardarNuevoTribunal" value="Guardar" actionListener="#{beanTribunal.guardarTribunalNuevo()}" icon="ui-icon-disk" update="tabuladorPestañero:formExpedientes:msg,tabuladorPestañero:formTribunal,:formJuradoNuevo"  styleClass="btnVerde"  />
                                 </h:form>
 
                             </p:tab>
@@ -365,6 +369,12 @@
 
                                                         <h:outputText value="Agrupamiento:" />
                                                         <h:outputText value="#{resolucion.agrupamiento}" style="font-weight: bold"/>
+
+                                                        <h:outputText value="Es Antecedente:" />
+                                                        <h:outputText value="#{resolucion.antecedente}" style="font-weight: bold"/>
+
+                                                        <h:outputText value=":" />
+                                                        <h:outputText value="#{resolucion.antecedente}" style="font-weight: bold"/>
 
                                                         <h:outputText value="Antecedente:" />
                                                         <h:outputText value="#{resolucion.antecedente}" style="font-weight: bold" rendered="#{resolucion.antecedente}" />
@@ -652,7 +662,7 @@
 
                             </h:panelGrid>
 
-                            <p:selectOneMenu id="comboInstituciones" value="#{beanTribunal.juradoNuevo.institucion.idLocalidad}" required="true" requiredMessage="Seleccione una Institución" filter="true" validatorMessage="Seleccione una institución valida" >
+                            <p:selectOneMenu id="comboInstituciones" value="#{beanTribunal.juradoNuevo.institucion.idInstitucion}" required="true" requiredMessage="Seleccione una Institución" filter="true" validatorMessage="Seleccione una institución valida" >
                                 <f:selectItem noSelectionOption="true" itemLabel=" Seleccione una Institución" itemValue="null" />
                                 <f:selectItems var="institucion" value="#{beanConcurso.listaInstituciones}" itemLabel="#{institucion.nombreInstitucion} (#{institucion.idInstitucion})" itemValue="#{institucion.idInstitucion}" />
                             </p:selectOneMenu>    
@@ -661,7 +671,7 @@
                                 <f:selectItems var="establecimiento" value="#{beanConcurso.listaEstablecimientos}" itemLabel="#{establecimiento.nombre} (#{establecimiento.idEstablecimiento})" itemValue="#{establecimiento.idEstablecimiento}" />
                             </p:selectOneMenu>
                             <br/>
-                            <p:commandButton id="btnGuardarJurado" value="Guardar" actionListener="#{beanTribunal.guardarJuradoNuevo()}" icon="ui-icon-disk" update="tabuladorPestañero:formExpedientes:msg,tabuladorPestañero:formTribunal,:formJuradoNuevo" styleClass="btnVerde" />
+                            <p:commandButton id="btnGuardarJurado" value="Guardar" actionListener="#{beanTribunal.guardarJuradoNuevo()}" icon="ui-icon-disk" update="tabuladorPestañero:formExpedientes:msg,tabuladorPestañero:formTribunal,:formJuradoNuevo"  styleClass="btnVerde" />
 
                         </h:form>
 
