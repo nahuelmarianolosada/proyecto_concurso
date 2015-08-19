@@ -30,6 +30,7 @@ import hibernate.dao.impl.TribunalDaoImpl;
 import hibernate.dao.PersonaDao;
 import hibernate.dao.impl.PersonaDaoImpl;
 import javax.faces.bean.ManagedProperty;
+import dominio.Resolucion;
 
 /**
  *
@@ -54,6 +55,10 @@ public class TribunalBean extends ConcursoBean implements Serializable {
     private List<TribunalJurado> listaJuradoNuevos;
    @ManagedProperty("#{beanResolucion}")
     private ResolucionBean beanResolucion;
+   
+
+   
+   
     /**
      * Creates a new instance of TribunalBean
      */
@@ -179,8 +184,6 @@ public class TribunalBean extends ConcursoBean implements Serializable {
     public void setBeanResolucion(ResolucionBean beanResolucion) {
         this.beanResolucion = beanResolucion;
     }
-    
-    
 
     //METODOS
     public void buscarPersonaREFEPS() {
@@ -260,16 +263,28 @@ public class TribunalBean extends ConcursoBean implements Serializable {
 
     public void guardarTribunalNuevo() {
 
+       
         TribunalDao tribunalDao = new TribunalDaoImpl();
         tribunalNuevo.setCantidadMiembros((short) listaJuradoNuevos.size());
-        // tribunalDao.insertar(tribunalNuevo);
        
-        listaJuradoNuevos.clear();
+        
+        
 
         System.out.println("Cantidad de jurados del tribunal : " + tribunalNuevo.getCantidadMiembros());
         //Setea el tirbunal nuevo.
         tribunalNuevo = new Tribunal(tribunalDao.generarNuevoIdTribunal());
         beanResolucion.getListaResoluciones();
+        beanResolucion.getResolucionNueva();
+        for (Resolucion resolucionCargadas : beanResolucion.getListaResoluciones()) {
+            if (beanResolucion.getResolucionNueva().getNumeroResolucion()==resolucionCargadas.getNumeroResolucion()) {
+                    resolucionCargadas.setTribunal(tribunalNuevo);
+            
+            }   
+      
+        }
+        setListaFinalJurados(listaJuradoNuevos);      
+        listaJuradoNuevos.clear();
+         // tribunalDao.insertar(tribunalNuevo);
     }
 
 }
