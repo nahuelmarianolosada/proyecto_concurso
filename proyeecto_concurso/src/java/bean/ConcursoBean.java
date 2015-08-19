@@ -25,6 +25,11 @@ import dominio.Postulante;
 import dominio.Resolucion;
 import dominio.Tribunal;
 import dominio.TribunalJurado;
+import dominio.UnidadDeOrganizacion;
+import hibernate.dao.ExpedienteDao;
+import hibernate.dao.UnidadDeOrganizacionDao;
+import hibernate.dao.impl.ExpedienteDaoImpl;
+import hibernate.dao.impl.UnidadDeOrganizacionDaoImpl;
 import java.util.ArrayList;
 
 /**
@@ -51,6 +56,8 @@ public class ConcursoBean implements Serializable {
     private static List<Cargo> listaFinalCargos;
     private static List<TribunalJurado> listaFinalJurados;
     private static List<Postulante> listaFinalPostulantes;
+
+    private Cargo cargoSeleccionado;
 
     /**
      * Creates a new instance of ConcursoBean
@@ -126,6 +133,14 @@ public class ConcursoBean implements Serializable {
 
     public void setListaFinalPostulantes(List<Postulante> listaFinalPostulantes) {
         this.listaFinalPostulantes = listaFinalPostulantes;
+    }
+
+    public Cargo getCargoSeleccionado() {
+        return cargoSeleccionado;
+    }
+
+    public void setCargoSeleccionado(Cargo cargoSeleccionado) {
+        this.cargoSeleccionado = cargoSeleccionado;
     }
 
     /**
@@ -229,6 +244,12 @@ public class ConcursoBean implements Serializable {
                 break;
             }
         }
+    }
+
+    public void inicializar() {
+        UnidadDeOrganizacionDao unidadDao = new UnidadDeOrganizacionDaoImpl();
+        ExpedienteDao expDao = new ExpedienteDaoImpl();
+        expedienteFinalCargado = expDao.getExpediente("700-00638/2013");
     }
 
 }
