@@ -172,6 +172,16 @@ public class TribunalBean extends ConcursoBean implements Serializable {
         this.listaJuradoNuevos = listaJuradoNuevos;
     }
 
+    public ResolucionBean getBeanResolucion() {
+        return beanResolucion;
+    }
+
+    public void setBeanResolucion(ResolucionBean beanResolucion) {
+        this.beanResolucion = beanResolucion;
+    }
+    
+    
+
     //METODOS
     public void buscarPersonaREFEPS() {
 

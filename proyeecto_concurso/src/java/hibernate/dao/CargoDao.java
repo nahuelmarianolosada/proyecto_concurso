@@ -17,6 +17,7 @@ import dominio.Resolucion;
 public interface CargoDao {
     public List<Cargo> getAll();
     public Cargo getCargo(int idCargo);
+    public List<Cargo> getCargos(Resolucion resolucion);
     public void insertar(Cargo cargo);
     public void eliminar(Cargo cargo);
     public void modificar(Cargo cargo);

@@ -27,8 +27,12 @@ import dominio.Tribunal;
 import dominio.TribunalJurado;
 import dominio.UnidadDeOrganizacion;
 import hibernate.dao.ExpedienteDao;
+import hibernate.dao.ResolucionDao;
+import hibernate.dao.TribunalJuradoDao;
 import hibernate.dao.UnidadDeOrganizacionDao;
 import hibernate.dao.impl.ExpedienteDaoImpl;
+import hibernate.dao.impl.ResolucionDaoImpl;
+import hibernate.dao.impl.TribunalJuradoDaoImpl;
 import hibernate.dao.impl.UnidadDeOrganizacionDaoImpl;
 import java.util.ArrayList;
 
@@ -58,6 +62,7 @@ public class ConcursoBean implements Serializable {
     private static List<Postulante> listaFinalPostulantes;
 
     private Cargo cargoSeleccionado;
+    private Postulante postulanteFinalSeleccionado;
 
     /**
      * Creates a new instance of ConcursoBean
@@ -69,6 +74,8 @@ public class ConcursoBean implements Serializable {
         listaFinalResoluciones = new ArrayList<>();
         listaFinalCargos = new ArrayList<>();
         listaFinalPostulantes = new ArrayList<>();
+        
+        inicializar();
     }
 
     public int getNumeroDePestania() {
@@ -142,6 +149,16 @@ public class ConcursoBean implements Serializable {
     public void setCargoSeleccionado(Cargo cargoSeleccionado) {
         this.cargoSeleccionado = cargoSeleccionado;
     }
+
+    public Postulante getPostulanteFinalSeleccionado() {
+        return postulanteFinalSeleccionado;
+    }
+
+    public void setPostulanteFinalSeleccionado(Postulante postulanteSeleccionado) {
+        this.postulanteFinalSeleccionado = postulanteSeleccionado;
+    }
+    
+    
 
     /**
      *
@@ -249,7 +266,16 @@ public class ConcursoBean implements Serializable {
     public void inicializar() {
         UnidadDeOrganizacionDao unidadDao = new UnidadDeOrganizacionDaoImpl();
         ExpedienteDao expDao = new ExpedienteDaoImpl();
-        expedienteFinalCargado = expDao.getExpediente("700-00638/2013");
+        expedienteFinalCargado = expDao.getExpediente("700-00104/2012");
+        
+        ResolucionDao resDao = new ResolucionDaoImpl();
+        setListaFinalResoluciones(resDao.getResoluciones(expedienteFinalCargado));
+        
+        CargoDao cargoDao = new CargoDaoImpl();
+        setListaFinalCargos(cargoDao.getCargos(listaFinalResoluciones.get(0)));
+        
+        TribunalJuradoDao juradoDao = new TribunalJuradoDaoImpl();
+        setListaFinalJurados(juradoDao.getJuradosDelTribunal(listaFinalResoluciones.get(0).getTribunal()));
     }
 
 }

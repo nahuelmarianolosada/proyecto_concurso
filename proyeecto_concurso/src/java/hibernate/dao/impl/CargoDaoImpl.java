@@ -32,6 +32,14 @@ public class CargoDaoImpl extends HibernateUtil implements CargoDao {
     public Cargo getCargo(int idCargo) {
         return (Cargo) getSession().get(Cargo.class, idCargo);
     }
+    
+    @Override
+    public List<Cargo> getCargos(Resolucion resolucion) {
+        Criteria criteria = getSession().createCriteria(Cargo.class);
+        criteria.add(Restrictions.eq("resolucion", resolucion));
+        List<Cargo> lista = criteria.list();
+        return lista;
+    }
 
     @Override
     public void insertar(Cargo cargo) {
