@@ -51,6 +51,20 @@ public class Cargo implements java.io.Serializable {
 
     }
 
+    public Cargo(int idCargo, String especialidad, String categoria, Integer adicional, String funcion, String areaDeDesempenio, String modalidad, String enunciacion) {
+        this.idCargo = idCargo;
+        this.especialidad = especialidad;
+        this.categoria = categoria;
+        this.adicional = adicional;
+        this.funcion = funcion;
+        this.areaDeDesempenio = areaDeDesempenio;
+        this.modalidad = modalidad;
+        this.enunciacion = enunciacion;
+    }
+    
+    
+    
+
     public Cargo(int idCargo, Establecimiento establecimiento, Profesion profesion) {
         this.idCargo = idCargo;
         this.establecimiento = establecimiento;
