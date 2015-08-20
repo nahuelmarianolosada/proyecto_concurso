@@ -546,16 +546,16 @@
                                 <f:selectItem noSelectionOption="true" itemLabel=" Seleccione un Establecimietno" itemValue="null" />
                                 <f:selectItems var="establecimiento" value="#{beanConcurso.listaEstablecimientos}" itemLabel="#{establecimiento.nombre}" itemValue="#{establecimiento.codigoSiisa}" />
                             </p:selectOneMenu>
-                            <h:panelGrid columns="2" cellpadding="4">
+                            <h:panelGrid columns="2" cellpadding="2">
 
                                 <p:inputText value="#{beanCargo.cargoNuevo.especialidad}" placeholder="Especialidad" maxlength="30" />
                                 <p:inputText value="#{beanCargo.cargoNuevo.categoria}" placeholder="Categoria" maxlength="30" />
-                                <p:spinner value="#{beanCargo.cargoNuevo.adicional}" placeholder="Cantidad de Horas" />
-                                <p:spinner value="#{beanCargo.cargoNuevo.cantidad}" placeholder="Cantidad de Cargos" />
+                                <p:spinner value="#{beanCargo.cargoNuevo.adicional}" placeholder="Cantidad de Horas" min="0" />
+                                <p:spinner value="#{beanCargo.cargoNuevo.cantidad}" placeholder="Cantidad de cargos" min="1"/>
 
                             </h:panelGrid>
 
-                            <h:panelGrid columns="1" cellpadding="3">
+                            <h:panelGrid columns="2" cellpadding="2">
                                 <p:outputLabel for="cmbProfesion" value="Profesión: " />
                                 <p:selectOneMenu id="cmbProfesion" style="width:100%;" value="#{beanCargo.cargoNuevo.profesion.idProfesion}" filter="true">
                                     <f:selectItem itemLabel="No se especifica" itemValue="" noSelectionOption="true" />

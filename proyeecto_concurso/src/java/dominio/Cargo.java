@@ -22,7 +22,7 @@ public class Cargo implements java.io.Serializable {
     private String modalidad;
     private Date fechaActaFormulacionPerfil;
     private String enunciacion;
-    private int cantidad;
+    private Integer cantidad;
     
     private Set convocatorias = new HashSet(0);
 
@@ -170,11 +170,11 @@ public class Cargo implements java.io.Serializable {
         this.enunciacion = enunciacion;
     }
 
-    public int getCantidad() {
+    public Integer getCantidad() {
         return cantidad;
     }
 
-    public void setCantidad(int cantidad) {
+    public void setCantidad(Integer cantidad) {
         this.cantidad = cantidad;
     }
 
