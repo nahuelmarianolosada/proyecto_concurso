@@ -240,3 +240,7 @@ h3, .subtitulo{
     background: none;
     border: none;
 }
+
+.data{
+    font-weight: bolder;
+}

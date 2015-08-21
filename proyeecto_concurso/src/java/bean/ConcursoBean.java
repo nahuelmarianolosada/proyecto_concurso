@@ -27,10 +27,12 @@ import dominio.Tribunal;
 import dominio.TribunalJurado;
 import dominio.UnidadDeOrganizacion;
 import hibernate.dao.ExpedienteDao;
+import hibernate.dao.PostulanteDao;
 import hibernate.dao.ResolucionDao;
 import hibernate.dao.TribunalJuradoDao;
 import hibernate.dao.UnidadDeOrganizacionDao;
 import hibernate.dao.impl.ExpedienteDaoImpl;
+import hibernate.dao.impl.PostulanteDaoImpl;
 import hibernate.dao.impl.ResolucionDaoImpl;
 import hibernate.dao.impl.TribunalJuradoDaoImpl;
 import hibernate.dao.impl.UnidadDeOrganizacionDaoImpl;
@@ -282,10 +284,13 @@ public class ConcursoBean implements Serializable {
         setListaFinalResoluciones(resDao.getResoluciones(expedienteFinalCargado));
         
         CargoDao cargoDao = new CargoDaoImpl();
-        setListaFinalCargos(cargoDao.getCargos(listaFinalResoluciones.get(0)));
+        setListaFinalCargos(cargoDao.getListaCargosDeResolucion(listaFinalResoluciones.get(0)));
         
         TribunalJuradoDao juradoDao = new TribunalJuradoDaoImpl();
         setListaFinalJurados(juradoDao.getJuradosDelTribunal(listaFinalResoluciones.get(0).getTribunal()));
+        
+        PostulanteDao postulanteDao = new PostulanteDaoImpl();
+        setListaFinalPostulantes(postulanteDao.getAll());
     }
 
 }

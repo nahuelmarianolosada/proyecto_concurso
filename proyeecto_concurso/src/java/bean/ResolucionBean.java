@@ -96,6 +96,11 @@ public class ResolucionBean extends ConcursoBean implements Serializable {
     public void setAnioNumeroResolucion(int anioNumeroResolucion) {
         this.anioNumeroResolucion = anioNumeroResolucion;
     }
+    
+    public List<Resolucion> getAllResolucion(){
+        ResolucionDao resolucionDao = new ResolucionDaoImpl();
+        return resolucionDao.getAll();
+    }
 
 
     /**

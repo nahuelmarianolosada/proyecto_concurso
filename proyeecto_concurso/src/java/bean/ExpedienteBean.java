@@ -79,6 +79,11 @@ public class ExpedienteBean extends ConcursoBean implements Serializable {
     public void setBeanResolucion(ResolucionBean beanResolucion) {
         this.beanResolucion = beanResolucion;
     }
+    
+    public List<Expediente> getAllExpedientes(){
+        ExpedienteDao expedienteDao = new ExpedienteDaoImpl();
+        return expedienteDao.getAll();
+    }
 
     /**
      * CONSTRUCTOR VACIO Creates a new instance of ExpedienteBean
