@@ -8,8 +8,6 @@ package bean;
 import dominio.Cargo;
 import dominio.Establecimiento;
 import dominio.Profesion;
-import dominio.TribunalJurado;
-import dominio.Tribunal;
 import java.io.Serializable;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
@@ -24,6 +22,7 @@ import hibernate.dao.ProfesionDao;
 import hibernate.dao.impl.EstablecimientoDaoImpl;
 import hibernate.dao.impl.ProfesionDaoImpl;
 import java.util.ArrayList;
+import javax.faces.bean.ManagedProperty;
 
 /**
  *
@@ -44,6 +43,8 @@ public class CargoBean extends ConcursoBean implements Serializable {
     private boolean datosValidos;//Bandera que se referencia a la vista para habilitar la pestaña siguiente
     private List<Profesion> listaProfesiones;
     private boolean finalizoCarga;
+    
+   
 
     /**
      * Creates a new instance of CargoBean
@@ -128,6 +129,9 @@ public class CargoBean extends ConcursoBean implements Serializable {
         this.finalizoCarga = finalizoCarga;
     }
 
+ 
+
+    
     
     
     //METODOS
@@ -162,6 +166,13 @@ public class CargoBean extends ConcursoBean implements Serializable {
                 obtenerEstablecimiento(cargoNuevo);
                 System.out.println("CargoBean.guardarNuevoCargo() => Cantidad de Cargos: " + cargoNuevo.getCantidad());
 
+                for (Resolucion resol : getListaFinalResoluciones()) {
+                    if(resol.getNumeroResolucion().equalsIgnoreCase(cargoNuevo.getResolucion().getNumeroResolucion())){
+                        cargoNuevo.setResolucion(resol);
+                        break;
+                    }
+                }
+                
                 listaCargos.add(cargoNuevo);
                 cargoNuevo.setIdCargo(cargoNuevo.getIdCargo() + 1);
 

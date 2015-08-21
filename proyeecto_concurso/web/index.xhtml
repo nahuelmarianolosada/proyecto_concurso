@@ -89,7 +89,7 @@
 
 
                                     </h:panelGrid>
-                                    <p:commandButton id="btnGuardarNuevoExpediente" value="Guardar" actionListener="#{beanExpediente.guardarExpediente}" icon="ui-icon-disk" update="tabuladorPestañero,tabuladorPestañero:formExpedientes:msg,tabuladorPestañero:formResoluciones:tblResoluciones,lblEncabezadoNuevaResolucion" styleClass="btnVerde" />
+                                    <p:commandButton id="btnGuardarNuevoExpediente" value="Siguiente" actionListener="#{beanExpediente.guardarExpediente}" icon="ui-icon-circle-check " update="tabuladorPestañero,tabuladorPestañero:formExpedientes:msg,tabuladorPestañero:formResoluciones:tblResoluciones,lblEncabezadoNuevaResolucion" styleClass="btnVerde" />
                                 </h:form>
                             </p:tab>
 
@@ -102,7 +102,7 @@
                             <p:tab title="Resoluciones"  id="tabResoluciones" disabled="#{!beanExpediente.datosValidos}" >
                                 <h:form id="formResoluciones">
                                     <p:commandButton value="Nuevo" onclick="PF('dlgNuevaResolucion').show();" icon="ui-icon-plusthick" />
-                                    <p:dataTable  id="tblResoluciones" var="resolucion" value="#{beanResolucion.listaResoluciones}" rows="1"
+                                    <p:dataTable  id="tblResoluciones" var="resolucion" value="#{beanResolucion.listaResoluciones}" rows="3"
                                                   paginator="true"
                                                   paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                                   rowsPerPageTemplate="1,3,5,10,15"
@@ -163,7 +163,7 @@
 
                                     </p:dataTable>
 
-                                    <p:commandButton id="btnGuardarListaResoluciones" value="Guardar" actionListener="#{beanResolucion.guardarListaResoluciones()}" icon="ui-icon-disk" update="tabuladorPestañero,tabuladorPestañero:formExpedientes:msg" styleClass="btnVerde" />
+                                    <p:commandButton id="btnGuardarListaResoluciones" value="Siguiente" actionListener="#{beanResolucion.guardarListaResoluciones()}" icon="ui-icon-circle-check " update="tabuladorPestañero,tabuladorPestañero:formExpedientes:msg" styleClass="btnVerde" />
 
                                 </h:form>
                             </p:tab>
@@ -218,7 +218,7 @@
                                         </p:column>
 
                                     </p:dataTable>
-                                    <p:commandButton id="btnGuardarCargos" value="Guardar" actionListener="#{beanCargo.guardarCargos()}" icon="ui-icon-disk" update="tabuladorPestañero,tabuladorPestañero:formExpedientes:msg" styleClass="btnVerde" disabled="#{beanCargo.listaCargos.isEmpty()}" />
+                                    <p:commandButton id="btnGuardarCargos" value="Siguiente" actionListener="#{beanCargo.guardarCargos()}" icon="ui-icon-circle-check " update="tabuladorPestañero,tabuladorPestañero:formExpedientes:msg" styleClass="btnVerde" disabled="#{beanCargo.listaCargos.isEmpty()}" />
                                 </h:form>
 
 
@@ -275,7 +275,7 @@
                                             <h:outputText value="#{tribunal.establecimiento.nombre}" />
                                         </p:column>
                                     </p:dataTable>
-                                    <p:commandButton id="btnGuardarNuevoTribunal" value="Guardar" actionListener="#{beanTribunal.guardarTribunalNuevo()}" icon="ui-icon-disk" update="tabuladorPestañero:formExpedientes:msg,tabuladorPestañero:formTribunal,:formJuradoNuevo"  styleClass="btnVerde"  />
+                                    <p:commandButton id="btnGuardarNuevoTribunal" value="Guardar Tribunal" actionListener="#{beanTribunal.guardarTribunalNuevo()}" icon="ui-icon-circle-check " update="tabuladorPestañero:formExpedientes:msg,tabuladorPestañero:formTribunal,:formJuradoNuevo"  styleClass="btnVerde"  />
                                 </h:form>
 
                             </p:tab>
@@ -319,17 +319,17 @@
                                         </p:column>
                                     </p:dataTable>
 
-                                    <p:commandButton id="btnGuardarPostulantes" value="Guardar" actionListener="#{beanPostulante.guardarListaPostulantes()}" icon="ui-icon-disk" update="tabuladorPestañero,tabuladorPestañero:formExpedientes:msg" styleClass="btnVerde" disabled="#{beanPostulante.listaPostulantes.isEmpty()}" />
+                                    <p:commandButton id="btnGuardarPostulantes" value="Siguiente" actionListener="#{beanPostulante.guardarListaPostulantes()}" icon="ui-icon-circle-check " update="tabuladorPestañero,tabuladorPestañero:formExpedientes:msg" styleClass="btnVerde" disabled="#{beanPostulante.listaPostulantes.isEmpty()}" />
                                 </h:form>
                             </p:tab>
 
 
                             <!--   
                             **********************************
-                            PESTAÑA RESULTADO
+                            PESTAÑA RESULTADO#{!beanPostulante.datosValidos}
                             **********************************
                             -->
-                            <p:tab title="Resultado" id="tabResultado" disabled="#{beanPostulante.listaPostulantes.isEmpty()}" >
+                            <p:tab title="Resultado" id="tabResultado" disabled="false" >
                                 <h:form id="formResultadoConcurso">
                                     <h:panelGrid columns="2" cellpadding="3" frame="box" styleClass="panelAlta" columnClasses="label, value" >
                                         <f:facet name="header">
@@ -351,84 +351,82 @@
                                         <h:outputText value="Situación:" />
                                         <h:outputText value="#{beanConcurso.expedienteFinalCargado.situacion}" />
 
-                                        <f:facet name="header">
-                                            <h:outputText value="Resoluciónes:" />
-                                        </f:facet>
-
-                                        <p:dataScroller value="#{beanConcurso.listaFinalResoluciones}" var="resolucion" chunkSize="5" mode="inline" scrollHeight="200" >
-
-                                            <h:panelGrid columns="2" style="width:100%" >
-                                                <p:outputPanel>
-                                                    <h:panelGrid columns="6" cellpadding="5">
-
-                                                        <h:outputText value="Id Resolucion:" />
-                                                        <h:outputText value="#{resolucion.idResolucion}" style="font-weight: bold"/>
-
-                                                        <h:outputText value="Numero de Resolucion:" />
-                                                        <h:outputText value="#{resolucion.numeroResolucion}" style="font-weight: bold"/>
-
-                                                        <h:outputText value="Agrupamiento:" />
-                                                        <h:outputText value="#{resolucion.agrupamiento}" style="font-weight: bold"/>
-
-                                                        <h:outputText value="Es Antecedente:" />
-                                                        <h:outputText value="#{resolucion.antecedente}" style="font-weight: bold"/>
-
-                                                        <h:outputText value=":" />
-                                                        <h:outputText value="#{resolucion.antecedente}" style="font-weight: bold"/>
-
-                                                        <h:outputText value="Antecedente:" />
-                                                        <h:outputText value="#{resolucion.antecedente}" style="font-weight: bold" rendered="#{resolucion.antecedente}" />
-
-                                                        <h:outputText value="Prorroga:" />
-                                                        <h:outputText value="#{resolucion.prorrogaResolucion}" style="font-weight: bold" rendered="#{resolucion.prorroga}" />
-
-                                                        <h:outputText value="Modificatoria:" />
-                                                        <h:outputText value="#{resolucion.modificaResolucion}" style="font-weight: bold" rendered="#{resolucion.modificacion}" />
-
-                                                        <h:outputText value="Estado:" />
-                                                        <h:outputText value="#{resolucion.estado}" style="font-weight: bold"/>
-
-                                                        <h:outputText value="Clase:" />
-                                                        <h:outputText value="#{resolucion.clase}" style="font-weight: bold"/>
-
-                                                        <h:outputText value="Apertura:" />
-                                                        <h:outputText value="#{resolucion.fechaApertura}" style="font-weight: bold">
-                                                            <f:convertDateTime pattern="dd/MM/yy" />
-                                                        </h:outputText>
-
-                                                        <h:outputText value="Ejecución:" />
-                                                        <h:outputText value="#{resolucion.fechaEjecucion}" style="font-weight: bold">
-                                                            <f:convertDateTime pattern="dd/MM/yy" />
-                                                        </h:outputText>
-
-                                                        <h:outputText value="Cierre:" />
-                                                        <h:outputText value="#{resolucion.fechaCierre}" style="font-weight: bold">
-                                                            <f:convertDateTime pattern="dd/MM/yy" />
-                                                        </h:outputText>
-
-                                                        <h:outputText value="Publicación:" />
-                                                        <h:outputText value="#{resolucion.fechaPublicacion}" style="font-weight: bold">
-                                                            <f:convertDateTime pattern="dd/MM/yy" />
-                                                        </h:outputText>
-                                                    </h:panelGrid>
-                                                    <p:separator />
-                                                </p:outputPanel>
-                                            </h:panelGrid>
-                                        </p:dataScroller>
-
-                                        <p:separator />
-
-                                        <p:dataList value="#{beanConcurso.listaFinalCargos}" var="cargo" type="unordered" itemType="none" paginator="true" rows="3" styleClass="paginated">
-                                            <f:facet name="header">
-                                                Cargos
-                                            </f:facet>
-                                            <p:commandLink update="dlgDetalleCargo" oncomplete="PF('dlgDetalleCargo').show()" title="Ver Detalles del Cargo" styleClass="ui-icon ui-icon-search" style="float:left;margin-right:10px">
-                                                <f:setPropertyActionListener value="#{cargo}" target="#{beanConcurso.cargoSeleccionado}" />
-                                                <h:outputText value="#{cargo.idCargo}, #{cargo.funcion}" />
-                                            </p:commandLink>
-                                            <h:outputText value="#{cargo.funcion}, #{cargo.categoria}" style="display:inline-block"/>
-                                        </p:dataList>
                                     </h:panelGrid>
+                                    <p:separator />
+                                    <p:dataScroller value="#{beanConcurso.listaFinalResoluciones}" var="resolucion" chunkSize="5" mode="inline" scrollHeight="200" >
+
+                                        <h:panelGrid columns="2" style="width:100%" styleClass="panelAlta" >
+                                            <f:facet name="header">
+                                                <h:outputText value="Resoluciónes:" />
+                                            </f:facet>
+                                            <p:outputPanel>
+                                                <h:panelGrid columns="6" cellpadding="5">
+
+                                                    <h:outputText value="Id Resolucion:" />
+                                                    <h:outputText value="#{resolucion.idResolucion}" style="font-weight: bold"/>
+
+                                                    <h:outputText value="Numero de Resolucion:" />
+                                                    <h:outputText value="#{resolucion.numeroResolucion}" style="font-weight: bold"/>
+
+                                                    <h:outputText value="Agrupamiento:" />
+                                                    <h:outputText value="#{resolucion.agrupamiento}" style="font-weight: bold"/>
+
+                                                    <h:outputText value="Antecedente:" />
+                                                    <h:outputText value="#{resolucion.antecedente}" style="font-weight: bold"  />
+
+                                                    <h:outputText value="Oposición:" />
+                                                    <h:outputText value="#{resolucion.oposicion}" style="font-weight: bold"  />
+
+                                                    <h:outputText value="Prorroga:" rendered="#{resolucion.prorroga}" />
+                                                    <h:outputText value="#{resolucion.prorrogaResolucion}" style="font-weight: bold" rendered="#{resolucion.prorroga}" />
+
+                                                    <h:outputText value="Modificatoria Parcial:" rendered="#{resolucion.modificacion}" />
+                                                    <h:outputText value="#{resolucion.modificaResolucion}" style="font-weight: bold" rendered="#{resolucion.modificacion}" />
+
+                                                    <h:outputText value="Estado:" />
+                                                    <h:outputText value="#{resolucion.estado}" style="font-weight: bold"/>
+
+                                                    <h:outputText value="Clase:" />
+                                                    <h:outputText value="#{resolucion.clase}" style="font-weight: bold"/>
+
+                                                    <h:outputText value="Apertura:" />
+                                                    <h:outputText value="#{resolucion.fechaApertura}" style="font-weight: bold">
+                                                        <f:convertDateTime pattern="dd/MM/yy" />
+                                                    </h:outputText>
+
+                                                    <h:outputText value="Ejecución:" />
+                                                    <h:outputText value="#{resolucion.fechaEjecucion}" style="font-weight: bold">
+                                                        <f:convertDateTime pattern="dd/MM/yy" />
+                                                    </h:outputText>
+
+                                                    <h:outputText value="Cierre:" />
+                                                    <h:outputText value="#{resolucion.fechaCierre}" style="font-weight: bold">
+                                                        <f:convertDateTime pattern="dd/MM/yy" />
+                                                    </h:outputText>
+
+                                                    <h:outputText value="Publicación:" />
+                                                    <h:outputText value="#{resolucion.fechaPublicacion}" style="font-weight: bold">
+                                                        <f:convertDateTime pattern="dd/MM/yy" />
+                                                    </h:outputText>
+                                                </h:panelGrid>
+                                                <p:separator />
+                                            </p:outputPanel>
+                                        </h:panelGrid>
+                                    </p:dataScroller>
+
+                                    <p:separator />
+
+                                    <p:dataList value="#{beanConcurso.listaFinalCargos}" var="cargo" type="unordered" itemType="none" paginator="true" rows="3" styleClass="paginated">
+                                        <f:facet name="header">
+                                            Cargos
+                                        </f:facet>
+                                        <p:commandLink update="dlgDetalleCargo" oncomplete="PF('dlgDetalleCargo').show()" title="Ver Detalles del Cargo" styleClass="ui-icon ui-icon-search" style="float:left;margin-right:10px">
+                                            <f:setPropertyActionListener value="#{cargo}" target="#{beanConcurso.cargoSeleccionado}" />
+                                            <h:outputText value="#{cargo.idCargo}, #{cargo.funcion}" />
+                                        </p:commandLink>
+                                        <h:outputText value="#{cargo.funcion}, #{cargo.categoria}" style="display:inline-block"/>
+                                    </p:dataList>
+
                                 </h:form>
                             </p:tab>
                         </p:tabView>
@@ -651,9 +649,6 @@
                                 <h:outputText value="Presencia" />     
                                 <p:inputSwitch value="#{beanTribunal.juradoNuevo.presencia}" onLabel="SI" offLabel="NO" />
 
-
-
-
                                 <h:outputText value="Condición" />
                                 <p:selectOneMenu id="cmbCondicionJurado" value="#{beanTribunal.juradoNuevo.condicion}" style="width:100px;" >
                                     <f:selectItem itemLabel="Titular" itemValue="TITULAR"/>
@@ -814,7 +809,7 @@
                                 <p:inputSwitch offLabel="No" onLabel="Si" value="#{beanPostulante.banderaGanador}" onchange="#{beanPostulante.cambiarEstadoGanador()}" >
                                     <p:ajax listener="#{beanPostulante.cambiarEstadoGanador()}" update="cmbCargoPostulante" />
                                 </p:inputSwitch>
-                                <p:selectOneMenu id="cmbCargoPostulante" value="#{beanPostulante.nuevoPostulante.cargo.idCargo}" required="true" requiredMessage="Seleccione un cargo" filter="true" validatorMessage="Seleccione un cargo válido" disabled="#{beanPostulante.banderaGanador}" converterMessage="Seleccione un cargo valido" >
+                                <p:selectOneMenu id="cmbCargoPostulante" value="#{beanPostulante.nuevoPostulante.cargo.idCargo}" required="#{beanPostulante.banderaGanador}" requiredMessage="Seleccione un cargo" filter="true" validatorMessage="Seleccione un cargo válido" disabled="#{beanPostulante.banderaGanador}" converterMessage="Seleccione un cargo valido" >
                                     <f:selectItem noSelectionOption="true" itemLabel=" Seleccione un Cargo" itemValue="null" />
                                     <f:selectItems var="cargo" value="#{beanCargo.listaCargos}" itemLabel="#{cargo.funcion} - #{cargo.categoria} (#{cargo.cantidad})" itemValue="#{cargo.idCargo}" />
                                 </p:selectOneMenu>
@@ -829,7 +824,7 @@
                                     <f:convertNumber maxFractionDigits="2" pattern="###.##" />
                                 </p:inputText>
 
-                                <p:inputText id="txtPuntajePostulante" value="#{beanPostulante.nuevoPostulante.puntaje}" placeholder="Puntaje">
+                                <p:inputText id="txtPuntajePostulante" value="#{beanPostulante.nuevoPostulante.puntaje}" placeholder="Puntaje" >
                                     <f:convertNumber maxFractionDigits="2" pattern="###.##" />
                                 </p:inputText>
 

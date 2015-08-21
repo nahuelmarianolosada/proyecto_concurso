@@ -9,7 +9,9 @@ import dominio.Cargo;
 import dominio.Postulante;
 import dominio.Persona;
 import hibernate.dao.PersonaDao;
+import hibernate.dao.PostulanteDao;
 import hibernate.dao.impl.PersonaDaoImpl;
+import hibernate.dao.impl.PostulanteDaoImpl;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,10 +45,14 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
      * Creates a new instance of PostulantesBean
      */
     public PostulantesBean() {
-        nuevoPostulante = new Postulante(new Persona());
+        
+        PostulanteDao postulanteDao = new PostulanteDaoImpl();
+        nuevoPostulante = new Postulante(postulanteDao.generarIdNuevoPostulante(), new Persona());
         nuevoPostulante.setCargo(new Cargo());
         banderaGanador = false;
         listaPostulantes = new ArrayList<>();
+        System.out.println("PostulantesBean.PostulantesBean() => Se ah creado el bean Postulantes");
+        
     }
 
     /*
@@ -205,25 +211,56 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
     }
 
     public void guardarNuevoPostulante() {
-        for (Cargo cargo : beanCargo.getListaCargos()) {
-            if (cargo.getIdCargo() == nuevoPostulante.getCargo().getIdCargo()) {
-                nuevoPostulante.setCargo(cargo);
-                break;
+        if (validarPostulante(nuevoPostulante)) {
+            for (Cargo cargo : beanCargo.getListaCargos()) {
+                if (cargo.getIdCargo() == nuevoPostulante.getCargo().getIdCargo()) {
+                    nuevoPostulante.setCargo(cargo);
+                    break;
+                }
             }
+
+            listaPostulantes.add(nuevoPostulante);
+
+            System.out.println("\033[32mPostulantesBean.guardarNuevoPostulante() => " + nuevoPostulante.toString());
+            int codigoInscripcion = nuevoPostulante.getIdInscripcion();
+            nuevoPostulante = new Postulante(codigoInscripcion, new Persona());
+            nuevoPostulante.setCargo(new Cargo());
+
+            nuevoMensajeInfo("Registro Provincial de Concursos", "Postulante " + nuevoPostulante.getIdInscripcion() + " guardado");
         }
-
-        listaPostulantes.add(nuevoPostulante);
-        
-        System.out.println("\033[32mPostulantesBean.guardarNuevoPostulante() => " + nuevoPostulante.toString());
-        nuevoPostulante = new Postulante(new Persona());
-        nuevoPostulante.setCargo(new Cargo());
-
-        nuevoMensajeInfo("Registro Provincial de Concursos", "Postulante " + nuevoPostulante.getIdInscripcion() + " guardado");
     }
-    
-    
-    public void guardarListaPostulantes(){
+
+    public void guardarListaPostulantes() {
         super.setListaFinalPostulantes(listaPostulantes);
+    }
+
+    public boolean validarPostulante(Postulante postulante) {
+        boolean esValido = false;
+        if (postulante.getPuntaje() >= 0) {
+            if (postulante.getFojas() >= 0) {
+                if (postulante.getOposicion() >= 0) {
+                    if (postulante.getAntecedentes() >= 0) {
+                        esValido = true;
+                    } else {
+                        nuevoMensajeAlerta("Registro Provincial de Concursos de Salud", "El puntaje de Antecedentes no puede ser menor a 0");
+                    }
+                } else {
+                    nuevoMensajeAlerta("Registro Provincial de Concursos de Salud", "El puntaje de Oposicion no puede ser menor a 0");
+                }
+            } else {
+                nuevoMensajeAlerta("Registro Provincial de Concursos de Salud", "La cantidad de fojas no puede ser menor a 0");
+            }
+        } else {
+            nuevoMensajeAlerta("Registro Provincial de Concursos de Salud", "El puntaje no puede ser menor a 0");
+        }
+        return esValido;
+    }
+
+    public boolean validarPersonaExistente(Persona persona) {
+        boolean esValido = false;
+        PersonaDao personaDao = new PersonaDaoImpl();
+        esValido = personaDao.existeDniPersona(persona);
+        return esValido;
     }
 
     public void cambiarEstadoGanador() {
