@@ -60,9 +60,18 @@ public class ConcursoBean implements Serializable {
     private static List<Cargo> listaFinalCargos;
     private static List<TribunalJurado> listaFinalJurados;
     private static List<Postulante> listaFinalPostulantes;
+    private static List <Tribunal> listaFinalTribunales;
 
     private Cargo cargoSeleccionado;
     private Postulante postulanteFinalSeleccionado;
+
+    public static List<Tribunal> getListaFinalTribunales() {
+        return listaFinalTribunales;
+    }
+
+    public static void setListaFinalTribunales(List<Tribunal> listaFinalTribunales) {
+        ConcursoBean.listaFinalTribunales = listaFinalTribunales;
+    }
 
     /**
      * Creates a new instance of ConcursoBean
@@ -74,6 +83,7 @@ public class ConcursoBean implements Serializable {
         listaFinalResoluciones = new ArrayList<>();
         listaFinalCargos = new ArrayList<>();
         listaFinalPostulantes = new ArrayList<>();
+        listaFinalTribunales= new ArrayList<>();
         
         inicializar();
     }
