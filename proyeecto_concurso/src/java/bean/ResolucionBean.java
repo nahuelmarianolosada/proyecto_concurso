@@ -39,8 +39,6 @@ public class ResolucionBean extends ConcursoBean implements Serializable {
     private boolean datosValidos;//Bandera que se referencia a la vista para habilitar la pestaña siguiente
     private int anioNumeroResolucion;
 
-    @ManagedProperty("#{beanCargo}")
-    private CargoBean beanCargo;
 
     //GETTERS & SETTERS
     public boolean isBanderaModificacionParcial() {
@@ -99,13 +97,6 @@ public class ResolucionBean extends ConcursoBean implements Serializable {
         this.anioNumeroResolucion = anioNumeroResolucion;
     }
 
-    public CargoBean getBeanCargo() {
-        return beanCargo;
-    }
-
-    public void setBeanCargo(CargoBean beanCargo) {
-        this.beanCargo = beanCargo;
-    }
 
     /**
      * Creates a new instance of ResolucionBean
@@ -172,9 +163,7 @@ public class ResolucionBean extends ConcursoBean implements Serializable {
             resolucionNueva.setTribunal(new Tribunal());
             listaResoluciones.add(resolucionNueva);
 
-            beanCargo.getCargoNuevo().setResolucion(resolucionNueva);
-
-            //pasarVistaDePestania();
+           // pasarVistaDePestania();
             System.err.println("\033[32mResolucionBean.guardarResolucion() => " + resolucionNueva.toString());
 
             nuevoMensajeInfo("Registro de Concursos de Salud - RESOLUCIÓN", "NºResolucion: " + resolucionNueva.getNumeroResolucion()
@@ -192,6 +181,8 @@ public class ResolucionBean extends ConcursoBean implements Serializable {
 
     public void guardarListaResoluciones() {
         setListaFinalResoluciones(listaResoluciones);
+        nuevoMensajeInfo("Registro Provincial de Concursos de Salud", "Se a guardado la lista de resoluciones");
+        pasarVistaDePestania();
         datosValidos = true;
     }
 

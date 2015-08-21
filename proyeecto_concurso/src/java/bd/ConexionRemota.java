@@ -7,13 +7,17 @@ package bd;
 
 import dominio.Cargo;
 import dominio.Establecimiento;
+import dominio.Expediente;
 import dominio.TribunalJurado;
 import hibernate.dao.EstablecimientoDao;
+import hibernate.dao.ExpedienteDao;
 import hibernate.dao.TribunalJuradoDao;
 import hibernate.dao.impl.EstablecimientoDaoImpl;
+import hibernate.dao.impl.ExpedienteDaoImpl;
 import hibernate.dao.impl.TribunalJuradoDaoImpl;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -27,14 +31,39 @@ import java.util.List;
  */
 public class ConexionRemota {
 
-    
     public static void main(String[] args) {
+        String driver = "org.postgresql.Driver";
+        String connectString = "jdbc:postgresql://localhost:5432/siisaDB";
+        String user = "nmlosada";
+        String password = "siisa1234";
+
         try {
             //consultarVista();
             //probarHibernate();
-            
-            
-            
+
+            ExpedienteDao expedienteDao = new ExpedienteDaoImpl();
+            for (Expediente exp : expedienteDao.getAll()) {
+                if (exp.getNumeroExpediente().length() != 14) {
+                    System.out.println("El numero de expediente formateado es: " + formatearExpediente(exp.getNumeroExpediente()));
+                    System.out.println("-------------------------------------------------------------------");
+                    exp.setNumeroExpediente(formatearExpediente(exp.getNumeroExpediente()));
+
+//ACTUALIZACION POR JDBC
+                    
+//                    Class.forName(driver);
+//                    Connection con = DriverManager.getConnection(connectString, user, password);
+//                    String updateTableSQL = "UPDATE expediente SET numero_expediente = ? WHERE id_expediente = ?";
+//                    PreparedStatement stmt = con.prepareStatement(updateTableSQL);
+//
+//                    stmt.setString(1, exp.getNumeroExpediente());
+//                    stmt.setInt(2, exp.getIdExpediente());
+//
+//                    // ejecutamos la sentencia de actualizacion
+//                    stmt.executeUpdate();
+
+                }
+            }
+
         } catch (Exception exGeneral) {
             System.out.println("Error!\n" + exGeneral.getMessage());
         }
@@ -78,11 +107,47 @@ public class ConexionRemota {
 //        }
     }
 
+    public static String formatearExpediente(String numeroExpediente) {
+        String numeroExpedienteFormateado = "";
+        System.out.print("Formateando Expediente recibido: [" + numeroExpediente + "]");
+        char[] cadenaCaracteres = numeroExpediente.toCharArray();
+
+        if (numeroExpediente.length() != 14) {
+
+            int indiceGuion = numeroExpediente.indexOf(45);
+            int indiceBarra = numeroExpediente.indexOf(47);
+
+            String udo = numeroExpediente.substring(0, 3);
+            String numero = numeroExpediente.substring(indiceGuion + 1, indiceBarra);
+            String anio = numeroExpediente.substring(indiceBarra + 1, numeroExpediente.length());
+
+            char[] numeroFormateado = new char[5];
+
+            //vamos llenando el numero formateado de atras para adelante
+            //con el numero
+            int i = numeroFormateado.length - 1;
+            while (i > 0) {
+                for (int j = numero.length() - 1; j >= 0; j--) {
+                    numeroFormateado[i] = numero.charAt(j);
+                    i--;
+                }
+                while (i >= 0) {
+                    numeroFormateado[i] = '0';
+                    i--;
+                }
+            }
+
+            numeroExpediente = new String(numeroFormateado);
+            System.out.println("\nUDO = " + udo + "\nNumero Final = " + numeroExpediente + "\nAño = " + anio);
+            numeroExpedienteFormateado = udo + "-" + numeroExpediente + "/" + anio;
+        }
+        return numeroExpedienteFormateado;
+    }
+
     public static void consultarVista() throws SQLException {
 
-
         String driver = "org.postgresql.Driver";
-                String connectString = "jdbc:postgresql://localhost:5432/siisaDB";
+        String connectString = "jdbc:postgresql://localhost:5432/siisaDB";
         String user = "nmlosada";
         String password = "siisa1234";
 
@@ -91,14 +156,14 @@ public class ConexionRemota {
             Connection con = DriverManager.getConnection(connectString, user, password);
             Statement stmt = con.createStatement();
 
-          //UTILIZANDO UNA CONSULTA NORMAL
+            //UTILIZANDO UNA CONSULTA NORMAL
             String consultaSQL = "SELECT * FROM \"vw_profesionalCompleto\" WHERE numero_documento = '" + 23053786 + "';";
             ResultSet rs = stmt.executeQuery(consultaSQL);
 
             int contadorDeRegistros = 1;
-            
+
             while (rs.next()) {
-                System.out.println(contadorDeRegistros + " - CODIGO: " + rs.getLong("codigo_de_profesional") + " - Nombre Completo: " + rs.getString("nombrecompleto")+" -Profesión: "+rs.getString("profmat"));
+                System.out.println(contadorDeRegistros + " - CODIGO: " + rs.getLong("codigo_de_profesional") + " - Nombre Completo: " + rs.getString("nombrecompleto") + " -Profesión: " + rs.getString("profmat"));
                 contadorDeRegistros += 1;
             }
             stmt.close();
@@ -111,9 +176,7 @@ public class ConexionRemota {
 
     }
 
-
-
-public static void probarHibernate() {
+    public static void probarHibernate() {
 //        AreaDao areaDao = new AreaDaoImpl();
 //        for (Area area : areaDao.getAll()) {
 //            System.out.println("ID: " + area.getIdArea() + " - Nombre: " + area.getNombreArea() + " - Prefijo: " + area.getCodigoExpediente());
@@ -123,7 +186,6 @@ public static void probarHibernate() {
 //        for (Establecimiento establecimiento : establecimientoDao.getAll()) {
 //            System.out.println("Id: " + establecimiento.getIdEstablecimiento() + " - Nombre: " + establecimiento.getNombre());
 //        }
-        
 //        InstitucionDao institucionDao = new InstitucionDaoImpl();
 //        for (Institucion inst : institucionDao.getAll()) {
 //            System.out.println("Id Institucion: " + inst.getIdInstitucion() + " - Nombre: " + inst.getNombreInstitucion());
@@ -133,15 +195,10 @@ public static void probarHibernate() {
 //        for (Establecimiento esta : estDao.getAll()) {
 //            System.out.println(esta.toString());
 //        }
-        
         TribunalJuradoDao tribDao = new TribunalJuradoDaoImpl();
         for (TribunalJurado jurado : tribDao.getAll()) {
             System.out.println("Persona: " + jurado.getPersona().getNombres());
         }
-        
-        
-        
-        
-        
+
     }
 }

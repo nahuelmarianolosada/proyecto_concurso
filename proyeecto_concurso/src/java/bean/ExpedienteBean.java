@@ -35,7 +35,7 @@ public class ExpedienteBean extends ConcursoBean implements Serializable {
     private List<UnidadDeOrganizacion> listaUnidadDeOrganizacions; //lista que se utiliza para cargar el combo con las areas
     private boolean datosValidos;//Bandera que se referencia a la vista para habilitar la pestaña siguiente
     private List<Expediente> listaExpedientes;
-    
+
     @ManagedProperty("#{beanResolucion}")
     private ResolucionBean beanResolucion;
 
@@ -80,9 +80,6 @@ public class ExpedienteBean extends ConcursoBean implements Serializable {
         this.beanResolucion = beanResolucion;
     }
 
-    
-    
-    
     /**
      * CONSTRUCTOR VACIO Creates a new instance of ExpedienteBean
      */
@@ -92,7 +89,7 @@ public class ExpedienteBean extends ConcursoBean implements Serializable {
         System.out.println("ExpedienteBean.ExpedienteBean() => " + expedienteNuevo.toString());
         refreshListas();
         datosValidos = false;
-        
+
         ExpedienteDao expedienteDao = new ExpedienteDaoImpl();
         listaExpedientes = expedienteDao.getAll();
     }
@@ -131,26 +128,33 @@ public class ExpedienteBean extends ConcursoBean implements Serializable {
     }
 
     public void guardarExpediente() {
+        ExpedienteDao expedienteDao = new ExpedienteDaoImpl();
         try {
+
             for (UnidadDeOrganizacion unidad : listaUnidadDeOrganizacions) {
                 if (unidad.getCodigoUnidadDeOrganizacion() == expedienteNuevo.getUnidadDeOrganizacion().getCodigoUnidadDeOrganizacion()) {
                     expedienteNuevo.setUnidadDeOrganizacion(unidad);
                     break;
                 }
             }
-            expedienteNuevo.setNumeroExpediente(expedienteNuevo.getUnidadDeOrganizacion().getCodigoUnidadDeOrganizacion() + "-" + expedienteNuevo.getNumero() + "/" + expedienteNuevo.getAnio());
+            String numExpedienteSinFormato = expedienteNuevo.getUnidadDeOrganizacion().getCodigoUnidadDeOrganizacion() + "-" + expedienteNuevo.getNumero() + "/" + expedienteNuevo.getAnio();
+            expedienteNuevo.setNumeroExpediente(formatearExpediente(numExpedienteSinFormato));
 
-            if (expedienteNuevo.esValido()) {
+            //Validamos que los datos guardados en el expediente sean validos y
+            //que aparte no exista en la BD
+            if (expedienteNuevo.esValido() && expedienteDao.getExpediente(expedienteNuevo.getNumeroExpediente()) == null) {
                 beanResolucion.getResolucionNueva().setExpediente(expedienteNuevo);
                 ResolucionDao resDao = new ResolucionDaoImpl();
                 beanResolucion.setListaResoluciones(resDao.getResoluciones(expedienteNuevo));
-                
+
                 //Seteamos el Expediente Final
                 super.setExpedienteFinalCargado(expedienteNuevo);
-                
+
                 datosValidos = true;
                 pasarVistaDePestania();
                 nuevoMensajeInfo("Registro de Concursos de Salud - EXPEDIENTE", "Número: " + expedienteNuevo.getNumeroExpediente() + "\nRégimen: " + expedienteNuevo.getRegimen() + "\nSituación: " + expedienteNuevo.getSituacion());
+            } else {
+                nuevoMensajeAlerta("Registro de Concursos de Salud", "Expediente Inválido");
             }
             System.out.println("\033[32mExpedienteBean.guardarExpediente() => " + expedienteNuevo.toString());
 
@@ -158,6 +162,52 @@ public class ExpedienteBean extends ConcursoBean implements Serializable {
             ex1.printStackTrace();
         }
 
+    }
+
+    /**
+     * Funcion que realiza un formato esstructurado para el numero del
+     * expediente. Solamente formatea los numeros de expedientes que tengan
+     * menos de 14 caracteres
+     *
+     * @param numeroExpediente El numero del expediente completo que se desea
+     * formatear
+     * @return El numero del expediente formateado
+     */
+    public static String formatearExpediente(String numeroExpediente) {
+        String numeroExpedienteFormateado = "";
+        System.out.print("Formateando Expediente recibido: [" + numeroExpediente + "]");
+        char[] cadenaCaracteres = numeroExpediente.toCharArray();
+
+        if (numeroExpediente.length() != 14) {
+
+            int indiceGuion = numeroExpediente.indexOf(45);
+            int indiceBarra = numeroExpediente.indexOf(47);
+
+            String udo = numeroExpediente.substring(0, 3);
+            String numero = numeroExpediente.substring(indiceGuion + 1, indiceBarra);
+            String anio = numeroExpediente.substring(indiceBarra + 1, numeroExpediente.length());
+
+            char[] numeroFormateado = new char[5];
+
+            //vamos llenando el numero formateado de atras para adelante
+            //con el numero
+            int i = numeroFormateado.length - 1;
+            while (i > 0) {
+                for (int j = numero.length() - 1; j >= 0; j--) {
+                    numeroFormateado[i] = numero.charAt(j);
+                    i--;
+                }
+                while (i >= 0) {
+                    numeroFormateado[i] = '0';
+                    i--;
+                }
+            }
+
+            numeroExpediente = new String(numeroFormateado);
+            System.out.println("\nUDO = " + udo + "\nNumero Final = " + numeroExpediente + "\nAño = " + anio);
+            numeroExpedienteFormateado = udo + "-" + numeroExpediente + "/" + anio;
+        }
+        return numeroExpedienteFormateado;
     }
 
 }
