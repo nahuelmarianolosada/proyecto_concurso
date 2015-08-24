@@ -26,7 +26,7 @@
                                                     <f:facet name="header" >
                                                         <h:outputText value="Expediente Núm: #{resolucion.expediente.numeroExpediente} - UDO: #{resolucion.expediente.unidadDeOrganizacion.nombreUnidad} - Régimen: #{resolucion.expediente.regimen} - Situación: #{resolucion.expediente.situacion}" styleClass="data" style="font-size: 13px;"/>
                                                     </f:facet>
-                                                    
+
                                                     <h:outputText value="Numero de Resolucion:" />
                                                     <h:outputText value="#{resolucion.numeroResolucion}" styleClass="data"/>
 
@@ -395,19 +395,13 @@
                                                     <h:outputText value="Agrupamiento:" />
                                                     <h:outputText value="#{resolucion.agrupamiento}" styleClass="data"/>
 
-                                                    <h:outputText value="Es Antecedente:" />
-                                                    <h:outputText value="#{resolucion.antecedente}" styleClass="data"/>
-
-                                                    <h:outputText value=":" />
-                                                    <h:outputText value="#{resolucion.antecedente}" styleClass="data"/>
-
                                                     <h:outputText value="Antecedente:" />
-                                                    <h:outputText value="#{resolucion.antecedente}" styleClass="data" rendered="#{resolucion.antecedente}" />
+                                                    <h:outputText value="#{resolucion.antecedente}" styleClass="data" />
 
-                                                    <h:outputText value="Prorroga:" />
+                                                    <h:outputText value="Prórroga:" rendered="#{resolucion.prorroga}" />
                                                     <h:outputText value="#{resolucion.prorrogaResolucion}" styleClass="data" rendered="#{resolucion.prorroga}" />
 
-                                                    <h:outputText value="Modificatoria:" />
+                                                    <h:outputText value="Modificatoria:" rendered="#{resolucion.modificacion}" />
                                                     <h:outputText value="#{resolucion.modificaResolucion}" styleClass="data" rendered="#{resolucion.modificacion}" />
 
                                                     <h:outputText value="Estado:" />
@@ -443,16 +437,31 @@
 
                                     <p:separator style="margin: 10px 0 10px 0;" />
 
-                                    <p:dataList value="#{beanConcurso.listaFinalCargos}" var="cargo" type="unordered" itemType="none" paginator="true" rows="5" styleClass="paginated">
-                                        <f:facet name="header">
-                                            Cargos
-                                        </f:facet>
-                                        <p:commandLink update="dlgDetalleCargo" oncomplete="PF('dlgDetalleCargo').show()" title="Ver Detalles del Cargo" styleClass="ui-icon ui-icon-search" style="float:left;margin-right:10px">
-                                            <f:setPropertyActionListener value="#{cargo}" target="#{beanConcurso.cargoSeleccionado}" />
-                                            <h:outputText value="#{cargo.idCargo}, #{cargo.funcion}" />
-                                        </p:commandLink>
-                                        <h:outputText value="#{cargo.idCargo} - #{cargo.funcion}, #{cargo.categoria}" style="display:inline-block"/>
-                                    </p:dataList>
+
+                                    <ui:repeat var="cargo" value="#{beanConcurso.listaFinalCargos}" varStatus="stringData">                                                                                                             
+                                        <p:panelGrid columns="6" layout="grid">                                        
+                                            <h:outputText value="Id:" /><h:outputText value="#{cargo.idCargo}" styleClass="data" />
+                                            <h:outputText value="Funcion:" /><h:outputText value="#{cargo.funcion}" styleClass="data" />
+                                            <h:outputText value="Resolución: " /><h:outputText value="#{cargo.resolucion.numeroResolucion}" styleClass="data" />
+                                            <h:outputText value="Categoria: " /><h:outputText value="#{cargo.categoria}" styleClass="data" />
+                                            <h:outputText value="Modalidad: " /><h:outputText value="#{cargo.modalidad}" styleClass="data" />
+                                            <h:outputText value="Especialidad: " /><h:outputText value="#{cargo.especialidad}" styleClass="data" />
+                                            <h:outputText value="Enunciación: " /><h:outputText value="#{cargo.enunciacion}" styleClass="data" />
+                                            <h:outputText value="Area de Desempeño: " /><h:outputText value="#{cargo.areaDeDesempenio}" styleClass="data" />
+                                            <h:outputText value="Fecha de Acta de Formulación de Perfil: " /><h:outputText value="#{cargo.fechaActaFormulacionPerfil}" styleClass="data" ><f:convertDateTime pattern="dd/MM/yyyy" /></h:outputText>
+                                        </p:panelGrid>
+                                    </ui:repeat>
+
+<!--                                    <p:dataList value="#{beanConcurso.listaFinalCargos}" var="cargo" type="unordered" itemType="none" paginator="true" rows="5" styleClass="paginated">
+    <f:facet name="header">
+        Cargos
+    </f:facet>
+    <p:commandLink update="dlgDetalleCargo" oncomplete="PF('dlgDetalleCargo').show()" title="Ver Detalles del Cargo" styleClass="ui-icon ui-icon-search" style="float:left;margin-right:10px">
+        <f:setPropertyActionListener value="#{cargo}" target="#{beanConcurso.cargoFinalSeleccionado}" />
+        <h:outputText value="#{cargo.idCargo}, #{cargo.funcion}" />
+    </p:commandLink>
+    <h:outputText value="#{cargo.idCargo} - #{cargo.funcion}, #{cargo.categoria}" style="display:inline-block"/>
+</p:dataList>-->
 
                                 </h:form>
                             </p:tab>
@@ -560,77 +569,77 @@
                 -->
                 <p:dialog header="Cargo Nuevo"  widgetVar="dlgCargoNuevo" id="dlgCargoNuevo" modal="true" showEffect="fade" hideEffect="fade" draggable="true" resizable="true" closeOnEscape="true" minWidth="373" >
                     <h:form id="formCargoNuevo">
-                        <p:fieldset legend="ID: #{beanCargo.cargoNuevo.idCargo}"  >
-                            <h:outputText value="Numero de Resolución:" />
-                            <p:selectOneMenu id="cmbCargoNuevoResolucion" value="#{beanCargo.cargoNuevo.resolucion.numeroResolucion}" required="true" requiredMessage="Seleccione una Resolución" style="width: 100%;" filter="true" >
-                                <f:selectItems var="resolucion" value="#{beanResolucion.listaResoluciones}" itemLabel="#{resolucion.numeroResolucion}" itemValue="#{resolucion.numeroResolucion}" />
+
+                        <h:outputText value="Numero de Resolución:" />
+                        <p:selectOneMenu id="cmbCargoNuevoResolucion" value="#{beanCargo.cargoNuevo.resolucion.numeroResolucion}" required="true" requiredMessage="Seleccione una Resolución" style="width: 100%;" filter="true" >
+                            <f:selectItems var="resolucion" value="#{beanResolucion.listaResoluciones}" itemLabel="#{resolucion.numeroResolucion}" itemValue="#{resolucion.numeroResolucion}" />
+                        </p:selectOneMenu>
+                        <br/>
+                        <h:outputText value="Establecimiento:" />
+                        <p:selectOneMenu id="cmbEstablecimiento" value="#{beanCargo.cargoNuevo.establecimiento.codigoSiisa}" required="true" requiredMessage="Seleccione un Establecimiento" style="width: 100%;" filter="true" >
+                            <f:selectItem noSelectionOption="true" itemLabel=" Seleccione un Establecimietno" itemValue="null" />
+                            <f:selectItems var="establecimiento" value="#{beanConcurso.listaEstablecimientos}" itemLabel="#{establecimiento.nombre}" itemValue="#{establecimiento.codigoSiisa}" />
+                        </p:selectOneMenu>
+                        <h:panelGrid columns="2" cellpadding="2">
+
+                            <p:inputText value="#{beanCargo.cargoNuevo.especialidad}" placeholder="Especialidad" maxlength="30" />
+                            <p:inputText value="#{beanCargo.cargoNuevo.categoria}" placeholder="Categoria" maxlength="30" />
+                            <p:spinner value="#{beanCargo.cargoNuevo.adicional}" placeholder="Cantidad de Horas" min="0" />
+                            <p:spinner value="#{beanCargo.cargoNuevo.cantidad}" placeholder="Cantidad de cargos" min="1"/>
+
+                        </h:panelGrid>
+
+                        <h:panelGrid columns="2" cellpadding="2">
+                            <p:outputLabel for="cmbProfesion" value="Profesión: " />
+                            <p:selectOneMenu id="cmbProfesion" style="width:100%;" value="#{beanCargo.cargoNuevo.profesion.idProfesion}" filter="true">
+                                <f:selectItem itemLabel="No se especifica" itemValue="" noSelectionOption="true" />
+                                <f:selectItems var="profesion" value="#{beanCargo.listaProfesiones}" itemLabel="#{profesion.nombreProfesion}" itemValue="#{profesion.idProfesion}" />
                             </p:selectOneMenu>
-                            <br/>
-                            <h:outputText value="Establecimiento:" />
-                            <p:selectOneMenu id="cmbEstablecimiento" value="#{beanCargo.cargoNuevo.establecimiento.codigoSiisa}" required="true" requiredMessage="Seleccione un Establecimiento" style="width: 100%;" filter="true" >
-                                <f:selectItem noSelectionOption="true" itemLabel=" Seleccione un Establecimietno" itemValue="null" />
-                                <f:selectItems var="establecimiento" value="#{beanConcurso.listaEstablecimientos}" itemLabel="#{establecimiento.nombre}" itemValue="#{establecimiento.codigoSiisa}" />
+
+                            <p:outputLabel for="cmbFuncion" value="Función: " />
+                            <p:selectOneMenu id="cmbFuncion" style="width:100%;" value="#{beanCargo.cargoNuevo.funcion}">
+                                <f:selectItem itemLabel="No se especifica" itemValue="NO SE ESPECIFICA"  />
+                                <f:selectItem itemLabel="Profesional en General" itemValue="PROFESIONAL EN GENERAL" />
+                                <f:selectItem itemLabel="Profesional en Guardia Activa" itemValue="PROFESIONAL EN GUARDIA ACTIVA" />
+                                <f:selectItem itemLabel="Jefe de Unidad" itemValue="JEFE DE UNIDAD" />
+                                <f:selectItem itemLabel="Jefe de Servicio" itemValue="JEFE DE SERVICIO" />
+                                <f:selectItem itemLabel="Jefe de Departamento" itemValue="JEFE DE DEPARTAMENTO" />
                             </p:selectOneMenu>
-                            <h:panelGrid columns="2" cellpadding="2">
+                            <p:outputLabel for="cmbAreaDesempenio" value="Área de Desempeño: " />
+                            <p:selectOneMenu id="cmbAreaDesempenio" style="width:100%;" value="#{beanCargo.cargoNuevo.areaDeDesempenio}">
+                                <f:selectItem itemLabel="Seleccionar un área" itemValue="" noSelectionOption="true" itemDisabled="true" />
+                                <f:selectItem itemLabel="Unidad de Guardia" itemValue="UNIDAD DE GUARDIA" />
+                                <f:selectItem itemLabel="Unidad Sanitaria" itemValue="UNIDAD SANITARIA" />
+                                <f:selectItem itemLabel="Servicio Asistencial" itemValue="SERVICIO ASISTENCIAL" />
+                                <f:selectItem itemLabel="Servicio Sanitario" itemValue="SERVICIO SANITARIO" />
+                                <f:selectItem itemLabel="Departamento" itemValue="DEPARTAMENTO" />
+                            </p:selectOneMenu>
+                            <h:outputText value="Modalidad: " />
+                            <p:selectOneMenu id="cmbModalidadCargo" value="#{beanCargo.cargoNuevo.modalidad}" style="width:100%;">
+                                <f:selectItem itemLabel="Único" itemValue="ÚNICO"/>
+                                <f:selectItem itemLabel="Eventual" itemValue="EVENTUAL" itemDisabled="true"/>
+                                <f:selectItem itemLabel="Temporario" itemValue="TEMPORARIO" itemDisabled="true" />
+                                <f:selectItem itemLabel="Contrato Especial" itemValue="CONTRATO ESPECIAL" itemDisabled="true" />
+                                <f:selectItem itemLabel="Plazo Determinado" itemValue="PLAZO DETERMINADO" itemDisabled="true" />
+                                <f:selectItem itemLabel="Ad Honorem" itemValue="AD HONOREM" itemDisabled="true" />
+                                <f:selectItem itemLabel="Residencias" itemValue="RESIDENCIAS" itemDisabled="true" />
+                            </p:selectOneMenu>
 
-                                <p:inputText value="#{beanCargo.cargoNuevo.especialidad}" placeholder="Especialidad" maxlength="30" />
-                                <p:inputText value="#{beanCargo.cargoNuevo.categoria}" placeholder="Categoria" maxlength="30" />
-                                <p:spinner value="#{beanCargo.cargoNuevo.adicional}" placeholder="Cantidad de Horas" min="0" />
-                                <p:spinner value="#{beanCargo.cargoNuevo.cantidad}" placeholder="Cantidad de cargos" min="1"/>
+                            <h:outputText value="Fecha del acta de la formulacion de Perfil " />
+                            <p:calendar id="calFechaActaFormulacionPerfil" pattern="dd-MM-yyyy" mask="true" value="#{beanCargo.cargoNuevo.fechaActaFormulacionPerfil}" />
 
-                            </h:panelGrid>
+                            <h:outputText value="Enunciación: " />
+                            <p:selectOneMenu id="cmbEnunciacion" style="width:100%;" value="#{beanCargo.cargoNuevo.enunciacion}">
+                                <f:selectItem itemLabel="Renuncia" itemValue="RENUNCIA"/>
+                                <f:selectItem itemLabel="Destitución" itemValue="DESTITUCION"/>
+                                <f:selectItem itemLabel="Cumplimiento de Periodo" itemValue="CUMPLIMIENTO DE PERIODO"/>
+                                <f:selectItem itemLabel="Fusión del Cargo" itemValue="FUSION DEL CARGO"/>
+                                <f:selectItem itemLabel="Muerte" itemValue="MUERTE"/>
+                                <f:selectItem itemLabel="Jubilación" itemValue="JUBILACION"/>
+                                <f:selectItem itemLabel="Retiro" itemValue="RETIRO"/>
+                            </p:selectOneMenu>
+                        </h:panelGrid>
 
-                            <h:panelGrid columns="2" cellpadding="2">
-                                <p:outputLabel for="cmbProfesion" value="Profesión: " />
-                                <p:selectOneMenu id="cmbProfesion" style="width:100%;" value="#{beanCargo.cargoNuevo.profesion.idProfesion}" filter="true">
-                                    <f:selectItem itemLabel="No se especifica" itemValue="" noSelectionOption="true" />
-                                    <f:selectItems var="profesion" value="#{beanCargo.listaProfesiones}" itemLabel="#{profesion.nombreProfesion}" itemValue="#{profesion.idProfesion}" />
-                                </p:selectOneMenu>
-
-                                <p:outputLabel for="cmbFuncion" value="Función: " />
-                                <p:selectOneMenu id="cmbFuncion" style="width:100%;" value="#{beanCargo.cargoNuevo.funcion}">
-                                    <f:selectItem itemLabel="No se especifica" itemValue="NO SE ESPECIFICA"  />
-                                    <f:selectItem itemLabel="Profesional en General" itemValue="PROFESIONAL EN GENERAL" />
-                                    <f:selectItem itemLabel="Profesional en Guardia Activa" itemValue="PROFESIONAL EN GUARDIA ACTIVA" />
-                                    <f:selectItem itemLabel="Jefe de Unidad" itemValue="JEFE DE UNIDAD" />
-                                    <f:selectItem itemLabel="Jefe de Servicio" itemValue="JEFE DE SERVICIO" />
-                                    <f:selectItem itemLabel="Jefe de Departamento" itemValue="JEFE DE DEPARTAMENTO" />
-                                </p:selectOneMenu>
-                                <p:outputLabel for="cmbAreaDesempenio" value="Área de Desempeño: " />
-                                <p:selectOneMenu id="cmbAreaDesempenio" style="width:100%;" value="#{beanCargo.cargoNuevo.areaDeDesempenio}">
-                                    <f:selectItem itemLabel="Seleccionar un área" itemValue="" noSelectionOption="true" itemDisabled="true" />
-                                    <f:selectItem itemLabel="Unidad de Guardia" itemValue="UNIDAD DE GUARDIA" />
-                                    <f:selectItem itemLabel="Unidad Sanitaria" itemValue="UNIDAD SANITARIA" />
-                                    <f:selectItem itemLabel="Servicio Asistencial" itemValue="SERVICIO ASISTENCIAL" />
-                                    <f:selectItem itemLabel="Servicio Sanitario" itemValue="SERVICIO SANITARIO" />
-                                    <f:selectItem itemLabel="Departamento" itemValue="DEPARTAMENTO" />
-                                </p:selectOneMenu>
-                                <h:outputText value="Modalidad: " />
-                                <p:selectOneMenu id="cmbModalidadCargo" value="#{beanCargo.cargoNuevo.modalidad}" style="width:100%;">
-                                    <f:selectItem itemLabel="Único" itemValue="ÚNICO"/>
-                                    <f:selectItem itemLabel="Eventual" itemValue="EVENTUAL" itemDisabled="true"/>
-                                    <f:selectItem itemLabel="Temporario" itemValue="TEMPORARIO" itemDisabled="true" />
-                                    <f:selectItem itemLabel="Contrato Especial" itemValue="CONTRATO ESPECIAL" itemDisabled="true" />
-                                    <f:selectItem itemLabel="Plazo Determinado" itemValue="PLAZO DETERMINADO" itemDisabled="true" />
-                                    <f:selectItem itemLabel="Ad Honorem" itemValue="AD HONOREM" itemDisabled="true" />
-                                    <f:selectItem itemLabel="Residencias" itemValue="RESIDENCIAS" itemDisabled="true" />
-                                </p:selectOneMenu>
-
-                                <h:outputText value="Fecha del acta de la formulacion de Perfil " />
-                                <p:calendar id="calFechaActaFormulacionPerfil" pattern="dd-MM-yyyy" mask="true" value="#{beanCargo.cargoNuevo.fechaActaFormulacionPerfil}" />
-
-                                <h:outputText value="Enunciación: " />
-                                <p:selectOneMenu id="cmbEnunciacion" style="width:100%;" value="#{beanCargo.cargoNuevo.enunciacion}">
-                                    <f:selectItem itemLabel="Renuncia" itemValue="RENUNCIA"/>
-                                    <f:selectItem itemLabel="Destitución" itemValue="DESTITUCION"/>
-                                    <f:selectItem itemLabel="Cumplimiento de Periodo" itemValue="CUMPLIMIENTO DE PERIODO"/>
-                                    <f:selectItem itemLabel="Fusión del Cargo" itemValue="FUSION DEL CARGO"/>
-                                    <f:selectItem itemLabel="Muerte" itemValue="MUERTE"/>
-                                    <f:selectItem itemLabel="Jubilación" itemValue="JUBILACION"/>
-                                    <f:selectItem itemLabel="Retiro" itemValue="RETIRO"/>
-                                </p:selectOneMenu>
-                            </h:panelGrid>
-                        </p:fieldset>
                         <p:commandButton id="btnGuardarNuevoCargo" oncomplete="PF('dlgCargoNuevo').hide();" value="Guardar" actionListener="#{beanCargo.guardarNuevoCargo}" icon="ui-icon-disk" update="tabuladorPestañero,tabuladorPestañero:formExpedientes:msg,tabuladorPestañero:formCargos,formPostulantes:cmbCargoPostulante" styleClass="btnVerde" />
                     </h:form>
                 </p:dialog>
@@ -871,47 +880,47 @@
              DIALOGO DE DETALLES DEL CARGO DE LA PESTAÑA RESULTADO
              **********************************
                 -->
-                <p:dialog id="dlgDetalleCargo" header="Cargo #{beanConcurso.cargoSeleccionado.idCargo}"  widgetVar="dlgDetalleCargo" modal="true" showEffect="fade" hideEffect="fade" draggable="true" resizable="true" closeOnEscape="true" minWidth="430" width="430" >
+                <p:dialog id="dlgDetalleCargo" header="Cargo #{beanConcurso.cargoFinalSeleccionado.idCargo}"  widgetVar="dlgDetalleCargo" modal="true" showEffect="fade" hideEffect="fade" draggable="true" resizable="true" closeOnEscape="true" minWidth="430" width="430" >
                     <p:outputPanel id="pnlDetalleCargo" style="text-align:center;">
                         <p:panelGrid  columns="2" columnClasses="label,value" layout="grid">
 
                             <h:outputText value="Id:" />
-                            <h:outputText value="#{beanConcurso.cargoSeleccionado.idCargo}" styleClass="data" />
+                            <h:outputText value="#{beanConcurso.cargoFinalSeleccionado.idCargo}" styleClass="data" />
 
                             <h:outputText value="Profesión" />
-                            <h:outputText value="#{beanConcurso.cargoSeleccionado.profesion.nombreProfesion}" styleClass="data" />
+                            <h:outputText value="#{beanConcurso.cargoFinalSeleccionado.profesion.nombreProfesion}" styleClass="data" />
 
                             <h:outputText value="Especialidad:" />
-                            <h:outputText value="#{beanConcurso.cargoSeleccionado.especialidad}" styleClass="data" />
+                            <h:outputText value="#{beanConcurso.cargoFinalSeleccionado.especialidad}" styleClass="data" />
 
                             <h:outputText value="Categoria" />
-                            <h:outputText value="#{beanConcurso.cargoSeleccionado.categoria}" styleClass="data" />
+                            <h:outputText value="#{beanConcurso.cargoFinalSeleccionado.categoria}" styleClass="data" />
 
                             <h:outputText value="Adicional" />
-                            <h:outputText value="#{beanConcurso.cargoSeleccionado.adicional}" styleClass="data" />
+                            <h:outputText value="#{beanConcurso.cargoFinalSeleccionado.adicional}" styleClass="data" />
 
                             <h:outputText value="Función" />
-                            <h:outputText value="#{beanConcurso.cargoSeleccionado.funcion}" styleClass="data" />
+                            <h:outputText value="#{beanConcurso.cargoFinalSeleccionado.funcion}" styleClass="data" />
 
                             <h:outputText value="Área de Desempeño" />
-                            <h:outputText value="#{beanConcurso.cargoSeleccionado.areaDeDesempenio}" styleClass="data" />
+                            <h:outputText value="#{beanConcurso.cargoFinalSeleccionado.areaDeDesempenio}" styleClass="data" />
 
                             <h:outputText value="Resolución" />
-                            <h:outputText value="#{beanConcurso.cargoSeleccionado.resolucion.numeroResolucion}" styleClass="data" />
+                            <h:outputText value="#{beanConcurso.cargoFinalSeleccionado.resolucion.numeroResolucion}" styleClass="data" />
 
                             <h:outputText value="Establecimiento" />
-                            <h:outputText value="#{beanConcurso.cargoSeleccionado.establecimiento.nombre}" styleClass="data" />
+                            <h:outputText value="#{beanConcurso.cargoFinalSeleccionado.establecimiento.nombre}" styleClass="data" />
 
                             <h:outputText value="Modalidad" />
-                            <h:outputText value="#{beanConcurso.cargoSeleccionado.modalidad}" styleClass="data" />
+                            <h:outputText value="#{beanConcurso.cargoFinalSeleccionado.modalidad}" styleClass="data" />
 
                             <h:outputText value="Fecha de Formulación de Perfil" />
-                            <h:outputText value="#{beanConcurso.cargoSeleccionado.fechaActaFormulacionPerfil}" styleClass="data" >
+                            <h:outputText value="#{beanConcurso.cargoFinalSeleccionado.fechaActaFormulacionPerfil}" styleClass="data" >
                                 <f:convertDateTime pattern="dd/MM/yyyy" />
                             </h:outputText>
 
                             <h:outputText value="Enunciación" />
-                            <h:outputText value="#{beanConcurso.cargoSeleccionado.enunciacion}" styleClass="data" />
+                            <h:outputText value="#{beanConcurso.cargoFinalSeleccionado.enunciacion}" styleClass="data" />
 
                         </p:panelGrid>
                     </p:outputPanel>

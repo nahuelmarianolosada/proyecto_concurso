@@ -25,7 +25,6 @@ import dominio.Postulante;
 import dominio.Resolucion;
 import dominio.Tribunal;
 import dominio.TribunalJurado;
-import dominio.UnidadDeOrganizacion;
 import hibernate.dao.ExpedienteDao;
 import hibernate.dao.PostulanteDao;
 import hibernate.dao.ResolucionDao;
@@ -62,9 +61,9 @@ public class ConcursoBean implements Serializable {
     private static List<Cargo> listaFinalCargos;
     private static List<TribunalJurado> listaFinalJurados;
     private static List<Postulante> listaFinalPostulantes;
-    private static List <Tribunal> listaFinalTribunales;
+    private static List<Tribunal> listaFinalTribunales;
 
-    private Cargo cargoSeleccionado;
+    private Cargo cargoFinalSeleccionado;
     private Postulante postulanteFinalSeleccionado;
 
     public static List<Tribunal> getListaFinalTribunales() {
@@ -85,9 +84,9 @@ public class ConcursoBean implements Serializable {
         listaFinalResoluciones = new ArrayList<>();
         listaFinalCargos = new ArrayList<>();
         listaFinalPostulantes = new ArrayList<>();
-        listaFinalTribunales= new ArrayList<>();
-        
-        inicializar();
+        listaFinalTribunales = new ArrayList<>();
+
+        //inicializar();
     }
 
     public int getNumeroDePestania() {
@@ -154,12 +153,12 @@ public class ConcursoBean implements Serializable {
         this.listaFinalPostulantes = listaFinalPostulantes;
     }
 
-    public Cargo getCargoSeleccionado() {
-        return cargoSeleccionado;
+    public Cargo getCargoFinalSeleccionado() {
+        return cargoFinalSeleccionado;
     }
 
-    public void setCargoSeleccionado(Cargo cargoSeleccionado) {
-        this.cargoSeleccionado = cargoSeleccionado;
+    public void setCargoFinalSeleccionado(Cargo cargoSeleccionado) {
+        this.cargoFinalSeleccionado = cargoSeleccionado;
     }
 
     public Postulante getPostulanteFinalSeleccionado() {
@@ -169,8 +168,6 @@ public class ConcursoBean implements Serializable {
     public void setPostulanteFinalSeleccionado(Postulante postulanteSeleccionado) {
         this.postulanteFinalSeleccionado = postulanteSeleccionado;
     }
-    
-    
 
     /**
      *
@@ -279,16 +276,16 @@ public class ConcursoBean implements Serializable {
         UnidadDeOrganizacionDao unidadDao = new UnidadDeOrganizacionDaoImpl();
         ExpedienteDao expDao = new ExpedienteDaoImpl();
         expedienteFinalCargado = expDao.getExpediente("700-00104/2012");
-        
+
         ResolucionDao resDao = new ResolucionDaoImpl();
         setListaFinalResoluciones(resDao.getResoluciones(expedienteFinalCargado));
-        
+
         CargoDao cargoDao = new CargoDaoImpl();
         setListaFinalCargos(cargoDao.getListaCargosDeResolucion(listaFinalResoluciones.get(0)));
-        
+
         TribunalJuradoDao juradoDao = new TribunalJuradoDaoImpl();
         setListaFinalJurados(juradoDao.getJuradosDelTribunal(listaFinalResoluciones.get(0).getTribunal()));
-        
+
         PostulanteDao postulanteDao = new PostulanteDaoImpl();
         setListaFinalPostulantes(postulanteDao.getAll());
     }
