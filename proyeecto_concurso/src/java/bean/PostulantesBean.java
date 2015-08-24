@@ -234,6 +234,7 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
     public void guardarListaPostulantes() {
         super.setListaFinalPostulantes(listaPostulantes);
         nuevoMensajeInfo("Registro Provincial de Concursos", "Se a guardado la lista de postulantes");
+        pasarVistaDePestania();
     }
 
     public boolean validarPostulante(Postulante postulante) {
