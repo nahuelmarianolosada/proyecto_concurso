@@ -7,6 +7,7 @@ package hibernate.dao;
 
 import java.util.List;
 import dominio.Persona;
+import java.sql.SQLException;
 
 /**
  *
@@ -26,9 +27,9 @@ public interface PersonaDao {
     
     public Persona buscarPorDni(Integer dni);
     
-    public List<Persona> buscarPorNombre(String nombre);
+    public List<Persona> buscarPorNombre(String nombre) throws SQLException;
     
-    public List<Persona> buscarPorApellido(String apellido);
+    public List<Persona> buscarPorApellido(String apellido) throws SQLException;
     
     public int generarIdNuevoPersona();
     

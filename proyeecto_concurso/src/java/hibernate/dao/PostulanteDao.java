@@ -16,7 +16,7 @@ import java.util.List;
 public interface PostulanteDao {
     public List<Postulante> getAll();
     public Postulante getPostulante(int idPostulante);
-    public int generarIdNuevoPostulante();
+    //public int generarIdNuevoPostulante();
     public void insertar(Postulante postulante);
     public void eliminar(Postulante postulante);
     public void modificar(Postulante postulante);

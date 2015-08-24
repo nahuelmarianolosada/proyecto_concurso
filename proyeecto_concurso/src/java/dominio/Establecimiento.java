@@ -1,5 +1,5 @@
 package dominio;
-// Generated 24/07/2015 09:37:24 by Hibernate Tools 3.6.0
+// Generated 24/08/2015 09:04:43 by Hibernate Tools 3.6.0
 
 
 import java.util.HashSet;
@@ -12,7 +12,6 @@ public class Establecimiento  implements java.io.Serializable {
 
 
      private long codigoSiisa;
-     private int idEstablecimiento;
      private String nombre;
      private String departamento;
      private String dependencia;
@@ -24,6 +23,7 @@ public class Establecimiento  implements java.io.Serializable {
      private String telefono;
      private String origenDeFinanciamiento;
      private Short nivel;
+     private int idEstablecimiento;
      private Set cargos = new HashSet(0);
      private Set tribunalJurados = new HashSet(0);
 
@@ -35,9 +35,8 @@ public class Establecimiento  implements java.io.Serializable {
         this.codigoSiisa = codigoSiisa;
         this.idEstablecimiento = idEstablecimiento;
     }
-    public Establecimiento(long codigoSiisa, int idEstablecimiento, String nombre, String departamento, String dependencia, String tipologia, String localidad, String categoria, String domicilio, String responsable, String telefono, String origenDeFinanciamiento, Short nivel, Set cargos, Set tribunalJurados) {
+    public Establecimiento(long codigoSiisa, String nombre, String departamento, String dependencia, String tipologia, String localidad, String categoria, String domicilio, String responsable, String telefono, String origenDeFinanciamiento, Short nivel, int idEstablecimiento, Set cargos, Set tribunalJurados) {
        this.codigoSiisa = codigoSiisa;
-       this.idEstablecimiento = idEstablecimiento;
        this.nombre = nombre;
        this.departamento = departamento;
        this.dependencia = dependencia;
@@ -49,6 +48,7 @@ public class Establecimiento  implements java.io.Serializable {
        this.telefono = telefono;
        this.origenDeFinanciamiento = origenDeFinanciamiento;
        this.nivel = nivel;
+       this.idEstablecimiento = idEstablecimiento;
        this.cargos = cargos;
        this.tribunalJurados = tribunalJurados;
     }
@@ -59,13 +59,6 @@ public class Establecimiento  implements java.io.Serializable {
     
     public void setCodigoSiisa(long codigoSiisa) {
         this.codigoSiisa = codigoSiisa;
-    }
-    public int getIdEstablecimiento() {
-        return this.idEstablecimiento;
-    }
-    
-    public void setIdEstablecimiento(int idEstablecimiento) {
-        this.idEstablecimiento = idEstablecimiento;
     }
     public String getNombre() {
         return this.nombre;
@@ -143,6 +136,13 @@ public class Establecimiento  implements java.io.Serializable {
     
     public void setNivel(Short nivel) {
         this.nivel = nivel;
+    }
+    public int getIdEstablecimiento() {
+        return this.idEstablecimiento;
+    }
+    
+    public void setIdEstablecimiento(int idEstablecimiento) {
+        this.idEstablecimiento = idEstablecimiento;
     }
     public Set getCargos() {
         return this.cargos;

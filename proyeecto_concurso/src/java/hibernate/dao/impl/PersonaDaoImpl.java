@@ -8,6 +8,11 @@ package hibernate.dao.impl;
 import hibernate.HibernateUtil;
 import hibernate.dao.PersonaDao;
 import dominio.Persona;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Criteria;
@@ -85,48 +90,142 @@ public class PersonaDaoImpl extends HibernateUtil implements PersonaDao {
     }
 
     @Override
-    public List<Persona> buscarPorNombre(String nombre) {
+    public List<Persona> buscarPorNombre(String nombre) throws SQLException {
         Criteria criteria = getSession().createCriteria(Persona.class);
         criteria.add(Restrictions.ilike("nombres", "%" + nombre + "%"));
-        System.out.println("PersonaDaoImpl.buscarPorNombre(" + nombre +") => Cantidad de registros coincidentes: " + criteria.list().size());
+        System.out.println("PersonaDaoImpl.buscarPorNombre(" + nombre + ") => Cantidad de registros coincidentes: " + criteria.list().size());
         if (criteria.list().size() > 0) {
             return criteria.list();
         } else {
-            return null;
+            String driver = "org.postgresql.Driver";
+            String connectString = "jdbc:postgresql://localhost:5432/siisaDB";
+            String user = "nmlosada";
+            String password = "siisa1234";
+            List<Persona> listaPersonas = new ArrayList<>();
+            System.out.print("PersonaDaoImpl.buscarPorNombre(" + nombre + ") => Buscando en la BD Siisa");
+            Connection con = null;
+            Statement stmt = null;
+            try {
+
+                Class.forName(driver);
+                con = DriverManager.getConnection(connectString, user, password);
+                stmt = con.createStatement();
+
+                String consultaSQL = "SELECT * FROM \"vw_profesionalDatosPersonales\" WHERE nombre like upper('%" + nombre + "%');";
+                ResultSet rs = stmt.executeQuery(consultaSQL);
+
+                int contadorDeRegistros = 0;
+
+                while (rs.next()) {
+                    contadorDeRegistros++;
+                    Persona persona = new Persona();
+                    persona.setApellido(rs.getString("apellido"));
+                    persona.setNombres(rs.getString("nombre"));
+                    persona.setCuil(rs.getLong("cuil"));
+                    persona.setDireccion(rs.getString("direccion"));
+                    persona.setDni(rs.getInt("numero_documento"));
+                    persona.setSexo(rs.getString("sexo"));
+                    persona.setEmail(rs.getString("email"));
+                    persona.setTelefono(rs.getString("tel1"));
+                    persona.setFechaDeNacimiento(rs.getDate("fecha_de_nacimiento"));
+                    listaPersonas.add(persona);
+                }
+
+                System.out.println(" cantidad de registros encontrados: " + listaPersonas.size());
+
+            } catch (Exception exGeneral) {
+                exGeneral.printStackTrace();
+            } finally {
+                stmt.close();
+                con.close();
+                if (!listaPersonas.isEmpty()) {
+                    return listaPersonas;
+                } else {
+                    return null;
+                }
+            }
         }
     }
 
     @Override
-    public List<Persona> buscarPorApellido(String apellido) {
+    public List<Persona> buscarPorApellido(String apellido) throws SQLException{
         Criteria criteria = getSession().createCriteria(Persona.class);
         criteria.add(Restrictions.ilike("apellido", "%" + apellido + "%"));
-        System.out.println("PersonaDaoImpl.buscarPorApellido(" + apellido +") => Cantidad de registros coincidentes: " + criteria.list().size());
+        System.out.println("PersonaDaoImpl.buscarPorApellido(" + apellido + ") => Cantidad de registros coincidentes: " + criteria.list().size());
         if (criteria.list().size() > 0) {
             return criteria.list();
         } else {
-            return null;
+            String driver = "org.postgresql.Driver";
+            String connectString = "jdbc:postgresql://localhost:5432/siisaDB";
+            String user = "nmlosada";
+            String password = "siisa1234";
+            List<Persona> listaPersonas = new ArrayList<>();
+            System.out.print("PersonaDaoImpl.buscarPorNombre(" + apellido + ") => Buscando en la BD Siisa");
+            Connection con = null;
+            Statement stmt = null;
+            try {
+
+                Class.forName(driver);
+                con = DriverManager.getConnection(connectString, user, password);
+                stmt = con.createStatement();
+
+                String consultaSQL = "SELECT * FROM \"vw_profesionalDatosPersonales\" WHERE apellido like upper('%" + apellido + "%');";
+                ResultSet rs = stmt.executeQuery(consultaSQL);
+
+                int contadorDeRegistros = 0;
+
+                while (rs.next()) {
+                    contadorDeRegistros++;
+                    Persona persona = new Persona();
+                    persona.setApellido(rs.getString("apellido"));
+                    persona.setNombres(rs.getString("nombre"));
+                    persona.setCuil(rs.getLong("cuil"));
+                    persona.setDireccion(rs.getString("direccion"));
+                    persona.setDni(rs.getInt("numero_documento"));
+                    persona.setSexo(rs.getString("sexo"));
+                    persona.setEmail(rs.getString("email"));
+                    persona.setTelefono(rs.getString("tel1"));
+                    persona.setFechaDeNacimiento(rs.getDate("fecha_de_nacimiento"));
+                    listaPersonas.add(persona);
+                }
+
+                System.out.println(" cantidad de registros encontrados: " + listaPersonas.size());
+
+            } catch (Exception exGeneral) {
+                exGeneral.printStackTrace();
+            } finally {
+                stmt.close();
+                con.close();
+                if (!listaPersonas.isEmpty()) {
+                    return listaPersonas;
+                } else {
+                    return null;
+                }
+            }
         }
     }
+
     @Override
     public int generarIdNuevoPersona() {
-          
+
         Criteria criteria = getSession().createCriteria(Persona.class);
         criteria.addOrder(Order.desc("idPersona"));
         Persona ultimaPersona = (Persona) criteria.list().get(0);
-        return ultimaPersona.getIdPersona()+ 1;
-        
-       } 
-    
-   @Override
-   public boolean existeDniPersona(Persona persona){
-       Criteria criteria = getSession().createCriteria(Persona.class);
-       criteria.add(Restrictions.eq("dni",persona.getDni()));
+        return ultimaPersona.getIdPersona() + 1;
+
+    }
+
+    @Override
+    public boolean existeDniPersona(Persona persona
+    ) {
+        Criteria criteria = getSession().createCriteria(Persona.class);
+        criteria.add(Restrictions.eq("dni", persona.getDni()));
         if (criteria.list().size() > 0) {
             return true;
         } else {
             return false;
         }
-   
-   }
-    
+
+    }
+
 }

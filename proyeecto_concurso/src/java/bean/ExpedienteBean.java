@@ -90,7 +90,7 @@ public class ExpedienteBean extends ConcursoBean implements Serializable {
      */
     public ExpedienteBean() {
         listaUnidadDeOrganizacions = new ArrayList<UnidadDeOrganizacion>();
-        expedienteNuevo = new Expediente("", new UnidadDeOrganizacion(), 0, Integer.getInteger(""), "", "", Integer.getInteger(""));
+        expedienteNuevo = new Expediente(new UnidadDeOrganizacion(), 0, "", "", 0, "");
         System.out.println("ExpedienteBean.ExpedienteBean() => " + expedienteNuevo.toString());
         refreshListas();
         datosValidos = false;
@@ -149,8 +149,8 @@ public class ExpedienteBean extends ConcursoBean implements Serializable {
             //que aparte no exista en la BD
             if (expedienteNuevo.esValido() && expedienteDao.getExpediente(expedienteNuevo.getNumeroExpediente()) == null) {
                 beanResolucion.getResolucionNueva().setExpediente(expedienteNuevo);
-                ResolucionDao resDao = new ResolucionDaoImpl();
-                beanResolucion.setListaResoluciones(resDao.getResoluciones(expedienteNuevo));
+                //ResolucionDao resDao = new ResolucionDaoImpl();
+                //beanResolucion.setListaResoluciones(resDao.getResoluciones(expedienteNuevo));
 
                 //Seteamos el Expediente Final
                 super.setExpedienteFinalCargado(expedienteNuevo);

@@ -13,6 +13,7 @@ import hibernate.dao.PostulanteDao;
 import hibernate.dao.impl.PersonaDaoImpl;
 import hibernate.dao.impl.PostulanteDaoImpl;
 import java.io.Serializable;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
@@ -47,7 +48,7 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
     public PostulantesBean() {
         
         PostulanteDao postulanteDao = new PostulanteDaoImpl();
-        nuevoPostulante = new Postulante(postulanteDao.generarIdNuevoPostulante(), new Persona());
+        nuevoPostulante = new Postulante(new Persona());
         nuevoPostulante.setCargo(new Cargo());
         banderaGanador = false;
         listaPostulantes = new ArrayList<>();
@@ -141,7 +142,7 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
     /*
      METODOS
      */
-    public void buscarPorCriterio() {
+    public void buscarPorCriterio() throws SQLException{
         PersonaDao personaDao = new PersonaDaoImpl();
         Persona personaEncontrada = new Persona();
         RequestContext context = RequestContext.getCurrentInstance();
@@ -222,11 +223,11 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
             listaPostulantes.add(nuevoPostulante);
 
             System.out.println("\033[32mPostulantesBean.guardarNuevoPostulante() => " + nuevoPostulante.toString());
-            int codigoInscripcion = nuevoPostulante.getIdInscripcion();
-            nuevoPostulante = new Postulante(codigoInscripcion, new Persona());
+            
+            nuevoPostulante = new Postulante( new Persona());
             nuevoPostulante.setCargo(new Cargo());
 
-            nuevoMensajeInfo("Registro Provincial de Concursos", "Postulante " + nuevoPostulante.getIdInscripcion() + " guardado");
+            nuevoMensajeInfo("Registro Provincial de Concursos", "Postulante guardado");
         }
     }
 

@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 24/07/2015 09:37:25 by Hibernate Tools 3.6.0 -->
+<!-- Generated 24/08/2015 09:04:44 by Hibernate Tools 3.6.0 -->
 <hibernate-mapping>
     <class name="dominio.Resolucion" table="resolucion" schema="public">
-        <id name="numeroResolucion" type="string">
-            <column name="numero_resolucion" />
+        <id name="idResolucion" type="int">
+            <column name="id_resolucion" />
             <generator class="assigned" />
         </id>
         <many-to-one name="expediente" class="dominio.Expediente" fetch="select">
@@ -14,9 +14,6 @@
         <many-to-one name="tribunal" class="dominio.Tribunal" fetch="select">
             <column name="tribunal_id_tribunal" />
         </many-to-one>
-        <property name="idResolucion" type="int">
-            <column name="id_resolucion" not-null="true" />
-        </property>
         <property name="estado" type="string">
             <column name="estado" />
         </property>
@@ -53,23 +50,26 @@
         <property name="documento" type="string">
             <column name="documento" />
         </property>
+        <property name="numeroResolucion" type="string">
+            <column name="numero_resolucion" not-null="true" unique="true" />
+        </property>
         <property name="modificaResolucion" type="string">
             <column name="modifica_resolucion" />
         </property>
         <property name="prorrogaResolucion" type="string">
             <column name="prorroga_resolucion" />
         </property>
-        <set name="cargos" table="cargo" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="numero_resolucion" />
-            </key>
-            <one-to-many class="dominio.Cargo" />
-        </set>
         <set name="concursos" table="concurso" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="numero_resolucion_resolucion" />
             </key>
             <one-to-many class="dominio.Concurso" />
+        </set>
+        <set name="cargos" table="cargo" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="numero_resolucion" />
+            </key>
+            <one-to-many class="dominio.Cargo" />
         </set>
     </class>
 </hibernate-mapping>

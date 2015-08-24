@@ -1,5 +1,5 @@
 package dominio;
-// Generated 24/07/2015 09:37:24 by Hibernate Tools 3.6.0
+// Generated 24/08/2015 09:04:43 by Hibernate Tools 3.6.0
 
 import java.util.Date;
 import java.util.HashSet;
@@ -23,47 +23,10 @@ public class Cargo implements java.io.Serializable {
     private Date fechaActaFormulacionPerfil;
     private String enunciacion;
     private Integer cantidad;
-    
-    private Set convocatorias = new HashSet(0);
+    private Set postulantes = new HashSet(0);
 
     public Cargo() {
     }
-
-    public Cargo(int idCargo) {
-        this.idCargo = idCargo;
-    }
-
-    public Cargo(int idCargo, Profesion profesion) {
-        this.idCargo = idCargo;
-        this.profesion = profesion;
-    }
-
-    
-    public Cargo(Establecimiento establecimiento, Profesion profesion) {
-        this.establecimiento = establecimiento;
-        this.profesion = profesion;
-    }
-
-    public Cargo(int idCargo, Resolucion resolucion) {
-
-        this.idCargo = idCargo;
-        this.resolucion = resolucion;
-
-    }
-
-    public Cargo(int idCargo, String especialidad, String categoria, Integer adicional, String funcion, String areaDeDesempenio, String modalidad, String enunciacion) {
-        this.idCargo = idCargo;
-        this.especialidad = especialidad;
-        this.categoria = categoria;
-        this.adicional = adicional;
-        this.funcion = funcion;
-        this.areaDeDesempenio = areaDeDesempenio;
-        this.modalidad = modalidad;
-        this.enunciacion = enunciacion;
-    }
-    
-    
-    
 
     public Cargo(int idCargo, Establecimiento establecimiento, Profesion profesion) {
         this.idCargo = idCargo;
@@ -71,7 +34,11 @@ public class Cargo implements java.io.Serializable {
         this.profesion = profesion;
     }
 
-    public Cargo(int idCargo, Resolucion resolucion, Establecimiento establecimiento, Profesion profesion, String especialidad, String categoria, Integer adicional, String funcion, String areaDeDesempenio, String modalidad, Date fechaActaFormulacionPerfil, String enunciacion, Set convocatorias) {
+    public Cargo(Profesion profesion) {
+        this.profesion = profesion;
+    }
+
+    public Cargo(int idCargo, Resolucion resolucion, Establecimiento establecimiento, Profesion profesion, String especialidad, String categoria, Integer adicional, String funcion, String areaDeDesempenio, String modalidad, Date fechaActaFormulacionPerfil, String enunciacion, Set postulantes) {
         this.idCargo = idCargo;
         this.resolucion = resolucion;
         this.establecimiento = establecimiento;
@@ -84,8 +51,7 @@ public class Cargo implements java.io.Serializable {
         this.modalidad = modalidad;
         this.fechaActaFormulacionPerfil = fechaActaFormulacionPerfil;
         this.enunciacion = enunciacion;
-        
-        this.convocatorias = convocatorias;
+        this.postulantes = postulantes;
     }
 
     public int getIdCargo() {
@@ -191,22 +157,21 @@ public class Cargo implements java.io.Serializable {
     public void setCantidad(Integer cantidad) {
         this.cantidad = cantidad;
     }
+    
+    
 
-   
-
-    public Set getConvocatorias() {
-        return this.convocatorias;
+    public Set getPostulantes() {
+        return this.postulantes;
     }
 
-    public void setConvocatorias(Set convocatorias) {
-        this.convocatorias = convocatorias;
+    public void setPostulantes(Set postulantes) {
+        this.postulantes = postulantes;
     }
 
     @Override
     public String toString() {
-        return "Cargo{" + "idCargo=" + idCargo + ", resolucion=" + resolucion.getNumeroResolucion() + ", establecimiento=" + establecimiento.getNombre() + ", profesion=" + profesion.getNombreProfesion() + ", especialidad=" + especialidad + ", categoria=" + categoria + ", adicional=" + adicional + ", funcion=" + funcion + ", areaDeDesempenio=" + areaDeDesempenio + ", modalidad=" + modalidad + ", fechaActaFormulacionPerfil=" + fechaActaFormulacionPerfil + ", enunciacion=" + enunciacion + '}';
+        return "Cargo{" + "resolucion=" + resolucion.getNumeroResolucion() + ", establecimiento=" + establecimiento.getNombre() + ", profesion=" + profesion.getNombreProfesion() + ", especialidad=" + especialidad + ", categoria=" + categoria + ", adicional=" + adicional + ", funcion=" + funcion + ", areaDeDesempenio=" + areaDeDesempenio + ", modalidad=" + modalidad + ", fechaActaFormulacionPerfil=" + fechaActaFormulacionPerfil + ", enunciacion=" + enunciacion + ", cantidad=" + cantidad + '}';
     }
-    
 
     
     

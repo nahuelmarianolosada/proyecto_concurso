@@ -10,13 +10,9 @@ import dominio.TribunalJurado;
 import dominio.Tribunal;
 import dominio.Institucion;
 import dominio.Establecimiento;
-import hibernate.HibernateUtil;
 import hibernate.dao.TribunalJuradoDao;
 import hibernate.dao.impl.TribunalJuradoDaoImpl;
-import hibernate.dao.impl.TribunalDaoImpl;
-import hibernate.dao.TribunalDao;
 import java.io.Serializable;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
@@ -54,9 +50,9 @@ public class TribunalBean extends ConcursoBean implements Serializable {
     private Persona juradoSeleccionado;
     private List<TribunalJurado> listaJuradoNuevos;
     private List<Tribunal> listaTribunalesNuevos;
-    private int idTribunalGenerado;
-    private int idJuradoGenerado;
-    private int idPersonaGenerado;
+//    private int idTribunalGenerado;
+//    private int idJuradoGenerado;
+//    private int idPersonaGenerado;
     @ManagedProperty("#{beanResolucion}")
     private ResolucionBean beanResolucion;
 
@@ -73,12 +69,12 @@ public class TribunalBean extends ConcursoBean implements Serializable {
         personaBuscada = new Persona();
         listaResultadoBusquedaPersona = new ArrayList<Persona>();
         datosValidos = false;
-        idJuradoGenerado = tribJuraDao.generarNuevoIdJurado();
-        idTribunalGenerado = tribunalDao.generarNuevoIdTribunal();
-        idPersonaGenerado = personaDao.generarIdNuevoPersona();
-        juradoSeleccionado = new Persona(idPersonaGenerado);
-        tribunalNuevo = new Tribunal(idTribunalGenerado);
-        juradoNuevo = new TribunalJurado(idJuradoGenerado, new Institucion(), juradoSeleccionado, new Establecimiento(), tribunalNuevo, "", true, "");
+        //idJuradoGenerado = tribJuraDao.generarNuevoIdJurado();
+        //idTribunalGenerado = tribunalDao.generarNuevoIdTribunal();
+        //idPersonaGenerado = personaDao.generarIdNuevoPersona();
+        //juradoSeleccionado = new Persona(idPersonaGenerado);
+        tribunalNuevo = new Tribunal();
+        juradoNuevo = new TribunalJurado(new Institucion(), juradoSeleccionado, new Establecimiento(), tribunalNuevo, "", true, "");
         banderaBtn = false;
         listaJuradoNuevos = new ArrayList<TribunalJurado>();
         listaTribunalesNuevos = new ArrayList<Tribunal>();
@@ -248,16 +244,16 @@ public class TribunalBean extends ConcursoBean implements Serializable {
             }
 
             //Agrega el jurado nuevo a la lista de jurados.
-            juradoNuevo.setIdTribunalJurado(idJuradoGenerado);
+            //juradoNuevo.setIdTribunalJurado(idJuradoGenerado);
             juradoNuevo.setTribunal(tribunalNuevo);
             listaJuradoNuevos.add(juradoNuevo);
-            idJuradoGenerado++;
+            //idJuradoGenerado++;
 
             //GUarda el jurado
             //    juradoDao.insertar(juradoNuevo);
             //Setea la persona y el jurado .
-            juradoSeleccionado = new Persona(persDao.generarIdNuevoPersona());
-            juradoNuevo = new TribunalJurado(juradoDao.generarNuevoIdJurado(), new Institucion(), juradoSeleccionado, new Establecimiento(), tribunalNuevo, "", true, "");
+            juradoSeleccionado = new Persona();
+            juradoNuevo = new TribunalJurado(new Institucion(), juradoSeleccionado, new Establecimiento(), tribunalNuevo, "", true, "");
 
         } catch (Exception ex1) {
             ex1.printStackTrace();
@@ -266,45 +262,43 @@ public class TribunalBean extends ConcursoBean implements Serializable {
     }
 
     public void guardarTribunalNuevo() {
-        int canjurado=0;
+        int canjurado = 0;
         TribunalDao tribunalDao = new TribunalDaoImpl();
         //Setea el tirbunal nuevo.
-        
 
         //tribunalNuevo = new Tribunal(idTribunalGenerado, (short) listaJuradoNuevos.size());
-      
         beanResolucion.getListaResoluciones();
         beanResolucion.getResolucionNueva();
         for (TribunalJurado jurados : listaJuradoNuevos) {
-            if (jurados.getTribunal().getIdTribunal()==idTribunalGenerado) {
-                 canjurado++;
+//            if (jurados.getTribunal().getIdTribunal() == idTribunalGenerado) {
+//                canjurado++;
+//            }
+
+            for (TribunalJurado jurad : listaJuradoNuevos) {
+                if (jurad.getTribunal().equals(null)) {
+                    jurad.setTribunal(tribunalNuevo);
+                    canjurado++;
+                }
+                for (Resolucion resolucionCargadas : beanResolucion.getListaResoluciones()) {
+                    if (beanResolucion.getResolucionNueva().getNumeroResolucion() == resolucionCargadas.getNumeroResolucion()) {
+                        resolucionCargadas.setTribunal(tribunalNuevo);
+                    }
+                }
+                System.out.println("id jurado :" + jurados.getIdTribunalJurado() + "tribunal: " + jurados.getTribunal().getIdTribunal() + " nombre: " + jurados.getPersona().getNombres() + "apellido :" + jurados.getPersona().getApellido());
+
             }
-       
-        for (TribunalJurado jurad : listaJuradoNuevos) {
-            if (jurad.getTribunal().equals(null)) {
-                jurad.setTribunal(tribunalNuevo);
-                canjurado++;
-            }
- for (Resolucion resolucionCargadas : beanResolucion.getListaResoluciones()) {
-            if (beanResolucion.getResolucionNueva().getNumeroResolucion() == resolucionCargadas.getNumeroResolucion()) {
-                resolucionCargadas.setTribunal(tribunalNuevo);
-            }
+
+            //Agrega el tribunal nuevo a la lista de tribunales.
+            listaTribunalesNuevos.add(tribunalNuevo);
+
+//            idTribunalGenerado++;
+//            tribunalNuevo.setIdTribunal(idTribunalGenerado);
+
+            setListaFinalJurados(listaJuradoNuevos);
+            setListaFinalTribunales(listaTribunalesNuevos);
+
+            // tribunalDao.insertar(tribunalNuevo);
         }
-            System.out.println("id jurado :" + jurados.getIdTribunalJurado() + "tribunal: " + jurados.getTribunal().getIdTribunal() + " nombre: " + jurados.getPersona().getNombres() + "apellido :" + jurados.getPersona().getApellido());
-
-        }
-
-        //Agrega el tribunal nuevo a la lista de tribunales.
-        listaTribunalesNuevos.add(tribunalNuevo);
-
-        idTribunalGenerado++;
-        tribunalNuevo.setIdTribunal(idTribunalGenerado);
-
-        setListaFinalJurados(listaJuradoNuevos);
-        setListaFinalTribunales(listaTribunalesNuevos);
-
-        // tribunalDao.insertar(tribunalNuevo);
-    }
 
     }
 
@@ -316,28 +310,5 @@ public class TribunalBean extends ConcursoBean implements Serializable {
         this.listaTribunalesNuevos = listaTribunalesNuevos;
     }
 
-    public int getIdTribunalGenerado() {
-        return idTribunalGenerado;
-    }
-
-    public void setIdTribunalGenerado(int idTribunalGenerado) {
-        this.idTribunalGenerado = idTribunalGenerado;
-    }
-
-    public int getIdJuradoGenerado() {
-        return idJuradoGenerado;
-    }
-
-    public void setIdJuradoGenerado(int idJuradoGenerado) {
-        this.idJuradoGenerado = idJuradoGenerado;
-    }
-
-    public int getIdPersonaGenerado() {
-        return idPersonaGenerado;
-    }
-
-    public void setIdPersonaGenerado(int idPersonaGenerado) {
-        this.idPersonaGenerado = idPersonaGenerado;
-    }
-
+    
 }

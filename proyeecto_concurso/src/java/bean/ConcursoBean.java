@@ -289,5 +289,10 @@ public class ConcursoBean implements Serializable {
         PostulanteDao postulanteDao = new PostulanteDaoImpl();
         setListaFinalPostulantes(postulanteDao.getAll());
     }
+    
+    
+    public void guardarExpedienteFinal(){
+        nuevoMensajeInfo("Registro Provincial de Concursos de Salud", "Llegó");
+    }
 
 }

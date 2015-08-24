@@ -1,5 +1,5 @@
 package dominio;
-// Generated 24/07/2015 09:37:24 by Hibernate Tools 3.6.0
+// Generated 24/08/2015 09:04:43 by Hibernate Tools 3.6.0
 
 
 import java.util.Date;
@@ -12,10 +12,9 @@ import java.util.Set;
 public class Resolucion  implements java.io.Serializable {
 
 
-     private String numeroResolucion;
+     private int idResolucion;
      private Expediente expediente;
      private Tribunal tribunal;
-     private int idResolucion;
      private String estado;
      private Boolean modificacion;
      private Boolean prorroga;
@@ -28,24 +27,24 @@ public class Resolucion  implements java.io.Serializable {
      private Date fechaEjecucion;
      private Date fechaPublicacion;
      private String documento;
+     private String numeroResolucion;
      private String modificaResolucion;
      private String prorrogaResolucion;
-     private Set cargos = new HashSet(0);
      private Set concursos = new HashSet(0);
+     private Set cargos = new HashSet(0);
 
     public Resolucion() {
     }
 
 	
-    public Resolucion(String numeroResolucion, int idResolucion) {
-        this.numeroResolucion = numeroResolucion;
+    public Resolucion(int idResolucion, String numeroResolucion) {
         this.idResolucion = idResolucion;
+        this.numeroResolucion = numeroResolucion;
     }
-    public Resolucion(String numeroResolucion, Expediente expediente, Tribunal tribunal, int idResolucion, String estado, Boolean modificacion, Boolean prorroga, Boolean antecedente, Boolean oposicion, String clase, String agrupamiento, Date fechaApertura, Date fechaCierre, Date fechaEjecucion, Date fechaPublicacion, String documento, String modificaResolucion, String prorrogaResolucion, Set cargos, Set concursos) {
-       this.numeroResolucion = numeroResolucion;
+    public Resolucion(int idResolucion, Expediente expediente, Tribunal tribunal, String estado, Boolean modificacion, Boolean prorroga, Boolean antecedente, Boolean oposicion, String clase, String agrupamiento, Date fechaApertura, Date fechaCierre, Date fechaEjecucion, Date fechaPublicacion, String documento, String numeroResolucion, String modificaResolucion, String prorrogaResolucion, Set concursos, Set cargos) {
+       this.idResolucion = idResolucion;
        this.expediente = expediente;
        this.tribunal = tribunal;
-       this.idResolucion = idResolucion;
        this.estado = estado;
        this.modificacion = modificacion;
        this.prorroga = prorroga;
@@ -58,18 +57,19 @@ public class Resolucion  implements java.io.Serializable {
        this.fechaEjecucion = fechaEjecucion;
        this.fechaPublicacion = fechaPublicacion;
        this.documento = documento;
+       this.numeroResolucion = numeroResolucion;
        this.modificaResolucion = modificaResolucion;
        this.prorrogaResolucion = prorrogaResolucion;
-       this.cargos = cargos;
        this.concursos = concursos;
+       this.cargos = cargos;
     }
    
-    public String getNumeroResolucion() {
-        return this.numeroResolucion;
+    public int getIdResolucion() {
+        return this.idResolucion;
     }
     
-    public void setNumeroResolucion(String numeroResolucion) {
-        this.numeroResolucion = numeroResolucion;
+    public void setIdResolucion(int idResolucion) {
+        this.idResolucion = idResolucion;
     }
     public Expediente getExpediente() {
         return this.expediente;
@@ -84,13 +84,6 @@ public class Resolucion  implements java.io.Serializable {
     
     public void setTribunal(Tribunal tribunal) {
         this.tribunal = tribunal;
-    }
-    public int getIdResolucion() {
-        return this.idResolucion;
-    }
-    
-    public void setIdResolucion(int idResolucion) {
-        this.idResolucion = idResolucion;
     }
     public String getEstado() {
         return this.estado;
@@ -176,6 +169,13 @@ public class Resolucion  implements java.io.Serializable {
     public void setDocumento(String documento) {
         this.documento = documento;
     }
+    public String getNumeroResolucion() {
+        return this.numeroResolucion;
+    }
+    
+    public void setNumeroResolucion(String numeroResolucion) {
+        this.numeroResolucion = numeroResolucion;
+    }
     public String getModificaResolucion() {
         return this.modificaResolucion;
     }
@@ -190,13 +190,6 @@ public class Resolucion  implements java.io.Serializable {
     public void setProrrogaResolucion(String prorrogaResolucion) {
         this.prorrogaResolucion = prorrogaResolucion;
     }
-    public Set getCargos() {
-        return this.cargos;
-    }
-    
-    public void setCargos(Set cargos) {
-        this.cargos = cargos;
-    }
     public Set getConcursos() {
         return this.concursos;
     }
@@ -204,14 +197,23 @@ public class Resolucion  implements java.io.Serializable {
     public void setConcursos(Set concursos) {
         this.concursos = concursos;
     }
+    public Set getCargos() {
+        return this.cargos;
+    }
+    
+    public void setCargos(Set cargos) {
+        this.cargos = cargos;
+    }
 
     @Override
     public String toString() {
-        return "Resolucion{" + "numeroResolucion=" + numeroResolucion + ", expediente=" + expediente.getNumeroExpediente() + ", tribunal=" + tribunal.getIdTribunal() + ", idResolucion=" + idResolucion + ", estado=" + estado + ", modificacion=" + modificacion + ", prorroga=" + prorroga + ", antecedente=" + antecedente + ", oposicion=" + oposicion + ", clase=" + clase + ", agrupamiento=" + agrupamiento + ", fechaApertura=" + fechaApertura + ", fechaCierre=" + fechaCierre + ", fechaEjecucion=" + fechaEjecucion + ", fechaPublicacion=" + fechaPublicacion + ", documento=" + documento + ", modificaResolucion=" + modificaResolucion + ", prorrogaResolucion=" + prorrogaResolucion + '}';
+        return "Resolucion{" + "expediente=" + expediente.getNumeroExpediente() + ", tribunal=" + tribunal.getIdTribunal() + ", estado=" + estado + ", modificacion=" + modificacion + ", prorroga=" + prorroga + ", antecedente=" + antecedente + ", oposicion=" + oposicion + ", clase=" + clase + ", agrupamiento=" + agrupamiento + ", fechaApertura=" + fechaApertura + ", fechaCierre=" + fechaCierre + ", fechaEjecucion=" + fechaEjecucion + ", fechaPublicacion=" + fechaPublicacion + ", documento=" + documento + ", numeroResolucion=" + numeroResolucion + ", modificaResolucion=" + modificaResolucion + ", prorrogaResolucion=" + prorrogaResolucion + '}';
     }
 
     
     
+
+
 }
 
 

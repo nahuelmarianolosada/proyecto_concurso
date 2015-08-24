@@ -31,15 +31,15 @@ public class PostulanteDaoImpl extends HibernateUtil implements PostulanteDao{
         return (Postulante)getSession().get(Postulante.class, codigoPostulante);
     }
     
-    @Override
-    public int generarIdNuevoPostulante() {
-          
-        Criteria criteria = getSession().createCriteria(Postulante.class);
-        criteria.addOrder(Order.desc("idInscripcion"));
-        Postulante ultimoPostulante = (Postulante) criteria.list().get(0);
-        return ultimoPostulante.getIdInscripcion() + 1;
-        
-       } 
+//    @Override
+//    public int generarIdNuevoPostulante() {
+//          
+//        Criteria criteria = getSession().createCriteria(Postulante.class);
+//        criteria.addOrder(Order.desc("idInscripcion"));
+//        Postulante ultimoPostulante = (Postulante) criteria.list().get(0);
+//        return ultimoPostulante.getIdInscripcion() + 1;
+//        
+//       } 
     
 
     @Override

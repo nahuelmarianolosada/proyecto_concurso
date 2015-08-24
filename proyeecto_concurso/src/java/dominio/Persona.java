@@ -1,5 +1,5 @@
 package dominio;
-// Generated 24/07/2015 09:37:24 by Hibernate Tools 3.6.0
+// Generated 24/08/2015 09:04:43 by Hibernate Tools 3.6.0
 
 
 import java.util.Date;
@@ -25,9 +25,10 @@ public class Persona  implements java.io.Serializable {
      private String telefono;
      private String email;
      private Long cuil;
-     private Set convocatorias = new HashSet(0);
-     private Set tribunalJurados = new HashSet(0);
+     private Integer edad;
+     private Set postulantes = new HashSet(0);
      private Set personals = new HashSet(0);
+     private Set tribunalJurados = new HashSet(0);
 
     public Persona() {
     }
@@ -36,15 +37,7 @@ public class Persona  implements java.io.Serializable {
     public Persona(int idPersona) {
         this.idPersona = idPersona;
     }
-
-    public Persona(Integer dni, Long cuil) {
-        this.dni = dni;
-        this.cuil = cuil;
-    }
-    
-    
-    
-    public Persona(int idPersona, Localidad localidadByLocalidadNacimiento, Localidad localidadByIdLocalidadDireccion, Integer dni, String nombres, String apellido, String sexo, String nacionalidad, Date fechaDeNacimiento, String direccion, String telefono, String email, Long cuil, Set convocatorias, Set tribunalJurados, Set personals) {
+    public Persona(int idPersona, Localidad localidadByLocalidadNacimiento, Localidad localidadByIdLocalidadDireccion, Integer dni, String nombres, String apellido, String sexo, String nacionalidad, Date fechaDeNacimiento, String direccion, String telefono, String email, Long cuil, Integer edad, Set postulantes, Set personals, Set tribunalJurados) {
        this.idPersona = idPersona;
        this.localidadByLocalidadNacimiento = localidadByLocalidadNacimiento;
        this.localidadByIdLocalidadDireccion = localidadByIdLocalidadDireccion;
@@ -58,9 +51,10 @@ public class Persona  implements java.io.Serializable {
        this.telefono = telefono;
        this.email = email;
        this.cuil = cuil;
-       this.convocatorias = convocatorias;
-       this.tribunalJurados = tribunalJurados;
+       this.edad = edad;
+       this.postulantes = postulantes;
        this.personals = personals;
+       this.tribunalJurados = tribunalJurados;
     }
    
     public int getIdPersona() {
@@ -154,20 +148,19 @@ public class Persona  implements java.io.Serializable {
     public void setCuil(Long cuil) {
         this.cuil = cuil;
     }
-    
-    public Set getConvocatorias() {
-        return this.convocatorias;
+    public Integer getEdad() {
+        return this.edad;
     }
     
-    public void setConvocatorias(Set convocatorias) {
-        this.convocatorias = convocatorias;
+    public void setEdad(Integer edad) {
+        this.edad = edad;
     }
-    public Set getTribunalJurados() {
-        return this.tribunalJurados;
+    public Set getPostulantes() {
+        return this.postulantes;
     }
     
-    public void setTribunalJurados(Set tribunalJurados) {
-        this.tribunalJurados = tribunalJurados;
+    public void setPostulantes(Set postulantes) {
+        this.postulantes = postulantes;
     }
     public Set getPersonals() {
         return this.personals;
@@ -176,14 +169,14 @@ public class Persona  implements java.io.Serializable {
     public void setPersonals(Set personals) {
         this.personals = personals;
     }
-
-    @Override
-    public String toString() {
-        return "Persona{idPersona=" + idPersona + ", localidadByLocalidadNacimiento=" + localidadByLocalidadNacimiento.getNombreDeLocalidad() + ", localidadByIdLocalidadDireccion=" + localidadByIdLocalidadDireccion.getNombreDeLocalidad() + ", dni=" + dni + ", nombres=" + nombres + ", apellido=" + apellido + ", sexo=" + sexo + ", nacionalidad=" + nacionalidad + ", fechaDeNacimiento=" + fechaDeNacimiento + ", direccion=" + direccion + ", telefono=" + telefono + ", email=" + email + ", cuil=" + cuil + '}';
+    public Set getTribunalJurados() {
+        return this.tribunalJurados;
     }
     
+    public void setTribunalJurados(Set tribunalJurados) {
+        this.tribunalJurados = tribunalJurados;
+    }
 
-    
 
 
 

@@ -8,12 +8,17 @@ package bd;
 import dominio.Cargo;
 import dominio.Establecimiento;
 import dominio.Expediente;
+import dominio.Postulante;
 import dominio.TribunalJurado;
 import hibernate.dao.EstablecimientoDao;
 import hibernate.dao.ExpedienteDao;
+import hibernate.dao.PersonaDao;
+import hibernate.dao.PostulanteDao;
 import hibernate.dao.TribunalJuradoDao;
 import hibernate.dao.impl.EstablecimientoDaoImpl;
 import hibernate.dao.impl.ExpedienteDaoImpl;
+import hibernate.dao.impl.PersonaDaoImpl;
+import hibernate.dao.impl.PostulanteDaoImpl;
 import hibernate.dao.impl.TribunalJuradoDaoImpl;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -32,21 +37,23 @@ import java.util.List;
 public class ConexionRemota {
 
     public static void main(String[] args) {
-        String driver = "org.postgresql.Driver";
-        String connectString = "jdbc:postgresql://localhost:5432/siisaDB";
-        String user = "nmlosada";
-        String password = "siisa1234";
+//        String driver = "org.postgresql.Driver";
+//        String connectString = "jdbc:postgresql://localhost:5432/siisaDB";
+//        String user = "nmlosada";
+//        String password = "siisa1234";
 
         try {
             //consultarVista();
             //probarHibernate();
 
-            ExpedienteDao expedienteDao = new ExpedienteDaoImpl();
-            for (Expediente exp : expedienteDao.getAll()) {
-                if (exp.getNumeroExpediente().length() != 14) {
-                    System.out.println("El numero de expediente formateado es: " + formatearExpediente(exp.getNumeroExpediente()));
-                    System.out.println("-------------------------------------------------------------------");
-                    exp.setNumeroExpediente(formatearExpediente(exp.getNumeroExpediente()));
+            
+            
+//            ExpedienteDao expedienteDao = new ExpedienteDaoImpl();
+//            for (Expediente exp : expedienteDao.getAll()) {
+//                if (exp.getNumeroExpediente().length() != 14) {
+//                    System.out.println("El numero de expediente formateado es: " + formatearExpediente(exp.getNumeroExpediente()));
+//                    System.out.println("-------------------------------------------------------------------");
+//                    exp.setNumeroExpediente(formatearExpediente(exp.getNumeroExpediente()));
 
 //ACTUALIZACION POR JDBC
                     
@@ -61,8 +68,8 @@ public class ConexionRemota {
 //                    // ejecutamos la sentencia de actualizacion
 //                    stmt.executeUpdate();
 
-                }
-            }
+//                }
+//            }
 
         } catch (Exception exGeneral) {
             System.out.println("Error!\n" + exGeneral.getMessage());

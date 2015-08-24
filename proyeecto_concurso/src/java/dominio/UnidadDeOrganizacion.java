@@ -1,5 +1,5 @@
 package dominio;
-// Generated 24/07/2015 09:37:24 by Hibernate Tools 3.6.0
+// Generated 24/08/2015 09:04:43 by Hibernate Tools 3.6.0
 
 
 import java.util.HashSet;
@@ -11,40 +11,33 @@ import java.util.Set;
 public class UnidadDeOrganizacion  implements java.io.Serializable {
 
 
-     private int codigoUnidadDeOrganizacion;
-     private int idUnidadDeOrganizacion;
+     private int idUnidadOrganizacion;
      private String nombreUnidad;
+     private int codigoUnidadDeOrganizacion;
      private Set expedientes = new HashSet(0);
 
     public UnidadDeOrganizacion() {
     }
 
 	
-    public UnidadDeOrganizacion(int codigoUnidadDeOrganizacion, int idUnidadDeOrganizacion, String nombreUnidad) {
-        this.codigoUnidadDeOrganizacion = codigoUnidadDeOrganizacion;
-        this.idUnidadDeOrganizacion = idUnidadDeOrganizacion;
+    public UnidadDeOrganizacion(int idUnidadOrganizacion, String nombreUnidad, int codigoUnidadDeOrganizacion) {
+        this.idUnidadOrganizacion = idUnidadOrganizacion;
         this.nombreUnidad = nombreUnidad;
+        this.codigoUnidadDeOrganizacion = codigoUnidadDeOrganizacion;
     }
-    public UnidadDeOrganizacion(int codigoUnidadDeOrganizacion, int idUnidadDeOrganizacion, String nombreUnidad, Set expedientes) {
-       this.codigoUnidadDeOrganizacion = codigoUnidadDeOrganizacion;
-       this.idUnidadDeOrganizacion = idUnidadDeOrganizacion;
+    public UnidadDeOrganizacion(int idUnidadOrganizacion, String nombreUnidad, int codigoUnidadDeOrganizacion, Set expedientes) {
+       this.idUnidadOrganizacion = idUnidadOrganizacion;
        this.nombreUnidad = nombreUnidad;
+       this.codigoUnidadDeOrganizacion = codigoUnidadDeOrganizacion;
        this.expedientes = expedientes;
     }
    
-    public int getCodigoUnidadDeOrganizacion() {
-        return this.codigoUnidadDeOrganizacion;
+    public int getIdUnidadOrganizacion() {
+        return this.idUnidadOrganizacion;
     }
     
-    public void setCodigoUnidadDeOrganizacion(int codigoUnidadDeOrganizacion) {
-        this.codigoUnidadDeOrganizacion = codigoUnidadDeOrganizacion;
-    }
-    public int getIdUnidadDeOrganizacion() {
-        return this.idUnidadDeOrganizacion;
-    }
-    
-    public void setIdUnidadDeOrganizacion(int idUnidadDeOrganizacion) {
-        this.idUnidadDeOrganizacion = idUnidadDeOrganizacion;
+    public void setIdUnidadOrganizacion(int idUnidadOrganizacion) {
+        this.idUnidadOrganizacion = idUnidadOrganizacion;
     }
     public String getNombreUnidad() {
         return this.nombreUnidad;
@@ -52,6 +45,13 @@ public class UnidadDeOrganizacion  implements java.io.Serializable {
     
     public void setNombreUnidad(String nombreUnidad) {
         this.nombreUnidad = nombreUnidad;
+    }
+    public int getCodigoUnidadDeOrganizacion() {
+        return this.codigoUnidadDeOrganizacion;
+    }
+    
+    public void setCodigoUnidadDeOrganizacion(int codigoUnidadDeOrganizacion) {
+        this.codigoUnidadDeOrganizacion = codigoUnidadDeOrganizacion;
     }
     public Set getExpedientes() {
         return this.expedientes;

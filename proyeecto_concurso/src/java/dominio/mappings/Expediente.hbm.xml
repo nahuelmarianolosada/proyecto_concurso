@@ -1,19 +1,16 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 24/07/2015 09:37:25 by Hibernate Tools 3.6.0 -->
+<!-- Generated 24/08/2015 09:04:44 by Hibernate Tools 3.6.0 -->
 <hibernate-mapping>
     <class name="dominio.Expediente" table="expediente" schema="public">
-        <id name="numeroExpediente" type="string">
-            <column name="numero_expediente" />
+        <id name="idExpediente" type="int">
+            <column name="id_expediente" />
             <generator class="assigned" />
         </id>
         <many-to-one name="unidadDeOrganizacion" class="dominio.UnidadDeOrganizacion" fetch="select">
             <column name="codigo_area" />
         </many-to-one>
-        <property name="idExpediente" type="java.lang.Integer">
-            <column name="id_expediente" />
-        </property>
         <property name="numero" type="java.lang.Integer">
             <column name="numero" />
         </property>
@@ -25,6 +22,9 @@
         </property>
         <property name="anio" type="java.lang.Integer">
             <column name="anio" />
+        </property>
+        <property name="numeroExpediente" type="string">
+            <column name="numero_expediente" not-null="true" unique="true" />
         </property>
         <set name="resolucions" table="resolucion" inverse="true" lazy="true" fetch="select">
             <key>

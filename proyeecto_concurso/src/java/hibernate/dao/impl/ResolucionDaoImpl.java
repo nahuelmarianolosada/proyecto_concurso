@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package hibernate.dao.impl;
 
 import dominio.Expediente;
@@ -19,7 +18,8 @@ import org.hibernate.criterion.Restrictions;
  *
  * @author nahuel
  */
-public class ResolucionDaoImpl extends HibernateUtil implements ResolucionDao{
+public class ResolucionDaoImpl extends HibernateUtil implements ResolucionDao {
+
     @Override
     public List<Resolucion> getAll() {
         Criteria criteria = getSession().createCriteria(Resolucion.class);
@@ -32,8 +32,6 @@ public class ResolucionDaoImpl extends HibernateUtil implements ResolucionDao{
     public Resolucion getResolucion(int idResolucion) {
         return (Resolucion) getSession().get(Resolucion.class, idResolucion);
     }
-    
-    
 
     @Override
     public List<Resolucion> getResoluciones(Expediente expediente) {
@@ -50,7 +48,6 @@ public class ResolucionDaoImpl extends HibernateUtil implements ResolucionDao{
 //        Resolucion u = (Resolucion) criteria.list().get(0);
 //        return (int) (u.getIdResolucion() + 1);
 //    }
-
     @Override
     public void insertar(Resolucion resolucion) {
         try {
@@ -77,8 +74,6 @@ public class ResolucionDaoImpl extends HibernateUtil implements ResolucionDao{
         }
     }
 
-    
-    
 //    @Override
 //    public void eliminarById(int id_resolucion) {
 //        try {
@@ -99,7 +94,6 @@ public class ResolucionDaoImpl extends HibernateUtil implements ResolucionDao{
 //            getSession().getTransaction().rollback();
 //        }
 //    }
-
     @Override
     public void modificar(Resolucion resolucion) {
         try {
@@ -112,11 +106,12 @@ public class ResolucionDaoImpl extends HibernateUtil implements ResolucionDao{
             getSession().getTransaction().rollback();
         }
     }
+
     @Override
-    public Resolucion obtenerUltimaResolucion(){
-       Criteria criteria = getSession().createCriteria(Resolucion.class);
-       criteria.addOrder(Order.desc("idResolucion"));
-       return (Resolucion)criteria.list().get(0);
-       
+    public Resolucion obtenerUltimaResolucion() {
+        Criteria criteria = getSession().createCriteria(Resolucion.class);
+        criteria.addOrder(Order.desc("idResolucion"));
+        return (Resolucion) criteria.list().get(0);
+
     }
 }

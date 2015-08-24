@@ -1,18 +1,18 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 24/07/2015 09:37:25 by Hibernate Tools 3.6.0 -->
+<!-- Generated 24/08/2015 09:04:44 by Hibernate Tools 3.6.0 -->
 <hibernate-mapping>
     <class name="dominio.UnidadDeOrganizacion" table="unidad_de_organizacion" schema="public">
-        <id name="codigoUnidadDeOrganizacion" type="int">
-            <column name="codigo_unidad_de_organizacion" />
+        <id name="idUnidadOrganizacion" type="int">
+            <column name="id_unidad_organizacion" />
             <generator class="assigned" />
         </id>
-        <property name="idUnidadDeOrganizacion" type="int">
-            <column name="id_unidad_de_organizacion" not-null="true" />
-        </property>
         <property name="nombreUnidad" type="string">
             <column name="nombre_unidad" not-null="true" />
+        </property>
+        <property name="codigoUnidadDeOrganizacion" type="int">
+            <column name="codigo_unidad_de_organizacion" not-null="true" unique="true" />
         </property>
         <set name="expedientes" table="expediente" inverse="true" lazy="true" fetch="select">
             <key>

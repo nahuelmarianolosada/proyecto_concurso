@@ -22,7 +22,6 @@ import hibernate.dao.ProfesionDao;
 import hibernate.dao.impl.EstablecimientoDaoImpl;
 import hibernate.dao.impl.ProfesionDaoImpl;
 import java.util.ArrayList;
-import javax.faces.bean.ManagedProperty;
 
 /**
  *
@@ -43,8 +42,6 @@ public class CargoBean extends ConcursoBean implements Serializable {
     private boolean datosValidos;//Bandera que se referencia a la vista para habilitar la pestaña siguiente
     private List<Profesion> listaProfesiones;
     private boolean finalizoCarga;
-    
-   
 
     /**
      * Creates a new instance of CargoBean
@@ -53,15 +50,14 @@ public class CargoBean extends ConcursoBean implements Serializable {
 //        cargoNuevo = new Cargo(getListaEstablecimientos().get(0), getListaProfesiones().get(0));
         ProfesionDao profDao = new ProfesionDaoImpl();
         listaProfesiones = profDao.getAll();
-        cargoNuevo = new Cargo(generarIdNuevoCargo(), listaProfesiones.get(0));
+        cargoNuevo = new Cargo(listaProfesiones.get(0));
         cargoNuevo.setEstablecimiento(super.getListaEstablecimientos().get(0));
 
         cargoSeleccionado = new Cargo();
         datosValidos = false;
-            
+
         listaCargos = new ArrayList<Cargo>();
-      
-        
+
     }
 
     //GETTERS & SETTERS
@@ -129,11 +125,6 @@ public class CargoBean extends ConcursoBean implements Serializable {
         this.finalizoCarga = finalizoCarga;
     }
 
- 
-
-    
-    
-    
     //METODOS
     /**
      *
@@ -154,8 +145,6 @@ public class CargoBean extends ConcursoBean implements Serializable {
         return (resCarg.generarNuevoIdCargo());
 
     }
-    
-    
 
     public void guardarNuevoCargo() {
         if (cargoNuevo.getCantidad() > 0) {
@@ -167,21 +156,21 @@ public class CargoBean extends ConcursoBean implements Serializable {
                 System.out.println("CargoBean.guardarNuevoCargo() => Cantidad de Cargos: " + cargoNuevo.getCantidad());
 
                 for (Resolucion resol : getListaFinalResoluciones()) {
-                    if(resol.getNumeroResolucion().equalsIgnoreCase(cargoNuevo.getResolucion().getNumeroResolucion())){
+                    if (resol.getNumeroResolucion().equalsIgnoreCase(cargoNuevo.getResolucion().getNumeroResolucion())) {
                         cargoNuevo.setResolucion(resol);
                         break;
                     }
                 }
-                
+
                 listaCargos.add(cargoNuevo);
                 cargoNuevo.setIdCargo(cargoNuevo.getIdCargo() + 1);
 
                 System.out.println("\033[32mCargoBean.guardarNuevoCargo() => Cargo Nuevo: " + cargoNuevo.toString());
                 finalizoCarga = true;
-                
+
                 //Obtenemos la resolucion para asignarsela al siguiente cargo que se cargue
                 Resolucion res = cargoNuevo.getResolucion();
-                cargoNuevo = new Cargo(generarIdNuevoCargo(), listaProfesiones.get(0));
+                cargoNuevo = new Cargo(listaProfesiones.get(0));
                 cargoNuevo.setEstablecimiento(getListaEstablecimientos().get(0));
                 cargoNuevo.setResolucion(res);
 
