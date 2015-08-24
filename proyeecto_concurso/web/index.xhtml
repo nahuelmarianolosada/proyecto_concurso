@@ -12,7 +12,7 @@
                 <p:layout style="min-height:200px; height: 32.7em;" stateful="enabled" >
 
                     <p:layoutUnit position="center" resizable="true" header="Datos Registrados">
-                        <h:form> 
+                        <h:form id="formMostrar"> 
                             <p:accordionPanel dynamic="true" cache="true">
                                 <p:tab title="Expedientes">
                                     <p:dataScroller value="#{beanResolucion.allResolucion}" var="resolucion" chunkSize="5" mode="inline" scrollHeight="283" >
@@ -447,7 +447,7 @@
                                     </ui:repeat>
                                     
                                     
-                                    <p:commandButton id="btnGuardarFinal" value="Confirmar Guardado" actionListener="#{beanConcurso.guardarExpedienteFinal()}" icon="ui-icon-disk" update="tabuladorPestañero,tabuladorPestañero:formExpedientes:msg" styleClass="btnVerde" disabled="#{beanPostulante.listaPostulantes.isEmpty()}" />
+                                    <p:commandButton id="btnGuardarFinal" value="Confirmar Guardado" actionListener="#{beanConcurso.guardarExpedienteFinal()}" icon="ui-icon-disk" update="tabuladorPestañero:formExpedientes:msg, :formMostrar" styleClass="btnVerde" disabled="#{beanPostulante.listaPostulantes.isEmpty()}" />
 
 <!--                                    <p:dataList value="#{beanConcurso.listaFinalCargos}" var="cargo" type="unordered" itemType="none" paginator="true" rows="5" styleClass="paginated">
     <f:facet name="header">
