@@ -46,7 +46,7 @@ public class CargoDaoImpl extends HibernateUtil implements CargoDao {
         try {
             getSession().beginTransaction();
             getSession().save(cargo);
-            getSession().getTransaction().commit();
+          //  getSession().getTransaction().commit();
 
         } catch (Exception e) {
             e.printStackTrace();

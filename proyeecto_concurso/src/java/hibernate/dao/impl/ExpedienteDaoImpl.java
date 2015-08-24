@@ -47,7 +47,7 @@ public class ExpedienteDaoImpl extends HibernateUtil implements ExpedienteDao {
         try {
             getSession().beginTransaction();
             getSession().save(expediente);
-            getSession().getTransaction().commit();
+            //getSession().getTransaction().commit();
 
         } catch (Exception e) {
             e.printStackTrace();

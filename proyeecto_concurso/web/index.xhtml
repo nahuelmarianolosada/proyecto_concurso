@@ -353,9 +353,6 @@
                                             <h:outputText value="Expediente:" />
                                         </f:facet>
 
-                                        <h:outputText value="Id:" />
-                                        <h:outputText value="#{beanConcurso.expedienteFinalCargado.idExpediente}" styleClass="data" />
-
                                         <h:outputText value="Número:" />
                                         <h:outputText value="#{beanConcurso.expedienteFinalCargado.numeroExpediente}" styleClass="data"  />
 
@@ -379,9 +376,6 @@
                                         <h:panelGrid columns="1" style="width:100%" >
                                             <p:outputPanel>
                                                 <h:panelGrid columns="6" cellpadding="5">
-
-                                                    <h:outputText value="Id Resolucion:" />
-                                                    <h:outputText value="#{resolucion.idResolucion}" styleClass="data"/>
 
                                                     <h:outputText value="Numero de Resolucion:" />
                                                     <h:outputText value="#{resolucion.numeroResolucion}" styleClass="data"/>
@@ -434,7 +428,6 @@
 
                                     <ui:repeat var="cargo" value="#{beanConcurso.listaFinalCargos}" varStatus="stringData">                                                                                                             
                                         <p:panelGrid columns="6" layout="grid">                                        
-                                            <h:outputText value="Id:" /><h:outputText value="#{cargo.idCargo}" styleClass="data" />
                                             <h:outputText value="Funcion:" /><h:outputText value="#{cargo.funcion}" styleClass="data" />
                                             <h:outputText value="Resolución: " /><h:outputText value="#{cargo.resolucion.numeroResolucion}" styleClass="data" />
                                             <h:outputText value="Categoria: " /><h:outputText value="#{cargo.categoria}" styleClass="data" />
@@ -445,8 +438,8 @@
                                             <h:outputText value="Fecha de Acta de Formulación de Perfil: " /><h:outputText value="#{cargo.fechaActaFormulacionPerfil}" styleClass="data" ><f:convertDateTime pattern="dd/MM/yyyy" /></h:outputText>
                                         </p:panelGrid>
                                     </ui:repeat>
-                                    
-                                    
+
+
                                     <p:commandButton id="btnGuardarFinal" value="Confirmar Guardado" actionListener="#{beanConcurso.guardarExpedienteFinal()}" icon="ui-icon-disk" update="tabuladorPestañero:formExpedientes:msg, :formMostrar" styleClass="btnVerde" disabled="#{beanPostulante.listaPostulantes.isEmpty()}" />
 
 <!--                                    <p:dataList value="#{beanConcurso.listaFinalCargos}" var="cargo" type="unordered" itemType="none" paginator="true" rows="5" styleClass="paginated">

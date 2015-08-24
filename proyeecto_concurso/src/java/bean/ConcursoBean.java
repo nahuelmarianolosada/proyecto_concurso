@@ -292,6 +292,29 @@ public class ConcursoBean implements Serializable {
     
     
     public void guardarExpedienteFinal(){
+        try{
+            ExpedienteDao expDao = new ExpedienteDaoImpl();
+            expDao.insertar(expedienteFinalCargado);
+            System.out.println("Se a guardado el expediente");
+            
+            ResolucionDao resolucionDao = new ResolucionDaoImpl();
+            for (Resolucion resolucion : listaFinalResoluciones) {
+                resolucionDao.insertar(resolucion);
+            }
+            System.out.println("Se a guardado la lista de Resoluciones");
+            
+            CargoDao cargoDao = new CargoDaoImpl();
+            for (Cargo cargo : listaFinalCargos) {
+                cargoDao.insertar(cargo);
+            }
+            System.out.println("Se a guardado la lista de Cargos");
+            
+            
+            
+        }catch(Exception exGeneral){
+            nuevoMensajeAlerta("Error! " + exGeneral.getCause(), exGeneral.getMessage());
+        }
+        
         nuevoMensajeInfo("Registro Provincial de Concursos de Salud", "Llegó");
     }
 

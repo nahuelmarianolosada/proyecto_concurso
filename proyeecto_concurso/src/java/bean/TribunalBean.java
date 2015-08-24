@@ -297,6 +297,7 @@ public class TribunalBean extends ConcursoBean implements Serializable {
             setListaFinalJurados(listaJuradoNuevos);
             setListaFinalTribunales(listaTribunalesNuevos);
 
+            nuevoMensajeInfo("Registro Provincial de Concursos de Salud", "Se a guardado el tribunal con los postulantes seleccionados.");
             // tribunalDao.insertar(tribunalNuevo);
         }
 
