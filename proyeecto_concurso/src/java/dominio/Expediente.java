@@ -130,7 +130,7 @@ public class Expediente implements java.io.Serializable {
 
     @Override
     public String toString() {
-        return "Expediente{" + "unidadDeOrganizacion=" + unidadDeOrganizacion.getNombreUnidad() + ", numero=" + numero + ", situacion=" + situacion + ", regimen=" + regimen + ", anio=" + anio + ", numeroExpediente=" + numeroExpediente + '}';
+        return "Expediente id:" + idExpediente + "{" + "unidadDeOrganizacion=(" + unidadDeOrganizacion.getCodigoUnidadDeOrganizacion() + ") " + unidadDeOrganizacion.getNombreUnidad() + ", numero=" + numero + ", situacion=" + situacion + ", regimen=" + regimen + ", anio=" + anio + ", numeroExpediente=" + numeroExpediente + '}';
     }
     
     

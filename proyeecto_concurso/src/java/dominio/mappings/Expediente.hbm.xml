@@ -3,7 +3,7 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 24/08/2015 09:04:44 by Hibernate Tools 3.6.0 -->
 <hibernate-mapping>
-    <class name="dominio.Expediente" table="expediente" schema="public">
+    <class name="dominio.Expediente" table="expediente" schema="public" dynamic-insert="true">
         <id name="idExpediente" type="int">
             <column name="id_expediente" />
             <generator class="assigned" />

@@ -28,11 +28,13 @@ import dominio.TribunalJurado;
 import hibernate.dao.ExpedienteDao;
 import hibernate.dao.PostulanteDao;
 import hibernate.dao.ResolucionDao;
+import hibernate.dao.TribunalDao;
 import hibernate.dao.TribunalJuradoDao;
 import hibernate.dao.UnidadDeOrganizacionDao;
 import hibernate.dao.impl.ExpedienteDaoImpl;
 import hibernate.dao.impl.PostulanteDaoImpl;
 import hibernate.dao.impl.ResolucionDaoImpl;
+import hibernate.dao.impl.TribunalDaoImpl;
 import hibernate.dao.impl.TribunalJuradoDaoImpl;
 import hibernate.dao.impl.UnidadDeOrganizacionDaoImpl;
 import java.util.ArrayList;
@@ -295,19 +297,25 @@ public class ConcursoBean implements Serializable {
         try{
             ExpedienteDao expDao = new ExpedienteDaoImpl();
             expDao.insertar(expedienteFinalCargado);
-            System.out.println("Se a guardado el expediente");
+            System.out.println("----------------------Se a guardado el expediente");
             
             ResolucionDao resolucionDao = new ResolucionDaoImpl();
             for (Resolucion resolucion : listaFinalResoluciones) {
                 resolucionDao.insertar(resolucion);
             }
-            System.out.println("Se a guardado la lista de Resoluciones");
+            System.out.println("----------------------Se a guardado la lista de Resoluciones");
             
             CargoDao cargoDao = new CargoDaoImpl();
             for (Cargo cargo : listaFinalCargos) {
                 cargoDao.insertar(cargo);
             }
-            System.out.println("Se a guardado la lista de Cargos");
+            System.out.println("----------------------Se a guardado la lista de Cargos");
+            
+            TribunalDao tribunalDao = new TribunalDaoImpl();
+            for (Tribunal tribunal : listaFinalTribunales) {
+                tribunalDao.insertar(tribunal);
+            }
+            System.out.println("----------------------Se a guardado la lista de Tribunales");
             
             
             

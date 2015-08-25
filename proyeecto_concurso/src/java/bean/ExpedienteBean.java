@@ -155,6 +155,9 @@ public class ExpedienteBean extends ConcursoBean implements Serializable {
                 //Seteamos el Expediente Final
                 super.setExpedienteFinalCargado(expedienteNuevo);
 
+               // expedienteNuevo.setIdExpediente(Integer.getInteger(""));
+                expedienteDao.insertar(expedienteNuevo);
+                
                 datosValidos = true;
                 pasarVistaDePestania();
                 nuevoMensajeInfo("Registro de Concursos de Salud - EXPEDIENTE", "Número: " + expedienteNuevo.getNumeroExpediente() + "\nRégimen: " + expedienteNuevo.getRegimen() + "\nSituación: " + expedienteNuevo.getSituacion());

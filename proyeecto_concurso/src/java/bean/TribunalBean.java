@@ -280,7 +280,7 @@ public class TribunalBean extends ConcursoBean implements Serializable {
                     canjurado++;
                 }
                 for (Resolucion resolucionCargadas : beanResolucion.getListaResoluciones()) {
-                    if (beanResolucion.getResolucionNueva().getNumeroResolucion() == resolucionCargadas.getNumeroResolucion()) {
+                    if (beanResolucion.getResolucionNueva().getNumeroResolucion().equals(resolucionCargadas.getNumeroResolucion())) {
                         resolucionCargadas.setTribunal(tribunalNuevo);
                     }
                 }
@@ -293,11 +293,11 @@ public class TribunalBean extends ConcursoBean implements Serializable {
 
 //            idTribunalGenerado++;
 //            tribunalNuevo.setIdTribunal(idTribunalGenerado);
-
             setListaFinalJurados(listaJuradoNuevos);
             setListaFinalTribunales(listaTribunalesNuevos);
 
             nuevoMensajeInfo("Registro Provincial de Concursos de Salud", "Se a guardado el tribunal con los postulantes seleccionados.");
+            pasarVistaDePestania();
             // tribunalDao.insertar(tribunalNuevo);
         }
 
@@ -311,5 +311,4 @@ public class TribunalBean extends ConcursoBean implements Serializable {
         this.listaTribunalesNuevos = listaTribunalesNuevos;
     }
 
-    
 }

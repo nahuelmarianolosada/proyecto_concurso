@@ -151,8 +151,8 @@
                                         <p:column headerText="Oposición">
                                             <h:outputText value="#{resolucion.oposicion}" />
                                         </p:column>
-                                        <p:column headerText="Modificatoria">
-                                            <h:outputText value="#{resolucion.modificacion}" />
+                                        <p:column headerText="Modificatoria" rendered="#{resolucion.modificacion}">
+                                            <h:outputText value="#{resolucion.modificaResolucion}" />
                                         </p:column>
                                         <p:column headerText="Clase">
                                             <h:outputText value="#{resolucion.clase}" />
@@ -230,6 +230,9 @@
                                         </p:column>
                                         <p:column headerText="Resolución">
                                             <h:outputText value="#{cargos.resolucion.numeroResolucion}" />
+                                        </p:column>
+                                        <p:column headerText="Enunciación">
+                                            <h:outputText value="#{cargos.enunciacion}" />
                                         </p:column>
                                         <p:column headerText="Cantidad">
                                             <h:outputText value="#{cargos.cantidad}" />

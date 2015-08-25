@@ -41,7 +41,7 @@ public class TribunalDaoImpl extends HibernateUtil implements TribunalDao{
         try {
             getSession().beginTransaction();
             getSession().save(tribunal);
-            getSession().getTransaction().commit();
+            //getSession().getTransaction().commit();
 
         } catch (Exception e) {
             e.printStackTrace();
