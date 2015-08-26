@@ -91,13 +91,13 @@ public class ExpedienteBean extends ConcursoBean implements Serializable {
      */
     public ExpedienteBean() {
         listaUnidadDeOrganizacions = new ArrayList<UnidadDeOrganizacion>();
-        expedienteNuevo = new Expediente(new UnidadDeOrganizacion(), 0, "", "", 0, "");
+        ExpedienteDao expedienteDao = new ExpedienteDaoImpl();
+        expedienteNuevo = new Expediente(expedienteDao.generarNuevoIdExpediente(),new UnidadDeOrganizacion(), 0, "", "", 0, "");
         System.out.println("ExpedienteBean.ExpedienteBean() => " + expedienteNuevo.toString());
         refreshListas();
         datosValidos = false;
 
-        ExpedienteDao expedienteDao = new ExpedienteDaoImpl();
-        listaExpedientes = expedienteDao.getAll();
+        //listaExpedientes = expedienteDao.getAll();
     }
 
     //METODOS
@@ -105,6 +105,16 @@ public class ExpedienteBean extends ConcursoBean implements Serializable {
         System.out.println("ExpedienteBean.refreshListas() => Obteniendo las unidades de Organizacion");
         UnidadDeOrganizacionDao unidadDao = new UnidadDeOrganizacionDaoImpl();
         listaUnidadDeOrganizacions = unidadDao.getAll();
+    }
+
+    public void onUnidadSeleccionada() {
+        for (UnidadDeOrganizacion unidad : listaUnidadDeOrganizacions) {
+            if (unidad.getCodigoUnidadDeOrganizacion() == expedienteNuevo.getUnidadDeOrganizacion().getCodigoUnidadDeOrganizacion()) {
+                expedienteNuevo.setUnidadDeOrganizacion(unidad);
+                System.out.println("ExpedienteBean.onUnidadSeleccionada() => Se a cargado el expediente nuevo con la UDO");
+                break;
+            }
+        }
     }
 
     /**
@@ -137,22 +147,20 @@ public class ExpedienteBean extends ConcursoBean implements Serializable {
         ExpedienteDao expedienteDao = new ExpedienteDaoImpl();
         try {
 
-            for (UnidadDeOrganizacion unidad : listaUnidadDeOrganizacions) {
-                if (unidad.getCodigoUnidadDeOrganizacion() == expedienteNuevo.getUnidadDeOrganizacion().getCodigoUnidadDeOrganizacion()) {
-                    expedienteNuevo.setUnidadDeOrganizacion(unidad);
-                    break;
-                }
-            }
+//            for (UnidadDeOrganizacion unidad : listaUnidadDeOrganizacions) {
+//                if (unidad.getCodigoUnidadDeOrganizacion() == expedienteNuevo.getUnidadDeOrganizacion().getCodigoUnidadDeOrganizacion()) {
+//                    expedienteNuevo.setUnidadDeOrganizacion(unidad);
+//                    break;
+//                }
+//            }
             String numExpedienteSinFormato = expedienteNuevo.getUnidadDeOrganizacion().getCodigoUnidadDeOrganizacion() + "-" + expedienteNuevo.getNumero() + "/" + expedienteNuevo.getAnio();
             expedienteNuevo.setNumeroExpediente(formatearExpediente(numExpedienteSinFormato));
 
             //Validamos que los datos guardados en el expediente sean validos y
             //que aparte no exista en la BD
-            if (expedienteNuevo.esValido() && expedienteDao.getExpediente(expedienteNuevo.getNumeroExpediente()) == null) {
+            if (expedienteDao.getExpediente(expedienteNuevo.getNumeroExpediente()) == null) {
                 beanResolucion.getResolucionNueva().setExpediente(expedienteNuevo);
-                //ResolucionDao resDao = new ResolucionDaoImpl();
-                //beanResolucion.setListaResoluciones(resDao.getResoluciones(expedienteNuevo));
-
+                
                 //Seteamos el Expediente Final
                 super.setExpedienteFinalCargado(expedienteNuevo);
 
@@ -162,16 +170,15 @@ public class ExpedienteBean extends ConcursoBean implements Serializable {
                 datosValidos = true;
                 pasarVistaDePestania();
                 nuevoMensajeInfo("Registro de Concursos de Salud - EXPEDIENTE", "Número: " + expedienteNuevo.getNumeroExpediente() + "\nRégimen: " + expedienteNuevo.getRegimen() + "\nSituación: " + expedienteNuevo.getSituacion());
-                expedienteNuevo = new Expediente(getExpedienteFinalCargado().getIdExpediente() + 1, getExpedienteFinalCargado().getUnidadDeOrganizacion());
+                expedienteNuevo = new Expediente(expedienteDao.generarNuevoIdExpediente(), new UnidadDeOrganizacion());
             } else {
-                nuevoMensajeAlerta("Registro de Concursos de Salud", "Expediente Inválido");
+                nuevoMensajeAlerta("Registro de Concursos de Salud", "Número de Expediente Inválido");
             }
 
-        }catch(NonUniqueObjectException exUnico){
+        } catch (NonUniqueObjectException exUnico) {
             nuevoMensajeAlerta("Registro de Concursos de Salud", "Expediente ya existente");
             exUnico.printStackTrace();
-        }
-        catch (Exception ex1) {
+        } catch (Exception ex1) {
             ex1.printStackTrace();
         }
 

@@ -17,6 +17,7 @@ public interface ExpedienteDao {
     public List<Expediente> getAll();
     public Expediente getExpediente(int idExpediente);
     public Expediente getExpediente(String numeroExpediente);
+    public int generarNuevoIdExpediente();
     public void insertar(Expediente expediente);
     public void eliminar(Expediente expediente);
     public void modificar(Expediente expediente);

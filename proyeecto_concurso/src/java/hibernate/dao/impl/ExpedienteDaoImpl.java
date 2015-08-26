@@ -47,13 +47,26 @@ public class ExpedienteDaoImpl extends HibernateUtil implements ExpedienteDao {
     }
 
     @Override
+    public int generarNuevoIdExpediente() {
+        Criteria criteria = getSession().createCriteria(Expediente.class);
+        criteria.addOrder(Order.desc("idExpediente"));
+        if (criteria.list().size() > 0) {
+            Expediente ultimoExpediente = (Expediente) criteria.list().get(0);
+            return ultimoExpediente.getIdExpediente() + 1;
+        } else {
+            return 0;
+        }
+
+    }
+
+    @Override
     public void insertar(Expediente expediente) {
         System.out.println("ExpedienteDaoImpl.insertar() => Guardando " + expediente.toString());
         try {
             getSession().beginTransaction();
             getSession().save(expediente);
             getSession().getTransaction().commit();
-           
+
         } catch (Exception e) {
             e.printStackTrace();
             getSession().getTransaction().rollback();

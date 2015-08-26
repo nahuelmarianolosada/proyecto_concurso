@@ -23,11 +23,27 @@ public class Expediente  implements java.io.Serializable {
     public Expediente() {
     }
 
+    public Expediente(int idExpediente) {
+        this.idExpediente = idExpediente;
+    }
+
+    
     public Expediente(int idExpediente, UnidadDeOrganizacion unidadDeOrganizacion) {
         this.idExpediente = idExpediente;
         this.unidadDeOrganizacion = unidadDeOrganizacion;
     }
 
+    public Expediente(int idExpediente, UnidadDeOrganizacion unidadDeOrganizacion, Integer numero, String situacion, String regimen, Integer anio, String numeroExpediente) {
+        this.idExpediente = idExpediente;
+        this.unidadDeOrganizacion = unidadDeOrganizacion;
+        this.numero = numero;
+        this.situacion = situacion;
+        this.regimen = regimen;
+        this.anio = anio;
+        this.numeroExpediente = numeroExpediente;
+    }
+
+    
     
     
     public Expediente(UnidadDeOrganizacion unidadDeOrganizacion, Integer numero, String situacion, String regimen, Integer anio, String numeroExpediente) {

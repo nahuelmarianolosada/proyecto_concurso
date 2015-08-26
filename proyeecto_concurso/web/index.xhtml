@@ -81,6 +81,7 @@
                                         </f:facet>
 
                                         <p:selectOneMenu id="cmbUnidadExpediente" value="#{beanExpediente.expedienteNuevo.unidadDeOrganizacion.codigoUnidadDeOrganizacion}" required="true" requiredMessage="Seleccione un Àrea" filter="true" validatorMessage="Seleccione un área válida" converterMessage="Seleccione un área válida" >
+                                            <p:ajax listener="#{beanExpediente.onUnidadSeleccionada}" />
                                             <f:selectItem noSelectionOption="true" itemLabel=" Seleccione un Área" itemValue="null" />
                                             <f:selectItems var="unidad" value="#{beanExpediente.listaUnidadDeOrganizacions}" itemLabel="#{unidad.nombreUnidad} (#{unidad.codigoUnidadDeOrganizacion})" itemValue="#{unidad.codigoUnidadDeOrganizacion}" />
                                         </p:selectOneMenu>
