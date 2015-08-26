@@ -50,7 +50,7 @@ public class HibernateUtil {
         return session;
     }
 
-    public static List<Persona> buscarPersonas(int dni) throws SQLException{
+    public static List<Persona> buscarPersonas(int dni) throws SQLException {
 
         List<Persona> listaResultado = new ArrayList<Persona>();
         String driver = "org.postgresql.Driver";
@@ -60,7 +60,7 @@ public class HibernateUtil {
         String password = "siisa1234";
         Statement stmt = null;
         Connection con = null;
-        
+
         try {
             Class.forName(driver);
             con = DriverManager.getConnection(connectString, user, password);
@@ -73,7 +73,7 @@ public class HibernateUtil {
 
             int contadorDeRegistros = 1;
             while (rs.next()) {
-                
+
                 Persona personaEncontrada = new Persona();
                 personaEncontrada.setApellido(rs.getString("apellido"));
                 personaEncontrada.setNombres(rs.getString("nombre"));
@@ -85,11 +85,10 @@ public class HibernateUtil {
                 personaEncontrada.setTelefono(rs.getString("tel1"));
                 personaEncontrada.setEmail(rs.getString("email"));
                 personaEncontrada.setDireccion(rs.getString("direccion"));
-                
+
                 listaResultado.add(personaEncontrada);
                 contadorDeRegistros += 1;
             }
-            
 
         } catch (Exception e) {
             System.out.println(e.getMessage());

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 24/08/2015 09:04:44 by Hibernate Tools 3.6.0 -->
+<!-- Generated 26/08/2015 11:54:39 by Hibernate Tools 3.6.0 -->
 <hibernate-mapping>
     <class name="dominio.Concurso" table="concurso" schema="public">
         <id name="idConcurso" type="int">
@@ -9,7 +9,7 @@
             <generator class="assigned" />
         </id>
         <many-to-one name="resolucion" class="dominio.Resolucion" fetch="select">
-            <column name="numero_resolucion_resolucion" />
+            <column name="resolucion_id" />
         </many-to-one>
         <property name="fechaConcurso" type="date">
             <column name="fecha_concurso" length="13" />

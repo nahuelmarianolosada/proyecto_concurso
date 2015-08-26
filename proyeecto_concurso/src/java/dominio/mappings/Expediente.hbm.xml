@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 24/08/2015 09:04:44 by Hibernate Tools 3.6.0 -->
+<!-- Generated 26/08/2015 11:54:39 by Hibernate Tools 3.6.0 -->
 <hibernate-mapping>
-    <class name="dominio.Expediente" table="expediente" schema="public" dynamic-insert="true">
+    <class name="dominio.Expediente" table="expediente" schema="public">
         <id name="idExpediente" type="int">
             <column name="id_expediente" />
             <generator class="assigned" />
@@ -24,11 +24,11 @@
             <column name="anio" />
         </property>
         <property name="numeroExpediente" type="string">
-            <column name="numero_expediente" not-null="true" unique="true" />
+            <column name="numero_expediente" not-null="true" />
         </property>
         <set name="resolucions" table="resolucion" inverse="true" lazy="true" fetch="select">
             <key>
-                <column name="expediente_numero_expediente" />
+                <column name="expediente_id" />
             </key>
             <one-to-many class="dominio.Resolucion" />
         </set>

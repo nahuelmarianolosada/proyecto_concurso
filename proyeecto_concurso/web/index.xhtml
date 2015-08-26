@@ -15,7 +15,7 @@
                         <h:form id="formMostrar"> 
                             <p:accordionPanel dynamic="true" cache="true">
                                 <p:tab title="Expedientes">
-                                    <p:dataScroller value="#{beanResolucion.allResolucion}" var="resolucion" chunkSize="5" mode="inline" scrollHeight="283" >
+                                    <p:dataScroller value="#{beanResolucion.getAllResoluciones()}" var="resolucion" chunkSize="5" mode="inline" scrollHeight="283" >
                                         <f:facet name="header">
                                             Expedientes Registrados
                                         </f:facet>

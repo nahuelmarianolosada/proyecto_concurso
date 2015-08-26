@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 24/08/2015 09:04:44 by Hibernate Tools 3.6.0 -->
+<!-- Generated 26/08/2015 11:54:39 by Hibernate Tools 3.6.0 -->
 <hibernate-mapping>
     <class name="dominio.Postulante" table="postulante" schema="public">
         <id name="idPostulante" type="int">
@@ -12,7 +12,7 @@
             <column name="id_cargo" not-null="true" />
         </many-to-one>
         <many-to-one name="persona" class="dominio.Persona" fetch="select">
-            <column name="persona_dni_persona" not-null="true" />
+            <column name="persona_id" not-null="true" />
         </many-to-one>
         <property name="fojas" type="java.lang.Integer">
             <column name="fojas" />

@@ -39,7 +39,6 @@ public class ResolucionBean extends ConcursoBean implements Serializable {
     private boolean datosValidos;//Bandera que se referencia a la vista para habilitar la pestaña siguiente
     private int anioNumeroResolucion;
 
-
     //GETTERS & SETTERS
     public boolean isBanderaModificacionParcial() {
         return banderaModificacionParcial;
@@ -96,12 +95,11 @@ public class ResolucionBean extends ConcursoBean implements Serializable {
     public void setAnioNumeroResolucion(int anioNumeroResolucion) {
         this.anioNumeroResolucion = anioNumeroResolucion;
     }
-    
-    public List<Resolucion> getAllResolucion(){
+
+    public List<Resolucion> getAllResoluciones() {
         ResolucionDao resolucionDao = new ResolucionDaoImpl();
         return resolucionDao.getAll();
     }
-
 
     /**
      * Creates a new instance of ResolucionBean
@@ -168,17 +166,15 @@ public class ResolucionBean extends ConcursoBean implements Serializable {
             resolucionNueva.setTribunal(new Tribunal());
             listaResoluciones.add(resolucionNueva);
 
-           // pasarVistaDePestania();
-            System.err.println("\033[32mResolucionBean.guardarResolucion() => " + resolucionNueva.toString());
+            // pasarVistaDePestania();
+            System.out.println("\033[32mResolucionBean.guardarResolucion() => " + resolucionNueva.toString());
 
             nuevoMensajeInfo("Registro de Concursos de Salud - RESOLUCIÓN", "NºResolucion: " + resolucionNueva.getNumeroResolucion()
                     + " guardada éxitosamente");
 
             inicializarResolucionNueva();
 
-            
-        }
-        catch (Exception ex1) {
+        } catch (Exception ex1) {
             ex1.printStackTrace();
             nuevoMensajeAlerta("Error al guardar la resolucion", " " + ex1.toString());
         }
@@ -186,6 +182,14 @@ public class ResolucionBean extends ConcursoBean implements Serializable {
 
     public void guardarListaResoluciones() {
         setListaFinalResoluciones(listaResoluciones);
+        ResolucionDao resolucionDao = new ResolucionDaoImpl();
+        try {
+            for (Resolucion resolucion : listaResoluciones) {
+                resolucionDao.insertar(resolucion);
+            }
+        } catch (Exception exGeneral) {
+            exGeneral.printStackTrace();
+        }
         nuevoMensajeInfo("Registro Provincial de Concursos de Salud", "Se a guardado la lista de resoluciones");
         pasarVistaDePestania();
         datosValidos = true;

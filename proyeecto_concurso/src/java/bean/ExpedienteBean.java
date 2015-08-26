@@ -19,6 +19,7 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import org.hibernate.NonUniqueObjectException;
 
 /**
  *
@@ -79,8 +80,8 @@ public class ExpedienteBean extends ConcursoBean implements Serializable {
     public void setBeanResolucion(ResolucionBean beanResolucion) {
         this.beanResolucion = beanResolucion;
     }
-    
-    public List<Expediente> getAllExpedientes(){
+
+    public List<Expediente> getAllExpedientes() {
         ExpedienteDao expedienteDao = new ExpedienteDaoImpl();
         return expedienteDao.getAll();
     }
@@ -155,18 +156,22 @@ public class ExpedienteBean extends ConcursoBean implements Serializable {
                 //Seteamos el Expediente Final
                 super.setExpedienteFinalCargado(expedienteNuevo);
 
-               // expedienteNuevo.setIdExpediente(Integer.getInteger(""));
                 expedienteDao.insertar(expedienteNuevo);
-                
+                System.out.println("\033[32mExpedienteBean.guardarExpediente() => " + expedienteNuevo.toString());
+
                 datosValidos = true;
                 pasarVistaDePestania();
                 nuevoMensajeInfo("Registro de Concursos de Salud - EXPEDIENTE", "Número: " + expedienteNuevo.getNumeroExpediente() + "\nRégimen: " + expedienteNuevo.getRegimen() + "\nSituación: " + expedienteNuevo.getSituacion());
+                expedienteNuevo = new Expediente(getExpedienteFinalCargado().getIdExpediente() + 1, getExpedienteFinalCargado().getUnidadDeOrganizacion());
             } else {
                 nuevoMensajeAlerta("Registro de Concursos de Salud", "Expediente Inválido");
             }
-            System.out.println("\033[32mExpedienteBean.guardarExpediente() => " + expedienteNuevo.toString());
 
-        } catch (Exception ex1) {
+        }catch(NonUniqueObjectException exUnico){
+            nuevoMensajeAlerta("Registro de Concursos de Salud", "Expediente ya existente");
+            exUnico.printStackTrace();
+        }
+        catch (Exception ex1) {
             ex1.printStackTrace();
         }
 

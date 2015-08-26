@@ -13,6 +13,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 
 /**
  *
@@ -37,6 +38,7 @@ public class ExpedienteDaoImpl extends HibernateUtil implements ExpedienteDao {
     public Expediente getExpediente(String numeroExpediente) {
         Expediente expedienteEncontrado = null;
         Criteria criteria = getSession().createCriteria(Expediente.class);
+        criteria.add(Restrictions.eq("numeroExpediente", numeroExpediente));
         criteria.addOrder(Order.asc("numeroExpediente"));
         if (criteria.list().size() > 0) {
             expedienteEncontrado = (Expediente) criteria.list().get(0);
@@ -48,9 +50,10 @@ public class ExpedienteDaoImpl extends HibernateUtil implements ExpedienteDao {
     public void insertar(Expediente expediente) {
         System.out.println("ExpedienteDaoImpl.insertar() => Guardando " + expediente.toString());
         try {
+            getSession().beginTransaction();
             getSession().save(expediente);
             getSession().getTransaction().commit();
-
+           
         } catch (Exception e) {
             e.printStackTrace();
             getSession().getTransaction().rollback();

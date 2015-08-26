@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 24/08/2015 09:04:44 by Hibernate Tools 3.6.0 -->
+<!-- Generated 26/08/2015 11:54:39 by Hibernate Tools 3.6.0 -->
 <hibernate-mapping>
     <class name="dominio.Resolucion" table="resolucion" schema="public">
         <id name="idResolucion" type="int">
@@ -9,7 +9,7 @@
             <generator class="assigned" />
         </id>
         <many-to-one name="expediente" class="dominio.Expediente" fetch="select">
-            <column name="expediente_numero_expediente" />
+            <column name="expediente_id" />
         </many-to-one>
         <many-to-one name="tribunal" class="dominio.Tribunal" fetch="select">
             <column name="tribunal_id_tribunal" />
@@ -51,7 +51,7 @@
             <column name="documento" />
         </property>
         <property name="numeroResolucion" type="string">
-            <column name="numero_resolucion" not-null="true" unique="true" />
+            <column name="numero_resolucion" not-null="true" />
         </property>
         <property name="modificaResolucion" type="string">
             <column name="modifica_resolucion" />
@@ -61,13 +61,13 @@
         </property>
         <set name="concursos" table="concurso" inverse="true" lazy="true" fetch="select">
             <key>
-                <column name="numero_resolucion_resolucion" />
+                <column name="resolucion_id" />
             </key>
             <one-to-many class="dominio.Concurso" />
         </set>
         <set name="cargos" table="cargo" inverse="true" lazy="true" fetch="select">
             <key>
-                <column name="numero_resolucion" />
+                <column name="resolucion_id" />
             </key>
             <one-to-many class="dominio.Cargo" />
         </set>

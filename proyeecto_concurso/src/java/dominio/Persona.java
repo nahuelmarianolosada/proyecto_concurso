@@ -1,5 +1,5 @@
 package dominio;
-// Generated 24/08/2015 09:04:43 by Hibernate Tools 3.6.0
+// Generated 26/08/2015 11:54:39 by Hibernate Tools 3.6.0
 
 
 import java.util.Date;
@@ -26,9 +26,9 @@ public class Persona  implements java.io.Serializable {
      private String email;
      private Long cuil;
      private Integer edad;
-     private Set postulantes = new HashSet(0);
      private Set personals = new HashSet(0);
      private Set tribunalJurados = new HashSet(0);
+     private Set postulantes = new HashSet(0);
 
     public Persona() {
     }
@@ -37,7 +37,7 @@ public class Persona  implements java.io.Serializable {
     public Persona(int idPersona) {
         this.idPersona = idPersona;
     }
-    public Persona(int idPersona, Localidad localidadByLocalidadNacimiento, Localidad localidadByIdLocalidadDireccion, Integer dni, String nombres, String apellido, String sexo, String nacionalidad, Date fechaDeNacimiento, String direccion, String telefono, String email, Long cuil, Integer edad, Set postulantes, Set personals, Set tribunalJurados) {
+    public Persona(int idPersona, Localidad localidadByLocalidadNacimiento, Localidad localidadByIdLocalidadDireccion, Integer dni, String nombres, String apellido, String sexo, String nacionalidad, Date fechaDeNacimiento, String direccion, String telefono, String email, Long cuil, Integer edad, Set personals, Set tribunalJurados, Set postulantes) {
        this.idPersona = idPersona;
        this.localidadByLocalidadNacimiento = localidadByLocalidadNacimiento;
        this.localidadByIdLocalidadDireccion = localidadByIdLocalidadDireccion;
@@ -52,9 +52,9 @@ public class Persona  implements java.io.Serializable {
        this.email = email;
        this.cuil = cuil;
        this.edad = edad;
-       this.postulantes = postulantes;
        this.personals = personals;
        this.tribunalJurados = tribunalJurados;
+       this.postulantes = postulantes;
     }
    
     public int getIdPersona() {
@@ -155,13 +155,6 @@ public class Persona  implements java.io.Serializable {
     public void setEdad(Integer edad) {
         this.edad = edad;
     }
-    public Set getPostulantes() {
-        return this.postulantes;
-    }
-    
-    public void setPostulantes(Set postulantes) {
-        this.postulantes = postulantes;
-    }
     public Set getPersonals() {
         return this.personals;
     }
@@ -175,6 +168,13 @@ public class Persona  implements java.io.Serializable {
     
     public void setTribunalJurados(Set tribunalJurados) {
         this.tribunalJurados = tribunalJurados;
+    }
+    public Set getPostulantes() {
+        return this.postulantes;
+    }
+    
+    public void setPostulantes(Set postulantes) {
+        this.postulantes = postulantes;
     }
 
 
