@@ -14,7 +14,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import org.hibernate.HibernateException;
 import org.primefaces.context.RequestContext;
@@ -100,7 +99,6 @@ public class ResolucionBean extends ConcursoBean implements Serializable {
 //        ResolucionDao resolucionDao = new ResolucionDaoImpl();
 //        return resolucionDao.getAll();
 //    }
-
     /**
      * Creates a new instance of ResolucionBean
      */
@@ -108,7 +106,7 @@ public class ResolucionBean extends ConcursoBean implements Serializable {
         ResolucionDao resolucionDao = new ResolucionDaoImpl();
         banderaModificacionParcial = false;
         banderaProrroga = false;
-        resolucionNueva = new Resolucion(resolucionDao.generarNuevoIdResolucion());
+        resolucionNueva = new Resolucion(0);
         listaResoluciones = new ArrayList<Resolucion>();
         datosValidos = false;
 
@@ -156,8 +154,9 @@ public class ResolucionBean extends ConcursoBean implements Serializable {
     public void guardarResolucion() {
 
         try {
+            resolucionNueva.setIdResolucion(0);
             String numeroResolucion = resolucionNueva.getNumeroResolucion();
-            resolucionNueva.setNumeroResolucion(numeroResolucion + "-" + dependenciaNumeroResolucion + "/" + anioNumeroResolucion);
+            resolucionNueva.setNumeroResolucion(resolucionNueva.formatearNumero(numeroResolucion) + "-" + dependenciaNumeroResolucion + "/" + anioNumeroResolucion);
 
             resolucionNueva.setModificacion(banderaModificacionParcial);
 
@@ -167,7 +166,7 @@ public class ResolucionBean extends ConcursoBean implements Serializable {
             listaResoluciones.add(resolucionNueva);
 
             // pasarVistaDePestania();
-            System.out.println("\033[32mResolucionBean.guardarResolucion() => " + resolucionNueva.toString());
+            System.out.println("ResolucionBean.guardarResolucion() => " + resolucionNueva.toString());
 
             nuevoMensajeInfo("Registro de Concursos de Salud - RESOLUCIÓN", "NºResolucion: " + resolucionNueva.getNumeroResolucion()
                     + " guardada éxitosamente");
@@ -185,8 +184,10 @@ public class ResolucionBean extends ConcursoBean implements Serializable {
         ResolucionDao resolucionDao = new ResolucionDaoImpl();
         try {
             for (Resolucion resolucion : listaResoluciones) {
-                resolucionDao.insertar(resolucion);
+                Resolucion nuevaResolucion = new Resolucion(resolucionDao.generarNuevoIdResolucion(), resolucion.getExpediente(), resolucion.getTribunal(), resolucion.getEstado(), resolucion.getModificacion(), resolucion.getProrroga(), resolucion.getAntecedente(), resolucion.getOposicion(), resolucion.getClase(), resolucion.getAgrupamiento(), resolucion.getFechaApertura(), resolucion.getFechaCierre(), resolucion.getFechaEjecucion(), resolucion.getFechaPublicacion(), resolucion.getDocumento(), resolucion.getNumeroResolucion(), resolucion.getModificaResolucion(), resolucion.getProrrogaResolucion());
+                resolucionDao.insertar(nuevaResolucion);
             }
+
         } catch (HibernateException exHibernate) {
             nuevoMensajeAlerta("Error" + exHibernate.getMessage(), exHibernate.getLocalizedMessage());
         } catch (Exception exGeneral) {

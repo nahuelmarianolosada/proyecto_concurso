@@ -52,7 +52,7 @@ public class CargoDaoImpl extends HibernateUtil implements CargoDao {
             Cargo ultimoCargo = (Cargo) criteria.list().get(0);
             return ultimoCargo.getIdCargo() + 1;
         } else {
-            return 0;
+            return 1;
         }
 
     }
@@ -64,7 +64,9 @@ public class CargoDaoImpl extends HibernateUtil implements CargoDao {
             getSession().beginTransaction();
             getSession().save(cargo);
             getSession().getTransaction().commit();
-
+        }catch(org.hibernate.HibernateException exHibernate){
+            exHibernate.printStackTrace();
+            getSession().getTransaction().rollback();
         } catch (Exception e) {
             e.printStackTrace();
             getSession().getTransaction().rollback();

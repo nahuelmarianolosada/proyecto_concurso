@@ -123,7 +123,7 @@
                             <p:tab title="Resoluciones"  id="tabResoluciones" disabled="#{!beanExpediente.datosValidos}" >
                                 <h:form id="formResoluciones">
                                     <p:commandButton value="Nuevo" onclick="PF('dlgNuevaResolucion').show();" icon="ui-icon-plusthick" />
-                                    <p:dataTable  id="tblResoluciones" var="resolucion" value="#{beanResolucion.listaResoluciones}" rows="1"
+                                    <p:dataTable  id="tblResoluciones" var="resolucion" value="#{beanResolucion.listaResoluciones}" rows="3"
                                                   paginator="true"
                                                   paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                                   rowsPerPageTemplate="1,3,5,10,15"
@@ -137,24 +137,25 @@
                                             <p:commandButton id="togglerResoluciones" type="button" value="Columnas" style="float:right" icon="ui-icon-calculator" />
                                             <p:columnToggler datasource="tblResoluciones" trigger="togglerResoluciones" />
                                         </f:facet>
-                                        <p:column headerText="Id">
-                                            <h:outputText value="#{resolucion.idResolucion}" />
+                                        <p:column headerText="Expediente">
+                                            <h:outputText value="#{resolucion.expediente.numeroExpediente}" />
                                         </p:column>
+                                        <!--                                        <p:column headerText="Id">
+                                                                                    <h:outputText value="#{resolucion.idResolucion}" />
+                                                                                </p:column>-->
                                         <p:column headerText="Número">
                                             <h:outputText value="#{resolucion.numeroResolucion}" />
                                         </p:column>
                                         <p:column headerText="Agrupamiento">
                                             <h:outputText value="#{resolucion.agrupamiento}" />
                                         </p:column>
-                                        <p:column headerText="Expediente">
-                                            <h:outputText value="#{resolucion.expediente.numeroExpediente}" />
-                                        </p:column>
+
                                         <p:column headerText="Oposición">
                                             <h:outputText value="#{resolucion.oposicion}" />
                                         </p:column>
-                                        <p:column headerText="Modificatoria" rendered="#{resolucion.modificacion}">
+<!--                                        <p:column headerText="Modificatoria" rendered="#{resolucion.modificacion}">
                                             <h:outputText value="#{resolucion.modificaResolucion}" />
-                                        </p:column>
+                                        </p:column>-->
                                         <p:column headerText="Clase">
                                             <h:outputText value="#{resolucion.clase}" />
                                         </p:column>
@@ -470,7 +471,7 @@
                 **********************************
                 -->
                 <p:dialog id="dlgNuevaResolucion" appendTo="@(body)" widgetVar="dlgNuevaResolucion" modal="true" showEffect="blind" hideEffect="blind" resizable="true" closable="true" closeOnEscape="true" >
-                    <f:facet name="header">
+                    <f:facet name="header" >
                         <h:outputText id="lblEncabezadoNuevaResolucion" value="Resolucion Nueva - Exp. #{beanExpediente.expedienteNuevo.numeroExpediente}" />
                     </f:facet>
                     <h:form id="formNuevaResolucion">

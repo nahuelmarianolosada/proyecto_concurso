@@ -51,7 +51,7 @@ public class ResolucionDaoImpl extends HibernateUtil implements ResolucionDao {
             Resolucion ultimaResolucion = (Resolucion) criteria.list().get(0);
             return ultimaResolucion.getIdResolucion() + 1;
         } else {
-            return 0;
+            return 1;
         }
     }
 

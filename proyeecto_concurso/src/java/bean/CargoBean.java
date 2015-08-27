@@ -17,9 +17,7 @@ import hibernate.dao.impl.ResolucionDaoImpl;
 import hibernate.dao.CargoDao;
 import hibernate.dao.impl.CargoDaoImpl;
 import dominio.Resolucion;
-import hibernate.dao.EstablecimientoDao;
 import hibernate.dao.ProfesionDao;
-import hibernate.dao.impl.EstablecimientoDaoImpl;
 import hibernate.dao.impl.ProfesionDaoImpl;
 import java.util.ArrayList;
 
@@ -49,10 +47,10 @@ public class CargoBean extends ConcursoBean implements Serializable {
     public CargoBean() {
 //        cargoNuevo = new Cargo(getListaEstablecimientos().get(0), getListaProfesiones().get(0));
         ProfesionDao profDao = new ProfesionDaoImpl();
-        CargoDao cargoDao = new CargoDaoImpl();
+        
         listaProfesiones = profDao.getAll();
         cargoNuevo = new Cargo(new Profesion());
-        cargoNuevo.setIdCargo(cargoDao.generarNuevoIdCargo());
+        cargoNuevo.setIdCargo(0);
         cargoNuevo.setEstablecimiento(super.getListaEstablecimientos().get(0));
 
         cargoSeleccionado = new Cargo();
@@ -141,12 +139,7 @@ public class CargoBean extends ConcursoBean implements Serializable {
 
     }
 
-    //Genera el Id del Nuevo Cargo a grabar
-    public int generarIdNuevoCargo() {
-        CargoDao resCarg = new CargoDaoImpl();
-        return (resCarg.generarNuevoIdCargo());
-
-    }
+    
 
     public void guardarNuevoCargo() {
         if (cargoNuevo.getCantidad() > 0) {
@@ -170,7 +163,7 @@ public class CargoBean extends ConcursoBean implements Serializable {
                 }
 
                 listaCargos.add(cargoNuevo);
-                cargoNuevo.setIdCargo(cargoNuevo.getIdCargo() + 1);
+                cargoNuevo.setIdCargo(0);
 
                 System.out.println("\033[32mCargoBean.guardarNuevoCargo() => Cargo Nuevo: " + cargoNuevo.toString());
                 finalizoCarga = true;
