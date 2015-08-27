@@ -41,6 +41,23 @@ public class Cargo  implements java.io.Serializable {
         this.establecimiento = establecimiento;
         this.profesion = profesion;
     }
+
+    public Cargo(int idCargo, Resolucion resolucion, Establecimiento establecimiento, Profesion profesion, String especialidad, String categoria, Integer adicional, String funcion, String areaDeDesempenio, String modalidad, Date fechaActaFormulacionPerfil, String enunciacion) {
+        this.idCargo = idCargo;
+        this.resolucion = resolucion;
+        this.establecimiento = establecimiento;
+        this.profesion = profesion;
+        this.especialidad = especialidad;
+        this.categoria = categoria;
+        this.adicional = adicional;
+        this.funcion = funcion;
+        this.areaDeDesempenio = areaDeDesempenio;
+        this.modalidad = modalidad;
+        this.fechaActaFormulacionPerfil = fechaActaFormulacionPerfil;
+        this.enunciacion = enunciacion;
+    }
+    
+    
     public Cargo(int idCargo, Resolucion resolucion, Establecimiento establecimiento, Profesion profesion, String especialidad, String categoria, Integer adicional, String funcion, String areaDeDesempenio, String modalidad, Date fechaActaFormulacionPerfil, String enunciacion, Set postulantes) {
        this.idCargo = idCargo;
        this.resolucion = resolucion;
@@ -159,7 +176,7 @@ public class Cargo  implements java.io.Serializable {
 
     @Override
     public String toString() {
-        return "Cargo " + idCargo + "{resolucion=" + resolucion.getNumeroResolucion() + ", establecimiento=" + establecimiento.getNombre() + ", profesion=" + profesion.getNombreProfesion() + ", especialidad=" + especialidad + ", categoria=" + categoria + ", adicional=" + adicional + ", funcion=" + funcion + ", areaDeDesempenio=" + areaDeDesempenio + ", modalidad=" + modalidad + ", fechaActaFormulacionPerfil=" + fechaActaFormulacionPerfil + ", enunciacion=" + enunciacion + ", cantidad=" + cantidad + '}';
+        return "Cargo " + idCargo + "{resolucion=" + resolucion.getNumeroResolucion() + ", establecimiento=(" + establecimiento.getCodigoSiisa() + ") " + establecimiento.getNombre() + ", profesion=(id: " + profesion.getIdProfesion() +") " + profesion.getNombreProfesion() + ", especialidad=" + especialidad + ", categoria=" + categoria + ", adicional=" + adicional + ", funcion=" + funcion + ", areaDeDesempenio=" + areaDeDesempenio + ", modalidad=" + modalidad + ", fechaActaFormulacionPerfil=" + fechaActaFormulacionPerfil + ", enunciacion=" + enunciacion + ", cantidad=" + cantidad + '}';
     }
 
     

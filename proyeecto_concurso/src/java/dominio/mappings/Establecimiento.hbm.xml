@@ -46,7 +46,7 @@
         </property>
         <set name="cargos" table="cargo" inverse="true" lazy="true" fetch="select">
             <key>
-                <column name="codigo_establecimiento" not-null="true" />
+                <column name="codigo_establecimiento" />
             </key>
             <one-to-many class="dominio.Cargo" />
         </set>

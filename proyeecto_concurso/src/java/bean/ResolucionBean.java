@@ -96,22 +96,22 @@ public class ResolucionBean extends ConcursoBean implements Serializable {
         this.anioNumeroResolucion = anioNumeroResolucion;
     }
 
-    public List<Resolucion> getAllResoluciones() {
-        ResolucionDao resolucionDao = new ResolucionDaoImpl();
-        return resolucionDao.getAll();
-    }
+//    public List<Resolucion> obtenerTodasResoluciones() {
+//        ResolucionDao resolucionDao = new ResolucionDaoImpl();
+//        return resolucionDao.getAll();
+//    }
 
     /**
      * Creates a new instance of ResolucionBean
      */
     public ResolucionBean() {
+        ResolucionDao resolucionDao = new ResolucionDaoImpl();
         banderaModificacionParcial = false;
         banderaProrroga = false;
-        resolucionNueva = new Resolucion();
+        resolucionNueva = new Resolucion(resolucionDao.generarNuevoIdResolucion());
         listaResoluciones = new ArrayList<Resolucion>();
         datosValidos = false;
-        ResolucionDao resDao = new ResolucionDaoImpl();
-        listaResoluciones = resDao.getAll();
+
     }
 
     //METODOS
@@ -187,6 +187,8 @@ public class ResolucionBean extends ConcursoBean implements Serializable {
             for (Resolucion resolucion : listaResoluciones) {
                 resolucionDao.insertar(resolucion);
             }
+        } catch (HibernateException exHibernate) {
+            nuevoMensajeAlerta("Error" + exHibernate.getMessage(), exHibernate.getLocalizedMessage());
         } catch (Exception exGeneral) {
             exGeneral.printStackTrace();
         }

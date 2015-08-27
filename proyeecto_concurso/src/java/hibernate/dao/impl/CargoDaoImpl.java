@@ -41,12 +41,29 @@ public class CargoDaoImpl extends HibernateUtil implements CargoDao {
         return lista;
     }
 
+    //Genera el nuevo Id del cargo que se guardara.
+    @Override
+    public int generarNuevoIdCargo() {
+
+        Criteria criteria = getSession().createCriteria(Cargo.class);
+        criteria.addOrder(Order.desc("idCargo"));
+        criteria.setMaxResults(1);
+        if (criteria.list().size() > 0) {
+            Cargo ultimoCargo = (Cargo) criteria.list().get(0);
+            return ultimoCargo.getIdCargo() + 1;
+        } else {
+            return 0;
+        }
+
+    }
+
     @Override
     public void insertar(Cargo cargo) {
+        System.out.println("\033[32CargoDaoImpl.insertar() => Guardando " + cargo.toString());
         try {
             getSession().beginTransaction();
             getSession().save(cargo);
-            //  getSession().getTransaction().commit();
+            getSession().getTransaction().commit();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -89,19 +106,4 @@ public class CargoDaoImpl extends HibernateUtil implements CargoDao {
         return lista;
     }
 
-    //Genera el nuevo Id del cargo que se guardara.
-    @Override
-    public int generarNuevoIdCargo() {
-
-        Criteria criteria = getSession().createCriteria(Cargo.class);
-        criteria.addOrder(Order.desc("idCargo"));
-        criteria.setMaxResults(1);
-        if (criteria.list().size() > 0) {
-            Cargo ultimoCargo = (Cargo) criteria.list().get(0);
-            return ultimoCargo.getIdCargo() + 1;
-        } else {
-            return 0;
-        }
-
-    }
 }

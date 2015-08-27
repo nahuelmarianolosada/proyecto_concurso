@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package hibernate.dao;
 
 import dominio.Cargo;
@@ -15,13 +14,21 @@ import dominio.Resolucion;
  * @author SIISAJUJUY
  */
 public interface CargoDao {
+
     public List<Cargo> getAll();
+
     public Cargo getCargo(int idCargo);
+
     public List<Cargo> getCargos(Resolucion resolucion);
+
     public void insertar(Cargo cargo);
+
     public void eliminar(Cargo cargo);
+
     public void modificar(Cargo cargo);
-     public List<Cargo> getListaCargosDeResolucion(Resolucion resolucion);
+
+    public List<Cargo> getListaCargosDeResolucion(Resolucion resolucion);
+
     public int generarNuevoIdCargo();
-    
+
 }

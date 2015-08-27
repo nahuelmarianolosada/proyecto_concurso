@@ -299,6 +299,12 @@ public class ConcursoBean implements Serializable {
             expDao.insertar(expedienteFinalCargado);
             System.out.println("----------------------Se a guardado el expediente");
             
+            TribunalDao tribunalDao = new TribunalDaoImpl();
+            for (Tribunal tribunal : listaFinalTribunales) {
+                tribunalDao.insertar(tribunal);
+            }
+            System.out.println("----------------------Se a guardado la lista de Tribunales");
+            
             ResolucionDao resolucionDao = new ResolucionDaoImpl();
             for (Resolucion resolucion : listaFinalResoluciones) {
                 resolucionDao.insertar(resolucion);
@@ -311,11 +317,7 @@ public class ConcursoBean implements Serializable {
             }
             System.out.println("----------------------Se a guardado la lista de Cargos");
             
-            TribunalDao tribunalDao = new TribunalDaoImpl();
-            for (Tribunal tribunal : listaFinalTribunales) {
-                tribunalDao.insertar(tribunal);
-            }
-            System.out.println("----------------------Se a guardado la lista de Tribunales");
+            
             
             
             

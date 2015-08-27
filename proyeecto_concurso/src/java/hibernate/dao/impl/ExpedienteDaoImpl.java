@@ -56,7 +56,6 @@ public class ExpedienteDaoImpl extends HibernateUtil implements ExpedienteDao {
         } else {
             return 0;
         }
-
     }
 
     @Override

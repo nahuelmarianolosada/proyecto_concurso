@@ -49,8 +49,10 @@ public class CargoBean extends ConcursoBean implements Serializable {
     public CargoBean() {
 //        cargoNuevo = new Cargo(getListaEstablecimientos().get(0), getListaProfesiones().get(0));
         ProfesionDao profDao = new ProfesionDaoImpl();
+        CargoDao cargoDao = new CargoDaoImpl();
         listaProfesiones = profDao.getAll();
-        cargoNuevo = new Cargo(listaProfesiones.get(0));
+        cargoNuevo = new Cargo(new Profesion());
+        cargoNuevo.setIdCargo(cargoDao.generarNuevoIdCargo());
         cargoNuevo.setEstablecimiento(super.getListaEstablecimientos().get(0));
 
         cargoSeleccionado = new Cargo();
@@ -152,7 +154,12 @@ public class CargoBean extends ConcursoBean implements Serializable {
                 ProfesionDao profDao = new ProfesionDaoImpl();
                 Profesion profEncontrada = profDao.getProfesion(cargoNuevo.getProfesion().getIdProfesion());
                 cargoNuevo.setProfesion(profEncontrada);
-                obtenerEstablecimiento(cargoNuevo);
+                for (Establecimiento establecimiento : getListaEstablecimientos()) {
+                    if (cargoNuevo.getEstablecimiento().getCodigoSiisa() == establecimiento.getCodigoSiisa()) {
+                        cargoNuevo.setEstablecimiento(establecimiento);
+                        break;
+                    }
+                }
                 System.out.println("CargoBean.guardarNuevoCargo() => Cantidad de Cargos: " + cargoNuevo.getCantidad());
 
                 for (Resolucion resol : getListaFinalResoluciones()) {
@@ -170,7 +177,7 @@ public class CargoBean extends ConcursoBean implements Serializable {
 
                 //Obtenemos la resolucion para asignarsela al siguiente cargo que se cargue
                 Resolucion res = cargoNuevo.getResolucion();
-                cargoNuevo = new Cargo(listaProfesiones.get(0));
+                cargoNuevo = new Cargo(new Profesion());
                 cargoNuevo.setEstablecimiento(getListaEstablecimientos().get(0));
                 cargoNuevo.setResolucion(res);
 
@@ -190,20 +197,25 @@ public class CargoBean extends ConcursoBean implements Serializable {
     public void guardarCargos() {
         int sumatoria = 0;
         CargoDao cargoDao = new CargoDaoImpl();
-        if (listaCargos.size() > 0) {
-            datosValidos = true;
-        }
-
-        for (Cargo cargo : listaCargos) {
-            for (int i = 0; i < cargo.getCantidad(); i++) {
-                //cargo.setIdCargo(cargoDao.generarNuevoIdCargo());
-                super.getListaFinalCargos().add(cargo);
-                cargoDao.insertar(cargo);
-                sumatoria++;
+        try {
+            for (Cargo cargo : listaCargos) {
+                for (int i = 0; i < cargo.getCantidad(); i++) {
+                    Cargo nuevoCargo = new Cargo(cargoDao.generarNuevoIdCargo(), cargo.getResolucion(), cargo.getEstablecimiento(), cargo.getProfesion(), cargo.getEspecialidad(), cargo.getCategoria(), cargo.getAdicional(), cargo.getFuncion(), cargo.getAreaDeDesempenio(), cargo.getModalidad(), cargo.getFechaActaFormulacionPerfil(), cargo.getEnunciacion());
+                    super.getListaFinalCargos().add(nuevoCargo);
+                    cargoDao.insertar(nuevoCargo);
+                    sumatoria++;
+                }
             }
+
+            if (listaCargos.size() > 0) {
+                datosValidos = true;
+            }
+            nuevoMensajeInfo("Registro de concursos de Salud", sumatoria + " cargos fueron cargados");
+            pasarVistaDePestania();
+        } catch (Exception exGeneral) {
+            exGeneral.printStackTrace();
+            nuevoMensajeAlerta("Error " + exGeneral.getMessage(), exGeneral.toString());
         }
-        nuevoMensajeInfo("Registro de concursos de Salud", sumatoria + " cargos fueron cargados");
-        pasarVistaDePestania();
     }
 
     /**
@@ -214,13 +226,11 @@ public class CargoBean extends ConcursoBean implements Serializable {
      */
     public void obtenerEstablecimiento(Cargo cargo) {
         try {
-
-            EstablecimientoDao establDao = new EstablecimientoDaoImpl();
-            Establecimiento estEncontrado = establDao.getEstablecimiento(cargo.getEstablecimiento().getCodigoSiisa());
-            if (estEncontrado != null) {
-                cargo.setEstablecimiento(estEncontrado);
-            } else {
-                System.out.println("\033[31mCargoBean.obtenerEstablecimiento() => No se encontro el establecimiento con el codigo ");
+            for (Establecimiento establecimiento : getListaEstablecimientos()) {
+                if (cargo.getEstablecimiento().getCodigoSiisa() == establecimiento.getCodigoSiisa()) {
+                    cargo.setEstablecimiento(establecimiento);
+                    break;
+                }
             }
         } catch (Exception exGeneral) {
             exGeneral.printStackTrace();

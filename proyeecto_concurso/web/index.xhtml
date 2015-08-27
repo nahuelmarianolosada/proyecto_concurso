@@ -15,7 +15,7 @@
                         <h:form id="formMostrar"> 
                             <p:accordionPanel dynamic="true" cache="true">
                                 <p:tab title="Expedientes">
-                                    <p:dataScroller value="#{beanResolucion.getAllResoluciones()}" var="resolucion" chunkSize="5" mode="inline" scrollHeight="283" >
+                                    <p:dataScroller value="#{beanConcurso.listaFinalResoluciones}" var="resolucion" chunkSize="5" mode="inline" scrollHeight="283" >
                                         <f:facet name="header">
                                             Expedientes Registrados
                                         </f:facet>
@@ -474,6 +474,7 @@
                         <h:outputText id="lblEncabezadoNuevaResolucion" value="Resolucion Nueva - Exp. #{beanExpediente.expedienteNuevo.numeroExpediente}" />
                     </f:facet>
                     <h:form id="formNuevaResolucion">
+
                         <h:panelGrid columns="4" cellpadding="3" frame="box" styleClass="panelAlta" >
 
                             <h:outputText value="Numero de Resolución" />
@@ -585,7 +586,7 @@
 
                         <h:panelGrid columns="2" cellpadding="2">
                             <p:outputLabel for="cmbProfesion" value="Profesión: " />
-                            <p:selectOneMenu id="cmbProfesion" style="width:100%;" value="#{beanCargo.cargoNuevo.profesion.idProfesion}" filter="true">
+                            <p:selectOneMenu id="cmbProfesion" style="width:100%;" value="#{beanCargo.cargoNuevo.profesion.idProfesion}" filter="true" required="true" requiredMessage="Seleccione una profesion para el cargo">
                                 <f:selectItem itemLabel="No se especifica" itemValue="" noSelectionOption="true" />
                                 <f:selectItems var="profesion" value="#{beanCargo.listaProfesiones}" itemLabel="#{profesion.nombreProfesion}" itemValue="#{profesion.idProfesion}" />
                             </p:selectOneMenu>
@@ -634,7 +635,7 @@
                             </p:selectOneMenu>
                         </h:panelGrid>
 
-                        <p:commandButton id="btnGuardarNuevoCargo" oncomplete="PF('dlgCargoNuevo').hide();" value="Guardar" actionListener="#{beanCargo.guardarNuevoCargo}" icon="ui-icon-disk" update="tabuladorPestañero,tabuladorPestañero:formExpedientes:msg,tabuladorPestañero:formCargos,formPostulantes:cmbCargoPostulante" styleClass="btnVerde" />
+                        <p:commandButton id="btnGuardarNuevoCargo" onsuccess="PF('dlgCargoNuevo').hide();" value="Guardar" actionListener="#{beanCargo.guardarNuevoCargo}" icon="ui-icon-disk" update="tabuladorPestañero,tabuladorPestañero:formExpedientes:msg,tabuladorPestañero:formCargos,formPostulantes:cmbCargoPostulante" styleClass="btnVerde" />
                     </h:form>
                 </p:dialog>
                 <!--   
@@ -678,9 +679,6 @@
 
                             <h:outputText value="Presencia" />     
                             <p:inputSwitch value="#{beanTribunal.juradoNuevo.presencia}" onLabel="SI" offLabel="NO" />
-
-
-
 
                             <h:outputText value="Condición" />
                             <p:selectOneMenu id="cmbCondicionJurado" value="#{beanTribunal.juradoNuevo.condicion}" style="width:100px;" >
