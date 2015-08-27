@@ -189,13 +189,16 @@ public class CargoBean extends ConcursoBean implements Serializable {
      */
     public void guardarCargos() {
         int sumatoria = 0;
+        CargoDao cargoDao = new CargoDaoImpl();
         if (listaCargos.size() > 0) {
             datosValidos = true;
         }
 
         for (Cargo cargo : listaCargos) {
             for (int i = 0; i < cargo.getCantidad(); i++) {
+                //cargo.setIdCargo(cargoDao.generarNuevoIdCargo());
                 super.getListaFinalCargos().add(cargo);
+                cargoDao.insertar(cargo);
                 sumatoria++;
             }
         }

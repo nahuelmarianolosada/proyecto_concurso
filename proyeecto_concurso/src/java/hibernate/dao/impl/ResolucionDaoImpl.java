@@ -41,6 +41,18 @@ public class ResolucionDaoImpl extends HibernateUtil implements ResolucionDao {
         return lista;
     }
 
+    @Override
+    public int generarNuevoIdResolucion() {
+        Criteria criteria = getSession().createCriteria(Resolucion.class);
+        criteria.addOrder(Order.desc("idResolucion"));
+        if (criteria.list().size() > 0) {
+            Resolucion ultimaResolucion = (Resolucion) criteria.list().get(0);
+            return ultimaResolucion.getIdResolucion() + 1;
+        } else {
+            return 0;
+        }
+    }
+
 //    @Override
 //    public int getNuevoId() {
 //        Criteria criteria = getSession().createCriteria(Resolucion.class);
@@ -50,11 +62,12 @@ public class ResolucionDaoImpl extends HibernateUtil implements ResolucionDao {
 //    }
     @Override
     public void insertar(Resolucion resolucion) {
+        System.out.println("\033[32mResolucionDaoImpl.insertar() => Se va a guardar la " + resolucion.toString());
         try {
             getSession().beginTransaction();
             getSession().save(resolucion);
             getSession().getTransaction().commit();
-            
+
         } catch (Exception e) {
             e.printStackTrace();
             getSession().getTransaction().rollback();

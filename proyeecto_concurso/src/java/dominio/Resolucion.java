@@ -36,7 +36,11 @@ public class Resolucion  implements java.io.Serializable {
     public Resolucion() {
     }
 
-	
+    public Resolucion(int idResolucion) {
+        this.idResolucion = idResolucion;
+    }
+
+    
     public Resolucion(int idResolucion, String numeroResolucion) {
         this.idResolucion = idResolucion;
         this.numeroResolucion = numeroResolucion;
@@ -207,7 +211,7 @@ public class Resolucion  implements java.io.Serializable {
 
     @Override
     public String toString() {
-        return "Resolucion " + idResolucion + "{expediente=" + expediente.getNumeroExpediente() + ", tribunal=" + tribunal.getIdTribunal() + ", estado=" + estado + ", modificacion=" + modificacion + ", prorroga=" + prorroga + ", antecedente=" + antecedente + ", oposicion=" + oposicion + ", clase=" + clase + ", agrupamiento=" + agrupamiento + ", fechaApertura=" + fechaApertura + ", fechaCierre=" + fechaCierre + ", fechaEjecucion=" + fechaEjecucion + ", fechaPublicacion=" + fechaPublicacion + ", documento=" + documento + ", numeroResolucion=" + numeroResolucion + ", modificaResolucion=" + modificaResolucion + ", prorrogaResolucion=" + prorrogaResolucion + '}';
+        return "Resolucion " + idResolucion + " {expediente=" + expediente.getNumeroExpediente() + ", tribunal=" + tribunal.getIdTribunal() + ", estado=" + estado + ", modificacion=" + modificacion + ", prorroga=" + prorroga + ", antecedente=" + antecedente + ", oposicion=" + oposicion + ", clase=" + clase + ", agrupamiento=" + agrupamiento + ", fechaApertura=" + fechaApertura + ", fechaCierre=" + fechaCierre + ", fechaEjecucion=" + fechaEjecucion + ", fechaPublicacion=" + fechaPublicacion + ", documento=" + documento + ", numeroResolucion=" + numeroResolucion + ", modificaResolucion=" + modificaResolucion + ", prorrogaResolucion=" + prorrogaResolucion + '}';
     }
 
 

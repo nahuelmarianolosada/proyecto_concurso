@@ -18,6 +18,7 @@ public interface ResolucionDao {
     public List<Resolucion> getAll();
     public Resolucion getResolucion(int idResolucion);
     public List<Resolucion> getResoluciones(Expediente expediente);
+    public int generarNuevoIdResolucion();
     public void insertar(Resolucion resolucion);
     public void eliminar(Resolucion resolucion);
     public void modificar(Resolucion resolucion);

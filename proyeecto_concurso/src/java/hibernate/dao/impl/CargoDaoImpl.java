@@ -32,7 +32,7 @@ public class CargoDaoImpl extends HibernateUtil implements CargoDao {
     public Cargo getCargo(int idCargo) {
         return (Cargo) getSession().get(Cargo.class, idCargo);
     }
-    
+
     @Override
     public List<Cargo> getCargos(Resolucion resolucion) {
         Criteria criteria = getSession().createCriteria(Cargo.class);
@@ -46,7 +46,7 @@ public class CargoDaoImpl extends HibernateUtil implements CargoDao {
         try {
             getSession().beginTransaction();
             getSession().save(cargo);
-          //  getSession().getTransaction().commit();
+            //  getSession().getTransaction().commit();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -95,9 +95,13 @@ public class CargoDaoImpl extends HibernateUtil implements CargoDao {
 
         Criteria criteria = getSession().createCriteria(Cargo.class);
         criteria.addOrder(Order.desc("idCargo"));
-        Cargo ultimoCargo = (Cargo) criteria.list().get(0);
-        int nuevoIdCargo = ultimoCargo.getIdCargo() + 1;
-        return nuevoIdCargo;
+        criteria.setMaxResults(1);
+        if (criteria.list().size() > 0) {
+            Cargo ultimoCargo = (Cargo) criteria.list().get(0);
+            return ultimoCargo.getIdCargo() + 1;
+        } else {
+            return 0;
+        }
 
     }
 }
