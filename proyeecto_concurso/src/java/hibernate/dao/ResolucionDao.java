@@ -17,6 +17,7 @@ import java.util.List;
 public interface ResolucionDao {
     public List<Resolucion> getAll();
     public Resolucion getResolucion(int idResolucion);
+    public Resolucion getResolucion(String numeroResolucion);
     public List<Resolucion> getResoluciones(Expediente expediente);
     public int generarNuevoIdResolucion();
     public void insertar(Resolucion resolucion);

@@ -34,6 +34,11 @@ public class ResolucionDaoImpl extends HibernateUtil implements ResolucionDao {
     public Resolucion getResolucion(int idResolucion) {
         return (Resolucion) getSession().get(Resolucion.class, idResolucion);
     }
+    
+    @Override
+    public Resolucion getResolucion(String numeroResolucion) {
+        return (Resolucion) getSession().get(Resolucion.class, numeroResolucion);
+    }
 
     @Override
     public List<Resolucion> getResoluciones(Expediente expediente) {

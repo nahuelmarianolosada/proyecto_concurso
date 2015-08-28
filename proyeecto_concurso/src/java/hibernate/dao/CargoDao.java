@@ -8,6 +8,7 @@ package hibernate.dao;
 import dominio.Cargo;
 import java.util.List;
 import dominio.Resolucion;
+import java.sql.SQLException;
 
 /**
  *
@@ -21,7 +22,7 @@ public interface CargoDao {
 
     public List<Cargo> getCargos(Resolucion resolucion);
 
-    public void insertar(Cargo cargo);
+    public void insertar(Cargo cargo) throws SQLException;
 
     public void eliminar(Cargo cargo);
 

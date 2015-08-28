@@ -8,8 +8,10 @@ package bean;
 import dominio.Cargo;
 import dominio.Postulante;
 import dominio.Persona;
+import hibernate.dao.CargoDao;
 import hibernate.dao.PersonaDao;
 import hibernate.dao.PostulanteDao;
+import hibernate.dao.impl.CargoDaoImpl;
 import hibernate.dao.impl.PersonaDaoImpl;
 import hibernate.dao.impl.PostulanteDaoImpl;
 import java.io.Serializable;
@@ -46,14 +48,13 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
      * Creates a new instance of PostulantesBean
      */
     public PostulantesBean() {
-        
-        PostulanteDao postulanteDao = new PostulanteDaoImpl();
+
         nuevoPostulante = new Postulante(new Persona());
         nuevoPostulante.setCargo(new Cargo());
         banderaGanador = false;
         listaPostulantes = new ArrayList<>();
         System.out.println("PostulantesBean.PostulantesBean() => Se ah creado el bean Postulantes");
-        
+
     }
 
     /*
@@ -142,7 +143,7 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
     /*
      METODOS
      */
-    public void buscarPorCriterio() throws SQLException{
+    public void buscarPorCriterio() throws SQLException {
         PersonaDao personaDao = new PersonaDaoImpl();
         Persona personaEncontrada = new Persona();
         RequestContext context = RequestContext.getCurrentInstance();
@@ -212,19 +213,20 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
     }
 
     public void guardarNuevoPostulante() {
+        CargoDao cargoDao = new CargoDaoImpl();
+       
         if (validarPostulante(nuevoPostulante)) {
-            for (Cargo cargo : beanCargo.getListaCargos()) {
-                if (cargo.getIdCargo() == nuevoPostulante.getCargo().getIdCargo()) {
-                    nuevoPostulante.setCargo(cargo);
-                    break;
-                }
+            if (banderaGanador) {
+                Cargo cargoAsignado = cargoDao.getCargo(nuevoPostulante.getCargo().getIdCargo());
+                nuevoPostulante.setCargo(cargoAsignado);
+                nuevoPostulante.getCargo().setEsDesierto(false);
             }
 
             listaPostulantes.add(nuevoPostulante);
 
             System.out.println("\033[32mPostulantesBean.guardarNuevoPostulante() => " + nuevoPostulante.toString());
-            
-            nuevoPostulante = new Postulante( new Persona());
+
+            nuevoPostulante = new Postulante(new Persona());
             nuevoPostulante.setCargo(new Cargo());
 
             nuevoMensajeInfo("Registro Provincial de Concursos", "Postulante cargado");
@@ -233,10 +235,30 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
 
     public void guardarListaPostulantes() {
         super.setListaFinalPostulantes(listaPostulantes);
+        PostulanteDao postulanteDao = new PostulanteDaoImpl();
+        PersonaDao personaDao = new PersonaDaoImpl();
+
+        for (Postulante postulante : listaPostulantes) {
+            Persona personaExistente = personaDao.buscarPorDni(postulante.getPersona().getDni());
+            System.out.println("Existe la persona en la BD? " + personaExistente);
+            if (personaExistente == null) {
+                personaDao.insertar(postulante.getPersona());
+            }
+            postulanteDao.insertar(postulante);
+        }
         nuevoMensajeInfo("Registro Provincial de Concursos", "Se a guardado la lista de postulantes");
         pasarVistaDePestania();
     }
 
+    /**
+     *
+     * Valida los campos propios del postulante como el puntaje, fojas,
+     * oposicion, antecedentes y si son todos mayor de 0 devuelve true.
+     *
+     * @param postulante Postulante al que se desea validar
+     * @return devuelve true en caso de que todos los valores sean superiores a
+     * 0
+     */
     public boolean validarPostulante(Postulante postulante) {
         boolean esValido = false;
         if (postulante.getPuntaje() >= 0) {

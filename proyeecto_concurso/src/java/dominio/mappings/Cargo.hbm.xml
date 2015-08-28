@@ -41,6 +41,9 @@
         <property name="enunciacion" type="string">
             <column name="enunciacion" />
         </property>
+        <property name="esDesierto" type="boolean">
+            <column name="es_desierto" />
+        </property>
         <set name="postulantes" table="postulante" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="id_cargo" not-null="true" />

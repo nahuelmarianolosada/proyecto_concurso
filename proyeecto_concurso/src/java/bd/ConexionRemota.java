@@ -75,7 +75,7 @@ public class ConexionRemota {
             System.out.println("Error!\n" + exGeneral.getMessage());
         }
 //        String driver = "org.postgresql.Driver";
-//        //String connectString = "jdbc:postgresql://192.168.137.175:5432/concurso";
+//        String connectString = "jdbc:postgresql://192.168.137.175:5432/concurso";
 //        String connectString = "jdbc:postgresql://localhost:5432/concursosDB";
 //        String user = "nmlosada";
 //        String password = "siisa1234";

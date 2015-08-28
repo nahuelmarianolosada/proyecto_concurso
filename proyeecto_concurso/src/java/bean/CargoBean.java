@@ -47,12 +47,14 @@ public class CargoBean extends ConcursoBean implements Serializable {
     public CargoBean() {
 //        cargoNuevo = new Cargo(getListaEstablecimientos().get(0), getListaProfesiones().get(0));
         ProfesionDao profDao = new ProfesionDaoImpl();
-        
+
         listaProfesiones = profDao.getAll();
         cargoNuevo = new Cargo(new Profesion());
         cargoNuevo.setIdCargo(0);
-        cargoNuevo.setEstablecimiento(super.getListaEstablecimientos().get(0));
-
+        cargoNuevo.setEstablecimiento(new Establecimiento());
+        cargoNuevo.setResolucion(new Resolucion());
+        cargoNuevo.setEsDesierto(true);
+        
         cargoSeleccionado = new Cargo();
         datosValidos = false;
 
@@ -139,7 +141,15 @@ public class CargoBean extends ConcursoBean implements Serializable {
 
     }
 
-    
+    public void onEstablecimientoSeleccionado() {
+        System.out.println("CargoBean.onEstablecimientoSeleccionado() => Codido Seleccionado: " + cargoNuevo.getEstablecimiento().getCodigoSiisa());
+        for (Establecimiento estab : getListaEstablecimientos()) {
+            if (estab.getCodigoSiisa() == cargoNuevo.getEstablecimiento().getCodigoSiisa()) {
+                cargoNuevo.setEstablecimiento(estab);
+                break;
+            }
+        }
+    }
 
     public void guardarNuevoCargo() {
         if (cargoNuevo.getCantidad() > 0) {
@@ -155,13 +165,9 @@ public class CargoBean extends ConcursoBean implements Serializable {
                 }
                 System.out.println("CargoBean.guardarNuevoCargo() => Cantidad de Cargos: " + cargoNuevo.getCantidad());
 
-                for (Resolucion resol : getListaFinalResoluciones()) {
-                    if (resol.getNumeroResolucion().equalsIgnoreCase(cargoNuevo.getResolucion().getNumeroResolucion())) {
-                        cargoNuevo.setResolucion(resol);
-                        break;
-                    }
-                }
-
+                ResolucionDao resDao = new ResolucionDaoImpl();
+                cargoNuevo.setResolucion(resDao.getResolucion(cargoNuevo.getResolucion().getIdResolucion()));
+                
                 listaCargos.add(cargoNuevo);
                 cargoNuevo.setIdCargo(0);
 
@@ -170,9 +176,8 @@ public class CargoBean extends ConcursoBean implements Serializable {
 
                 //Obtenemos la resolucion para asignarsela al siguiente cargo que se cargue
                 Resolucion res = cargoNuevo.getResolucion();
-                cargoNuevo = new Cargo(new Profesion());
-                cargoNuevo.setEstablecimiento(getListaEstablecimientos().get(0));
-                cargoNuevo.setResolucion(res);
+                cargoNuevo = new Cargo(res, new Establecimiento(), new Profesion());
+                cargoNuevo.setEsDesierto(true);
 
             } catch (Exception exGeneral) {
                 exGeneral.printStackTrace();
@@ -194,8 +199,8 @@ public class CargoBean extends ConcursoBean implements Serializable {
             for (Cargo cargo : listaCargos) {
                 for (int i = 0; i < cargo.getCantidad(); i++) {
                     Cargo nuevoCargo = new Cargo(cargoDao.generarNuevoIdCargo(), cargo.getResolucion(), cargo.getEstablecimiento(), cargo.getProfesion(), cargo.getEspecialidad(), cargo.getCategoria(), cargo.getAdicional(), cargo.getFuncion(), cargo.getAreaDeDesempenio(), cargo.getModalidad(), cargo.getFechaActaFormulacionPerfil(), cargo.getEnunciacion());
-                    super.getListaFinalCargos().add(nuevoCargo);
                     cargoDao.insertar(nuevoCargo);
+                    super.getListaFinalCargos().add(nuevoCargo);
                     sumatoria++;
                 }
             }
@@ -205,7 +210,11 @@ public class CargoBean extends ConcursoBean implements Serializable {
             }
             nuevoMensajeInfo("Registro de concursos de Salud", sumatoria + " cargos fueron cargados");
             pasarVistaDePestania();
-        } catch (Exception exGeneral) {
+        } catch(org.hibernate.exception.ConstraintViolationException exHibernateViolacionForanea){
+            exHibernateViolacionForanea.printStackTrace();
+            nuevoMensajeAlerta("Error " + exHibernateViolacionForanea.getMessage(), exHibernateViolacionForanea.toString());
+        }
+        catch (Exception exGeneral) {
             exGeneral.printStackTrace();
             nuevoMensajeAlerta("Error " + exGeneral.getMessage(), exGeneral.toString());
         }

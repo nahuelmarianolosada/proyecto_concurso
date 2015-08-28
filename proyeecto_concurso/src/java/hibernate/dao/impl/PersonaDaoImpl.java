@@ -148,7 +148,7 @@ public class PersonaDaoImpl extends HibernateUtil implements PersonaDao {
     }
 
     @Override
-    public List<Persona> buscarPorApellido(String apellido) throws SQLException{
+    public List<Persona> buscarPorApellido(String apellido) throws SQLException {
         Criteria criteria = getSession().createCriteria(Persona.class);
         criteria.add(Restrictions.ilike("apellido", "%" + apellido + "%"));
         System.out.println("PersonaDaoImpl.buscarPorApellido(" + apellido + ") => Cantidad de registros coincidentes: " + criteria.list().size());
@@ -210,17 +210,20 @@ public class PersonaDaoImpl extends HibernateUtil implements PersonaDao {
 
         Criteria criteria = getSession().createCriteria(Persona.class);
         criteria.addOrder(Order.desc("idPersona"));
-        Persona ultimaPersona = (Persona) criteria.list().get(0);
-        return ultimaPersona.getIdPersona() + 1;
+        if (!criteria.list().isEmpty()) {
+            Persona ultimaPersona = (Persona) criteria.list().get(0);
+            return ultimaPersona.getIdPersona() + 1;
+        } else {
+            return 0;
+        }
 
     }
 
     @Override
-    public boolean existeDniPersona(Persona persona
-    ) {
+    public boolean existeDniPersona(Persona persona) {
         Criteria criteria = getSession().createCriteria(Persona.class);
         criteria.add(Restrictions.eq("dni", persona.getDni()));
-        if (criteria.list().size() > 0) {
+        if (!criteria.list().isEmpty()) {
             return true;
         } else {
             return false;

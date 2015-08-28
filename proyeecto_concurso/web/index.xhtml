@@ -185,7 +185,7 @@
 
                                     </p:dataTable>
 
-                                    <p:commandButton id="btnGuardarListaResoluciones" value="Siguiente" actionListener="#{beanResolucion.guardarListaResoluciones()}" icon="ui-icon-disk" update="tabuladorPestañero,tabuladorPestañero:formExpedientes:msg" styleClass="btnVerde" />
+                                    <p:commandButton id="btnGuardarListaResoluciones" value="Siguiente" actionListener="#{beanResolucion.guardarListaResoluciones()}" icon="ui-icon-disk" update="tabuladorPestañero,tabuladorPestañero:formExpedientes:msg" styleClass="btnVerde" disabled="#{beanResolucion.listaResoluciones.isEmpty()}" />
 
                                 </h:form>
                             </p:tab>
@@ -351,7 +351,7 @@
                             PESTAÑA RESULTADO#{beanPostulante.listaPostulantes.isEmpty()}
                             **********************************
                             -->
-                            <p:tab title="Resultado" id="tabResultado" disabled="false" >
+                            <p:tab title="Resultado" id="tabResultado" disabled="#{beanPostulante.listaPostulantes.isEmpty()}" >
                                 <h:form id="formResultadoConcurso">
                                     <h:panelGrid columns="2" cellpadding="3" frame="box" styleClass="panelAlta" columnClasses="label, value" >
                                         <f:facet name="header">
@@ -552,7 +552,7 @@
                             <p:calendar id="calFechaPublicacion" value="#{beanResolucion.resolucionNueva.fechaPublicacion}" mindate="#{beanResolucion.resolucionNueva.fechaCierre}" pattern="dd-MM-yyyy" mask="true" />
 
                         </h:panelGrid>
-                        <p:commandButton id="btnGuardarNuevaResolucion" icon="ui-icon-disk" value="Guardar" actionListener="#{beanResolucion.guardarResolucion()}" oncomplete="PF('dlgNuevaResolucion').hide();" update="tabuladorPestañero,tabuladorPestañero:formResoluciones:tblResoluciones,tabuladorPestañero:formExpedientes:msg,tabuladorPestañero:formCargos:tblCargos,:formCargoNuevo:cmbCargoNuevoResolucion" styleClass="btnVerde"  >
+                        <p:commandButton id="btnGuardarNuevaResolucion" icon="ui-icon-disk" value="Guardar" actionListener="#{beanResolucion.guardarResolucion()}" oncomplete="PF('dlgNuevaResolucion').hide();" update="tabuladorPestañero,tabuladorPestañero:formResoluciones:tblResoluciones,tabuladorPestañero:formResoluciones:btnGuardarListaResoluciones,tabuladorPestañero:formExpedientes:msg,tabuladorPestañero:formCargos:tblCargos,:formCargoNuevo:cmbCargoNuevoResolucion" styleClass="btnVerde"  >
                             <f:setPropertyActionListener value="#{beanResolucion.resolucionNueva}" target="#{beanCargo.cargoNuevo.resolucion}" />
                         </p:commandButton>
                     </h:form>
@@ -573,6 +573,7 @@
                         <br/>
                         <h:outputText value="Establecimiento:" />
                         <p:selectOneMenu id="cmbEstablecimiento" value="#{beanCargo.cargoNuevo.establecimiento.codigoSiisa}" required="true" requiredMessage="Seleccione un Establecimiento" style="width: 100%;" filter="true" >
+                            <p:ajax listener="#{beanCargo.onEstablecimientoSeleccionado}" />
                             <f:selectItem noSelectionOption="true" itemLabel=" Seleccione un Establecimietno" itemValue="null" />
                             <f:selectItems var="establecimiento" value="#{beanConcurso.listaEstablecimientos}" itemLabel="#{establecimiento.nombre}" itemValue="#{establecimiento.codigoSiisa}" />
                         </p:selectOneMenu>
@@ -743,7 +744,10 @@
 
                 <p:dialog id="dlgPersonaResultado" header="Seleccione una persona"  widgetVar="dlgPersonaResultado" modal="true" showEffect="fade" hideEffect="fade" draggable="true" resizable="true" closeOnEscape="true" style="width: 50%;" >
                     <h:form id="formPersonaResultado">
-                        <p:dataTable id="tblResultado" var="persona" value="#{beanPostulante.listaResultado}" selectionMode="single" selection="#{beanPostulante.postulanteSeleccionado}" rowKey="#{persona.idPersona}">
+                        <p:dataTable id="tblResultado" var="persona" value="#{beanPostulante.listaResultado}" selectionMode="single" selection="#{beanPostulante.postulanteSeleccionado}" rowKey="#{persona.idPersona}"
+                                     paginator="true"
+                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="5,10,15,25">
                             <f:facet name="header">
                                 Personas Coincidentes
                             </f:facet>
@@ -758,12 +762,16 @@
                             <p:column headerText="Apellido" sortBy="#{persona.apellido}">
                                 <h:outputText value="#{persona.apellido}" />
                             </p:column>
-                            <p:column headerText="Sexo" sortBy="#{persona.sexo}">
+<!--                            <p:column headerText="Sexo" sortBy="#{persona.sexo}">
                                 <h:outputText value="#{persona.sexo}" />
                             </p:column>
                             <p:column headerText="Fecha de Nacimiento" sortBy="#{persona.fechaDeNacimiento}">
                                 <h:outputText value="#{persona.fechaDeNacimiento}" ><f:convertDateTime pattern="dd/MM/yyyy" /></h:outputText>
                             </p:column>
+                            -->
+                            <f:facet name="footer">
+                                Personas Encontradas: #{beanPostulante.listaResultado.size()}.
+                            </f:facet>
 
                         </p:dataTable>
                     </h:form>
@@ -838,12 +846,12 @@
 
                             <h:panelGrid columns="3">
                                 <h:outputText value="Ganador del Cargo" />
-                                <p:inputSwitch offLabel="No" onLabel="Si" value="#{beanPostulante.banderaGanador}" onchange="#{beanPostulante.cambiarEstadoGanador()}" >
+                                <p:inputSwitch offLabel="No" onLabel="Si" value="#{beanPostulante.banderaGanador}" >
                                     <p:ajax listener="#{beanPostulante.cambiarEstadoGanador()}" update="cmbCargoPostulante" />
                                 </p:inputSwitch>
                                 <p:selectOneMenu id="cmbCargoPostulante" value="#{beanPostulante.nuevoPostulante.cargo.idCargo}" required="true" requiredMessage="Seleccione un cargo" filter="true" validatorMessage="Seleccione un cargo válido" disabled="#{beanPostulante.banderaGanador}" converterMessage="Seleccione un cargo valido" >
                                     <f:selectItem noSelectionOption="true" itemLabel=" Seleccione un Cargo" itemValue="null" />
-                                    <f:selectItems var="cargo" value="#{beanCargo.listaCargos}" itemLabel="#{cargo.funcion} - #{cargo.categoria} (#{cargo.cantidad})" itemValue="#{cargo.idCargo}" />
+                                    <f:selectItems var="cargo" value="#{beanConcurso.listaFinalCargos}" itemLabel="#{cargo.funcion} - #{cargo.categoria} (#{cargo.cantidad})" itemValue="#{cargo.idCargo}" />
                                 </p:selectOneMenu>
                             </h:panelGrid>
 

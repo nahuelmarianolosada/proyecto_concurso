@@ -44,6 +44,7 @@ public class PostulanteDaoImpl extends HibernateUtil implements PostulanteDao{
 
     @Override
     public void insertar(Postulante postulante) {
+        System.out.println("\033[32PostulanteDaoImpl.insertar() => Guardando " + postulante.toString());
         try {
             getSession().beginTransaction();
             getSession().save(postulante);
