@@ -25,7 +25,6 @@ public class Persona  implements java.io.Serializable {
      private String telefono;
      private String email;
      private Long cuil;
-     private Integer edad;
      private Set personals = new HashSet(0);
      private Set tribunalJurados = new HashSet(0);
      private Set postulantes = new HashSet(0);
@@ -37,7 +36,7 @@ public class Persona  implements java.io.Serializable {
     public Persona(int idPersona) {
         this.idPersona = idPersona;
     }
-    public Persona(int idPersona, Localidad localidadByLocalidadNacimiento, Localidad localidadByIdLocalidadDireccion, Integer dni, String nombres, String apellido, String sexo, String nacionalidad, Date fechaDeNacimiento, String direccion, String telefono, String email, Long cuil, Integer edad, Set personals, Set tribunalJurados, Set postulantes) {
+    public Persona(int idPersona, Localidad localidadByLocalidadNacimiento, Localidad localidadByIdLocalidadDireccion, Integer dni, String nombres, String apellido, String sexo, String nacionalidad, Date fechaDeNacimiento, String direccion, String telefono, String email, Long cuil, Set personals, Set tribunalJurados, Set postulantes) {
        this.idPersona = idPersona;
        this.localidadByLocalidadNacimiento = localidadByLocalidadNacimiento;
        this.localidadByIdLocalidadDireccion = localidadByIdLocalidadDireccion;
@@ -51,7 +50,6 @@ public class Persona  implements java.io.Serializable {
        this.telefono = telefono;
        this.email = email;
        this.cuil = cuil;
-       this.edad = edad;
        this.personals = personals;
        this.tribunalJurados = tribunalJurados;
        this.postulantes = postulantes;
@@ -148,13 +146,7 @@ public class Persona  implements java.io.Serializable {
     public void setCuil(Long cuil) {
         this.cuil = cuil;
     }
-    public Integer getEdad() {
-        return this.edad;
-    }
     
-    public void setEdad(Integer edad) {
-        this.edad = edad;
-    }
     public Set getPersonals() {
         return this.personals;
     }
@@ -177,7 +169,14 @@ public class Persona  implements java.io.Serializable {
         this.postulantes = postulantes;
     }
 
-
+    public boolean datoVacio(String dato){
+        boolean datoVacio = false;
+        if(dato.isEmpty()){
+            datoVacio = true;
+        }
+        return datoVacio;
+    }
+    
 
 
 }

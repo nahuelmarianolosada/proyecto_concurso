@@ -144,13 +144,6 @@ public class ExpedienteBean extends ConcursoBean implements Serializable {
     public void guardarExpediente() {
         ExpedienteDao expedienteDao = new ExpedienteDaoImpl();
         try {
-
-//            for (UnidadDeOrganizacion unidad : listaUnidadDeOrganizacions) {
-//                if (unidad.getCodigoUnidadDeOrganizacion() == expedienteNuevo.getUnidadDeOrganizacion().getCodigoUnidadDeOrganizacion()) {
-//                    expedienteNuevo.setUnidadDeOrganizacion(unidad);
-//                    break;
-//                }
-//            }
             String numExpedienteSinFormato = expedienteNuevo.getUnidadDeOrganizacion().getCodigoUnidadDeOrganizacion() + "-" + expedienteNuevo.getNumero() + "/" + expedienteNuevo.getAnio();
             expedienteNuevo.setNumeroExpediente(formatearExpediente(numExpedienteSinFormato));
 
@@ -170,7 +163,7 @@ public class ExpedienteBean extends ConcursoBean implements Serializable {
                 nuevoMensajeInfo("Registro de Concursos de Salud - EXPEDIENTE", "Número: " + expedienteNuevo.getNumeroExpediente() + "\nRégimen: " + expedienteNuevo.getRegimen() + "\nSituación: " + expedienteNuevo.getSituacion());
                 expedienteNuevo = new Expediente(expedienteDao.generarNuevoIdExpediente(), new UnidadDeOrganizacion());
             } else {
-                nuevoMensajeAlerta("Registro de Concursos de Salud", "Número de Expediente Inválido");
+                nuevoMensajeAlerta("Registro de Concursos de Salud", "Número de Expediente " + expedienteNuevo.getNumeroExpediente() + " repetido");
             }
 
         } catch (NonUniqueObjectException exUnico) {

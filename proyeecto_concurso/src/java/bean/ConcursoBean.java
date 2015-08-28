@@ -237,7 +237,7 @@ public class ConcursoBean implements Serializable {
      * @param event Evento que recibe
      */
     public void validarPestania(TabChangeEvent event) {
-        System.out.println("ConcursoBean.validarPestania() => mostrando [" + event.getTab().getTitle() + "}");
+        System.out.println("ConcursoBean.validarPestania() => mostrando [" + event.getTab().getTitle() + "]");
         nuevoMensajeInfo("Registro Provincial de Concursos de Salud", "Pestaña Activa: " + event.getTab().getTitle());
         switch (event.getTab().getTitle()) {
             case "Expediente": {
@@ -262,11 +262,6 @@ public class ConcursoBean implements Serializable {
             }
             case "Resultado": {
                 setNumeroDePestania(5);
-                getExpedienteFinalCargado();
-                getListaFinalResoluciones();
-                Expediente exp = getExpedienteFinalCargado();
-                getListaFinalCargos();
-                getListaFinalPostulantes();
                 RequestContext context = RequestContext.getCurrentInstance();
                 context.update("tabuladorPestañero:formResultadoConcurso");
                 break;
@@ -274,10 +269,11 @@ public class ConcursoBean implements Serializable {
         }
     }
 
+    
     public void inicializar() {
-        UnidadDeOrganizacionDao unidadDao = new UnidadDeOrganizacionDaoImpl();
+        RequestContext context = RequestContext.getCurrentInstance();
         ExpedienteDao expDao = new ExpedienteDaoImpl();
-        expedienteFinalCargado = expDao.getExpediente("700-00104/2012");
+        expedienteFinalCargado = expDao.getExpediente("711-00001/1951");
 
         ResolucionDao resDao = new ResolucionDaoImpl();
         setListaFinalResoluciones(resDao.getResoluciones(expedienteFinalCargado));
@@ -289,42 +285,46 @@ public class ConcursoBean implements Serializable {
         setListaFinalJurados(juradoDao.getJuradosDelTribunal(listaFinalResoluciones.get(0).getTribunal()));
 
         PostulanteDao postulanteDao = new PostulanteDaoImpl();
-        setListaFinalPostulantes(postulanteDao.getAll());
+        for (Cargo cargo : getListaFinalCargos()) {
+            if (postulanteDao.getPostulanteAcreditados(cargo) != null) {
+                listaFinalPostulantes.add(postulanteDao.getPostulanteAcreditados(cargo));
+            }
+        }
+
+        context.update("formMostrar:menuAccordion:listaResoluciones");
     }
-    
-    
-    public void guardarExpedienteFinal(){
-        try{
+
+    public void guardarExpedienteFinal() {
+        try {
+            RequestContext context = RequestContext.getCurrentInstance();
             ExpedienteDao expDao = new ExpedienteDaoImpl();
             expDao.insertar(expedienteFinalCargado);
             System.out.println("----------------------Se a guardado el expediente");
-            
+
             TribunalDao tribunalDao = new TribunalDaoImpl();
             for (Tribunal tribunal : listaFinalTribunales) {
                 tribunalDao.insertar(tribunal);
             }
             System.out.println("----------------------Se a guardado la lista de Tribunales");
-            
+
             ResolucionDao resolucionDao = new ResolucionDaoImpl();
             for (Resolucion resolucion : listaFinalResoluciones) {
                 resolucionDao.insertar(resolucion);
             }
             System.out.println("----------------------Se a guardado la lista de Resoluciones");
-            
+
             CargoDao cargoDao = new CargoDaoImpl();
             for (Cargo cargo : listaFinalCargos) {
                 cargoDao.insertar(cargo);
             }
             System.out.println("----------------------Se a guardado la lista de Cargos");
-            
-            
-            
-            
-            
-        }catch(Exception exGeneral){
+
+            context.update("form:panel");
+
+        } catch (Exception exGeneral) {
             nuevoMensajeAlerta("Error! " + exGeneral.getCause(), exGeneral.getMessage());
         }
-        
+
         nuevoMensajeInfo("Registro Provincial de Concursos de Salud", "Llegó");
     }
 

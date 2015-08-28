@@ -114,10 +114,9 @@ public class PersonaDaoImpl extends HibernateUtil implements PersonaDao {
                 String consultaSQL = "SELECT * FROM \"vw_profesionalDatosPersonales\" WHERE nombre like upper('%" + nombre + "%');";
                 ResultSet rs = stmt.executeQuery(consultaSQL);
 
-                int contadorDeRegistros = 0;
 
                 while (rs.next()) {
-                    contadorDeRegistros++;
+                    
                     Persona persona = new Persona();
                     persona.setApellido(rs.getString("apellido"));
                     persona.setNombres(rs.getString("nombre"));
@@ -172,10 +171,10 @@ public class PersonaDaoImpl extends HibernateUtil implements PersonaDao {
                 String consultaSQL = "SELECT * FROM \"vw_profesionalDatosPersonales\" WHERE apellido like upper('%" + apellido + "%');";
                 ResultSet rs = stmt.executeQuery(consultaSQL);
 
-                int contadorDeRegistros = 0;
+               
 
                 while (rs.next()) {
-                    contadorDeRegistros++;
+                    
                     Persona persona = new Persona();
                     persona.setApellido(rs.getString("apellido"));
                     persona.setNombres(rs.getString("nombre"));

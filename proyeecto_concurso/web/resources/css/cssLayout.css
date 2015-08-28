@@ -244,3 +244,25 @@ h3, .subtitulo{
 .data{
     font-weight: bolder;
 }
+
+.lstResultado{
+    font-size: 1.2em !important;
+}
+
+.dtscTitulo{
+    font-weight: bolder;
+    font-size: 1em !important;
+    background-color: #98A634 !important;
+    color: white;
+    width: 100%;
+    padding-right: 76%;
+    padding-left: 1%;
+}
+
+.cargoDesierto{
+    font-weight: bolder;
+    color:red; 
+    font-size: 1.8em !important; 
+    text-decoration: underline; 
+    text-shadow: 1x 1px #ff0000 !important;
+}

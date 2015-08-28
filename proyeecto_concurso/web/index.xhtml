@@ -13,9 +13,9 @@
 
                     <p:layoutUnit position="center" resizable="true" header="Datos Registrados">
                         <h:form id="formMostrar"> 
-                            <p:accordionPanel dynamic="true" cache="true">
-                                <p:tab title="Expedientes">
-                                    <p:dataScroller value="#{beanConcurso.listaFinalResoluciones}" var="resolucion" chunkSize="5" mode="inline" scrollHeight="283" >
+                            <p:accordionPanel dynamic="true" cache="true" id="menuAccordion">
+                                <p:tab title="Expedientes" id="pestaniaExpedientes">
+                                    <p:dataScroller value="#{beanConcurso.listaFinalResoluciones}" var="resolucion" chunkSize="5" mode="inline" scrollHeight="283" id="listaResoluciones" >
                                         <f:facet name="header">
                                             Expedientes Registrados
                                         </f:facet>
@@ -80,18 +80,27 @@
                                             <h:outputText value="Datos Generales del Expediente" />
                                         </f:facet>
 
-                                        <p:selectOneMenu id="cmbUnidadExpediente" value="#{beanExpediente.expedienteNuevo.unidadDeOrganizacion.codigoUnidadDeOrganizacion}" required="true" requiredMessage="Seleccione un Àrea" filter="true" validatorMessage="Seleccione un área válida" converterMessage="Seleccione un área válida" >
-                                            <p:ajax listener="#{beanExpediente.onUnidadSeleccionada}" />
-                                            <f:selectItem noSelectionOption="true" itemLabel=" Seleccione un Área" itemValue="null" />
-                                            <f:selectItems var="unidad" value="#{beanExpediente.listaUnidadDeOrganizacions}" itemLabel="#{unidad.nombreUnidad} (#{unidad.codigoUnidadDeOrganizacion})" itemValue="#{unidad.codigoUnidadDeOrganizacion}" />
-                                        </p:selectOneMenu>
-
-                                        <p:spinner id="spnNumeroExpediente" value="#{beanExpediente.expedienteNuevo.numero}" placeholder="Número" min="0" max="9999" required="true" requiredMessage="Ingrese el Número que figura en el expediente" validatorMessage="Ingrese un numero de expediente válido"  />
-
-                                        <p:spinner id="spnAnio" value="#{beanExpediente.expedienteNuevo.anio}" placeholder="Año" min="1950" max="2015" required="true" requiredMessage="Ingrese el año que figura en el expediente" validatorMessage="Ingrese un año válido" size="5" />
+                                        <p:column>
+                                            <p:outputLabel for="cmbUnidadExpediente" value="UDO:" /><br />
+                                            <p:selectOneMenu id="cmbUnidadExpediente" value="#{beanExpediente.expedienteNuevo.unidadDeOrganizacion.codigoUnidadDeOrganizacion}" required="true" requiredMessage="Seleccione un Àrea" filter="true" validatorMessage="Seleccione un área válida" converterMessage="Seleccione un área válida" >
+                                                <p:ajax listener="#{beanExpediente.onUnidadSeleccionada}" />
+                                                <f:selectItem noSelectionOption="true" itemLabel=" Seleccione un Área" itemValue="null" />
+                                                <f:selectItems var="unidad" value="#{beanExpediente.listaUnidadDeOrganizacions}" itemLabel="#{unidad.nombreUnidad} (#{unidad.codigoUnidadDeOrganizacion})" itemValue="#{unidad.codigoUnidadDeOrganizacion}" />
+                                            </p:selectOneMenu>
+                                        </p:column>
 
                                         <p:column>
-                                            <h:outputText value="Régimen que aplica" />
+                                            <p:outputLabel for="spnNumeroExpediente" value="Número del Exp:" /><br />
+                                            <p:spinner id="spnNumeroExpediente" value="#{beanExpediente.expedienteNuevo.numero}" placeholder="Número" min="0" max="9999" required="true" requiredMessage="Ingrese el Número que figura en el expediente" validatorMessage="Ingrese un numero de expediente válido"  />
+                                        </p:column>
+
+                                        <p:column>
+                                            <p:outputLabel for="spnAnio" value="Año:" /><br />
+                                            <p:spinner id="spnAnio" value="#{beanExpediente.expedienteNuevo.anio}" placeholder="Año" min="1950" max="2015" required="true" requiredMessage="Ingrese el año que figura en el expediente" validatorMessage="Ingrese un año válido" size="5" />
+                                        </p:column>
+
+                                        <p:column>
+                                            <p:outputLabel for="cmbRegimenExpediente" value="Régimen que aplica:" />
                                             <p:selectOneMenu id="cmbRegimenExpediente" value="#{beanExpediente.expedienteNuevo.regimen}" style="width:100%;">
                                                 <f:selectItem itemLabel="Profesional" itemValue="PROFESIONAL"/>
                                                 <f:selectItem itemLabel="Técnico" itemValue="TECNICO"/>
@@ -100,7 +109,7 @@
                                         </p:column>
 
                                         <p:column>
-                                            <h:outputText value="Situación" />
+                                            <p:outputLabel for="cmbSituacionExpediente" value="Situación:" />
                                             <p:selectOneMenu id="cmbSituacionExpediente" value="#{beanExpediente.expedienteNuevo.situacion}" style="width:100%;">
                                                 <f:selectItem itemLabel="En ejecucion" itemValue="EN EJECUCION"/>
                                                 <f:selectItem itemLabel="Cancelado" itemValue="CANCELADO"/>
@@ -351,7 +360,7 @@
                             PESTAÑA RESULTADO#{beanPostulante.listaPostulantes.isEmpty()}
                             **********************************
                             -->
-                            <p:tab title="Resultado" id="tabResultado" disabled="#{beanPostulante.listaPostulantes.isEmpty()}" >
+                            <p:tab title="Resultado" id="tabResultado" disabled="false" >
                                 <h:form id="formResultadoConcurso">
                                     <h:panelGrid columns="2" cellpadding="3" frame="box" styleClass="panelAlta" columnClasses="label, value" >
                                         <f:facet name="header">
@@ -372,15 +381,13 @@
                                     </h:panelGrid>
 
                                     <p:separator style="margin: 10px 0 10px 0;" />
-                                    <f:facet name="header">
-                                        <h:outputText value="Resoluciónes:" />
-                                    </f:facet>
+                                    <h:outputText value="Lista Final de Resoluciones"  styleClass="dtscTitulo"/>
 
-                                    <p:dataScroller value="#{beanConcurso.listaFinalResoluciones}" var="resolucion" chunkSize="2" mode="inline" scrollHeight="100" >
+                                    <p:dataScroller value="#{beanConcurso.listaFinalResoluciones}" var="resolucion" chunkSize="2" mode="inline" scrollHeight="100" styleClass="lstResultado" >
 
                                         <h:panelGrid columns="1" style="width:100%" >
                                             <p:outputPanel>
-                                                <h:panelGrid columns="6" cellpadding="5">
+                                                <p:panelGrid columns="6" layout="grid" style="margin-bottom: 3px;">      
 
                                                     <h:outputText value="Numero de Resolucion:" />
                                                     <h:outputText value="#{resolucion.numeroResolucion}" styleClass="data"/>
@@ -422,17 +429,17 @@
                                                     <h:outputText value="#{resolucion.fechaPublicacion}" styleClass="data">
                                                         <f:convertDateTime pattern="dd/MM/yy" />
                                                     </h:outputText>
-                                                </h:panelGrid>
+                                                </p:panelGrid>
                                                 <p:separator />
                                             </p:outputPanel>
                                         </h:panelGrid>
                                     </p:dataScroller>
 
                                     <p:separator style="margin: 10px 0 10px 0;" />
+                                    <h:outputText value="Lista Final de Cargos" styleClass="dtscTitulo" />
 
-
-                                    <ui:repeat var="cargo" value="#{beanConcurso.listaFinalCargos}" varStatus="stringData">                                                                                                             
-                                        <p:panelGrid columns="6" layout="grid">                                        
+                                    <p:dataScroller value="#{beanConcurso.listaFinalCargos}" var="cargo" chunkSize="2" mode="inline" scrollHeight="100" styleClass="lstResultado" >
+                                        <p:panelGrid columns="6" layout="grid" style="margin-bottom: 3px;">                                        
                                             <h:outputText value="Funcion:" /><h:outputText value="#{cargo.funcion}" styleClass="data" />
                                             <h:outputText value="Resolución: " /><h:outputText value="#{cargo.resolucion.numeroResolucion}" styleClass="data" />
                                             <h:outputText value="Categoria: " /><h:outputText value="#{cargo.categoria}" styleClass="data" />
@@ -441,28 +448,72 @@
                                             <h:outputText value="Enunciación: " /><h:outputText value="#{cargo.enunciacion}" styleClass="data" />
                                             <h:outputText value="Area de Desempeño: " /><h:outputText value="#{cargo.areaDeDesempenio}" styleClass="data" />
                                             <h:outputText value="Fecha de Acta de Formulación de Perfil: " /><h:outputText value="#{cargo.fechaActaFormulacionPerfil}" styleClass="data" ><f:convertDateTime pattern="dd/MM/yyyy" /></h:outputText>
+                                            <h:outputText value="#{cargo.getMessage()}" rendered="#{cargo.esDesierto}" styleClass="cargoDesierto" />
                                         </p:panelGrid>
-                                    </ui:repeat>
+                                    </p:dataScroller>                                                                                                        
 
+                                    <p:separator style="margin: 10px 0 10px 0;" />
+                                    <h:outputText value="Lista Final de Postulantes" styleClass="dtscTitulo" />
+                                    <p:dataList value="#{beanConcurso.listaFinalPostulantes}" var="postulante" type="unordered" itemType="none" paginator="true" rows="5" styleClass="paginated">
+                                        <p:commandLink update="dlgDetallePostulante" oncomplete="PF('dlgDetallePostulante').show()" title="Ver Detalles del Postulante" styleClass="ui-icon ui-icon-search" style="float:left;margin-right:10px">
+                                            <f:setPropertyActionListener value="#{postulante}" target="#{beanConcurso.postulanteFinalSeleccionado}" />
+                                            <h:outputText value="DNI: #{postulante.persona.dni} #{postulante.persona.apellido}, #{postulante.persona.nombres}" />
+                                        </p:commandLink>
+                                        <h:outputText value="DNI: #{postulante.persona.dni} - #{postulante.persona.apellido}, #{postulante.persona.nombres} " style="display:inline-block" styleClass="data" />
+                                        <h:outputText value="#{postulante.cargo.getMessage()}" style="display:inline-block" />
+                                    </p:dataList>
 
                                     <p:commandButton id="btnGuardarFinal" value="Confirmar Guardado" actionListener="#{beanConcurso.guardarExpedienteFinal()}" icon="ui-icon-disk" update="tabuladorPestañero:formExpedientes:msg, :formMostrar" styleClass="btnVerde" disabled="#{beanPostulante.listaPostulantes.isEmpty()}" />
-
-<!--                                    <p:dataList value="#{beanConcurso.listaFinalCargos}" var="cargo" type="unordered" itemType="none" paginator="true" rows="5" styleClass="paginated">
-    <f:facet name="header">
-        Cargos
-    </f:facet>
-    <p:commandLink update="dlgDetalleCargo" oncomplete="PF('dlgDetalleCargo').show()" title="Ver Detalles del Cargo" styleClass="ui-icon ui-icon-search" style="float:left;margin-right:10px">
-        <f:setPropertyActionListener value="#{cargo}" target="#{beanConcurso.cargoFinalSeleccionado}" />
-        <h:outputText value="#{cargo.idCargo}, #{cargo.funcion}" />
-    </p:commandLink>
-    <h:outputText value="#{cargo.idCargo} - #{cargo.funcion}, #{cargo.categoria}" style="display:inline-block"/>
-</p:dataList>-->
 
                                 </h:form>
                             </p:tab>
                         </p:tabView>
                     </p:layoutUnit>
                 </p:layout>
+
+
+                <!--   
+                **********************************
+                DIALOGO DETALLES DEL POSTULANTE FINAL SELECCIONADO 
+                **********************************
+                -->
+                <p:dialog id="dlgDetallePostulante" appendTo="@(body)" widgetVar="dlgDetallePostulante" modal="true" showEffect="blind" hideEffect="blind" resizable="true" closable="true" closeOnEscape="true" >
+                    <p:outputPanel id="pnlDetallePostulante" style="text-align:center;">
+                        <p:panelGrid  columns="2" columnClasses="label,value" layout="grid">
+
+                            <h:outputText value="Dni:" />
+                            <h:outputText value="#{beanConcurso.postulanteFinalSeleccionado.persona.dni}" styleClass="data" />
+
+                            <h:outputText value="Nombre:" />
+                            <h:outputText value="#{beanConcurso.postulanteFinalSeleccionado.persona.nombres}" styleClass="data" />
+
+                            <h:outputText value="Apellido:" />
+                            <h:outputText value="#{beanConcurso.postulanteFinalSeleccionado.persona.apellido}" styleClass="data" />
+
+                            <h:outputText value="Cuil:" />
+                            <h:outputText value="#{beanConcurso.postulanteFinalSeleccionado.persona.cuil}" styleClass="data" />
+
+                            <h:outputText value="Fecha de Nacimiento:" />
+                            <h:outputText value="#{beanConcurso.postulanteFinalSeleccionado.persona.fechaDeNacimiento}" styleClass="data" >
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+
+                            <h:outputText value="Dirección:" rendered="#{!beanConcurso.postulanteFinalSeleccionado.persona.direccion.isEmpty()}" />
+                            <h:outputText value="#{beanConcurso.postulanteFinalSeleccionado.persona.direccion}" styleClass="data" />
+
+                            <h:outputText value="Teléfono:" rendered="#{!beanConcurso.postulanteFinalSeleccionado.persona.telefono.isEmpty()}" />
+                            <h:outputText value="#{beanConcurso.postulanteFinalSeleccionado.persona.telefono}" styleClass="data" />
+
+                            <h:outputText value="Email: " rendered="#{!beanConcurso.postulanteFinalSeleccionado.persona.email.isEmpty()}" />
+                            <h:outputText value="#{beanConcurso.postulanteFinalSeleccionado.persona.email}" styleClass="data" />
+
+
+
+                        </p:panelGrid>
+                    </p:outputPanel>
+                </p:dialog>
+
+
 
 
                 <!--   

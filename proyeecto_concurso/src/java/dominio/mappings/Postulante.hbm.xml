@@ -4,7 +4,7 @@
 <!-- Generated 26/08/2015 11:54:39 by Hibernate Tools 3.6.0 -->
 <hibernate-mapping>
     <class name="dominio.Postulante" table="postulante" schema="public">
-        <id name="idPostulante" type="int">
+        <id name="idPostulante" type="java.lang.Integer">
             <column name="id_postulante" />
             <generator class="assigned" />
         </id>

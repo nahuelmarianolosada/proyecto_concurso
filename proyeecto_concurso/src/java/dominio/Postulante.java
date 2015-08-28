@@ -6,7 +6,7 @@ package dominio;
  */
 public class Postulante implements java.io.Serializable {
 
-    private int idPostulante;
+    private Integer idPostulante;
     private Cargo cargo;
     private Persona persona;
     private Integer fojas;
@@ -21,13 +21,13 @@ public class Postulante implements java.io.Serializable {
         this.persona = persona;
     }
 
-    public Postulante(int idPostulante, Cargo cargo, Persona persona) {
+    public Postulante(Integer idPostulante, Cargo cargo, Persona persona) {
         this.idPostulante = idPostulante;
         this.cargo = cargo;
         this.persona = persona;
     }
 
-    public Postulante(int idPostulante, Cargo cargo, Persona persona, Integer fojas, Double antecedentes, Double oposicion, Double puntaje) {
+    public Postulante(Integer idPostulante, Cargo cargo, Persona persona, Integer fojas, Double antecedentes, Double oposicion, Double puntaje) {
         this.idPostulante = idPostulante;
         this.cargo = cargo;
         this.persona = persona;
@@ -37,11 +37,11 @@ public class Postulante implements java.io.Serializable {
         this.puntaje = puntaje;
     }
 
-    public int getIdPostulante() {
+    public Integer getIdPostulante() {
         return this.idPostulante;
     }
 
-    public void setIdPostulante(int idPostulante) {
+    public void setIdPostulante(Integer idPostulante) {
         this.idPostulante = idPostulante;
     }
 
