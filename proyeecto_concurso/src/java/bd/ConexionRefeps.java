@@ -5,6 +5,7 @@
  */
 package bd;
 
+import dominio.Localidad;
 import hibernate.dao.impl.TribunalJuradoDaoImpl;
 import hibernate.dao.impl.LocalidadDaoImpl;
 import hibernate.dao.LocalidadDao;
@@ -58,7 +59,10 @@ public class ConexionRefeps {
                 persona.setTelefono(rs.getString("tel1"));
                 persona.setEmail(rs.getString("email"));
 
-//  persona.setLocalidadByLocalidadNacimiento(daoLocalidad.getLocalidadPorCodigo(rs.getLong("localidad_nac")));
+                Localidad localidadEncontrada = daoLocalidad.getLocalidadPorCodigo(rs.getLong("localidad_nac"));
+                if (localidadEncontrada.getCodigoLocalidad() != 0) {
+                    persona.setLocalidadByLocalidadNacimiento(localidadEncontrada);
+                }
                 listaPersona.add(persona);
 
             }

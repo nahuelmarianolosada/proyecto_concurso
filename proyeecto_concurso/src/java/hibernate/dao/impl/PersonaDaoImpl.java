@@ -40,6 +40,7 @@ public class PersonaDaoImpl extends HibernateUtil implements PersonaDao {
 
     @Override
     public void insertar(Persona persona) {
+        System.out.println("PersonaDaoImpl.insertar() => Guardando " + persona.toString());
         try {
             getSession().beginTransaction();
             getSession().save(persona);

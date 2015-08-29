@@ -176,8 +176,15 @@ public class Persona  implements java.io.Serializable {
         }
         return datoVacio;
     }
+
+    @Override
+    public String toString() {
+        return "Persona " + idPersona + "{dni=" + dni + ", nombres=" + nombres + ", apellido=" + apellido + ", sexo=" + sexo + ", nacionalidad=" + nacionalidad + ", fechaDeNacimiento=" + fechaDeNacimiento + ", direccion=" + direccion + ", telefono=" + telefono + ", email=" + email + ", cuil=" + cuil + '}';
+    }
+
     
 
+    
 
 }
 

@@ -87,7 +87,8 @@ public class ConcursoBean implements Serializable {
         listaFinalCargos = new ArrayList<>();
         listaFinalPostulantes = new ArrayList<>();
         listaFinalTribunales = new ArrayList<>();
-
+        listaFinalJurados = new ArrayList<>();
+        
         //inicializar();
     }
 

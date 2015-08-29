@@ -38,19 +38,12 @@ public class LocalidadDaoImpl extends HibernateUtil implements LocalidadDao {
 
         Localidad lo = new Localidad();
 
-//        Criteria criteria = getSession().createCriteria(Localidad.class);
-//        criteria.setMaxResults(1);
-//        criteria.add(Restrictions.eq("nombreDeLocalidad", nombreLocalidad).ignoreCase());
-        List<Localidad> lista = getAll();
-
-        for (Localidad localidad : lista) {
-            if (localidad.getCodigoLocalidad() == codigo_localidad) {
-                lo = localidad;
-                System.out.println("nombre de localiad " + lo.getNombreDeLocalidad() + " id Localidad " + lo.getIdLocalidad());
-
-            }
+        Criteria criteria = getSession().createCriteria(Localidad.class);
+        criteria.setMaxResults(1);
+        criteria.add(Restrictions.eq("codigoLocalidad", codigo_localidad));
+        if (!criteria.list().isEmpty()) {
+            lo = (Localidad) criteria.list().get(0);
         }
-
         return lo;
 
     }

@@ -43,6 +43,13 @@ public class Resolucion implements java.io.Serializable {
         this.numeroResolucion = numeroResolucion;
     }
 
+    public Resolucion(int idResolucion, Tribunal tribunal) {
+        this.idResolucion = idResolucion;
+        this.tribunal = tribunal;
+    }
+    
+    
+
     public Resolucion(int idResolucion, Expediente expediente, Tribunal tribunal, String estado, Boolean modificacion, Boolean prorroga, Boolean antecedente, Boolean oposicion, String clase, String agrupamiento, Date fechaApertura, Date fechaCierre, Date fechaEjecucion, Date fechaPublicacion, String documento, String numeroResolucion, String modificaResolucion, String prorrogaResolucion) {
         this.idResolucion = idResolucion;
         this.expediente = expediente;

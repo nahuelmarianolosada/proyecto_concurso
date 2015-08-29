@@ -266,49 +266,50 @@
                                 <h:form id="formTribunal">
                                     <h:panelGrid columns="2" >
                                         <h:outputText value="Numero de Resolución:" />
-                                        <p:selectOneMenu id="cmbTribunalNuevoResolucion" value="#{beanResolucion.resolucionNueva.numeroResolucion}" required="true" requiredMessage="Seleccione una Resolución" style="width: 100px;" filter="true" >
-                                            <f:selectItems var="resolucion" value="#{beanResolucion.listaResoluciones}" itemLabel="#{resolucion.numeroResolucion}" itemValue="#{resolucion.numeroResolucion}" />
+                                        <p:selectOneMenu id="cmbTribunalNuevoResolucion" value="#{beanTribunal.resolucionSeleccionada.idResolucion}" required="true" requiredMessage="Seleccione una Resolución" style="width: 100px;" filter="true" >
+                                            <p:ajax listener="#{beanTribunal.onResolucionSelect}" update="tblTribunal" />
+                                            <f:selectItems var="resolucion" value="#{beanConcurso.listaFinalResoluciones}" itemLabel="#{resolucion.numeroResolucion}" itemValue="#{resolucion.idResolucion}" />
                                         </p:selectOneMenu>   
                                         <p:commandButton value="Nuevo Jurado" icon="ui-icon-plusthick"  oncomplete="PF('dlgNuevoJurado').show();" update="dialogoNuevoJurado"/>
                                         <p:commandButton value="Actualizar" icon="ui-icon-refresh" />
                                     </h:panelGrid>
 
 
-                                    <p:dataTable id="tblTribunal" var="tribunal" value="#{beanTribunal.listaJuradoNuevos}" rows="3"
+                                    <p:dataTable id="tblTribunal" var="jurado" value="#{beanTribunal.listaJuradoNuevos}" rows="3"
                                                  paginator="true"
                                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                                  rowsPerPageTemplate="3,5,10,15" reflow="true" emptyMessage="Sin jurados registrados" >
 
                                         <f:facet name="header">
-                                            <h:outputText id="lvlTribunales" value="JURADOS " />
+                                            <h:outputText id="lblTribunales" value="JURADOS " />
                                         </f:facet>
 
                                         <p:column headerText="Tribunal">
-                                            <h:outputText value="#{tribunal.tribunal.idTribunal}"/> 
+                                            <h:outputText value="#{jurado.tribunal.idTribunal}"/> 
                                         </p:column>
                                         <p:column headerText="Nombres">
-                                            <h:outputText value="#{tribunal.persona.nombres}" />
+                                            <h:outputText value="#{jurado.persona.nombres}" />
                                         </p:column>
                                         <p:column headerText="Apellido">
-                                            <h:outputText value="#{tribunal.persona.apellido}" />
+                                            <h:outputText value="#{jurado.persona.apellido}" />
                                         </p:column>
                                         <p:column headerText="Estado">
-                                            <h:outputText value="#{tribunal.estado}" />
+                                            <h:outputText value="#{jurado.estado}" />
                                         </p:column>
                                         <p:column headerText="Presencia">
-                                            <h:outputText value="#{tribunal.presencia}" />
+                                            <h:outputText value="#{jurado.presencia}" />
                                         </p:column>
                                         <p:column headerText="Condicion">
-                                            <h:outputText value="#{tribunal.condicion}" />
+                                            <h:outputText value="#{jurado.condicion}" />
                                         </p:column>
                                         <p:column headerText="Nombre de insitución">
-                                            <h:outputText value="#{tribunal.institucion.nombreInstitucion}" />
+                                            <h:outputText value="#{jurado.institucion.nombreInstitucion}" />
                                         </p:column>
                                         <p:column headerText="Nombre establecimiento">
-                                            <h:outputText value="#{tribunal.establecimiento.nombre}" />
+                                            <h:outputText value="#{jurado.establecimiento.nombre}" />
                                         </p:column>
                                     </p:dataTable>
-                                    <p:commandButton id="btnGuardarNuevoTribunal" value="Guardar" actionListener="#{beanTribunal.guardarTribunalNuevo()}" icon="ui-icon-disk" update="tabuladorPestañero:formExpedientes:msg,tabuladorPestañero:formTribunal:tblTribunal"  styleClass="btnVerde"  />
+                                    <p:commandButton id="btnGuardarNuevoTribunal" value="Guardar" actionListener="#{beanTribunal.guardarTribunalNuevo()}" icon="ui-icon-disk" update="tabuladorPestañero,tabuladorPestañero:formExpedientes:msg,tabuladorPestañero:formTribunal:tblTribunal"  styleClass="btnVerde"  />
                                 </h:form>
 
                             </p:tab>
@@ -490,10 +491,10 @@
                             <h:outputText value="Apellido:" />
                             <h:outputText value="#{beanConcurso.postulanteFinalSeleccionado.persona.apellido}" styleClass="data" />
 
-                            <h:outputText value="Cuil:" />
+                            <h:outputText value="Cuil:" rendered="#{!beanConcurso.postulanteFinalSeleccionado.persona.cuil.isEmpty()}" />
                             <h:outputText value="#{beanConcurso.postulanteFinalSeleccionado.persona.cuil}" styleClass="data" />
 
-                            <h:outputText value="Fecha de Nacimiento:" />
+                            <h:outputText value="Fecha de Nacimiento:" rendered="#{!beanConcurso.postulanteFinalSeleccionado.persona.fechaDeNacimiento.toString().isEmpty()}" />
                             <h:outputText value="#{beanConcurso.postulanteFinalSeleccionado.persona.fechaDeNacimiento}" styleClass="data" >
                                 <f:convertDateTime pattern="dd/MM/yyyy" />
                             </h:outputText>
@@ -507,7 +508,8 @@
                             <h:outputText value="Email: " rendered="#{!beanConcurso.postulanteFinalSeleccionado.persona.email.isEmpty()}" />
                             <h:outputText value="#{beanConcurso.postulanteFinalSeleccionado.persona.email}" styleClass="data" />
 
-
+                            <h:outputText value="Puntaje Final: " rendered="#{!beanConcurso.postulanteFinalSeleccionado.puntaje.toString().isEmpty()}" />
+                            <h:outputText value="#{beanConcurso.postulanteFinalSeleccionado.puntaje}" styleClass="data" />
 
                         </p:panelGrid>
                     </p:outputPanel>
@@ -697,9 +699,7 @@
              **********************************
                 -->
 
-                <p:dialog id="dialogoNuevoJurado" header="Nuevo Jurado - Resolución : #{beanCargo.cargoNuevo.resolucion.numeroResolucion}"  widgetVar="dlgNuevoJurado" modal="true" showEffect="fade" hideEffect="fade" draggable="true" resizable="true" closeOnEscape="true" >
-
-
+                <p:dialog id="dialogoNuevoJurado" header="Nuevo Jurado - Resolución : #{beanTribunal.resolucionSeleccionada.numeroResolucion}"  widgetVar="dlgNuevoJurado" modal="true" showEffect="fade" hideEffect="fade" draggable="true" resizable="true" closeOnEscape="true" >
 
                     <h:form id="formBuscarJurado">
                         <h:panelGrid columns="3" cellpadding="4" cellspacing="2">
@@ -718,9 +718,9 @@
 
                         <h:panelGrid columns="2" cellpadding="4" cellspacing="2">
                             <h:outputText value="Nombres" /> 
-                            <p:inputText  id ="nombre" value="#{beanTribunal.juradoSeleccionado.nombres}" required="true"/>
+                            <p:inputText  id ="nombre" value="#{beanTribunal.juradoNuevo.persona.nombres}" required="true"/>
                             <h:outputText value="Apellido" />
-                            <p:inputText id="apellido" value="#{beanTribunal.juradoSeleccionado.apellido}" required="true"/> 
+                            <p:inputText id="apellido" value="#{beanTribunal.juradoNuevo.persona.apellido}" required="true"/> 
                         </h:panelGrid>
 
                         <h:panelGrid columns="4" cellpadding="4" cellspacing="2" >
@@ -760,12 +760,12 @@
 
                 <!--   
              **********************************
-             DIALOGO PARA SELECCIONAR JURADO
+             DIALOGO PARA SELECCIONAR LA PERSONA JURADO
              **********************************
                 -->
                 <p:dialog id="dlgSeleccionJuradoRefeps" header="Seleccione el Jurado"  widgetVar="dlgProfesionalesResultado" modal="true" showEffect="fade" hideEffect="fade" draggable="true" resizable="true" closeOnEscape="true" style="width: 50%;" >
                     <h:form id="formJuradosRefeps">
-                        <p:dataTable id="tblResultadoBusqueda" var="persona" selectionMode="single" selection="#{beanTribunal.juradoSeleccionado}" value="#{beanTribunal.listaPersonas}" rowKey="#{persona.idPersona}" >
+                        <p:dataTable id="tblResultadoBusqueda" var="persona" selectionMode="single" selection="#{beanTribunal.personaBuscada}" value="#{beanTribunal.listaPersonas}" rowKey="#{persona.idPersona}" >
                             <f:facet name="header">
                                 Profesionales Coincidentes
                             </f:facet>

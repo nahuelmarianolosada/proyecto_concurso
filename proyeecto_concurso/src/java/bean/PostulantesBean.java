@@ -214,12 +214,21 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
 
     public void guardarNuevoPostulante() {
         CargoDao cargoDao = new CargoDaoImpl();
-       
+
         if (validarPostulante(nuevoPostulante)) {
+
+            //Seteamos si es que el postulante es el ganador de un cargo
             if (banderaGanador) {
-                Cargo cargoAsignado = cargoDao.getCargo(nuevoPostulante.getCargo().getIdCargo());
-                nuevoPostulante.setCargo(cargoAsignado);
-                nuevoPostulante.getCargo().setEsDesierto(false);
+                for (Cargo cargo : getListaFinalCargos()) {
+                    if (cargo.getIdCargo() == nuevoPostulante.getCargo().getIdCargo()) {
+                        nuevoPostulante.setCargo(cargo);
+                        nuevoPostulante.getCargo().setEsDesierto(false);
+                        break;
+                    }
+                }
+//                Cargo cargoAsignado = cargoDao.getCargo(nuevoPostulante.getCargo().getIdCargo());
+//                nuevoPostulante.setCargo(cargoAsignado);
+//                nuevoPostulante.getCargo().setEsDesierto(false);
             }
 
             listaPostulantes.add(nuevoPostulante);
@@ -244,7 +253,14 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
             if (personaExistente == null) {
                 personaDao.insertar(postulante.getPersona());
             }
-            postulanteDao.insertar(postulante);
+            if (!getListaFinalPostulantes().contains(listaPostulantes)) {
+                getListaFinalPostulantes().addAll(listaPostulantes);
+                break;
+                //getListaFinalPostulantes().add(postulante);
+                //postulanteDao.insertar(postulante);
+            } else {
+                nuevoMensajeInfo("Registro Provincial de Concursos", "Postulante repetido");
+            }
         }
         nuevoMensajeInfo("Registro Provincial de Concursos", "Se a guardado la lista de postulantes");
         pasarVistaDePestania();

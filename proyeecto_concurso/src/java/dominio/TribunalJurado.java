@@ -104,7 +104,10 @@ public class TribunalJurado  implements java.io.Serializable {
         this.condicion = condicion;
     }
 
-
+    @Override
+    public String toString() {
+        return "TribunalJurado " + idTribunalJurado + "{institucion=(" + institucion.getIdInstitucion() + ") " + institucion.getNombreInstitucion() + ", persona=(" + persona.getIdPersona() + ") " + persona.getDni() + " - " + persona.getApellido() + ", establecimiento=" + establecimiento.getNombre() + ", tribunal=" + tribunal.getIdTribunal() + ", estado=" + estado + ", presencia=" + presencia + ", condicion=" + condicion + '}';
+    }
 
 
 }

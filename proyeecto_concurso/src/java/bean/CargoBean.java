@@ -47,10 +47,10 @@ public class CargoBean extends ConcursoBean implements Serializable {
     public CargoBean() {
 //        cargoNuevo = new Cargo(getListaEstablecimientos().get(0), getListaProfesiones().get(0));
         ProfesionDao profDao = new ProfesionDaoImpl();
-
+        CargoDao cargoDao = new CargoDaoImpl();
+        
         listaProfesiones = profDao.getAll();
-        cargoNuevo = new Cargo(new Profesion());
-        cargoNuevo.setIdCargo(0);
+        cargoNuevo = new Cargo(cargoDao.generarNuevoIdCargo(),new Profesion());
         cargoNuevo.setEstablecimiento(new Establecimiento());
         cargoNuevo.setResolucion(new Resolucion());
         cargoNuevo.setEsDesierto(true);
@@ -165,18 +165,23 @@ public class CargoBean extends ConcursoBean implements Serializable {
                 }
                 System.out.println("CargoBean.guardarNuevoCargo() => Cantidad de Cargos: " + cargoNuevo.getCantidad());
 
-                ResolucionDao resDao = new ResolucionDaoImpl();
-                cargoNuevo.setResolucion(resDao.getResolucion(cargoNuevo.getResolucion().getIdResolucion()));
+                //ResolucionDao resDao = new ResolucionDaoImpl();
+                //cargoNuevo.setResolucion(resDao.getResolucion(cargoNuevo.getResolucion().getIdResolucion()));
+                for (Resolucion resolucion : getListaFinalResoluciones()) {
+                    if(resolucion.getNumeroResolucion().equals(cargoNuevo.getResolucion().getNumeroResolucion())){
+                        cargoNuevo.setResolucion(resolucion);
+                        break;
+                    }
+                }
                 
+                System.out.println("CargoBean.guardarNuevoCargo() => Cargo Nuevo: " + cargoNuevo.toString());
                 listaCargos.add(cargoNuevo);
-                cargoNuevo.setIdCargo(0);
-
-                System.out.println("\033[32mCargoBean.guardarNuevoCargo() => Cargo Nuevo: " + cargoNuevo.toString());
+                
                 finalizoCarga = true;
 
                 //Obtenemos la resolucion para asignarsela al siguiente cargo que se cargue
                 Resolucion res = cargoNuevo.getResolucion();
-                cargoNuevo = new Cargo(res, new Establecimiento(), new Profesion());
+                cargoNuevo = new Cargo(cargoNuevo.getIdCargo() + 1,res, new Establecimiento(), new Profesion());
                 cargoNuevo.setEsDesierto(true);
 
             } catch (Exception exGeneral) {
@@ -194,13 +199,14 @@ public class CargoBean extends ConcursoBean implements Serializable {
      */
     public void guardarCargos() {
         int sumatoria = 0;
-        CargoDao cargoDao = new CargoDaoImpl();
+        //CargoDao cargoDao = new CargoDaoImpl();
         try {
             for (Cargo cargo : listaCargos) {
                 for (int i = 0; i < cargo.getCantidad(); i++) {
-                    Cargo nuevoCargo = new Cargo(cargoDao.generarNuevoIdCargo(), cargo.getResolucion(), cargo.getEstablecimiento(), cargo.getProfesion(), cargo.getEspecialidad(), cargo.getCategoria(), cargo.getAdicional(), cargo.getFuncion(), cargo.getAreaDeDesempenio(), cargo.getModalidad(), cargo.getFechaActaFormulacionPerfil(), cargo.getEnunciacion());
-                    cargoDao.insertar(nuevoCargo);
-                    super.getListaFinalCargos().add(nuevoCargo);
+                    Cargo nuevoCargo = new Cargo(cargo.getIdCargo(), cargo.getResolucion(), cargo.getEstablecimiento(), cargo.getProfesion(), cargo.getEspecialidad(), cargo.getCategoria(), cargo.getAdicional(), cargo.getFuncion(), cargo.getAreaDeDesempenio(), cargo.getModalidad(), cargo.getFechaActaFormulacionPerfil(), cargo.getEnunciacion());
+                    //cargoDao.insertar(nuevoCargo);
+                    
+                    getListaFinalCargos().add(nuevoCargo);
                     sumatoria++;
                 }
             }
