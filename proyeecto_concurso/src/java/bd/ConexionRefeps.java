@@ -24,7 +24,7 @@ import java.util.List;
  */
 public class ConexionRefeps {
 
-    public List<Persona> buscarProfesionalRefepsNombreCompleto(String nombreCompleto) {
+    public List<Persona> buscarProfesionalRefepsNombreCompleto(String nombreCompleto) throws SQLException{
 
         LocalidadDao daoLocalidad = new LocalidadDaoImpl();
         List<Persona> listaPersona = new ArrayList<Persona>();
@@ -33,11 +33,13 @@ public class ConexionRefeps {
         String connectString = "jdbc:postgresql://localhost:5432/siisaDB";
         String user = "nmlosada";
         String password = "siisa1234";
+        Connection con = null;
+        Statement stmt = null;
 
         try {
             Class.forName(driver);
-            Connection con = DriverManager.getConnection(connectString, user, password);
-            Statement stmt = con.createStatement();
+            con = DriverManager.getConnection(connectString, user, password);
+            stmt = con.createStatement();
 
             String consultaSQL = "SELECT * FROM \"vw_profesionalDatosPersonales\" WHERE nombreCompleto like upper('%" + nombreCompleto + "%');";
             ResultSet rs = stmt.executeQuery(consultaSQL);
@@ -67,17 +69,14 @@ public class ConexionRefeps {
 
             }
 
-            stmt.close();
-            con.close();
-
-//            System.out.println("Nombres    Apellido    Localidad Nacimiento");
-//            for (Persona person : listaPersona) {
-//                System.out.println(person.getNombres() + " " + person.getApellido());
-//
-//            }
+        } catch (SQLException exSQL) {
+            exSQL.printStackTrace();
         } catch (Exception e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
+        } finally {
+            stmt.close();
+            con.close();
         }
 
         return listaPersona;

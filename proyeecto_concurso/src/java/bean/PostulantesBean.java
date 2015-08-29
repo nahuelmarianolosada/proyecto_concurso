@@ -214,8 +214,18 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
 
     public void guardarNuevoPostulante() {
         CargoDao cargoDao = new CargoDaoImpl();
+        PostulanteDao postulanteDao = new PostulanteDaoImpl();
 
         if (validarPostulante(nuevoPostulante)) {
+
+            //Si es el primer postulante generamos un id nuevo de la BD
+            if (listaPostulantes.isEmpty()) {
+                nuevoPostulante.setIdPostulante(postulanteDao.generarIdNuevoPostulante());
+            } else {
+                //En caso de que ya existan registros en la lista obtenemos el 
+                //ultimo cargado y le sumamos 1 al ID
+                nuevoPostulante.setIdPostulante(listaPostulantes.get(listaPostulantes.size() - 1).getIdPostulante());
+            }
 
             //Seteamos si es que el postulante es el ganador de un cargo
             if (banderaGanador) {

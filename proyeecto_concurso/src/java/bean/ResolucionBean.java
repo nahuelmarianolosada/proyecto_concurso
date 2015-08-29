@@ -107,7 +107,7 @@ public class ResolucionBean extends ConcursoBean implements Serializable {
     public ResolucionBean() {
         ResolucionDao resolucionDao = new ResolucionDaoImpl();
         TribunalDao tribunalDao = new TribunalDaoImpl();
-        
+
         banderaModificacionParcial = false;
         banderaProrroga = false;
         resolucionNueva = new Resolucion(resolucionDao.generarNuevoIdResolucion());
@@ -142,14 +142,12 @@ public class ResolucionBean extends ConcursoBean implements Serializable {
         banderaModificacionParcial = false;
         banderaProrroga = false;
 
-        ResolucionDao resolucionDao = new ResolucionDaoImpl();
         //En caso de que se guarden mas de una resolucion, seteamos
         //que hace referencia al expediente de la resolucion
         Expediente expedienteAuxiliar = resolucionNueva.getExpediente();
 
         resolucionNueva = new Resolucion(resolucionNueva.getIdResolucion() + 1, new Tribunal(resolucionNueva.getTribunal().getIdTribunal() + 1));
         resolucionNueva.setExpediente(expedienteAuxiliar);
-        
 
         RequestContext context = RequestContext.getCurrentInstance();
         context.update("dlgNuevaResolucion");
@@ -166,7 +164,6 @@ public class ResolucionBean extends ConcursoBean implements Serializable {
                 resolucionNueva.setModificacion(banderaModificacionParcial);
 
                 resolucionNueva.setProrroga(banderaProrroga);
-
 
                 //resolucionNueva.setIdResolucion(resolucionNueva.getIdResolucion() + 1);
                 listaResoluciones.add(resolucionNueva);

@@ -30,7 +30,7 @@ public class EstablecimientoDaoImpl extends HibernateUtil implements Establecimi
 
     @Override
     public List<Establecimiento> getEstablecimiento(String nombreEstablecimiento) {
-        
+
         System.out.println("EstablecimientoDaoImpl.getEstablecimiento(" + nombreEstablecimiento + ")");
         List<Establecimiento> lista = new ArrayList<Establecimiento>();
         Criteria criteria = getSession().createCriteria(Establecimiento.class);
@@ -40,11 +40,9 @@ public class EstablecimientoDaoImpl extends HibernateUtil implements Establecimi
         return lista = (List<Establecimiento>) criteria.list();
 
     }
-    
-    
-    
+
     @Override
-    public Establecimiento getEstablecimiento(long codigoSiisa) {
+    public Establecimiento getEstablecimientoByCodigoSiisa(long codigoSiisa) {
         Criteria criteria = getSession().createCriteria(Establecimiento.class);
         criteria.setMaxResults(1);
         criteria.add(Restrictions.eq("codigoSiisa", codigoSiisa));
@@ -56,8 +54,15 @@ public class EstablecimientoDaoImpl extends HibernateUtil implements Establecimi
     }
 
     @Override
-    public Establecimiento getEstablecimiento(int idEstablecimiento) {
-        return (Establecimiento) getSession().get(Establecimiento.class, idEstablecimiento);
+    public Establecimiento getEstablecimientoById(int idEstablecimiento) {
+        Criteria criteria = getSession().createCriteria(Establecimiento.class);
+        criteria.setMaxResults(1);
+        criteria.add(Restrictions.eq("idEstablecimiento", idEstablecimiento));
+        if (criteria.list().size() > 0) {
+            return (Establecimiento) criteria.list().get(0);
+        } else {
+            return null;
+        }
     }
 
     @Override

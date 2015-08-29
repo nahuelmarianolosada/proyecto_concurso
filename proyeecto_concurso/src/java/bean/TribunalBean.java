@@ -27,6 +27,10 @@ import hibernate.dao.PersonaDao;
 import hibernate.dao.impl.PersonaDaoImpl;
 import javax.faces.bean.ManagedProperty;
 import dominio.Resolucion;
+import hibernate.dao.EstablecimientoDao;
+import hibernate.dao.InstitucionDao;
+import hibernate.dao.impl.EstablecimientoDaoImpl;
+import hibernate.dao.impl.InstitucionDaoImpl;
 
 /**
  *
@@ -231,9 +235,17 @@ public class TribunalBean extends ConcursoBean implements Serializable {
     }
 
     public void seleccionarPersona(SelectEvent event) {
-        juradoNuevo.setPersona((Persona) event.getObject());
+        Persona personaSelec = (Persona) event.getObject();
+        PersonaDao personaDao = new PersonaDaoImpl();
+        if (!listaJuradoNuevos.isEmpty()) {
+            personaSelec.setIdPersona(listaJuradoNuevos.get(0).getPersona().getIdPersona()+1);
+        } else {
+            personaSelec.setIdPersona(personaDao.generarIdNuevoPersona());
+        }
+        juradoNuevo.setPersona(personaSelec);
         RequestContext context = RequestContext.getCurrentInstance();
         context.execute("PF('dlgProfesionalesResultado').hide();");
+        context.update("formJuradoNuevo");
     }
 
     public void deseleccionarPersona(UnselectEvent event) {
@@ -244,20 +256,14 @@ public class TribunalBean extends ConcursoBean implements Serializable {
 
         try {
             PersonaDao persDao = new PersonaDaoImpl();
+            EstablecimientoDao establecimientoDao = new EstablecimientoDaoImpl();
+            InstitucionDaoImpl institucionDao = new InstitucionDaoImpl();
 
-            for (Institucion insti : getListaInstituciones()) {
-                if (juradoNuevo.getInstitucion().getIdInstitucion() == insti.getIdInstitucion()) {
-                    juradoNuevo.setInstitucion(insti);
-                    break;
-                }
-            }
-            for (Establecimiento establecimiento : getListaEstablecimientos()) {
-                if (juradoNuevo.getEstablecimiento().getIdEstablecimiento() == establecimiento.getIdEstablecimiento()) {
-                    juradoNuevo.setEstablecimiento(establecimiento);
-                    break;
-                }
-            }
+            juradoNuevo.setEstablecimiento(establecimientoDao.getEstablecimientoById(juradoNuevo.getEstablecimiento().getIdEstablecimiento()));
+            Institucion instEncontrada = institucionDao.getInstitucion(juradoNuevo.getInstitucion().getIdInstitucion());
+            juradoNuevo.setInstitucion(instEncontrada);
 
+            
             for (Resolucion resolucion : getListaFinalResoluciones()) {
                 if (resolucion.getIdResolucion() == resolucionSeleccionada.getIdResolucion()) {
                     resolucionSeleccionada = resolucion;
@@ -267,23 +273,25 @@ public class TribunalBean extends ConcursoBean implements Serializable {
 
             //Controla por el Dni si existe la persona cargada en la bd concurso.
             if (!persDao.existeDniPersona(juradoNuevo.getPersona())) {
-                Persona personaNueva = new Persona(persDao.generarIdNuevoPersona());
-                personaNueva.setApellido(juradoNuevo.getPersona().getApellido());
-                personaNueva.setNombres(juradoNuevo.getPersona().getNombres());
-                personaNueva.setSexo(juradoNuevo.getPersona().getSexo());
-                personaNueva.setDireccion(juradoNuevo.getPersona().getDireccion());
-                personaNueva.setCuil(juradoNuevo.getPersona().getCuil());
-                personaNueva.setFechaDeNacimiento(juradoNuevo.getPersona().getFechaDeNacimiento());
-                personaNueva.setTelefono(juradoNuevo.getPersona().getTelefono());
-                personaNueva.setDni(juradoNuevo.getPersona().getDni());
-                if (juradoNuevo.getPersona().getLocalidadByIdLocalidadDireccion() != null) {
-                    personaNueva.setLocalidadByIdLocalidadDireccion(juradoNuevo.getPersona().getLocalidadByIdLocalidadDireccion());
-                }
-                if (juradoNuevo.getPersona().getLocalidadByLocalidadNacimiento() != null) {
-                    personaNueva.setLocalidadByLocalidadNacimiento(juradoNuevo.getPersona().getLocalidadByLocalidadNacimiento());
-                }
+//                Persona personaNueva = new Persona(persDao.generarIdNuevoPersona());
+//                personaNueva.setApellido(juradoNuevo.getPersona().getApellido());
+//                personaNueva.setNombres(juradoNuevo.getPersona().getNombres());
+//                personaNueva.setSexo(juradoNuevo.getPersona().getSexo());
+//                personaNueva.setDireccion(juradoNuevo.getPersona().getDireccion());
+//                personaNueva.setCuil(juradoNuevo.getPersona().getCuil());
+//                personaNueva.setFechaDeNacimiento(juradoNuevo.getPersona().getFechaDeNacimiento());
+//                personaNueva.setTelefono(juradoNuevo.getPersona().getTelefono());
+//                personaNueva.setDni(juradoNuevo.getPersona().getDni());
+//                personaNueva.setEmail(juradoNuevo.getPersona().getEmail());
+//                if (juradoNuevo.getPersona().getLocalidadByIdLocalidadDireccion() != null) {
+//                    personaNueva.setLocalidadByIdLocalidadDireccion(juradoNuevo.getPersona().getLocalidadByIdLocalidadDireccion());
+//                }
+//                if (juradoNuevo.getPersona().getLocalidadByLocalidadNacimiento() != null) {
+//                    personaNueva.setLocalidadByLocalidadNacimiento(juradoNuevo.getPersona().getLocalidadByLocalidadNacimiento());
+//                }
 
-                //en caso de que exista lo seteamos y guardamos
+                //en caso de que no exista lo seteamos y guardamos
+                Persona personaNueva = juradoNuevo.getPersona();
                 persDao.insertar(personaNueva);
             }
 
@@ -301,7 +309,7 @@ public class TribunalBean extends ConcursoBean implements Serializable {
 
             //Inicializa el jurado Nuevo y el Seleccionado
             juradoSeleccionado = new TribunalJurado();
-            juradoNuevo = new TribunalJurado(juradoNuevo.getIdTribunalJurado()+1, getListaInstituciones().get(0), new Persona(), getListaEstablecimientos().get(0), resolucionSeleccionada.getTribunal(), "", false, "");
+            juradoNuevo = new TribunalJurado(juradoNuevo.getIdTribunalJurado() + 1, getListaInstituciones().get(0), new Persona(), getListaEstablecimientos().get(0), resolucionSeleccionada.getTribunal(), "", false, "");
 
         } catch (Exception ex1) {
             nuevoMensajeAlerta("Error! al guardar el jurado", ex1.getMessage());

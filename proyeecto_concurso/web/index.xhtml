@@ -265,7 +265,7 @@
 
                                 <h:form id="formTribunal">
                                     <h:panelGrid columns="2" >
-                                        <h:outputText value="Numero de Resolución:" />
+                                        <h:outputText value="Numero de Resolución: " />
                                         <p:selectOneMenu id="cmbTribunalNuevoResolucion" value="#{beanTribunal.resolucionSeleccionada.idResolucion}" required="true" requiredMessage="Seleccione una Resolución" style="width: 100px;" filter="true" >
                                             <p:ajax listener="#{beanTribunal.onResolucionSelect}" update="tblTribunal" />
                                             <f:selectItems var="resolucion" value="#{beanConcurso.listaFinalResoluciones}" itemLabel="#{resolucion.numeroResolucion}" itemValue="#{resolucion.idResolucion}" />
@@ -281,7 +281,7 @@
                                                  rowsPerPageTemplate="3,5,10,15" reflow="true" emptyMessage="Sin jurados registrados" >
 
                                         <f:facet name="header">
-                                            <h:outputText id="lblTribunales" value="JURADOS " />
+                                            <h:outputText id="lblTribunales" value="JURADOS en la resolucion #{beanTribunal.resolucionSeleccionada.numeroResolucion}" />
                                         </f:facet>
 
                                         <p:column headerText="Tribunal">
@@ -712,9 +712,9 @@
                         </h:panelGrid>
 
                     </h:form>
-
+                    <p:separator/>
                     <h:form id="formJuradoNuevo">
-                        <p:separator/>
+
 
                         <h:panelGrid columns="2" cellpadding="4" cellspacing="2">
                             <h:outputText value="Nombres" /> 

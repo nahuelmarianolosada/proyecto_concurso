@@ -103,7 +103,7 @@ public class PersonaDaoImpl extends HibernateUtil implements PersonaDao {
             String user = "nmlosada";
             String password = "siisa1234";
             List<Persona> listaPersonas = new ArrayList<>();
-            System.out.print("PersonaDaoImpl.buscarPorNombre(" + nombre + ") => Buscando en la BD Siisa");
+            System.out.print("PersonaDaoImpl.buscarPorNombre(" + nombre + ") => Buscando en la BD Siisa.");
             Connection con = null;
             Statement stmt = null;
             try {
@@ -131,7 +131,7 @@ public class PersonaDaoImpl extends HibernateUtil implements PersonaDao {
                     listaPersonas.add(persona);
                 }
 
-                System.out.println(" cantidad de registros encontrados: " + listaPersonas.size());
+                System.out.println(" Cantidad de registros encontrados: " + listaPersonas.size());
 
             } catch (Exception exGeneral) {
                 exGeneral.printStackTrace();

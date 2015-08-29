@@ -18,9 +18,9 @@ public interface EstablecimientoDao {
 
     public List<Establecimiento> getEstablecimiento(String nombreEstablecimiento);
 
-    public Establecimiento getEstablecimiento(int idEstablecimiento);
+    public Establecimiento getEstablecimientoById(int idEstablecimiento);
 
-    public Establecimiento getEstablecimiento(long codigoSiisa);
+    public Establecimiento getEstablecimientoByCodigoSiisa(long codigoSiisa);
 
     public void insertar(Establecimiento establecimiento);
 
