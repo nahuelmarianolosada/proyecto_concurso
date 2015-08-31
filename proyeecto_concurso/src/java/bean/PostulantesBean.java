@@ -278,7 +278,7 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
             Persona personaExistente = personaDao.buscarPorDni(postulante.getPersona().getDni());
             System.out.println("Existe la persona en la BD? " + personaExistente);
             if (personaExistente == null) {
-                personaDao.insertar(postulante.getPersona());
+                personaDao.insertar(personaExistente);
             }
             if (!getListaFinalPostulantes().contains(listaPostulantes)) {
                 getListaFinalPostulantes().addAll(listaPostulantes);
