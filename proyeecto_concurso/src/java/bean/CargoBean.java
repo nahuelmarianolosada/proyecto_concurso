@@ -181,7 +181,7 @@ public class CargoBean extends ConcursoBean implements Serializable {
 
                 //Obtenemos la resolucion para asignarsela al siguiente cargo que se cargue
                 Resolucion res = cargoNuevo.getResolucion();
-                cargoNuevo = new Cargo(cargoNuevo.getIdCargo() + 1,res, new Establecimiento(), new Profesion());
+                cargoNuevo = new Cargo(listaCargos.size(),res, new Establecimiento(), new Profesion());
                 cargoNuevo.setEsDesierto(true);
 
             } catch (Exception exGeneral) {

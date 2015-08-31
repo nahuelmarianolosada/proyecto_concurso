@@ -199,7 +199,18 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
     }
 
     public void seleccionarPersona(SelectEvent event) {
-        nuevoPostulante.setPersona((Persona) event.getObject());
+
+        Persona personaSelec = (Persona) event.getObject();
+        PersonaDao personaDao = new PersonaDaoImpl();
+        if (!listaPostulantes.isEmpty()) {
+            personaSelec.setIdPersona(listaPostulantes.get(listaPostulantes.size() - 1).getPersona().getIdPersona() + 1);
+            System.out.println("PostulantesBean.seleccionarPersona() => " + personaSelec.toString());
+        } else {
+            personaSelec.setIdPersona(personaDao.generarIdNuevoPersona());
+        }
+        nuevoPostulante.setPersona(personaSelec);
+        System.out.println("Postulante.seleccionarPersona() => Se a seleccionado la " + nuevoPostulante.getPersona().toString());
+
         RequestContext context = RequestContext.getCurrentInstance();
         context.execute("PF('dlgPersonaResultado').hide();");
         //FacesMessage msg = new FacesMessage("Car Selected", ((Car) event.getObject()).getId());
@@ -212,8 +223,15 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
 //        FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
+    public void limpiar_inicializar() {
+        nuevoPostulante = new Postulante(new Persona());
+        nuevoPostulante.setCargo(new Cargo());
+        banderaGanador = false;
+        buscado = "";
+        banderaBtn = false;
+    }
+
     public void guardarNuevoPostulante() {
-        CargoDao cargoDao = new CargoDaoImpl();
         PostulanteDao postulanteDao = new PostulanteDaoImpl();
 
         if (validarPostulante(nuevoPostulante)) {
@@ -244,9 +262,6 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
             listaPostulantes.add(nuevoPostulante);
 
             System.out.println("\033[32mPostulantesBean.guardarNuevoPostulante() => " + nuevoPostulante.toString());
-
-            nuevoPostulante = new Postulante(new Persona());
-            nuevoPostulante.setCargo(new Cargo());
 
             nuevoMensajeInfo("Registro Provincial de Concursos", "Postulante cargado");
         }

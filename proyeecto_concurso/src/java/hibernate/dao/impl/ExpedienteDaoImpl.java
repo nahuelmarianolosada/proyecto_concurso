@@ -24,7 +24,7 @@ public class ExpedienteDaoImpl extends HibernateUtil implements ExpedienteDao {
     @Override
     public List<Expediente> getAll() {
         Criteria criteria = getSession().createCriteria(Expediente.class);
-        criteria.addOrder(Order.asc("idExpediente"));
+        criteria.addOrder(Order.desc("numeroExpediente"));
         List<Expediente> lista = criteria.list();
         return lista;
     }

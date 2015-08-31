@@ -12,19 +12,40 @@
                 <p:layout style="min-height:200px; height: 32.7em;" stateful="enabled" >
 
                     <p:layoutUnit position="center" resizable="true" header="Datos Registrados">
-                        <h:form id="formMostrar"> 
-                            <p:accordionPanel dynamic="true" cache="true" id="menuAccordion">
+                        <h:form id="formMostrar" > 
+                            <p:accordionPanel dynamic="true" cache="true" id="menuAccordion" activeIndex="1"  >
                                 <p:tab title="Expedientes" id="pestaniaExpedientes">
-                                    <p:dataScroller value="#{beanConcurso.listaFinalResoluciones}" var="resolucion" chunkSize="5" mode="inline" scrollHeight="283" id="listaResoluciones" >
+                                    <p:dataScroller value="#{beanConcurso.getListaTab_expedientes()}" var="expediente" chunkSize="5" mode="inline" scrollHeight="200" id="listaExpedientes" >
                                         <f:facet name="header">
-                                            Expedientes Registrados
+                                            #{beanConcurso.getListaTab_expedientes().size()} Expedientes Registrados
+                                        </f:facet>
+
+                                        <h:panelGrid columns="1" style="width:100%;"  >
+                                            <p:outputPanel>
+                                                <h:panelGrid columns="6" cellpadding="5">
+                                                    <f:facet name="header" >
+                                                        <p:commandLink value="Expediente Núm: #{expediente.numeroExpediente} - UDO: #{expediente.unidadDeOrganizacion.nombreUnidad} - Situación: #{expediente.situacion} - Régimen: #{expediente.regimen}" styleClass="data" style="font-size: 13px; color: black !important;" actionListener="#{beanConcurso.nuevoMensajeInfo('hola', 'tamos hechos :)')}" update="tabuladorPestañero:formExpedientes:msg"/>
+                                                    </f:facet>
+
+                                                    
+                                                </h:panelGrid>
+                                                <p:separator />
+                                            </p:outputPanel>
+                                        </h:panelGrid>
+                                    </p:dataScroller>
+                                </p:tab>
+                                <p:tab title="Resoluciones" id="pestaniaResoluciones" >
+                                    <p:dataScroller value="#{beanConcurso.getListaTab_resoluciones()}" var="resolucion" chunkSize="5" mode="inline" scrollHeight="283" id="listaResoluciones" >
+                                        <f:facet name="header">
+                                            #{beanConcurso.getListaTab_resoluciones().size()} Resoluciones Registradas
                                         </f:facet>
 
                                         <h:panelGrid columns="1" style="width:100%" >
                                             <p:outputPanel>
                                                 <h:panelGrid columns="6" cellpadding="5">
                                                     <f:facet name="header" >
-                                                        <h:outputText value="Expediente Núm: #{resolucion.expediente.numeroExpediente} - UDO: #{resolucion.expediente.unidadDeOrganizacion.nombreUnidad} - Régimen: #{resolucion.expediente.regimen} - Situación: #{resolucion.expediente.situacion}" styleClass="data" style="font-size: 13px;"/>
+                                                        <p:commandLink value="Expediente Núm: #{resolucion.expediente.numeroExpediente} - UDO: #{resolucion.expediente.unidadDeOrganizacion.nombreUnidad} - Régimen: #{resolucion.expediente.regimen} - Situación: #{resolucion.expediente.situacion}" styleClass="data" style="font-size: 13px; color: black !important;" actionListener="#{beanConcurso.nuevoMensajeInfo('hola', 'tamos hechos :)')}" update="tabuladorPestañero:formExpedientes:msg"/>
+                                                        <!--<h:outputText value="Expediente Núm: #{resolucion.expediente.numeroExpediente} - UDO: #{resolucion.expediente.unidadDeOrganizacion.nombreUnidad} - Régimen: #{resolucion.expediente.regimen} - Situación: #{resolucion.expediente.situacion}" styleClass="data" style="font-size: 13px;"/>-->
                                                     </f:facet>
 
                                                     <h:outputText value="Numero de Resolucion:" />
@@ -142,7 +163,7 @@
 
                                                   style="text-align: center; margin-top: 5px;">
                                         <f:facet name="header">
-                                            <h:outputText id="lblNumeroDeExpedienteEnResolucion" value="Resoluciones en el expediente #{beanExpediente.expedienteNuevo.numeroExpediente}" />
+                                            <h:outputText id="lblNumeroDeExpedienteEnResolucion" value="Resoluciones en el expediente #{beanConcurso.expedienteFinalCargado.numeroExpediente}" />
                                             <p:commandButton id="togglerResoluciones" type="button" value="Columnas" style="float:right" icon="ui-icon-calculator" />
                                             <p:columnToggler datasource="tblResoluciones" trigger="togglerResoluciones" />
                                         </f:facet>
@@ -351,7 +372,7 @@
                                         </p:column>
                                     </p:dataTable>
 
-                                    <p:commandButton id="btnGuardarPostulantes" value="Siguiente" actionListener="#{beanPostulante.guardarListaPostulantes()}" icon="ui-icon-disk" update="tabuladorPestañero,tabuladorPestañero:formExpedientes:msg" styleClass="btnVerde" disabled="#{beanPostulante.listaPostulantes.isEmpty()}" />
+                                    <!--<p:commandButton id="btnGuardarPostulantes" value="Siguiente" actionListener="#{beanPostulante.guardarListaPostulantes()}" icon="ui-icon-disk" update="tabuladorPestañero,tabuladorPestañero:formExpedientes:msg" styleClass="btnVerde" disabled="#{beanPostulante.listaPostulantes.isEmpty()}" />-->
                                 </h:form>
                             </p:tab>
 
@@ -525,7 +546,7 @@
                 -->
                 <p:dialog id="dlgNuevaResolucion" appendTo="@(body)" widgetVar="dlgNuevaResolucion" modal="true" showEffect="blind" hideEffect="blind" resizable="true" closable="true" closeOnEscape="true" >
                     <f:facet name="header" >
-                        <h:outputText id="lblEncabezadoNuevaResolucion" value="Resolucion Nueva - Exp. #{beanExpediente.expedienteNuevo.numeroExpediente}" />
+                        <h:outputText id="lblEncabezadoNuevaResolucion" value="Resolucion Nueva - Exp. #{beanConcurso.expedienteFinalCargado.numeroExpediente}" />
                     </f:facet>
                     <h:form id="formNuevaResolucion">
 
@@ -714,16 +735,39 @@
                     </h:form>
                     <p:separator/>
                     <h:form id="formJuradoNuevo">
-
-
-                        <h:panelGrid columns="2" cellpadding="4" cellspacing="2">
-                            <h:outputText value="Nombres" /> 
-                            <p:inputText  id ="nombre" value="#{beanTribunal.juradoNuevo.persona.nombres}" required="true"/>
+                        <h:outputText value="Persona ID: " /><h:outputText value="#{beanTribunal.juradoNuevo.persona.idPersona}" styleClass="data" />
+                        <h:panelGrid columns="4" cellpadding="2" >
+                            <h:outputText value="Nombre" />
+                            <p:inputText id="txtNombreNuevoJurado" value="#{beanTribunal.juradoNuevo.persona.nombres}" maxlength="25" />
                             <h:outputText value="Apellido" />
-                            <p:inputText id="apellido" value="#{beanTribunal.juradoNuevo.persona.apellido}" required="true"/> 
+                            <p:inputText id="txtApellidoNuevoJurado" value="#{beanTribunal.juradoNuevo.persona.apellido}" maxlength="25" />
+                            <h:outputText value="DNI" />
+                            <p:inputText id="txtDniNuevoJurado" value="#{beanTribunal.juradoNuevo.persona.dni}" maxlength="9" />
+                            <h:outputText value="Cuil" />
+                            <p:inputText id="txtCuilNuevoJurado" value="#{beanTribunal.juradoNuevo.persona.cuil}" maxlength="12" />
+
+                            <h:outputText value="Fecha de Nacimiento" />
+                            <p:calendar id="calFechaNacNuevoJurado" value="#{beanTribunal.juradoNuevo.persona.fechaDeNacimiento}" pattern="dd-MM-yyyy" mask="true" required="true" requiredMessage="Ingrese la fecha de nacimiento del postulante" />
+
+                            <h:outputText value="Direccion" />
+                            <p:inputText id="txtDireccionNuevoJurado" value="#{beanTribunal.juradoNuevo.persona.direccion}" />
+
+                            <h:outputText value="Sexo" />
+                            <p:selectOneRadio id="console" value="#{beanTribunal.juradoNuevo.persona.sexo}">
+                                <f:selectItem itemLabel="Masculino" itemValue="M" />
+                                <f:selectItem itemLabel="Femenino" itemValue="F" />
+                            </p:selectOneRadio>
+
+                            <h:outputText value="Teléfono" />
+                            <p:inputText id="txtTelefonoNuevoJurado" value="#{beanTribunal.juradoNuevo.persona.telefono}" converterMessage="Ingrese unicamente numeros para el teléfono" maxlength="15" >
+                                <f:convertNumber integerOnly="true" />
+                            </p:inputText>
+
+                            <h:outputText value="Email" />
+                            <p:inputText id="txtEmailNuevoJurado" value="#{beanTribunal.juradoNuevo.persona.email}" maxlength="30" />
                         </h:panelGrid>
 
-                        <h:panelGrid columns="4" cellpadding="4" cellspacing="2" >
+                        <h:panelGrid columns="6" cellpadding="4" cellspacing="2" >
                             <h:outputText value="Estado"/>
                             <p:selectOneMenu id="cmbEstadoJurado2" value="#{beanTribunal.juradoNuevo.estado}" style="width:100px;" >
                                 <f:selectItem itemLabel="jurado" itemValue="JURADO"/>
@@ -742,10 +786,12 @@
                         </h:panelGrid>
 
                         <p:selectOneMenu id="comboInstituciones" value="#{beanTribunal.juradoNuevo.institucion.idInstitucion}" required="true" requiredMessage="Seleccione una Institución" filter="true" validatorMessage="Seleccione una institución valida" >
+                            <p:ajax listener="#{beanTribunal.seleccionarInstitucion}" />
                             <f:selectItem noSelectionOption="true" itemLabel=" Seleccione una Institución" itemValue="null" />
                             <f:selectItems var="institucion" value="#{beanConcurso.listaInstituciones}" itemLabel="#{institucion.nombreInstitucion} (#{institucion.idInstitucion})" itemValue="#{institucion.idInstitucion}" />
                         </p:selectOneMenu>    
                         <p:selectOneMenu id="comboEstablecimiento" value="#{beanTribunal.juradoNuevo.establecimiento.idEstablecimiento}" required="true" requiredMessage="Seleccione una Institución" filter="true" validatorMessage="Seleccione un establecimiento valido" style="width: 50%;">
+                            <p:ajax listener="#{beanTribunal.seleccionarEstablecimiento}" />
                             <f:selectItem noSelectionOption="true" itemLabel=" Seleccione una Establecimiento" itemValue="null" />
                             <f:selectItems var="establecimiento" value="#{beanConcurso.listaEstablecimientos}" itemLabel="#{establecimiento.nombre} (#{establecimiento.idEstablecimiento})" itemValue="#{establecimiento.idEstablecimiento}" />
                         </p:selectOneMenu>
@@ -763,11 +809,15 @@
              DIALOGO PARA SELECCIONAR LA PERSONA JURADO
              **********************************
                 -->
-                <p:dialog id="dlgSeleccionJuradoRefeps" header="Seleccione el Jurado"  widgetVar="dlgProfesionalesResultado" modal="true" showEffect="fade" hideEffect="fade" draggable="true" resizable="true" closeOnEscape="true" style="width: 50%;" >
+                <p:dialog id="dlgSeleccionJuradoRefeps" header="Seleccione el Jurado"  widgetVar="dlgProfesionalesResultado" modal="true" showEffect="fade" hideEffect="fade" draggable="true" resizable="true" closeOnEscape="true" >
                     <h:form id="formJuradosRefeps">
-                        <p:dataTable id="tblResultadoBusqueda" var="persona" selectionMode="single" selection="#{beanTribunal.personaBuscada}" value="#{beanTribunal.listaPersonas}" rowKey="#{persona.idPersona}" >
+                        <p:dataTable id="tblResultadoBusqueda" var="persona" selectionMode="single" 
+                                     selection="#{beanTribunal.personaBuscada}" value="#{beanTribunal.listaPersonas}"
+                                     rowKey="#{persona.idPersona}" rows="5" paginator="true"
+                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="5,10,15" >
                             <f:facet name="header">
-                                Profesionales Coincidentes
+                                Profesionales Coincidentes con "#{beanTribunal.buscado}"
                             </f:facet>
                             <p:ajax event="rowSelect" listener="#{beanTribunal.seleccionarPersona}" update="formJuradoNuevo" />
                             <p:ajax event="rowUnselect" listener="#{TribunalBean.deseleccionarPersona}" update="formJuradoNuevo" />
@@ -781,7 +831,9 @@
                                 <h:outputText value="#{persona.apellido}" />
                             </p:column>
 
-
+                            <f:facet name="footer">
+                                #{beanTribunal.listaPersonas.size()} resultados coincidentes
+                            </f:facet>
                         </p:dataTable>
                     </h:form>
                 </p:dialog>
@@ -922,7 +974,7 @@
                                 <p:spinner value="#{beanPostulante.nuevoPostulante.fojas}" min="0" max="100" placeholder="Fojas" />
                             </h:panelGrid>
 
-                            <p:commandButton id="btnGuardarNuevoPostulante" value="Guardar" actionListener="#{beanPostulante.guardarNuevoPostulante}" icon="ui-icon-disk" update="tabuladorPestañero,tabuladorPestañero:formExpedientes:msg,tabuladorPestañero:formPestañaPostulantes:tblPostulantes" styleClass="btnVerde" validateClient="true" />
+                            <p:commandButton id="btnGuardarNuevoPostulante" value="Guardar" actionListener="#{beanPostulante.guardarNuevoPostulante}" icon="ui-icon-disk" update="tabuladorPestañero,tabuladorPestañero:formExpedientes:msg,tabuladorPestañero:formPestañaPostulantes:tblPostulantes,dlgPostulanteNuevo" styleClass="btnVerde" validateClient="true" />
                         </h:form>
                     </p:panel>
                 </p:dialog>

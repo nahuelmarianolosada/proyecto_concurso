@@ -47,7 +47,7 @@ public class TribunalBean extends ConcursoBean implements Serializable {
     private Persona personaBuscada;
     private boolean datosValidos, banderaBtn;
     private List<Persona> listaResultadoBusquedaPersona, listaPersonas;
-    private List<TribunalJurado> listaJurados, listaJuradoNuevos;
+    private List<TribunalJurado> listaJuradoNuevos;
     private List<Tribunal> listaTribunalesNuevos;
     private Resolucion resolucionSeleccionada;
 
@@ -62,7 +62,7 @@ public class TribunalBean extends ConcursoBean implements Serializable {
         TribunalJuradoDao tribJuraDao = new TribunalJuradoDaoImpl();
         TribunalDao tribunalDao = new TribunalDaoImpl();
         PersonaDao personaDao = new PersonaDaoImpl();
-        listaJurados = tribJuraDao.getAll();
+        //listaJurados = tribJuraDao.getAll();
         listaPersonas = new ArrayList<Persona>();
         personaBuscada = new Persona();
         listaResultadoBusquedaPersona = new ArrayList<Persona>();
@@ -104,13 +104,6 @@ public class TribunalBean extends ConcursoBean implements Serializable {
         this.categoriaJurado = categoriaJurado;
     }
 
-    public List<TribunalJurado> getListaJurados() {
-        return listaJurados;
-    }
-
-    public void setListaJurados(List<TribunalJurado> listaJurados) {
-        this.listaJurados = listaJurados;
-    }
 
     public List<Persona> getListaPersonas() {
         return listaPersonas;
@@ -194,7 +187,9 @@ public class TribunalBean extends ConcursoBean implements Serializable {
 
     //METODOS
     public void onResolucionSelect() {
-        listaJuradoNuevos.clear();
+
+        listaJuradoNuevos = new ArrayList<>();
+
         for (Resolucion resolucion : getListaFinalResoluciones()) {
             if (resolucion.getIdResolucion() == resolucionSeleccionada.getIdResolucion()) {
                 resolucionSeleccionada = resolucion;
@@ -219,6 +214,10 @@ public class TribunalBean extends ConcursoBean implements Serializable {
                 ConexionRefeps conexionRefeps = new ConexionRefeps();
                 listaPersonas = conexionRefeps.buscarProfesionalRefepsNombreCompleto(buscado);
             }
+        } catch (NullPointerException exNulo) {
+            System.out.println("Nombre buscado: " + buscado);
+            System.out.println(exNulo.getLocalizedMessage() + "\n" + exNulo.getMessage());
+
         } catch (Exception exGeneral) {
             exGeneral.printStackTrace();
             nuevoMensajeAlerta("Error al intentar buscar una persona" + buscado, exGeneral.getMessage());
@@ -238,14 +237,36 @@ public class TribunalBean extends ConcursoBean implements Serializable {
         Persona personaSelec = (Persona) event.getObject();
         PersonaDao personaDao = new PersonaDaoImpl();
         if (!listaJuradoNuevos.isEmpty()) {
-            personaSelec.setIdPersona(listaJuradoNuevos.get(0).getPersona().getIdPersona()+1);
+            personaSelec.setIdPersona(listaJuradoNuevos.get(listaJuradoNuevos.size() - 1).getPersona().getIdPersona() + 1);
+            System.out.println("TribunalBean.seleccionarPersona() => " + personaSelec.toString());
         } else {
             personaSelec.setIdPersona(personaDao.generarIdNuevoPersona());
         }
         juradoNuevo.setPersona(personaSelec);
+        System.out.println("TribunalBean.seleccionarPersona() => Se a seleccionado la " + juradoNuevo.getPersona().toString());
         RequestContext context = RequestContext.getCurrentInstance();
         context.execute("PF('dlgProfesionalesResultado').hide();");
         context.update("formJuradoNuevo");
+    }
+
+    public void seleccionarInstitucion() {
+        InstitucionDao institucionDao = new InstitucionDaoImpl();
+        if (juradoNuevo.getInstitucion().getIdInstitucion() != 0 || juradoNuevo.getEstablecimiento().getIdEstablecimiento() != 0) {
+            juradoNuevo.setInstitucion(institucionDao.getInstitucion(juradoNuevo.getInstitucion().getIdInstitucion()));
+            System.out.println("TribunalBean.seleccionarInstitucion(" + juradoNuevo.getInstitucion().getIdInstitucion() + ") => Se a seleccionado el Instituto (" + juradoNuevo.getInstitucion().getIdInstitucion() + ") " + juradoNuevo.getInstitucion().getNombreInstitucion());
+        } else {
+            nuevoMensajeInfo("Registro Provincial de Concursos de Salud", "Seleccione una institucion a la que representa");
+        }
+    }
+
+    public void seleccionarEstablecimiento() {
+        EstablecimientoDao establecDao = new EstablecimientoDaoImpl();
+        if (juradoNuevo.getInstitucion().getIdInstitucion() != 0 || juradoNuevo.getEstablecimiento().getIdEstablecimiento() != 0) {
+            juradoNuevo.setEstablecimiento(establecDao.getEstablecimientoById(juradoNuevo.getEstablecimiento().getIdEstablecimiento()));
+            System.out.println("TribunalBean.seleccionarEstablecimiento(" + juradoNuevo.getEstablecimiento().getIdEstablecimiento() + ") => Se a seleccionado el Establecimiento (" + juradoNuevo.getEstablecimiento().getIdEstablecimiento() + ") " + juradoNuevo.getEstablecimiento().getNombre());
+        } else {
+            nuevoMensajeInfo("Registro Provincial de Concursos de Salud", "Seleccione un establecimiento al que representa");
+        }
     }
 
     public void deseleccionarPersona(UnselectEvent event) {
@@ -256,14 +277,7 @@ public class TribunalBean extends ConcursoBean implements Serializable {
 
         try {
             PersonaDao persDao = new PersonaDaoImpl();
-            EstablecimientoDao establecimientoDao = new EstablecimientoDaoImpl();
-            InstitucionDaoImpl institucionDao = new InstitucionDaoImpl();
 
-            juradoNuevo.setEstablecimiento(establecimientoDao.getEstablecimientoById(juradoNuevo.getEstablecimiento().getIdEstablecimiento()));
-            Institucion instEncontrada = institucionDao.getInstitucion(juradoNuevo.getInstitucion().getIdInstitucion());
-            juradoNuevo.setInstitucion(instEncontrada);
-
-            
             for (Resolucion resolucion : getListaFinalResoluciones()) {
                 if (resolucion.getIdResolucion() == resolucionSeleccionada.getIdResolucion()) {
                     resolucionSeleccionada = resolucion;
@@ -309,7 +323,7 @@ public class TribunalBean extends ConcursoBean implements Serializable {
 
             //Inicializa el jurado Nuevo y el Seleccionado
             juradoSeleccionado = new TribunalJurado();
-            juradoNuevo = new TribunalJurado(juradoNuevo.getIdTribunalJurado() + 1, getListaInstituciones().get(0), new Persona(), getListaEstablecimientos().get(0), resolucionSeleccionada.getTribunal(), "", false, "");
+            juradoNuevo = new TribunalJurado(juradoNuevo.getIdTribunalJurado() + 1, new Institucion(), new Persona(), new Establecimiento(), resolucionSeleccionada.getTribunal(), "", false, "");
 
         } catch (Exception ex1) {
             nuevoMensajeAlerta("Error! al guardar el jurado", ex1.getMessage());
@@ -322,7 +336,6 @@ public class TribunalBean extends ConcursoBean implements Serializable {
 
         try {
             //Seteamos la cantidad de jurados para el nuevoTribunal
-            TribunalDao tribunalDao = new TribunalDaoImpl();
 
             for (Resolucion resolucion : getListaFinalResoluciones()) {
                 if (resolucionSeleccionada.getIdResolucion() == resolucion.getIdResolucion()) {

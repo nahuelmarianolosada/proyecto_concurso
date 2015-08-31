@@ -23,14 +23,14 @@ public class PostulanteDaoImpl extends HibernateUtil implements PostulanteDao {
     @Override
     public List<Postulante> getAll() {
         Criteria criteria = getSession().createCriteria(Postulante.class);
-        criteria.addOrder(Order.asc("idInscripcion"));
+        criteria.addOrder(Order.asc("idPostulante"));
         List<Postulante> lista = criteria.list();
         return lista;
     }
 
     @Override
-    public Postulante getPostulante(int codigoPostulante) {
-        return (Postulante) getSession().get(Postulante.class, codigoPostulante);
+    public Postulante getPostulante(int idPostulante) {
+        return (Postulante) getSession().get(Postulante.class, idPostulante);
     }
 
     @Override
@@ -50,7 +50,7 @@ public class PostulanteDaoImpl extends HibernateUtil implements PostulanteDao {
     public int generarIdNuevoPostulante() {
 
         Criteria criteria = getSession().createCriteria(Postulante.class);
-        criteria.addOrder(Order.desc("idInscripcion"));
+        criteria.addOrder(Order.desc("idPostulante"));
         if (!criteria.list().isEmpty()) {
             Postulante ultimoPostulante = (Postulante) criteria.list().get(0);
             return ultimoPostulante.getIdPostulante() + 1;

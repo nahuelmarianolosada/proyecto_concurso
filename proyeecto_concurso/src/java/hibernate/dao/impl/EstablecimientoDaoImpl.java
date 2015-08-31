@@ -23,7 +23,7 @@ public class EstablecimientoDaoImpl extends HibernateUtil implements Establecimi
     @Override
     public List<Establecimiento> getAll() {
         Criteria criteria = getSession().createCriteria(Establecimiento.class);
-        criteria.addOrder(Order.asc("idEstablecimiento"));
+        criteria.addOrder(Order.desc("idEstablecimiento"));
         List<Establecimiento> lista = criteria.list();
         return lista;
     }
