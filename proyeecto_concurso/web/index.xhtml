@@ -35,7 +35,7 @@
                                     </p:dataScroller>
                                 </p:tab>
                                 <p:tab title="Resoluciones" id="pestaniaResoluciones" >
-                                    <p:dataScroller value="#{beanConcurso.getListaTab_resoluciones()}" var="resolucion" chunkSize="5" mode="inline" scrollHeight="283" id="listaResoluciones" >
+                                    <p:dataScroller value="#{beanConcurso.getListaTab_resoluciones()}" var="resolucion" chunkSize="5" mode="inline" scrollHeight="240" id="listaResoluciones" >
                                         <f:facet name="header">
                                             #{beanConcurso.getListaTab_resoluciones().size()} Resoluciones Registradas
                                         </f:facet>
@@ -382,7 +382,7 @@
                             PESTAÑA RESULTADO#{beanPostulante.listaPostulantes.isEmpty()}
                             **********************************
                             -->
-                            <p:tab title="Resultado" id="tabResultado" disabled="false" >
+                            <p:tab title="Resultado" id="tabResultado" disabled="#{beanPostulante.listaPostulantes.isEmpty()}" >
                                 <h:form id="formResultadoConcurso">
                                     <h:panelGrid columns="2" cellpadding="3" frame="box" styleClass="panelAlta" columnClasses="label, value" >
                                         <f:facet name="header">
