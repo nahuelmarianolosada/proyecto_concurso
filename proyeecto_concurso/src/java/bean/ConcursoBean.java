@@ -108,8 +108,6 @@ public class ConcursoBean implements Serializable {
     }
 
     
-    
-    
     public static List<Tribunal> getListaFinalTribunales() {
         return listaFinalTribunales;
     }
@@ -198,10 +196,6 @@ public class ConcursoBean implements Serializable {
         this.postulanteFinalSeleccionado = postulanteSeleccionado;
     }
 
-  
-
-    
-    
     /**
      *
      * M E T O D O S
@@ -250,10 +244,6 @@ public class ConcursoBean implements Serializable {
 
     public void refreshListas() {
 
-        //ProfesionDao profDao = new ProfesionDaoImpl();
-        //listaProfesiones = profDao.getAll();
-        //CargoDao cargoDao = new CargoDaoImpl();
-//    beanCargo.setListaCargos(cargoDao.getAll());
         InstitucionDao instDao = new InstitucionDaoImpl();
         listaInstituciones = instDao.getAll();
         EstablecimientoDao establecimientoDao = new EstablecimientoDaoImpl();
@@ -272,27 +262,27 @@ public class ConcursoBean implements Serializable {
         nuevoMensajeInfo("Registro Provincial de Concursos de Salud", "Pestaña Activa: " + event.getTab().getTitle());
         switch (event.getTab().getTitle()) {
             case "Expediente": {
-                setNumeroDePestania(0);
+                numeroDePestania = 0;
                 break;
             }
             case "Resoluciones": {
-                setNumeroDePestania(1);
+                numeroDePestania = 1;
                 break;
             }
             case "Cargos": {
-                setNumeroDePestania(2);
+                numeroDePestania = 2;
                 break;
             }
             case "Tribunal": {
-                setNumeroDePestania(3);
+                numeroDePestania = 3;
                 break;
             }
             case "Postulantes": {
-                setNumeroDePestania(4);
+                numeroDePestania = 4;
                 break;
             }
             case "Resultado": {
-                setNumeroDePestania(5);
+                numeroDePestania = 5;
                 RequestContext context = RequestContext.getCurrentInstance();
                 context.update("tabuladorPestañero:formResultadoConcurso");
                 break;
@@ -302,10 +292,6 @@ public class ConcursoBean implements Serializable {
 
     
     public void inicializar() {
-        
-            
-        
-        
           RequestContext context = RequestContext.getCurrentInstance();
           
           ExpedienteDao expedienteDao = new ExpedienteDaoImpl();
@@ -332,7 +318,7 @@ public class ConcursoBean implements Serializable {
 //            }
 //        }
 
-        context.update("formMostrar:menuAccordion");
+        //context.update("formMostrar:menuAccordion");
     }
 
     public void guardarExpedienteFinal() {

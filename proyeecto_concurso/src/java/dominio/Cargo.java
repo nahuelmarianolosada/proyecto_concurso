@@ -29,6 +29,12 @@ public class Cargo implements java.io.Serializable {
     public Cargo() {
     }
 
+    public Cargo(boolean esDesierto) {
+        this.esDesierto = esDesierto;
+    }
+    
+    
+
     public Cargo(int idCargo) {
         this.idCargo = idCargo;
     }
@@ -234,7 +240,7 @@ public class Cargo implements java.io.Serializable {
         if (esDesierto) {
             return "DESIERTO";
         }else{
-            return "Cargo " + idCargo + "{resolucion=(" + resolucion.getIdResolucion() + ") " + resolucion.getNumeroResolucion() + ", establecimiento=(" + establecimiento.getCodigoSiisa() + ") " + establecimiento.getNombre() + ", profesion=(" + profesion.getProfesionRefencia() + ") " + profesion.getNombreProfesion() + ", especialidad=" + especialidad + ", categoria=" + categoria + ", adicional=" + adicional + ", funcion=" + funcion + ", areaDeDesempenio=" + areaDeDesempenio + ", modalidad=" + modalidad + ", fechaActaFormulacionPerfil=" + fechaActaFormulacionPerfil + ", enunciacion=" + enunciacion  + '}';
+            return "Cargo " + idCargo /*+ "{resolucion=(" + resolucion.getIdResolucion() + ") " + resolucion.getNumeroResolucion() + ", establecimiento=(" + establecimiento.getCodigoSiisa() + ") " + establecimiento.getNombre() + ", profesion=(" + profesion.getProfesionRefencia() + ") " + profesion.getNombreProfesion() + ", especialidad=" + especialidad + ", categoria=" + categoria + ", adicional=" + adicional + ", funcion=" + funcion + ", areaDeDesempenio=" + areaDeDesempenio + ", modalidad=" + modalidad + ", fechaActaFormulacionPerfil=" + fechaActaFormulacionPerfil + ", enunciacion=" + enunciacion  + '}'*/;
         }
     }
 

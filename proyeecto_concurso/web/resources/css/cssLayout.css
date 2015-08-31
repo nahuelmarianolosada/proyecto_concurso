@@ -266,3 +266,8 @@ h3, .subtitulo{
     text-decoration: underline; 
     text-shadow: 1x 1px #ff0000 !important;
 }
+
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active{
+    background: #98A634 !important;
+    color: white !important;
+}

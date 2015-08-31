@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package hibernate.dao.impl;
 
 import dominio.Tribunal;
@@ -19,7 +18,7 @@ import org.hibernate.criterion.Restrictions;
  *
  * @author nahuel
  */
-public class TribunalDaoImpl extends HibernateUtil implements TribunalDao{
+public class TribunalDaoImpl extends HibernateUtil implements TribunalDao {
 
     @Override
     public List<Tribunal> getAll() {
@@ -31,10 +30,8 @@ public class TribunalDaoImpl extends HibernateUtil implements TribunalDao{
 
     @Override
     public Tribunal getTribunal(int idTribunal) {
-        return (Tribunal)getSession().get(Tribunal.class, idTribunal);
+        return (Tribunal) getSession().get(Tribunal.class, idTribunal);
     }
-    
-    
 
     @Override
     public void insertar(Tribunal tribunal) {
@@ -74,13 +71,19 @@ public class TribunalDaoImpl extends HibernateUtil implements TribunalDao{
             getSession().getTransaction().rollback();
         }
     }
-      public int generarNuevoIdTribunal() {
-          
+
+    @Override
+    public int generarNuevoIdTribunal() {
+
         Criteria criteria = getSession().createCriteria(Tribunal.class);
         criteria.addOrder(Order.desc("idTribunal"));
-        Tribunal ultimoTribunal = (Tribunal) criteria.list().get(0);
-        return ultimoTribunal.getIdTribunal()+ 1;
-        
-       }
- 
+        if (criteria.list().size() != 0) {
+            Tribunal ultimoTribunal = (Tribunal) criteria.list().get(0);
+            return ultimoTribunal.getIdTribunal() + 1;
+        } else {
+            return 0;
+        }
+
+    }
+
 }

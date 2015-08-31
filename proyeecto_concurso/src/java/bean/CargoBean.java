@@ -7,6 +7,7 @@ package bean;
 
 import dominio.Cargo;
 import dominio.Establecimiento;
+import dominio.Expediente;
 import dominio.Profesion;
 import java.io.Serializable;
 import java.util.List;
@@ -45,7 +46,6 @@ public class CargoBean extends ConcursoBean implements Serializable {
      * Creates a new instance of CargoBean
      */
     public CargoBean() {
-//        cargoNuevo = new Cargo(getListaEstablecimientos().get(0), getListaProfesiones().get(0));
         ProfesionDao profDao = new ProfesionDaoImpl();
         CargoDao cargoDao = new CargoDaoImpl();
         
@@ -214,6 +214,12 @@ public class CargoBean extends ConcursoBean implements Serializable {
             if (listaCargos.size() > 0) {
                 datosValidos = true;
             }
+            
+            System.out.println("Mostrando cargos guardados");
+            for (Cargo cargo : getListaFinalCargos()) {
+                System.out.println(cargo.toString());
+            }
+            
             nuevoMensajeInfo("Registro de concursos de Salud", sumatoria + " cargos fueron cargados");
             pasarVistaDePestania();
         } catch(org.hibernate.exception.ConstraintViolationException exHibernateViolacionForanea){

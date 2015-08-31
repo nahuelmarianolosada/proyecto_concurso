@@ -35,8 +35,6 @@ public class ExpedienteBean extends ConcursoBean implements Serializable {
     private boolean datosValidos;//Bandera que se referencia a la vista para habilitar la pestaña siguiente
     private List<Expediente> listaExpedientes;
 
-    @ManagedProperty("#{beanResolucion}")
-    private ResolucionBean beanResolucion;
 
     //GETTERS & SETTERS
     public Expediente getExpedienteNuevo() {
@@ -71,13 +69,7 @@ public class ExpedienteBean extends ConcursoBean implements Serializable {
         this.listaExpedientes = listaExpedientes;
     }
 
-    public ResolucionBean getBeanResolucion() {
-        return beanResolucion;
-    }
-
-    public void setBeanResolucion(ResolucionBean beanResolucion) {
-        this.beanResolucion = beanResolucion;
-    }
+    
 
     public List<Expediente> getAllExpedientes() {
         ExpedienteDao expedienteDao = new ExpedienteDaoImpl();
@@ -91,7 +83,6 @@ public class ExpedienteBean extends ConcursoBean implements Serializable {
         listaUnidadDeOrganizacions = new ArrayList<UnidadDeOrganizacion>();
         ExpedienteDao expedienteDao = new ExpedienteDaoImpl();
         expedienteNuevo = new Expediente(expedienteDao.generarNuevoIdExpediente(), new UnidadDeOrganizacion(), 0, "", "", 0, "");
-        System.out.println("ExpedienteBean.ExpedienteBean() => " + expedienteNuevo.toString());
         refreshListas();
         datosValidos = false;
 
@@ -149,8 +140,7 @@ public class ExpedienteBean extends ConcursoBean implements Serializable {
             //Validamos que los datos guardados en el expediente sean validos y
             //que aparte no exista en la BD
             if (expedienteDao.getExpediente(expedienteNuevo.getNumeroExpediente()) == null) {
-                beanResolucion.getResolucionNueva().setExpediente(expedienteNuevo);
-
+               
                 //Seteamos el Expediente Final
                 setExpedienteFinalCargado(expedienteNuevo);
 

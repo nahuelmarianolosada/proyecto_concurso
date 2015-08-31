@@ -257,6 +257,8 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
 //                Cargo cargoAsignado = cargoDao.getCargo(nuevoPostulante.getCargo().getIdCargo());
 //                nuevoPostulante.setCargo(cargoAsignado);
 //                nuevoPostulante.getCargo().setEsDesierto(false);
+            }else{
+                nuevoPostulante.setCargo(new Cargo(true));
             }
 
             listaPostulantes.add(nuevoPostulante);
@@ -288,7 +290,7 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
             }
         }
         nuevoMensajeInfo("Registro Provincial de Concursos", "Se a guardado la lista de postulantes");
-        pasarVistaDePestania();
+//        pasarVistaDePestania();
     }
 
     /**
