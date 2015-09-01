@@ -17,6 +17,12 @@ public class Postulante implements java.io.Serializable {
     public Postulante() {
     }
 
+    public Postulante(Integer idPostulante) {
+        this.idPostulante = idPostulante;
+    }
+
+    
+    
     public Postulante(Persona persona) {
         this.persona = persona;
     }

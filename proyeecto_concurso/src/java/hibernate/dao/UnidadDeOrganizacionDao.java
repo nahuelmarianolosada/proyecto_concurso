@@ -16,7 +16,7 @@ import java.util.List;
 public interface UnidadDeOrganizacionDao {
     public List<UnidadDeOrganizacion> getAll();
     public UnidadDeOrganizacion getUnidadDeOrganizacion(int idUnidadDeOrganizacion);
-    public void insertar(UnidadDeOrganizacion unidadDeOrganizacion);
+//    public void insertar(UnidadDeOrganizacion unidadDeOrganizacion);
     public void eliminar(UnidadDeOrganizacion unidadDeOrganizacion);
     public void modificar(UnidadDeOrganizacion unidadDeOrganizacion);
 }

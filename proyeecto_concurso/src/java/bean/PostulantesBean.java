@@ -8,10 +8,8 @@ package bean;
 import dominio.Cargo;
 import dominio.Postulante;
 import dominio.Persona;
-import hibernate.dao.CargoDao;
 import hibernate.dao.PersonaDao;
 import hibernate.dao.PostulanteDao;
-import hibernate.dao.impl.CargoDaoImpl;
 import hibernate.dao.impl.PersonaDaoImpl;
 import hibernate.dao.impl.PostulanteDaoImpl;
 import java.io.Serializable;
@@ -251,18 +249,29 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
                     if (cargo.getIdCargo() == nuevoPostulante.getCargo().getIdCargo()) {
                         nuevoPostulante.setCargo(cargo);
                         nuevoPostulante.getCargo().setEsDesierto(false);
-                        break;
+                        getListaFinalCargos().set(getListaFinalCargos().indexOf(cargo),nuevoPostulante.getCargo());
+                        
+                    }else{
+                        getListaFinalCargos().get(getListaFinalCargos().indexOf(cargo)).setEsDesierto(true);
                     }
                 }
 //                Cargo cargoAsignado = cargoDao.getCargo(nuevoPostulante.getCargo().getIdCargo());
 //                nuevoPostulante.setCargo(cargoAsignado);
 //                nuevoPostulante.getCargo().setEsDesierto(false);
+            }else{
+                nuevoPostulante.setCargo(new Cargo(0));
+                nuevoPostulante.getCargo().setEsDesierto(true);
             }
 
             listaPostulantes.add(nuevoPostulante);
+            
+            
 
             System.out.println("\033[32mPostulantesBean.guardarNuevoPostulante() => " + nuevoPostulante.toString());
 
+            nuevoPostulante = new Postulante(nuevoPostulante.getIdPostulante(),new Cargo(0), new Persona());
+            buscado = "";
+            
             nuevoMensajeInfo("Registro Provincial de Concursos", "Postulante cargado");
         }
     }
@@ -288,7 +297,7 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
             }
         }
         nuevoMensajeInfo("Registro Provincial de Concursos", "Se a guardado la lista de postulantes");
-        pasarVistaDePestania();
+
     }
 
     /**

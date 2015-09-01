@@ -166,6 +166,7 @@ public class ResolucionBean extends ConcursoBean implements Serializable {
                 resolucionNueva.setProrroga(banderaProrroga);
 
                 //resolucionNueva.setIdResolucion(resolucionNueva.getIdResolucion() + 1);
+                resolucionNueva.setExpediente(getExpedienteFinalCargado());
                 listaResoluciones.add(resolucionNueva);
 
                 // pasarVistaDePestania();

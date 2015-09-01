@@ -1,5 +1,5 @@
 
-@import url(http://fonts.googleapis.com/css?family=Share:700);
+/*@import url(http://fonts.googleapis.com/css?family=Share:700);*/
 
 #top {
     position: relative;
@@ -265,4 +265,13 @@ h3, .subtitulo{
     font-size: 1.8em !important; 
     text-decoration: underline; 
     text-shadow: 1x 1px #ff0000 !important;
+}
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
+    border: 1px solid whitesmoke;
+    color:white;
+    background: #98A634 !important;
+}
+
+.ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited{
+    color:white;
 }

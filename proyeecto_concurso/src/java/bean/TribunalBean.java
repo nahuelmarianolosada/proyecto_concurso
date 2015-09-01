@@ -18,6 +18,7 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import bd.ConexionRefeps;
+import dominio.Expediente;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.UnselectEvent;
@@ -103,7 +104,6 @@ public class TribunalBean extends ConcursoBean implements Serializable {
     public void setCategoriaJurado(String categoriaJurado) {
         this.categoriaJurado = categoriaJurado;
     }
-
 
     public List<Persona> getListaPersonas() {
         return listaPersonas;
@@ -236,11 +236,23 @@ public class TribunalBean extends ConcursoBean implements Serializable {
     public void seleccionarPersona(SelectEvent event) {
         Persona personaSelec = (Persona) event.getObject();
         PersonaDao personaDao = new PersonaDaoImpl();
+        Persona persAux = personaDao.buscarPorDni(personaSelec.getDni());
         if (!listaJuradoNuevos.isEmpty()) {
-            personaSelec.setIdPersona(listaJuradoNuevos.get(listaJuradoNuevos.size() - 1).getPersona().getIdPersona() + 1);
-            System.out.println("TribunalBean.seleccionarPersona() => " + personaSelec.toString());
+            if (persAux == null) {
+                personaSelec.setIdPersona(personaDao.generarIdNuevoPersona());
+                System.out.println("TribunalBean.seleccionarPersona() => " + personaSelec.toString());
+            } else {
+                personaSelec = persAux;
+            }
         } else {
-            personaSelec.setIdPersona(personaDao.generarIdNuevoPersona());
+            //En caso de que sea el primer registro de la lista verificamos su
+            //existencia en la BD
+            if (persAux == null) {
+                personaSelec.setIdPersona(personaDao.generarIdNuevoPersona());
+            } else {
+                personaSelec = persAux;
+            }
+
         }
         juradoNuevo.setPersona(personaSelec);
         System.out.println("TribunalBean.seleccionarPersona() => Se a seleccionado la " + juradoNuevo.getPersona().toString());
@@ -306,6 +318,10 @@ public class TribunalBean extends ConcursoBean implements Serializable {
 
                 //en caso de que no exista lo seteamos y guardamos
                 Persona personaNueva = juradoNuevo.getPersona();
+                personaNueva.setIdPersona(persDao.generarIdNuevoPersona());
+                personaNueva.setApellido(juradoNuevo.getPersona().getApellido().toUpperCase());
+                personaNueva.setNombres(juradoNuevo.getPersona().getNombres().toUpperCase());
+                personaNueva.setDireccion(juradoNuevo.getPersona().getDireccion().toUpperCase());
                 persDao.insertar(personaNueva);
             }
 
@@ -323,8 +339,9 @@ public class TribunalBean extends ConcursoBean implements Serializable {
 
             //Inicializa el jurado Nuevo y el Seleccionado
             juradoSeleccionado = new TribunalJurado();
-            juradoNuevo = new TribunalJurado(juradoNuevo.getIdTribunalJurado() + 1, new Institucion(), new Persona(), new Establecimiento(), resolucionSeleccionada.getTribunal(), "", false, "");
+            juradoNuevo = new TribunalJurado(juradoNuevo.getIdTribunalJurado() + 1, new Institucion(), new Persona(persDao.generarIdNuevoPersona(),"M"), new Establecimiento(), resolucionSeleccionada.getTribunal(), "", false, "");
 
+            buscado = "";
         } catch (Exception ex1) {
             nuevoMensajeAlerta("Error! al guardar el jurado", ex1.getMessage());
             ex1.printStackTrace();
@@ -346,8 +363,20 @@ public class TribunalBean extends ConcursoBean implements Serializable {
             }
 
             //seteamos el tribunal en la resolucion Seleccionada
+            //Tengo que cambiar la forma de recorrer la lista en memoria de resolucion
             resolucionSeleccionada.setTribunal(tribunalNuevo);
-            getListaFinalResoluciones().get(resolucionSeleccionada.getIdResolucion()).setTribunal(tribunalNuevo);
+            for (Resolucion resolucion : getListaFinalResoluciones()) {
+                if(resolucionSeleccionada.getNumeroResolucion().equalsIgnoreCase(resolucion.getNumeroResolucion())){
+                    //Primero obtenemos el elemento resolucion de la lista y despues
+                    //le seteamos el tribunal
+                    getListaFinalResoluciones().get(getListaFinalResoluciones().indexOf(resolucion)).setTribunal(tribunalNuevo);
+                    
+                    break;
+                }
+            }
+            
+            
+            //getListaFinalResoluciones().get(resolucionSeleccionada.getIdResolucion()).setTribunal(tribunalNuevo);
 
             //Guardamos el tribunal en la lista final de tribunales
             getListaFinalTribunales().add(tribunalNuevo);
@@ -357,10 +386,12 @@ public class TribunalBean extends ConcursoBean implements Serializable {
                 getListaFinalJurados().add(jurado);
             }
 
+            datosValidos = true;
             nuevoMensajeInfo("Registro Provincial de Concursos de Salud", "Se a guardado el tribunal con los postulantes seleccionados.");
             pasarVistaDePestania();
         } catch (Exception exGeneral) {
             nuevoMensajeAlerta("Error! al guardar el tribunal nuevo", exGeneral.getMessage());
+            exGeneral.printStackTrace();
         }
 
     }

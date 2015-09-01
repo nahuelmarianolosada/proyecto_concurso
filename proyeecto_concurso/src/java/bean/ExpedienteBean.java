@@ -6,6 +6,7 @@
 package bean;
 
 import dominio.Expediente;
+import dominio.Resolucion;
 import dominio.UnidadDeOrganizacion;
 import hibernate.dao.ExpedienteDao;
 import hibernate.dao.UnidadDeOrganizacionDao;
@@ -34,11 +35,14 @@ public class ExpedienteBean extends ConcursoBean implements Serializable {
     private List<UnidadDeOrganizacion> listaUnidadDeOrganizacions; //lista que se utiliza para cargar el combo con las areas
     private boolean datosValidos;//Bandera que se referencia a la vista para habilitar la pestaña siguiente
     private List<Expediente> listaExpedientes;
+   
 
     @ManagedProperty("#{beanResolucion}")
     private ResolucionBean beanResolucion;
 
     //GETTERS & SETTERS
+    
+        
     public Expediente getExpedienteNuevo() {
         return expedienteNuevo;
     }
@@ -98,6 +102,7 @@ public class ExpedienteBean extends ConcursoBean implements Serializable {
     }
 
     //METODOS
+    @Override
     public void refreshListas() {
         System.out.println("ExpedienteBean.refreshListas() => Obteniendo las unidades de Organizacion");
         UnidadDeOrganizacionDao unidadDao = new UnidadDeOrganizacionDaoImpl();
@@ -173,6 +178,9 @@ public class ExpedienteBean extends ConcursoBean implements Serializable {
         }
 
     }
+    
+    
+    
 
     /**
      * Funcion que realiza un formato esstructurado para el numero del

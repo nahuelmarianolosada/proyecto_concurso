@@ -32,18 +32,18 @@ public class UnidadDeOrganizacionDaoImpl extends HibernateUtil implements Unidad
         return (UnidadDeOrganizacion)getSession().get(UnidadDeOrganizacion.class, codigoUnidadDeOrganizacion);
     }
 
-    @Override
-    public void insertar(UnidadDeOrganizacion unidadDeOrganizacion) {
-        try {
-            getSession().beginTransaction();
-            getSession().save(unidadDeOrganizacion);
-            getSession().getTransaction().commit();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            getSession().getTransaction().rollback();
-        }
-    }
+//    @Override
+//    public void insertar(UnidadDeOrganizacion unidadDeOrganizacion) {
+//        try {
+//            getSession().beginTransaction();
+//            getSession().save(unidadDeOrganizacion);
+//            getSession().getTransaction().commit();
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            getSession().getTransaction().rollback();
+//        }
+//    }
 
     @Override
     public void eliminar(UnidadDeOrganizacion unidadDeOrganizacion) {

@@ -34,6 +34,11 @@ public class Resolucion implements java.io.Serializable {
     public Resolucion() {
     }
 
+    public Resolucion(Expediente expediente) {
+        this.expediente = expediente;
+    }
+
+    
     public Resolucion(int idResolucion) {
         this.idResolucion = idResolucion;
     }

@@ -13,8 +13,8 @@
 
                     <p:layoutUnit position="center" resizable="true" header="Datos Registrados">
                         <h:form id="formMostrar" > 
-                            <p:accordionPanel dynamic="true" cache="true" id="menuAccordion" activeIndex="1"  >
-                                <p:tab title="Expedientes" id="pestaniaExpedientes">
+                            <p:accordionPanel dynamic="true" cache="true" id="menuAccordion" activeIndex="1" >
+                                <p:tab title="Expedientes" id="pestaniaExpedientes" >
                                     <p:dataScroller value="#{beanConcurso.getListaTab_expedientes()}" var="expediente" chunkSize="5" mode="inline" scrollHeight="200" id="listaExpedientes" >
                                         <f:facet name="header">
                                             #{beanConcurso.getListaTab_expedientes().size()} Expedientes Registrados
@@ -27,7 +27,7 @@
                                                         <p:commandLink value="Expediente Núm: #{expediente.numeroExpediente} - UDO: #{expediente.unidadDeOrganizacion.nombreUnidad} - Situación: #{expediente.situacion} - Régimen: #{expediente.regimen}" styleClass="data" style="font-size: 13px; color: black !important;" actionListener="#{beanConcurso.nuevoMensajeInfo('hola', 'tamos hechos :)')}" update="tabuladorPestañero:formExpedientes:msg"/>
                                                     </f:facet>
 
-                                                    
+
                                                 </h:panelGrid>
                                                 <p:separator />
                                             </p:outputPanel>
@@ -85,7 +85,7 @@
                     <p:layoutUnit position="east" resizable="true"  size="700" minSize="600"  header="Formulario de Registro de Concursos" maxSize="800" collapsible="true" >
 
                         <p:tabView activeIndex="#{beanConcurso.numeroDePestania}" effect="fade" effectDuration="fast" id="tabuladorPestañero" >
-                            <p:effect type="bounce" event="onchange" />
+<!--                            <p:effect type="bounce" event="onchange" />-->
                             <p:ajax event="tabChange"  listener="#{beanConcurso.validarPestania}" update="tabuladorPestañero:formExpedientes:msg"/>
 
                             <!--   
@@ -104,7 +104,7 @@
                                         <p:column>
                                             <p:outputLabel for="cmbUnidadExpediente" value="UDO:" /><br />
                                             <p:selectOneMenu id="cmbUnidadExpediente" value="#{beanExpediente.expedienteNuevo.unidadDeOrganizacion.codigoUnidadDeOrganizacion}" required="true" requiredMessage="Seleccione un Àrea" filter="true" validatorMessage="Seleccione un área válida" converterMessage="Seleccione un área válida" >
-                                                <p:ajax listener="#{beanExpediente.onUnidadSeleccionada}" />
+                                                <p:ajax listener="#{beanExpediente.onUnidadSeleccionada}" update="btnGuardarNuevoExpediente" />
                                                 <f:selectItem noSelectionOption="true" itemLabel=" Seleccione un Área" itemValue="null" />
                                                 <f:selectItems var="unidad" value="#{beanExpediente.listaUnidadDeOrganizacions}" itemLabel="#{unidad.nombreUnidad} (#{unidad.codigoUnidadDeOrganizacion})" itemValue="#{unidad.codigoUnidadDeOrganizacion}" />
                                             </p:selectOneMenu>
@@ -112,7 +112,7 @@
 
                                         <p:column>
                                             <p:outputLabel for="spnNumeroExpediente" value="Número del Exp:" /><br />
-                                            <p:spinner id="spnNumeroExpediente" value="#{beanExpediente.expedienteNuevo.numero}" placeholder="Número" min="0" max="9999" required="true" requiredMessage="Ingrese el Número que figura en el expediente" validatorMessage="Ingrese un numero de expediente válido"  />
+                                            <p:spinner id="spnNumeroExpediente" value="#{beanExpediente.expedienteNuevo.numero}" placeholder="Número" min="0" max="99999" required="true" requiredMessage="Ingrese el Número que figura en el expediente" validatorMessage="Ingrese un numero de expediente válido"  />
                                         </p:column>
 
                                         <p:column>
@@ -140,7 +140,7 @@
 
 
                                     </h:panelGrid>
-                                    <p:commandButton id="btnGuardarNuevoExpediente" value="Siguiente" actionListener="#{beanExpediente.guardarExpediente}" icon="ui-icon-disk" update="tabuladorPestañero,tabuladorPestañero:formExpedientes:msg,tabuladorPestañero:formResoluciones:tblResoluciones,lblEncabezadoNuevaResolucion" styleClass="btnVerde" />
+                                    <p:commandButton id="btnGuardarNuevoExpediente" value="Siguiente" actionListener="#{beanExpediente.guardarExpediente}" icon="ui-icon-disk" update="tabuladorPestañero,tabuladorPestañero:formExpedientes:msg,tabuladorPestañero:formResoluciones:tblResoluciones,lblEncabezadoNuevaResolucion" styleClass="btnVerde"  />
                                 </h:form>
                             </p:tab>
 
@@ -282,7 +282,7 @@
                               PESTAÑA TRIBUNAL 
                               **********************************
                             -->
-                            <p:tab title="Tribunal" id="tabTribunal" disabled="#{!beanResolucion.datosValidos}" >
+                            <p:tab title="Tribunal" id="tabTribunal" disabled="#{!beanCargo.datosValidos}" >
 
                                 <h:form id="formTribunal">
                                     <h:panelGrid columns="2" >
@@ -341,7 +341,7 @@
                             PESTAÑA POSTULANTES 
                             **********************************
                             -->
-                            <p:tab title="Postulantes" id="tabPostulantes" disabled="#{!beanCargo.datosValidos}" >
+                            <p:tab title="Postulantes" id="tabPostulantes" disabled="#{!beanTribunal.datosValidos}" >
                                 <h:form id="formPestañaPostulantes">
                                     <p:commandButton value="Nuevo" oncomplete="PF('dlgPostulanteNuevo').show();" icon="ui-icon-plusthick" style="margin-bottom: 5px;" />
 
@@ -372,7 +372,7 @@
                                         </p:column>
                                     </p:dataTable>
 
-                                    <!--<p:commandButton id="btnGuardarPostulantes" value="Siguiente" actionListener="#{beanPostulante.guardarListaPostulantes()}" icon="ui-icon-disk" update="tabuladorPestañero,tabuladorPestañero:formExpedientes:msg" styleClass="btnVerde" disabled="#{beanPostulante.listaPostulantes.isEmpty()}" />-->
+                                    <p:commandButton id="btnGuardarPostulantes" value="Siguiente" actionListener="#{beanPostulante.guardarListaPostulantes()}" icon="ui-icon-disk" update="tabuladorPestañero,tabuladorPestañero:formExpedientes:msg" styleClass="btnVerde" disabled="#{beanPostulante.listaPostulantes.isEmpty()}" />
                                 </h:form>
                             </p:tab>
 
@@ -512,7 +512,7 @@
                             <h:outputText value="Apellido:" />
                             <h:outputText value="#{beanConcurso.postulanteFinalSeleccionado.persona.apellido}" styleClass="data" />
 
-                            <h:outputText value="Cuil:" rendered="#{!beanConcurso.postulanteFinalSeleccionado.persona.cuil.isEmpty()}" />
+                            <h:outputText value="Cuil:" rendered="#{!beanConcurso.postulanteFinalSeleccionado.persona.cuil}" />
                             <h:outputText value="#{beanConcurso.postulanteFinalSeleccionado.persona.cuil}" styleClass="data" />
 
                             <h:outputText value="Fecha de Nacimiento:" rendered="#{!beanConcurso.postulanteFinalSeleccionado.persona.fechaDeNacimiento.toString().isEmpty()}" />
@@ -742,7 +742,7 @@
                             <h:outputText value="Apellido" />
                             <p:inputText id="txtApellidoNuevoJurado" value="#{beanTribunal.juradoNuevo.persona.apellido}" maxlength="25" />
                             <h:outputText value="DNI" />
-                            <p:inputText id="txtDniNuevoJurado" value="#{beanTribunal.juradoNuevo.persona.dni}" maxlength="9" />
+                            <p:inputText id="txtDniNuevoJurado" value="#{beanTribunal.juradoNuevo.persona.dni}" maxlength="9" required="true" requiredMessage="Se debe ingresar un Dni válido." />
                             <h:outputText value="Cuil" />
                             <p:inputText id="txtCuilNuevoJurado" value="#{beanTribunal.juradoNuevo.persona.cuil}" maxlength="12" />
 
@@ -764,7 +764,7 @@
                             </p:inputText>
 
                             <h:outputText value="Email" />
-                            <p:inputText id="txtEmailNuevoJurado" value="#{beanTribunal.juradoNuevo.persona.email}" maxlength="30" />
+                            <p:inputText id="txtEmailNuevoJurado" value="#{beanTribunal.juradoNuevo.persona.email}" maxlength="50" />
                         </h:panelGrid>
 
                         <h:panelGrid columns="6" cellpadding="4" cellspacing="2" >

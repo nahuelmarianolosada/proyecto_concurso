@@ -36,6 +36,20 @@ public class Persona  implements java.io.Serializable {
     public Persona(int idPersona) {
         this.idPersona = idPersona;
     }
+
+    public Persona(String sexo) {
+        this.sexo = sexo;
+    }
+
+    public Persona(int idPersona, String sexo) {
+        this.idPersona = idPersona;
+        this.sexo = sexo;
+    }
+    
+    
+    
+    
+    
     public Persona(int idPersona, Localidad localidadByLocalidadNacimiento, Localidad localidadByIdLocalidadDireccion, Integer dni, String nombres, String apellido, String sexo, String nacionalidad, Date fechaDeNacimiento, String direccion, String telefono, String email, Long cuil, Set personals, Set tribunalJurados, Set postulantes) {
        this.idPersona = idPersona;
        this.localidadByLocalidadNacimiento = localidadByLocalidadNacimiento;
