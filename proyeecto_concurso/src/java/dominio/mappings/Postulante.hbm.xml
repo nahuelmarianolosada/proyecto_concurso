@@ -9,7 +9,7 @@
             <generator class="assigned" />
         </id>
         <many-to-one name="cargo" class="dominio.Cargo" fetch="select">
-            <column name="id_cargo" not-null="true" />
+            <column name="id_cargo" />
         </many-to-one>
         <many-to-one name="persona" class="dominio.Persona" fetch="select">
             <column name="persona_id" not-null="true" />

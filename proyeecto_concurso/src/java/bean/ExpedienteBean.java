@@ -6,7 +6,6 @@
 package bean;
 
 import dominio.Expediente;
-import dominio.Resolucion;
 import dominio.UnidadDeOrganizacion;
 import hibernate.dao.ExpedienteDao;
 import hibernate.dao.UnidadDeOrganizacionDao;
@@ -37,8 +36,8 @@ public class ExpedienteBean extends ConcursoBean implements Serializable {
     private List<Expediente> listaExpedientes;
    
 
-    @ManagedProperty("#{beanResolucion}")
-    private ResolucionBean beanResolucion;
+//    @ManagedProperty("#{beanResolucion}")
+//    private ResolucionBean beanResolucion;
 
     //GETTERS & SETTERS
     
@@ -75,13 +74,13 @@ public class ExpedienteBean extends ConcursoBean implements Serializable {
         this.listaExpedientes = listaExpedientes;
     }
 
-    public ResolucionBean getBeanResolucion() {
-        return beanResolucion;
-    }
-
-    public void setBeanResolucion(ResolucionBean beanResolucion) {
-        this.beanResolucion = beanResolucion;
-    }
+//    public ResolucionBean getBeanResolucion() {
+//        return beanResolucion;
+//    }
+//
+//    public void setBeanResolucion(ResolucionBean beanResolucion) {
+//        this.beanResolucion = beanResolucion;
+//    }
 
     public List<Expediente> getAllExpedientes() {
         ExpedienteDao expedienteDao = new ExpedienteDaoImpl();
@@ -154,7 +153,7 @@ public class ExpedienteBean extends ConcursoBean implements Serializable {
             //Validamos que los datos guardados en el expediente sean validos y
             //que aparte no exista en la BD
             if (expedienteDao.getExpediente(expedienteNuevo.getNumeroExpediente()) == null) {
-                beanResolucion.getResolucionNueva().setExpediente(expedienteNuevo);
+//                beanResolucion.getResolucionNueva().setExpediente(expedienteNuevo);
 
                 //Seteamos el Expediente Final
                 setExpedienteFinalCargado(expedienteNuevo);

@@ -72,49 +72,45 @@ public class CargoDaoImpl extends HibernateUtil implements CargoDao {
     public void insertar(Cargo cargo) throws SQLException {
         System.out.println("\033[32CargoDaoImpl.insertar() => Guardando " + cargo.toString());
 
-        String driver = "org.postgresql.Driver";
-        String connectString = "jdbc:postgresql://localhost:5432/concursosDB";
-        String user = "nmlosada";
-        String password = "siisa1234";
-
-        Connection dbConnection = null;
-        PreparedStatement preparedStatement = null;
-
-        String insertTableSQL = "INSERT INTO cargo"
-                + "(id_profesion, especialidad, categoria, adicional,funcion,area_de_desempenio,codigo_establecimiento,modalidad,fecha_acta_formulacion_perfil,enunciacion,id_cargo,resolucion_id,es_desierto) VALUES"
-                + "(?,?,?,?,?,?,?,?,?,?,?,?,?)";
+//        String driver = "org.postgresql.Driver";
+//        String connectString = "jdbc:postgresql://localhost:5432/concursosDB";
+//        String user = "nmlosada";
+//        String password = "siisa1234";
+//
+//        Connection dbConnection = null;
+//        PreparedStatement preparedStatement = null;
+//        String insertTableSQL = "INSERT INTO cargo"
+//                + "(id_profesion, especialidad, categoria, adicional,funcion,area_de_desempenio,codigo_establecimiento,modalidad,fecha_acta_formulacion_perfil,enunciacion,id_cargo,resolucion_id,es_desierto) VALUES"
+//                + "(?,?,?,?,?,?,?,?,?,?,?,?,?)";
         try {
-//            getSession().beginTransaction();
-//            getSession().save(cargo);
-//            getSession().getTransaction().commit();
+            getSession().beginTransaction();
+            getSession().save(cargo);
+            getSession().getTransaction().commit();
 
-            Class.forName(driver);
-
-            dbConnection = DriverManager.getConnection(connectString, user, password);
-            preparedStatement = dbConnection.prepareStatement(insertTableSQL);
-
-            preparedStatement.setInt(1, cargo.getProfesion().getIdProfesion());
-            preparedStatement.setString(2, cargo.getEspecialidad());
-            preparedStatement.setString(3, cargo.getCategoria());
-            preparedStatement.setInt(4, cargo.getAdicional());
-            preparedStatement.setString(5, cargo.getFuncion());
-            preparedStatement.setString(6, cargo.getAreaDeDesempenio());
-            preparedStatement.setLong(7, cargo.getEstablecimiento().getCodigoSiisa());
-            preparedStatement.setString(8, cargo.getModalidad());
-
-            java.sql.Date sqlDate = new java.sql.Date(cargo.getFechaActaFormulacionPerfil().getTime());
-
-            preparedStatement.setDate(9, sqlDate);
-            preparedStatement.setString(10, cargo.getEnunciacion());
-            preparedStatement.setInt(11, cargo.getIdCargo());
-            preparedStatement.setInt(12, cargo.getResolucion().getIdResolucion());
-            preparedStatement.setBoolean(13, cargo.isEsDesierto());
-
-            // execute insert SQL stetement
-            preparedStatement.executeUpdate();
-
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
+//            Class.forName(driver);
+//
+//            dbConnection = DriverManager.getConnection(connectString, user, password);
+//            preparedStatement = dbConnection.prepareStatement(insertTableSQL);
+//
+//            preparedStatement.setInt(1, cargo.getProfesion().getIdProfesion());
+//            preparedStatement.setString(2, cargo.getEspecialidad());
+//            preparedStatement.setString(3, cargo.getCategoria());
+//            preparedStatement.setInt(4, cargo.getAdicional());
+//            preparedStatement.setString(5, cargo.getFuncion());
+//            preparedStatement.setString(6, cargo.getAreaDeDesempenio());
+//            preparedStatement.setLong(7, cargo.getEstablecimiento().getCodigoSiisa());
+//            preparedStatement.setString(8, cargo.getModalidad());
+//
+//            java.sql.Date sqlDate = new java.sql.Date(cargo.getFechaActaFormulacionPerfil().getTime());
+//
+//            preparedStatement.setDate(9, sqlDate);
+//            preparedStatement.setString(10, cargo.getEnunciacion());
+//            preparedStatement.setInt(11, cargo.getIdCargo());
+//            preparedStatement.setInt(12, cargo.getResolucion().getIdResolucion());
+//            preparedStatement.setBoolean(13, cargo.isEsDesierto());
+//
+//            // execute insert SQL stetement
+//            preparedStatement.executeUpdate();
         } catch (org.hibernate.HibernateException exHibernate) {
             exHibernate.printStackTrace();
             getSession().getTransaction().rollback();
@@ -123,13 +119,13 @@ public class CargoDaoImpl extends HibernateUtil implements CargoDao {
             getSession().getTransaction().rollback();
         } finally {
 
-            if (preparedStatement != null) {
-                preparedStatement.close();
-            }
-
-            if (dbConnection != null) {
-                dbConnection.close();
-            }
+//            if (preparedStatement != null) {
+//                preparedStatement.close();
+//            }
+//
+//            if (dbConnection != null) {
+//                dbConnection.close();
+//            }
         }
     }
 

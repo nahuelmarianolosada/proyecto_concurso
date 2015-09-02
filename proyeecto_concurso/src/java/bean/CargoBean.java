@@ -48,13 +48,13 @@ public class CargoBean extends ConcursoBean implements Serializable {
 //        cargoNuevo = new Cargo(getListaEstablecimientos().get(0), getListaProfesiones().get(0));
         ProfesionDao profDao = new ProfesionDaoImpl();
         CargoDao cargoDao = new CargoDaoImpl();
-        
+
         listaProfesiones = profDao.getAll();
-        cargoNuevo = new Cargo(cargoDao.generarNuevoIdCargo(),new Profesion());
+        cargoNuevo = new Cargo(cargoDao.generarNuevoIdCargo(), new Profesion());
         cargoNuevo.setEstablecimiento(new Establecimiento());
         cargoNuevo.setResolucion(new Resolucion());
         cargoNuevo.setEsDesierto(true);
-        
+
         cargoSeleccionado = new Cargo();
         datosValidos = false;
 
@@ -168,20 +168,20 @@ public class CargoBean extends ConcursoBean implements Serializable {
                 //ResolucionDao resDao = new ResolucionDaoImpl();
                 //cargoNuevo.setResolucion(resDao.getResolucion(cargoNuevo.getResolucion().getIdResolucion()));
                 for (Resolucion resolucion : getListaFinalResoluciones()) {
-                    if(resolucion.getNumeroResolucion().equals(cargoNuevo.getResolucion().getNumeroResolucion())){
+                    if (resolucion.getNumeroResolucion().equals(cargoNuevo.getResolucion().getNumeroResolucion())) {
                         cargoNuevo.setResolucion(resolucion);
                         break;
                     }
                 }
-                
+
                 System.out.println("CargoBean.guardarNuevoCargo() => Cargo Nuevo: " + cargoNuevo.toString());
                 listaCargos.add(cargoNuevo);
-                
+
                 finalizoCarga = true;
 
                 //Obtenemos la resolucion para asignarsela al siguiente cargo que se cargue
                 Resolucion res = cargoNuevo.getResolucion();
-                cargoNuevo = new Cargo(listaCargos.size(),res, new Establecimiento(), new Profesion());
+                cargoNuevo = new Cargo(listaCargos.size(), res, new Establecimiento(), new Profesion());
                 cargoNuevo.setEsDesierto(true);
 
             } catch (Exception exGeneral) {
@@ -204,8 +204,9 @@ public class CargoBean extends ConcursoBean implements Serializable {
             for (Cargo cargo : listaCargos) {
                 for (int i = 0; i < cargo.getCantidad(); i++) {
                     Cargo nuevoCargo = new Cargo(cargo.getIdCargo(), cargo.getResolucion(), cargo.getEstablecimiento(), cargo.getProfesion(), cargo.getEspecialidad(), cargo.getCategoria(), cargo.getAdicional(), cargo.getFuncion(), cargo.getAreaDeDesempenio(), cargo.getModalidad(), cargo.getFechaActaFormulacionPerfil(), cargo.getEnunciacion());
-                    //cargoDao.insertar(nuevoCargo);
                     
+
+                    //cargoDao.insertar(nuevoCargo);
                     getListaFinalCargos().add(nuevoCargo);
                     sumatoria++;
                 }
@@ -216,11 +217,10 @@ public class CargoBean extends ConcursoBean implements Serializable {
             }
             nuevoMensajeInfo("Registro de concursos de Salud", sumatoria + " cargos fueron cargados");
             pasarVistaDePestania();
-        } catch(org.hibernate.exception.ConstraintViolationException exHibernateViolacionForanea){
+        } catch (org.hibernate.exception.ConstraintViolationException exHibernateViolacionForanea) {
             exHibernateViolacionForanea.printStackTrace();
             nuevoMensajeAlerta("Error " + exHibernateViolacionForanea.getMessage(), exHibernateViolacionForanea.toString());
-        }
-        catch (Exception exGeneral) {
+        } catch (Exception exGeneral) {
             exGeneral.printStackTrace();
             nuevoMensajeAlerta("Error " + exGeneral.getMessage(), exGeneral.toString());
         }

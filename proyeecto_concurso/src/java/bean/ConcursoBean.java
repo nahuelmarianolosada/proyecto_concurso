@@ -86,6 +86,8 @@ public class ConcursoBean implements Serializable {
         listaFinalJurados = new ArrayList<>();
         
         inicializar();
+        
+        //recargarDeDatosFinales();
     }
     
     public static List<Expediente> getListaTab_expedientes() {
@@ -325,6 +327,29 @@ public class ConcursoBean implements Serializable {
         context.update("formMostrar:menuAccordion");
     }
     
+    
+    public void recargarDeDatosFinales(){
+        ExpedienteDao expDao = new ExpedienteDaoImpl();
+        expedienteFinalCargado = expDao.getExpediente("700-00015/1965");
+
+        ResolucionDao resDao = new ResolucionDaoImpl();
+        setListaFinalResoluciones(resDao.getResoluciones(expedienteFinalCargado));
+
+        CargoDao cargoDao = new CargoDaoImpl();
+        setListaFinalCargos(cargoDao.getListaCargosDeResolucion(listaFinalResoluciones.get(0)));
+
+        TribunalJuradoDao juradoDao = new TribunalJuradoDaoImpl();
+        setListaFinalJurados(juradoDao.getJuradosDelTribunal(listaFinalResoluciones.get(0).getTribunal()));
+
+        PostulanteDao postulanteDao = new PostulanteDaoImpl();
+        for (Cargo cargo : getListaFinalCargos()) {
+            if (postulanteDao.getPostulanteAcreditados(cargo) != null) {
+                listaFinalPostulantes.add(postulanteDao.getPostulanteAcreditados(cargo));
+            }
+        }
+    }
+    
+    
     public void guardarExpedienteFinal() {
         PostulanteDao postulanteDao = new PostulanteDaoImpl();
         try {
@@ -353,9 +378,10 @@ public class ConcursoBean implements Serializable {
                 cargo.setIdCargo(cargoDao.generarNuevoIdCargo());
                 System.out.println("ConcursoBean.guardarExpedienteFinal() => GUARDANDO " + cargo.toString());
                 for (int i = 0; i < getListaFinalPostulantes().size(); i++) {
+                    //Verificamos si es que el cargo se adjudico a algun postulante
                     if (getListaFinalPostulantes().get(i).getCargo().getIdCargo() == cargo.getIdCargo()) {
-                        cargo.setEsDesierto(true);
-                        break;
+                        cargo.setEsDesierto(false);
+                        
                     }
 
                 //if (postulanteDao.getPostulanteAcreditados(cargo) != null) {

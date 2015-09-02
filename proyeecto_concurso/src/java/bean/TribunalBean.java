@@ -324,11 +324,20 @@ public class TribunalBean extends ConcursoBean implements Serializable {
                 personaNueva.setDireccion(juradoNuevo.getPersona().getDireccion().toUpperCase());
                 persDao.insertar(personaNueva);
             }
-
+            
             juradoNuevo.setTribunal(resolucionSeleccionada.getTribunal());
 
             //Agrega el jurado nuevo a la lista de jurados.
             if (!listaJuradoNuevos.contains(juradoNuevo)) {
+                
+                //Seteamos el establecimiento e institucion
+                EstablecimientoDao establecimientoDao = new EstablecimientoDaoImpl();
+                juradoNuevo.setEstablecimiento(establecimientoDao.getEstablecimientoByCodigoSiisa(juradoNuevo.getEstablecimiento().getCodigoSiisa()));
+                
+                InstitucionDao institucionDao = new InstitucionDaoImpl();
+                juradoNuevo.setInstitucion(institucionDao.getInstitucion(juradoNuevo.getInstitucion().getIdInstitucion()));
+                
+                //Guardamos
                 System.out.println("TribunalBean.guardarJuradoNuevo() => Guardando " + juradoNuevo.toString());
                 listaJuradoNuevos.add(juradoNuevo);
             }

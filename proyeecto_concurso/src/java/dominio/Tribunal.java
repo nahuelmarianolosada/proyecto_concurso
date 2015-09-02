@@ -59,7 +59,13 @@ public class Tribunal  implements java.io.Serializable {
         this.resolucions = resolucions;
     }
 
+    @Override
+    public String toString() {
+        return "Tribunal "+ idTribunal + "{cantidadMiembros=" + cantidadMiembros + '}';
+    }
 
+
+    
 
 
 }
