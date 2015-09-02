@@ -285,8 +285,6 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
     }
 
     public void guardarListaPostulantes() {
-        super.setListaFinalPostulantes(listaPostulantes);
-        PostulanteDao postulanteDao = new PostulanteDaoImpl();
         PersonaDao personaDao = new PersonaDaoImpl();
 
         for (Postulante postulante : listaPostulantes) {
@@ -299,28 +297,21 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
                 personaNueva.setNombres(postulante.getPersona().getNombres().toUpperCase());
                 personaNueva.setDireccion(postulante.getPersona().getDireccion().toUpperCase());
                 personaDao.insertar(personaNueva);
-
-                for (Cargo cargo : getListaFinalCargos()) {
-                    if (cargo.getIdCargo() == postulante.getCargo().getIdCargo()) {
-                        postulante.setCargo(cargo);
-                        break;
-                    }
-                }
-
-                if (!getListaFinalPostulantes().contains(postulante)) {
-                    getListaFinalPostulantes().add(postulante);
-                    break;
-                    //getListaFinalPostulantes().add(postulante);
-                    //postulanteDao.insertar(postulante);
-                } else {
-                    //nuevoMensajeInfo("Registro Provincial de Concursos", "Postulante repetido");
-                }
-
             }
 
-            nuevoMensajeInfo("Registro Provincial de Concursos", "Se a guardado la lista de postulantes");
+            for (Cargo cargo : getListaFinalCargos()) {
+                if (cargo.getIdCargo() == postulante.getCargo().getIdCargo()) {
+                    postulante.setCargo(cargo);
+                    break;
+                }
+            }
 
+            if (!getListaFinalPostulantes().contains(postulante)) {
+                getListaFinalPostulantes().add(postulante);
+            }
         }
+
+        nuevoMensajeInfo("Registro Provincial de Concursos", "Se a guardado la lista de postulantes");
     }
 
     /**

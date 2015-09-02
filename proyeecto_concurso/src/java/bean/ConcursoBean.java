@@ -70,6 +70,9 @@ public class ConcursoBean implements Serializable {
     public static List<Expediente> listaTab_expedientes;
     
     public static List<Resolucion> listaTab_resoluciones;
+    
+    
+    private Expediente expedienteSeleccionado;
 
     /**
      * Creates a new instance of ConcursoBean
@@ -84,10 +87,23 @@ public class ConcursoBean implements Serializable {
         listaFinalTribunales = new ArrayList<>();
         listaFinalJurados = new ArrayList<>();
         
+        expedienteSeleccionado = new Expediente();
+        
         inicializar();
         
         //recargarDeDatosFinales();
     }
+
+    public Expediente getExpedienteSeleccionado() {
+        return expedienteSeleccionado;
+    }
+
+    public void setExpedienteSeleccionado(Expediente expedienteSeleccionado) {
+        this.expedienteSeleccionado = expedienteSeleccionado;
+    }
+    
+    
+    
     
     public static List<Expediente> getListaTab_expedientes() {
         return listaTab_expedientes;
@@ -327,6 +343,28 @@ public class ConcursoBean implements Serializable {
     }
     
     
+    public void buscarExpediente(){
+        ExpedienteDao expDao = new ExpedienteDaoImpl();
+        expedienteFinalCargado = expDao.getExpediente(getExpedienteSeleccionado().getNumeroExpediente());
+
+        ResolucionDao resDao = new ResolucionDaoImpl();
+        setListaFinalResoluciones(resDao.getResoluciones(expedienteFinalCargado));
+
+        CargoDao cargoDao = new CargoDaoImpl();
+        setListaFinalCargos(cargoDao.getListaCargosDeResolucion(listaFinalResoluciones.get(0)));
+
+        TribunalJuradoDao juradoDao = new TribunalJuradoDaoImpl();
+        setListaFinalJurados(juradoDao.getJuradosDelTribunal(listaFinalResoluciones.get(0).getTribunal()));
+
+        PostulanteDao postulanteDao = new PostulanteDaoImpl();
+        for (Cargo cargo : getListaFinalCargos()) {
+            if (postulanteDao.getPostulanteAcreditados(cargo) != null) {
+                listaFinalPostulantes.add(postulanteDao.getPostulanteAcreditados(cargo));
+            }
+        }
+    }
+    
+    
     public void recargarDeDatosFinales(){
         ExpedienteDao expDao = new ExpedienteDaoImpl();
         expedienteFinalCargado = expDao.getExpediente("700-00015/1965");
@@ -382,8 +420,6 @@ public class ConcursoBean implements Serializable {
                         cargo.setEsDesierto(false);
                         
                     }
-
-                //if (postulanteDao.getPostulanteAcreditados(cargo) != null) {
                     cargoDao.insertar(cargo);
                 }
             }

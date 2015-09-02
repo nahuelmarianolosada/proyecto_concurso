@@ -275,3 +275,7 @@ h3, .subtitulo{
 .ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited{
     color:white;
 }
+
+#dlgExpediente{
+    width: 80em !important;
+}
