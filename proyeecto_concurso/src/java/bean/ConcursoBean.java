@@ -390,7 +390,18 @@ public class ConcursoBean implements Serializable {
             }
             System.out.println("----------------------Se a guardado la lista de Cargos");
             
+            TribunalJuradoDao juradoDao = new TribunalJuradoDaoImpl();
+            for (TribunalJurado jurado : getListaFinalJurados()) {
+               jurado.setIdTribunalJurado(juradoDao.generarNuevoIdJurado());
+               juradoDao.insertar(jurado);
+            }
+            System.out.println("----------------------Se a guardado la lista de Jurados");
+            
+            
+            
+            
             for (Postulante postulante : listaFinalPostulantes) {
+                postulante.setIdPostulante(postulanteDao.generarIdNuevoPostulante());
                 postulanteDao.insertar(postulante);
             }
             System.out.println("----------------------Se a guardado la lista de Postulantes");

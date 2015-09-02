@@ -199,14 +199,19 @@ public class CargoBean extends ConcursoBean implements Serializable {
      */
     public void guardarCargos() {
         int sumatoria = 0;
-        //CargoDao cargoDao = new CargoDaoImpl();
+        CargoDao cargoDao = new CargoDaoImpl();
+        Cargo nuevoCargo = new Cargo();
         try {
             for (Cargo cargo : listaCargos) {
                 for (int i = 0; i < cargo.getCantidad(); i++) {
-                    Cargo nuevoCargo = new Cargo(cargo.getIdCargo(), cargo.getResolucion(), cargo.getEstablecimiento(), cargo.getProfesion(), cargo.getEspecialidad(), cargo.getCategoria(), cargo.getAdicional(), cargo.getFuncion(), cargo.getAreaDeDesempenio(), cargo.getModalidad(), cargo.getFechaActaFormulacionPerfil(), cargo.getEnunciacion());
-                    
+                    if (i == 0) {
+                        nuevoCargo = new Cargo(cargoDao.generarNuevoIdCargo(), cargo.getResolucion(), cargo.getEstablecimiento(), cargo.getProfesion(), cargo.getEspecialidad(), cargo.getCategoria(), cargo.getAdicional(), cargo.getFuncion(), cargo.getAreaDeDesempenio(), cargo.getModalidad(), cargo.getFechaActaFormulacionPerfil(), cargo.getEnunciacion());
 
-                    //cargoDao.insertar(nuevoCargo);
+                    } else {
+                        nuevoCargo = new Cargo(cargoDao.generarNuevoIdCargo() + sumatoria, cargo.getResolucion(), cargo.getEstablecimiento(), cargo.getProfesion(), cargo.getEspecialidad(), cargo.getCategoria(), cargo.getAdicional(), cargo.getFuncion(), cargo.getAreaDeDesempenio(), cargo.getModalidad(), cargo.getFechaActaFormulacionPerfil(), cargo.getEnunciacion());
+
+                    }
+                    nuevoCargo.setEsDesierto(true);
                     getListaFinalCargos().add(nuevoCargo);
                     sumatoria++;
                 }

@@ -299,22 +299,6 @@ public class TribunalBean extends ConcursoBean implements Serializable {
 
             //Controla por el Dni si existe la persona cargada en la bd concurso.
             if (!persDao.existeDniPersona(juradoNuevo.getPersona())) {
-//                Persona personaNueva = new Persona(persDao.generarIdNuevoPersona());
-//                personaNueva.setApellido(juradoNuevo.getPersona().getApellido());
-//                personaNueva.setNombres(juradoNuevo.getPersona().getNombres());
-//                personaNueva.setSexo(juradoNuevo.getPersona().getSexo());
-//                personaNueva.setDireccion(juradoNuevo.getPersona().getDireccion());
-//                personaNueva.setCuil(juradoNuevo.getPersona().getCuil());
-//                personaNueva.setFechaDeNacimiento(juradoNuevo.getPersona().getFechaDeNacimiento());
-//                personaNueva.setTelefono(juradoNuevo.getPersona().getTelefono());
-//                personaNueva.setDni(juradoNuevo.getPersona().getDni());
-//                personaNueva.setEmail(juradoNuevo.getPersona().getEmail());
-//                if (juradoNuevo.getPersona().getLocalidadByIdLocalidadDireccion() != null) {
-//                    personaNueva.setLocalidadByIdLocalidadDireccion(juradoNuevo.getPersona().getLocalidadByIdLocalidadDireccion());
-//                }
-//                if (juradoNuevo.getPersona().getLocalidadByLocalidadNacimiento() != null) {
-//                    personaNueva.setLocalidadByLocalidadNacimiento(juradoNuevo.getPersona().getLocalidadByLocalidadNacimiento());
-//                }
 
                 //en caso de que no exista lo seteamos y guardamos
                 Persona personaNueva = juradoNuevo.getPersona();

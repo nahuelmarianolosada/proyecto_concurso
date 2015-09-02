@@ -49,11 +49,11 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
     public PostulantesBean() {
 
         nuevoPostulante = new Postulante(new Persona());
-        nuevoPostulante.setCargo(new Cargo());
         banderaGanador = false;
         listaPostulantes = new ArrayList<>();
         System.out.println("PostulantesBean.PostulantesBean() => Se ah creado el bean Postulantes");
 
+        nuevoPostulante.setCargo(new Cargo());
 //        PostulanteDao postulanteDao = new PostulanteDaoImpl();
 //        
 //        listaPostulantes.addAll(postulanteDao.getAll());
@@ -271,19 +271,13 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
                         getListaFinalCargos().get(getListaFinalCargos().indexOf(cargo)).setEsDesierto(true);
                     }
                 }
-//                Cargo cargoAsignado = cargoDao.getCargo(nuevoPostulante.getCargo().getIdCargo());
-//                nuevoPostulante.setCargo(cargoAsignado);
-//                nuevoPostulante.getCargo().setEsDesierto(false);
-            } else {
-                //nuevoPostulante.setCargo(new Cargo(0));
-                //nuevoPostulante.getCargo().setEsDesierto(true);
             }
 
             listaPostulantes.add(nuevoPostulante);
 
             System.out.println("\033[32mPostulantesBean.guardarNuevoPostulante() => " + nuevoPostulante.toString());
 
-            nuevoPostulante = new Postulante(nuevoPostulante.getIdPostulante(), new Cargo(0), new Persona());
+            nuevoPostulante = new Postulante(nuevoPostulante.getIdPostulante(), new Cargo(), new Persona());
             buscado = "";
 
             nuevoMensajeInfo("Registro Provincial de Concursos", "Postulante cargado");
@@ -296,33 +290,37 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
         PersonaDao personaDao = new PersonaDaoImpl();
 
         for (Postulante postulante : listaPostulantes) {
-            Persona personaExistente = personaDao.buscarPorDni(postulante.getPersona().getDni());
-            System.out.println("Existe la persona en la BD? " + personaExistente);
-            if (personaExistente == null) {
-                personaDao.insertar(postulante.getPersona());
-            }
-            
-            for (Cargo cargo : getListaFinalCargos()) {
-                if(cargo.getIdCargo() == postulante.getCargo().getIdCargo()){
-                    postulante.setCargo(cargo);
-                    break;
+            //Controla por el Dni si existe la persona cargada en la bd concurso.
+            if (!personaDao.existeDniPersona(postulante.getPersona())) {
+                //en caso de que no exista lo seteamos y guardamos
+                Persona personaNueva = postulante.getPersona();
+                personaNueva.setIdPersona(personaDao.generarIdNuevoPersona());
+                personaNueva.setApellido(postulante.getPersona().getApellido().toUpperCase());
+                personaNueva.setNombres(postulante.getPersona().getNombres().toUpperCase());
+                personaNueva.setDireccion(postulante.getPersona().getDireccion().toUpperCase());
+                personaDao.insertar(personaNueva);
+
+                for (Cargo cargo : getListaFinalCargos()) {
+                    if (cargo.getIdCargo() == postulante.getCargo().getIdCargo()) {
+                        postulante.setCargo(cargo);
+                        break;
+                    }
                 }
-            }
-            
-            if (!getListaFinalPostulantes().contains(postulante)) {
-                getListaFinalPostulantes().add(postulante);
-                break;
-                //getListaFinalPostulantes().add(postulante);
-                //postulanteDao.insertar(postulante);
-            } else {
-                nuevoMensajeInfo("Registro Provincial de Concursos", "Postulante repetido");
+
+                if (!getListaFinalPostulantes().contains(postulante)) {
+                    getListaFinalPostulantes().add(postulante);
+                    break;
+                    //getListaFinalPostulantes().add(postulante);
+                    //postulanteDao.insertar(postulante);
+                } else {
+                    //nuevoMensajeInfo("Registro Provincial de Concursos", "Postulante repetido");
+                }
+
             }
 
-            
+            nuevoMensajeInfo("Registro Provincial de Concursos", "Se a guardado la lista de postulantes");
+
         }
-
-        nuevoMensajeInfo("Registro Provincial de Concursos", "Se a guardado la lista de postulantes");
-
     }
 
     /**

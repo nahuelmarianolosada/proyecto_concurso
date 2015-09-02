@@ -44,8 +44,6 @@ public class Cargo implements java.io.Serializable {
         this.establecimiento = establecimiento;
         this.profesion = profesion;
     }
-    
-    
 
     public Cargo(Profesion profesion) {
         this.profesion = profesion;
@@ -219,23 +217,28 @@ public class Cargo implements java.io.Serializable {
         this.esDesierto = esDesierto;
     }
 
-    
-
     @Override
     public String toString() {
         if (cantidad != null) {
             return "Cargo " + idCargo + "{resolucion=(" + resolucion.getIdResolucion() + ") " + resolucion.getNumeroResolucion() + ", establecimiento=(" + establecimiento.getCodigoSiisa() + ") " + establecimiento.getNombre() + ", profesion=(id: " + profesion.getIdProfesion() + ") " + profesion.getNombreProfesion() + ", especialidad=" + especialidad + ", categoria=" + categoria + ", adicional=" + adicional + ", funcion=" + funcion + ", areaDeDesempenio=" + areaDeDesempenio + ", modalidad=" + modalidad + ", fechaActaFormulacionPerfil=" + fechaActaFormulacionPerfil + ", enunciacion=" + enunciacion + ", es Desierto=" + esDesierto + ", cantidad=" + cantidad + '}';
-        }else{
-            return "Cargo " + idCargo + "{resolucion=(" + resolucion.getIdResolucion() + ") " + resolucion.getNumeroResolucion() + ", establecimiento=(" + establecimiento.getCodigoSiisa() + ") " + establecimiento.getNombre() + ", profesion=(id: " + profesion.getIdProfesion() + ") " + profesion.getNombreProfesion() + ", especialidad=" + especialidad + ", categoria=" + categoria + ", adicional=" + adicional + ", funcion=" + funcion + ", areaDeDesempenio=" + areaDeDesempenio + ", modalidad=" + modalidad + ", fechaActaFormulacionPerfil=" + fechaActaFormulacionPerfil + ", enunciacion=" + enunciacion  + ", es Desierto=" + esDesierto + '}';
+        } else {
+            return "Cargo " + idCargo + "{resolucion=(" + resolucion.getIdResolucion() + ") " + resolucion.getNumeroResolucion() + ", establecimiento=(" + establecimiento.getCodigoSiisa() + ") " + establecimiento.getNombre() + ", profesion=(id: " + profesion.getIdProfesion() + ") " + profesion.getNombreProfesion() + ", especialidad=" + especialidad + ", categoria=" + categoria + ", adicional=" + adicional + ", funcion=" + funcion + ", areaDeDesempenio=" + areaDeDesempenio + ", modalidad=" + modalidad + ", fechaActaFormulacionPerfil=" + fechaActaFormulacionPerfil + ", enunciacion=" + enunciacion + ", es Desierto=" + esDesierto + '}';
         }
     }
-    
-    public String getMessage(){
-        if (esDesierto) {
-            return "DESIERTO";
-        }else{
-            return "Cargo " + idCargo + "{resolucion=(" + resolucion.getIdResolucion() + ") " + resolucion.getNumeroResolucion() + ", establecimiento=(" + establecimiento.getCodigoSiisa() + ") " + establecimiento.getNombre() + ", profesion=(" + profesion.getProfesionRefencia() + ") " + profesion.getNombreProfesion() + ", especialidad=" + especialidad + ", categoria=" + categoria + ", adicional=" + adicional + ", funcion=" + funcion + ", areaDeDesempenio=" + areaDeDesempenio + ", modalidad=" + modalidad + ", fechaActaFormulacionPerfil=" + fechaActaFormulacionPerfil + ", enunciacion=" + enunciacion  + '}';
+
+    public String getMessage() {
+        String resp = "";
+
+        try {
+            if (esDesierto) {
+                resp = "DESIERTO";
+            } else {
+                resp = "Cargo " + idCargo + "{resolucion=(" + resolucion.getIdResolucion() + ") " + resolucion.getNumeroResolucion() + ", establecimiento=(" + establecimiento.getCodigoSiisa() + ") " + establecimiento.getNombre() + ", profesion=(" + profesion.getProfesionRefencia() + ") " + profesion.getNombreProfesion() + ", especialidad=" + especialidad + ", categoria=" + categoria + ", adicional=" + adicional + ", funcion=" + funcion + ", areaDeDesempenio=" + areaDeDesempenio + ", modalidad=" + modalidad + ", fechaActaFormulacionPerfil=" + fechaActaFormulacionPerfil + ", enunciacion=" + enunciacion + '}';
+            }
+        } catch (NullPointerException exNull) {
+            resp = null;
         }
+        return resp;
     }
 
 }
