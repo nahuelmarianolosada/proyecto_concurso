@@ -36,7 +36,6 @@ import hibernate.dao.impl.PostulanteDaoImpl;
 import hibernate.dao.impl.ResolucionDaoImpl;
 import hibernate.dao.impl.TribunalDaoImpl;
 import hibernate.dao.impl.TribunalJuradoDaoImpl;
-import hibernate.dao.impl.UnidadDeOrganizacionDaoImpl;
 import java.util.ArrayList;
 
 /**
