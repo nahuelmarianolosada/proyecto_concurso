@@ -39,7 +39,7 @@ public class TribunalJuradoDaoImpl extends HibernateUtil implements TribunalJura
         try {
             getSession().beginTransaction();
             getSession().save(tribunalJurado);
-            getSession().getTransaction().commit();
+            //getSession().getTransaction().commit();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -78,9 +78,12 @@ public class TribunalJuradoDaoImpl extends HibernateUtil implements TribunalJura
 
         Criteria criteria = getSession().createCriteria(TribunalJurado.class);
         criteria.addOrder(Order.desc("idTribunalJurado"));
-        TribunalJurado ultimoTribunalJurado = (TribunalJurado) criteria.list().get(0);
-        return ultimoTribunalJurado.getIdTribunalJurado() + 1;
-
+        if (!criteria.list().isEmpty()) {
+            TribunalJurado ultimoTribunalJurado = (TribunalJurado) criteria.list().get(0);
+            return ultimoTribunalJurado.getIdTribunalJurado() + 1;
+        } else {
+            return 0;
+        }
     }
 
     @Override
