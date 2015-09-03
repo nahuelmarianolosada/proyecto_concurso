@@ -39,7 +39,7 @@
                                 <p:menuitem value="Gestionar Usuarios" icon="ui-icon-clipboard" onclick="PF('dlgGestionUsuarios').show();"  />
                             </p:submenu>
                             <p:submenu label="Tablas Auxiliares">
-                                <p:menuitem value="Unidades de Organización" icon="ui-icon-clipboard"  />
+                                <p:menuitem value="Unidades de Organización" icon="ui-icon-clipboard" onclick="PF('dlgUDO').show();"  />
                                 <p:menuitem value="Profesiones " icon="ui-icon-clipboard"  />
                             </p:submenu>
                         </p:menu>
@@ -175,7 +175,9 @@
                 </h:form>
             </p:dialog>
 
-
+            <!--
+                            DIALOGO DE GESTION DE USUARIOS
+            -->
 
             <p:dialog header="Gestion de Usuarios" widgetVar="dlgGestionUsuarios" appendTo="@(body)" modal="true" closeOnEscape="true" showEffect="explode" style="top: 60px !important; font-size: 15px !important;" dynamic="true" minHeight="250" height="auto" width="75%" fitViewport="true" >
                 <h:form id="formGestionarUsuarios">
@@ -324,6 +326,27 @@
                         <p:blockUI block="pnl" widgetVar="bui"/>
                     </p:panel>
                 </h:form>
+            </p:dialog >
+
+            <!--
+                DIALOGO DE MODIFICACION DE MI USUARIO
+            -->
+
+            <p:dialog header="Unidades de Organización" widgetVar="dlgUDO" appendTo="@(body)" modal="true" closeOnEscape="true" showEffect="explode" style="top: 60px !important; font-size: 15px !important;" dynamic="true" minHeight="250" height="auto" width="75%" fitViewport="true" >
+                <h:form id="gestionarUdo">
+                    <p:outputLabel value="Datos de todas las UDO registradas. Haga click sobre la opción del registro que desea modificar" styleClass="parrafoInformativo" />
+                    <br></br>                      
+                    <p:dataTable id="tblUdoRegistradas" >
+                        <f:facet name="header">
+                            Unidades de Organización registradas
+                        </f:facet>
+                        
+                    </p:dataTable>
+                </h:form>
+                <h:form>
+
+                </h:form>
+
             </p:dialog>
 
         </ui:composition>
