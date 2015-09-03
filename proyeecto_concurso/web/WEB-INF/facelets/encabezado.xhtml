@@ -34,9 +34,13 @@
                                         BTN ADMINISTRACION 
                         -->
                         <p:commandButton id="btnAdministracionUsuarios" value="Administrar" type="button" icon="ui-icon-wrench" styleClass="btnAccederLogin" rendered="#{beanLogin.esAdmin()}"/>
-                        <p:menu overlay="true" trigger="btnAdministracionUsuarios" my="left top" at="left bottom">
+                        <p:menu  id="menuAdministracion" overlay="true" trigger="btnAdministracionUsuarios" my="left top" at="left bottom" style="width: 15em;">
                             <p:submenu label="Gestión de Usuarios">
                                 <p:menuitem value="Gestionar Usuarios" icon="ui-icon-clipboard" onclick="PF('dlgGestionUsuarios').show();"  />
+                            </p:submenu>
+                            <p:submenu label="Tablas Auxiliares">
+                                <p:menuitem value="Unidades de Organización" icon="ui-icon-clipboard"  />
+                                <p:menuitem value="Profesiones " icon="ui-icon-clipboard"  />
                             </p:submenu>
                         </p:menu>
                     </h:form>
