@@ -229,15 +229,16 @@ public class Cargo implements java.io.Serializable {
     public String getMessage() {
         String resp = "";
 
-        try {
-            if (esDesierto) {
-                resp = "DESIERTO";
-            } else {
+        if (esDesierto) {
+            resp = "DESIERTO";
+        } else {
+            try {
                 resp = "Cargo " + idCargo + "{resolucion=(" + resolucion.getIdResolucion() + ") " + resolucion.getNumeroResolucion() + ", establecimiento=(" + establecimiento.getCodigoSiisa() + ") " + establecimiento.getNombre() + ", profesion=(" + profesion.getProfesionRefencia() + ") " + profesion.getNombreProfesion() + ", especialidad=" + especialidad + ", categoria=" + categoria + ", adicional=" + adicional + ", funcion=" + funcion + ", areaDeDesempenio=" + areaDeDesempenio + ", modalidad=" + modalidad + ", fechaActaFormulacionPerfil=" + fechaActaFormulacionPerfil + ", enunciacion=" + enunciacion + '}';
+            } catch (NullPointerException exNull) {
+                resp = null;
             }
-        } catch (NullPointerException exNull) {
-            resp = null;
         }
+
         return resp;
     }
 

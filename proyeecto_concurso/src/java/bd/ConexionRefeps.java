@@ -61,10 +61,10 @@ public class ConexionRefeps {
                 persona.setTelefono(rs.getString("tel1"));
                 persona.setEmail(rs.getString("email"));
 
-                Localidad localidadEncontrada = daoLocalidad.getLocalidadPorCodigo(rs.getLong("localidad_nac"));
-                if (localidadEncontrada.getCodigoLocalidad() != 0) {
-                    persona.setLocalidadByLocalidadNacimiento(localidadEncontrada);
-                }
+//                Localidad localidadEncontrada = daoLocalidad.getLocalidadPorCodigo(rs.getLong("localidad_nacimiento"));
+//                if (localidadEncontrada.getCodigoLocalidad() != 0) {
+//                    persona.setLocalidadByLocalidadNacimiento(localidadEncontrada);
+//                }
                 listaPersona.add(persona);
 
             }

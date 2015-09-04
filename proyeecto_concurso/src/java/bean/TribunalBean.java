@@ -18,7 +18,6 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import bd.ConexionRefeps;
-import dominio.Expediente;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.UnselectEvent;
@@ -49,7 +48,6 @@ public class TribunalBean extends ConcursoBean implements Serializable {
     private boolean datosValidos, banderaBtn;
     private List<Persona> listaResultadoBusquedaPersona, listaPersonas;
     private List<TribunalJurado> listaJuradoNuevos;
-    private List<Tribunal> listaTribunalesNuevos;
     private Resolucion resolucionSeleccionada;
 
     @ManagedProperty("#{beanResolucion}")
@@ -76,7 +74,7 @@ public class TribunalBean extends ConcursoBean implements Serializable {
         juradoNuevo = new TribunalJurado(new Institucion(), new Persona(), new Establecimiento(), tribunalNuevo, "", true, "");
         banderaBtn = false;
         listaJuradoNuevos = new ArrayList<TribunalJurado>();
-        listaTribunalesNuevos = new ArrayList<Tribunal>();
+
         resolucionSeleccionada = new Resolucion();
     }
 
@@ -206,14 +204,9 @@ public class TribunalBean extends ConcursoBean implements Serializable {
     public void buscarPersonaREFEPS() {
 
         try {
-            PersonaDao personaDao = new PersonaDaoImpl();
+            ConexionRefeps conexionRefeps = new ConexionRefeps();
+            listaPersonas = conexionRefeps.buscarProfesionalRefepsNombreCompleto(buscado);
 
-            if (!personaDao.buscarPorNombre(buscado).isEmpty()) {
-                listaPersonas = personaDao.buscarPorNombre(buscado);
-            } else {
-                ConexionRefeps conexionRefeps = new ConexionRefeps();
-                listaPersonas = conexionRefeps.buscarProfesionalRefepsNombreCompleto(buscado);
-            }
         } catch (NullPointerException exNulo) {
             System.out.println("Nombre buscado: " + buscado);
             System.out.println(exNulo.getLocalizedMessage() + "\n" + exNulo.getMessage());
@@ -281,10 +274,6 @@ public class TribunalBean extends ConcursoBean implements Serializable {
         }
     }
 
-    public void deseleccionarPersona(UnselectEvent event) {
-        juradoNuevo.setPersona(new Persona());
-    }
-
     public void guardarJuradoNuevo() {
 
         try {
@@ -308,19 +297,19 @@ public class TribunalBean extends ConcursoBean implements Serializable {
                 personaNueva.setDireccion(juradoNuevo.getPersona().getDireccion().toUpperCase());
                 persDao.insertar(personaNueva);
             }
-            
+
             juradoNuevo.setTribunal(resolucionSeleccionada.getTribunal());
 
             //Agrega el jurado nuevo a la lista de jurados.
             if (!listaJuradoNuevos.contains(juradoNuevo)) {
-                
+
                 //Seteamos el establecimiento e institucion
                 EstablecimientoDao establecimientoDao = new EstablecimientoDaoImpl();
                 juradoNuevo.setEstablecimiento(establecimientoDao.getEstablecimientoByCodigoSiisa(juradoNuevo.getEstablecimiento().getCodigoSiisa()));
-                
+
                 InstitucionDao institucionDao = new InstitucionDaoImpl();
                 juradoNuevo.setInstitucion(institucionDao.getInstitucion(juradoNuevo.getInstitucion().getIdInstitucion()));
-                
+
                 //Guardamos
                 System.out.println("TribunalBean.guardarJuradoNuevo() => Guardando " + juradoNuevo.toString());
                 listaJuradoNuevos.add(juradoNuevo);
@@ -332,7 +321,7 @@ public class TribunalBean extends ConcursoBean implements Serializable {
 
             //Inicializa el jurado Nuevo y el Seleccionado
             juradoSeleccionado = new TribunalJurado();
-            juradoNuevo = new TribunalJurado(juradoNuevo.getIdTribunalJurado() + 1, new Institucion(), new Persona(persDao.generarIdNuevoPersona(),"M"), new Establecimiento(), resolucionSeleccionada.getTribunal(), "", false, "");
+            juradoNuevo = new TribunalJurado(juradoNuevo.getIdTribunalJurado() + 1, new Institucion(), new Persona(persDao.generarIdNuevoPersona(), "M"), new Establecimiento(), resolucionSeleccionada.getTribunal(), "", false, "");
 
             buscado = "";
         } catch (Exception ex1) {
@@ -359,18 +348,16 @@ public class TribunalBean extends ConcursoBean implements Serializable {
             //Tengo que cambiar la forma de recorrer la lista en memoria de resolucion
             resolucionSeleccionada.setTribunal(tribunalNuevo);
             for (Resolucion resolucion : getListaFinalResoluciones()) {
-                if(resolucionSeleccionada.getNumeroResolucion().equalsIgnoreCase(resolucion.getNumeroResolucion())){
+                if (resolucionSeleccionada.getNumeroResolucion().equalsIgnoreCase(resolucion.getNumeroResolucion())) {
                     //Primero obtenemos el elemento resolucion de la lista y despues
                     //le seteamos el tribunal
                     getListaFinalResoluciones().get(getListaFinalResoluciones().indexOf(resolucion)).setTribunal(tribunalNuevo);
-                    
+
                     break;
                 }
             }
-            
-            
-            //getListaFinalResoluciones().get(resolucionSeleccionada.getIdResolucion()).setTribunal(tribunalNuevo);
 
+            //getListaFinalResoluciones().get(resolucionSeleccionada.getIdResolucion()).setTribunal(tribunalNuevo);
             //Guardamos el tribunal en la lista final de tribunales
             getListaFinalTribunales().add(tribunalNuevo);
 

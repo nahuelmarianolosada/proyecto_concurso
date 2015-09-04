@@ -54,9 +54,6 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
         System.out.println("PostulantesBean.PostulantesBean() => Se ah creado el bean Postulantes");
 
         nuevoPostulante.setCargo(new Cargo());
-//        PostulanteDao postulanteDao = new PostulanteDaoImpl();
-//        
-//        listaPostulantes.addAll(postulanteDao.getAll());
     }
 
     /*
@@ -256,7 +253,7 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
             } else {
                 //En caso de que ya existan registros en la lista obtenemos el 
                 //ultimo cargado y le sumamos 1 al ID
-                nuevoPostulante.setIdPostulante(listaPostulantes.get(listaPostulantes.size() - 1).getIdPostulante());
+                nuevoPostulante.setIdPostulante(listaPostulantes.get(listaPostulantes.size() - 1).getIdPostulante() + 1);
             }
 
             //Seteamos si es que el postulante es el ganador de un cargo
@@ -281,6 +278,7 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
             buscado = "";
 
             nuevoMensajeInfo("Registro Provincial de Concursos", "Postulante cargado");
+            
         }
     }
 
@@ -310,7 +308,8 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
                 getListaFinalPostulantes().add(postulante);
             }
         }
-
+        pasarVistaDePestania();
+        datosValidos = true;
         nuevoMensajeInfo("Registro Provincial de Concursos", "Se a guardado la lista de postulantes");
     }
 

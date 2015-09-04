@@ -73,7 +73,7 @@ public class ResolucionDaoImpl extends HibernateUtil implements ResolucionDao {
         try {
             getSession().beginTransaction();
             getSession().save(resolucion);
-            getSession().getTransaction().commit();
+        //    getSession().getTransaction().commit();
 
         } catch (Exception e) {
             e.printStackTrace();

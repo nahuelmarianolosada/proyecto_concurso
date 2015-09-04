@@ -384,7 +384,7 @@
                             PESTAÑA RESULTADO#{beanPostulante.listaPostulantes.isEmpty()}
                             **********************************
                             -->
-                            <p:tab title="Resultado" id="tabResultado" disabled="#{beanPostulante.listaPostulantes.isEmpty()}" >
+                            <p:tab title="Resultado" id="tabResultado" disabled="#{!beanPostulante.datosValidos}" >
                                 <h:form id="formResultadoConcurso">
                                     <h:panelGrid columns="2" cellpadding="3" frame="box" styleClass="panelAlta" columnClasses="label, value" >
                                         <f:facet name="header">
@@ -632,18 +632,18 @@
                             <h:outputText value="Cuil:" rendered="#{!beanConcurso.postulanteFinalSeleccionado.persona.cuil.toString().isEmpty()}" />
                             <h:outputText value="#{beanConcurso.postulanteFinalSeleccionado.persona.cuil}" styleClass="data" />
 
-                            <h:outputText value="Fecha de Nacimiento:" rendered="#{!beanConcurso.postulanteFinalSeleccionado.persona.fechaDeNacimiento.toString().isEmpty()}" />
+                            <h:outputText value="Fecha de Nacimiento:" />
                             <h:outputText value="#{beanConcurso.postulanteFinalSeleccionado.persona.fechaDeNacimiento}" styleClass="data" >
                                 <f:convertDateTime pattern="dd/MM/yyyy" />
                             </h:outputText>
 
-                            <h:outputText value="Dirección:" rendered="#{!beanConcurso.postulanteFinalSeleccionado.persona.direccion.isEmpty()}" />
+                            <h:outputText value="Dirección:" />
                             <h:outputText value="#{beanConcurso.postulanteFinalSeleccionado.persona.direccion}" styleClass="data" />
 
-                            <h:outputText value="Teléfono:" rendered="#{!beanConcurso.postulanteFinalSeleccionado.persona.telefono.isEmpty()}" />
+                            <h:outputText value="Teléfono:" />
                             <h:outputText value="#{beanConcurso.postulanteFinalSeleccionado.persona.telefono}" styleClass="data" />
 
-                            <h:outputText value="Email: " rendered="#{!beanConcurso.postulanteFinalSeleccionado.persona.email.isEmpty()}" />
+                            <h:outputText value="Email: " />
                             <h:outputText value="#{beanConcurso.postulanteFinalSeleccionado.persona.email}" styleClass="data" />
 
                             <h:outputText value="Puntaje Final: " rendered="#{!beanConcurso.postulanteFinalSeleccionado.puntaje.toString().isEmpty()}" />
@@ -937,7 +937,6 @@
                                 Profesionales Coincidentes con "#{beanTribunal.buscado}"
                             </f:facet>
                             <p:ajax event="rowSelect" listener="#{beanTribunal.seleccionarPersona}" update="formJuradoNuevo" />
-                            <p:ajax event="rowUnselect" listener="#{TribunalBean.deseleccionarPersona}" update="formJuradoNuevo" />
                             <p:column headerText="Documento" sortBy="#{persona.dni}">
                                 <h:outputText value="#{persona.dni}" />
                             </p:column>
@@ -964,7 +963,7 @@
 
                 <p:dialog id="dlgPersonaResultado" header="Seleccione una persona"  widgetVar="dlgPersonaResultado" modal="true" showEffect="fade" hideEffect="fade" draggable="true" resizable="true" closeOnEscape="true" style="width: 50%;" >
                     <h:form id="formPersonaResultado">
-                        <p:dataTable id="tblResultado" var="persona" value="#{beanPostulante.listaResultado}" selectionMode="single" selection="#{beanPostulante.postulanteSeleccionado}" rowKey="#{persona.idPersona}"
+                        <p:dataTable id="tblResultado" var="persona" value="#{beanPostulante.listaResultado}" selectionMode="single" selection="#{beanPostulante.postulanteSeleccionado}" rowKey="#{persona.dni}"
                                      paginator="true"
                                      paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                      rowsPerPageTemplate="5,10,15,25">
@@ -972,7 +971,7 @@
                                 Personas Coincidentes
                             </f:facet>
                             <p:ajax event="rowSelect" listener="#{beanPostulante.seleccionarPersona}" update=":formPostulantes" />
-                            <p:ajax event="rowUnselect" listener="#{beanPostulante.deseleccionarPersona}" update=":formPostulantes" />
+                            
                             <p:column headerText="Documento" sortBy="#{persona.dni}">
                                 <h:outputText value="#{persona.dni}" />
                             </p:column>

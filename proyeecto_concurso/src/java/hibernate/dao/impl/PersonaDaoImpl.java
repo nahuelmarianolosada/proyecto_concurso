@@ -44,7 +44,7 @@ public class PersonaDaoImpl extends HibernateUtil implements PersonaDao {
         try {
             getSession().beginTransaction();
             getSession().save(persona);
-            getSession().getTransaction().commit();
+         //   getSession().getTransaction().commit();
 
         } catch (Exception e) {
             e.printStackTrace();
