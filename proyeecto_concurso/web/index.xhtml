@@ -84,7 +84,7 @@
                     </p:layoutUnit>
                     <p:layoutUnit position="east" resizable="true"  size="700" minSize="600"  header="Formulario de Registro de Concursos" maxSize="800" collapsible="true" >
 
-                        <p:tabView activeIndex="#{beanConcurso.numeroDePestania}" effect="fade" effectDuration="fast" id="tabuladorPestañero" >
+                        <p:tabView activeIndex="#{beanConcurso.numeroDePestania}" effect="fade" effectDuration="fast" id="tabuladorPestañero"  >
                             <!--                            <p:effect type="bounce" event="onchange" />-->
                             <p:ajax event="tabChange"  listener="#{beanConcurso.validarPestania}" update="tabuladorPestañero:formExpedientes:msg"/>
 
@@ -140,9 +140,12 @@
 
 
                                     </h:panelGrid>
+
+                                    <p:commandButton id="btnLimpiarNuevoExpediente" value="Limpiar" actionListener="#{beanExpediente.limpiar}" icon="ui-icon-document" update="tabuladorPestañero,tabuladorPestañero:formResoluciones:tblResoluciones,lblEncabezadoNuevaResolucion,,tabuladorPestañero:formExpedientes" styleClass="btnVerde" />
                                     <p:commandButton id="btnGuardarNuevoExpediente" value="Siguiente" actionListener="#{beanExpediente.guardarExpediente}" icon="ui-icon-disk" update="tabuladorPestañero,tabuladorPestañero:formExpedientes:msg,tabuladorPestañero:formResoluciones:tblResoluciones,lblEncabezadoNuevaResolucion" styleClass="btnVerde"  >
                                         <f:setPropertyActionListener value="#{beanExpediente.expedienteNuevo}" target="#{beanResolucion.resolucionNueva.expediente}" />
                                     </p:commandButton>
+
                                 </h:form>
                             </p:tab>
 
@@ -213,6 +216,9 @@
                                         </p:column>
                                         <p:column headerText="Estado">
                                             <h:outputText value="#{resolucion.estado}" />
+                                        </p:column>
+                                        <p:column style="width:32px;text-align: center">
+                                            <p:commandButton update="tabuladorPestañero:formResoluciones:tblResoluciones,tabuladorPestañero:formResoluciones:btnGuardarListaResoluciones" icon="ui-icon-trash" actionListener="#{beanResolucion.quitarResolucion(resolucion)}" />
                                         </p:column>
 
                                     </p:dataTable>
@@ -971,7 +977,7 @@
                                 Personas Coincidentes
                             </f:facet>
                             <p:ajax event="rowSelect" listener="#{beanPostulante.seleccionarPersona}" update=":formPostulantes" />
-                            
+
                             <p:column headerText="Documento" sortBy="#{persona.dni}">
                                 <h:outputText value="#{persona.dni}" />
                             </p:column>

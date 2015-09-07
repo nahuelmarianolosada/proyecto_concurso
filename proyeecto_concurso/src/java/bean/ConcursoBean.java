@@ -344,24 +344,7 @@ public class ConcursoBean implements Serializable {
     
     
     public void buscarExpediente(){
-        ExpedienteDao expDao = new ExpedienteDaoImpl();
-        expedienteFinalCargado = expDao.getExpediente(getExpedienteSeleccionado().getNumeroExpediente());
-
-        ResolucionDao resDao = new ResolucionDaoImpl();
-        setListaFinalResoluciones(resDao.getResoluciones(expedienteFinalCargado));
-
-        CargoDao cargoDao = new CargoDaoImpl();
-        setListaFinalCargos(cargoDao.getListaCargosDeResolucion(listaFinalResoluciones.get(0)));
-
-        TribunalJuradoDao juradoDao = new TribunalJuradoDaoImpl();
-        setListaFinalJurados(juradoDao.getJuradosDelTribunal(listaFinalResoluciones.get(0).getTribunal()));
-
-        PostulanteDao postulanteDao = new PostulanteDaoImpl();
-        for (Cargo cargo : getListaFinalCargos()) {
-            if (postulanteDao.getPostulanteAcreditados(cargo) != null) {
-                listaFinalPostulantes.add(postulanteDao.getPostulanteAcreditados(cargo));
-            }
-        }
+        
     }
     
     

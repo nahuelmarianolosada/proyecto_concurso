@@ -207,4 +207,17 @@ public class ResolucionBean extends ConcursoBean implements Serializable {
         datosValidos = true;
     }
 
+    public void quitarResolucion(Resolucion resolucionBorrar){
+        for (Resolucion resolucion : listaResoluciones) {
+            if(resolucion.getIdResolucion() == resolucionBorrar.getIdResolucion()){
+                listaResoluciones.remove(resolucion);
+                break;
+            }
+        }
+        if(listaResoluciones.isEmpty()){
+            datosValidos = false;
+        }
+    }
+    
+    
 }

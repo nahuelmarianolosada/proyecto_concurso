@@ -226,5 +226,13 @@ public class ExpedienteBean extends ConcursoBean implements Serializable {
         }
         return numeroExpedienteFormateado;
     }
+    
+    public void limpiar(){
+        ExpedienteDao expedienteDao = new ExpedienteDaoImpl();
+        expedienteNuevo = new Expediente(expedienteDao.generarNuevoIdExpediente(), new UnidadDeOrganizacion());
+        setExpedienteFinalCargado(expedienteNuevo);
+        datosValidos = false;
+    }
+    
 
 }
