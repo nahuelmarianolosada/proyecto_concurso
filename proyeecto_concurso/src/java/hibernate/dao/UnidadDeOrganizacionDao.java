@@ -21,4 +21,5 @@ public interface UnidadDeOrganizacionDao {
     public void modificar(UnidadDeOrganizacion unidadDeOrganizacion);
     public void eliminarById(int id_unidad_organizacion);
     public int generarNuevoIdUdo();
+    public List<UnidadDeOrganizacion> actualizaListaUdo();
 }

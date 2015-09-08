@@ -74,11 +74,9 @@ public class UnidadDeOrganizacionBean implements Serializable {
      * METODOS
      */
     public void refreshlista() {
-        System.out.println((char)27+"[36mBeanUnidadDeOrganización => refreshlista");
+        System.out.println((char) 27 + "[36mBeanUnidadDeOrganización => refreshlista");
         UnidadDeOrganizacionDao udoDao = new UnidadDeOrganizacionDaoImpl();
-        
-        listaUnidadOrganizacion = udoDao.getAll();
-
+        listaUnidadOrganizacion = udoDao.actualizaListaUdo();
 
     }
 
@@ -142,10 +140,8 @@ public class UnidadDeOrganizacionBean implements Serializable {
         }
     }
 
-        
-
     public void guardarUdoEditada(UnidadDeOrganizacion unidad) throws SQLException {
-        System.out.println("beanUnidadDeOrganizacion.guardarUDOEditada() => Guardando la UDO "+ unidad.getIdUnidadOrganizacion());
+        System.out.println("beanUnidadDeOrganizacion.guardarUDOEditada() => Guardando la UDO " + unidad.getIdUnidadOrganizacion());
         String driver = "org.postgresql.Driver";
         String connectString = "jdbc:postgresql://localhost/concursosDB";
         String user = "nmlosada";
@@ -170,15 +166,16 @@ public class UnidadDeOrganizacionBean implements Serializable {
         }
 
     }
-      public void eliminar() {
-          System.out.println("BeanUnidadDeOrganizacion.eliminar();");
-           System.out.println("Udo que se va a eliminar: "+udoSeleccionada.getIdUnidadOrganizacion()+" nombre :"+ udoSeleccionada.getNombreUnidad()+"codigo : "+udoSeleccionada.getCodigoUnidadDeOrganizacion());
-          try {
-           
+
+    public void eliminar() {
+        System.out.println("BeanUnidadDeOrganizacion.eliminar();");
+        System.out.println("Udo que se va a eliminar: " + udoSeleccionada.getIdUnidadOrganizacion() + " nombre :" + udoSeleccionada.getNombreUnidad() + "codigo : " + udoSeleccionada.getCodigoUnidadDeOrganizacion());
+        try {
+
             UnidadDeOrganizacionDao unidadDao = new UnidadDeOrganizacionDaoImpl();
             unidadDao.eliminarById(udoSeleccionada.getIdUnidadOrganizacion());
             refreshlista();
-          udoNueva.setIdUnidadOrganizacion(unidadDao.generarNuevoIdUdo());
+            udoNueva.setIdUnidadOrganizacion(unidadDao.generarNuevoIdUdo());
             nuevoMensajeInfo("Registro de concursos de Salud", "Se a eliminado el usuario " + udoSeleccionada.getIdUnidadOrganizacion());
         } catch (Exception ex1) {
             nuevoMensajeAlerta("Error! " + ex1.getClass(), ex1.getMessage());

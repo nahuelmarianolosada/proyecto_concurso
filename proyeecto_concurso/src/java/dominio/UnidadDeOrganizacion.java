@@ -20,7 +20,7 @@ public class UnidadDeOrganizacion implements java.io.Serializable {
     public UnidadDeOrganizacion(int idUnidadOrganizacion) {
         this.idUnidadOrganizacion = idUnidadOrganizacion;
     }
-
+    
     public UnidadDeOrganizacion(int idUnidadOrganizacion, String nombreUnidad, int codigoUnidadDeOrganizacion) {
         this.idUnidadOrganizacion = idUnidadOrganizacion;
         this.nombreUnidad = nombreUnidad;
