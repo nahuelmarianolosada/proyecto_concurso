@@ -39,7 +39,7 @@ public class TribunalJuradoDaoImpl extends HibernateUtil implements TribunalJura
         try {
             getSession().beginTransaction();
             getSession().save(tribunalJurado);
-            //getSession().getTransaction().commit();
+            getSession().getTransaction().commit();
 
         } catch (Exception e) {
             e.printStackTrace();

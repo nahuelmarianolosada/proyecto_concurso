@@ -49,29 +49,28 @@ import org.primefaces.context.RequestContext;
 @ManagedBean(name = "beanConcurso")
 @ViewScoped
 public class ConcursoBean implements Serializable {
-    
+
     private static final long serialVersionUID = 1L;
     private static int numeroDePestania = 0;//Indice en la pestaña "tabuladorPestañero"
     private boolean banderaInstitucion;
     private boolean banderaEstablecimiento;
     private List<Establecimiento> listaEstablecimientos;
     private List<Institucion> listaInstituciones;
-    
+
     private static Expediente expedienteFinalCargado;
     private static List<Resolucion> listaFinalResoluciones;
     private static List<Cargo> listaFinalCargos;
     private static List<TribunalJurado> listaFinalJurados;
     private static List<Postulante> listaFinalPostulantes;
     private static List<Tribunal> listaFinalTribunales;
-    
+
     private Cargo cargoFinalSeleccionado;
     private Postulante postulanteFinalSeleccionado;
-    
+
     public static List<Expediente> listaTab_expedientes;
-    
+
     public static List<Resolucion> listaTab_resoluciones;
-    
-    
+
     private Expediente expedienteSeleccionado;
 
     /**
@@ -86,11 +85,11 @@ public class ConcursoBean implements Serializable {
         listaFinalPostulantes = new ArrayList<>();
         listaFinalTribunales = new ArrayList<>();
         listaFinalJurados = new ArrayList<>();
-        
+
         expedienteSeleccionado = new Expediente();
-        
+
         inicializar();
-        
+
         //recargarDeDatosFinales();
     }
 
@@ -101,110 +100,107 @@ public class ConcursoBean implements Serializable {
     public void setExpedienteSeleccionado(Expediente expedienteSeleccionado) {
         this.expedienteSeleccionado = expedienteSeleccionado;
     }
-    
-    
-    
-    
+
     public static List<Expediente> getListaTab_expedientes() {
         return listaTab_expedientes;
     }
-    
+
     public static void setListaTab_expedientes(List<Expediente> listaTab_expedientes) {
         ConcursoBean.listaTab_expedientes = listaTab_expedientes;
     }
-    
+
     public static List<Resolucion> getListaTab_resoluciones() {
         return listaTab_resoluciones;
     }
-    
+
     public static void setListaTab_resoluciones(List<Resolucion> listaTab_resoluciones) {
         ConcursoBean.listaTab_resoluciones = listaTab_resoluciones;
     }
-    
+
     public static List<Tribunal> getListaFinalTribunales() {
         return listaFinalTribunales;
     }
-    
+
     public static void setListaFinalTribunales(List<Tribunal> listaFinalTribunales) {
         ConcursoBean.listaFinalTribunales = listaFinalTribunales;
     }
-    
+
     public int getNumeroDePestania() {
         return numeroDePestania;
     }
-    
+
     public void setNumeroDePestania(int numeroDePestania) {
         this.numeroDePestania = numeroDePestania;
     }
-    
+
     public List<Establecimiento> getListaEstablecimientos() {
         return listaEstablecimientos;
     }
-    
+
     public void setListaEstablecimientos(List<Establecimiento> listaEstablecimientos) {
         this.listaEstablecimientos = listaEstablecimientos;
     }
-    
+
     public List<Institucion> getListaInstituciones() {
         return listaInstituciones;
     }
-    
+
     public void setListaInstituciones(List<Institucion> listaInstituciones) {
         this.listaInstituciones = listaInstituciones;
     }
-    
+
     public Expediente getExpedienteFinalCargado() {
         return expedienteFinalCargado;
     }
-    
+
     public void setExpedienteFinalCargado(Expediente expedienteFinalCargado) {
         this.expedienteFinalCargado = expedienteFinalCargado;
     }
-    
+
     public List<Resolucion> getListaFinalResoluciones() {
         return listaFinalResoluciones;
     }
-    
+
     public void setListaFinalResoluciones(List<Resolucion> listaFinalResoluciones) {
         this.listaFinalResoluciones = listaFinalResoluciones;
     }
-    
+
     public List<Cargo> getListaFinalCargos() {
         return listaFinalCargos;
     }
-    
+
     public void setListaFinalCargos(List<Cargo> listaFinalCargos) {
         this.listaFinalCargos = listaFinalCargos;
     }
-    
+
     public List<TribunalJurado> getListaFinalJurados() {
         return listaFinalJurados;
     }
-    
+
     public void setListaFinalJurados(List<TribunalJurado> listaFinalJurados) {
         this.listaFinalJurados = listaFinalJurados;
     }
-    
+
     public List<Postulante> getListaFinalPostulantes() {
         return listaFinalPostulantes;
     }
-    
+
     public void setListaFinalPostulantes(List<Postulante> listaFinalPostulantes) {
         this.listaFinalPostulantes = listaFinalPostulantes;
     }
-    
+
     public Cargo getCargoFinalSeleccionado() {
         return cargoFinalSeleccionado;
     }
-    
+
     public void setCargoFinalSeleccionado(Cargo cargoSeleccionado) {
         this.cargoFinalSeleccionado = cargoSeleccionado;
     }
-    
+
     public Postulante getPostulanteFinalSeleccionado() {
         return postulanteFinalSeleccionado;
     }
-    
+
     public void setPostulanteFinalSeleccionado(Postulante postulanteSeleccionado) {
         this.postulanteFinalSeleccionado = postulanteSeleccionado;
     }
@@ -215,13 +211,13 @@ public class ConcursoBean implements Serializable {
      *
      */
     public static void pasarVistaDePestania() {
-        
+
         if (!expedienteFinalCargado.getNumeroExpediente().equals("")) {
             numeroDePestania += 1;
         }
         System.out.println("ConcursoBean.pasarVistaDePagina(): La pestaña ahora es " + numeroDePestania);
     }
-    
+
     public void habilitarCmbInstitucion() {
         if (banderaInstitucion) {
             banderaInstitucion = false;
@@ -233,7 +229,7 @@ public class ConcursoBean implements Serializable {
             banderaInstitucion = true;
         }
     }
-    
+
     public void habilitarCmbEstablecimiento() {
         if (banderaEstablecimiento) {
             banderaEstablecimiento = false;
@@ -245,19 +241,19 @@ public class ConcursoBean implements Serializable {
             banderaEstablecimiento = true;
         }
     }
-    
+
     public void nuevoMensajeInfo(String summary, String detail) {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,
                 summary, detail);
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
-    
+
     public void nuevoMensajeAlerta(String summary, String detail) {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN,
                 summary, detail);
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
-    
+
     public void refreshListas() {
 
         //ProfesionDao profDao = new ProfesionDaoImpl();
@@ -311,14 +307,14 @@ public class ConcursoBean implements Serializable {
             }
         }
     }
-    
+
     public void inicializar() {
-        
+
         RequestContext context = RequestContext.getCurrentInstance();
-        
+
         ExpedienteDao expedienteDao = new ExpedienteDaoImpl();
         listaTab_expedientes = expedienteDao.getAll();
-        
+
         ResolucionDao resolucionDao = new ResolucionDaoImpl();
         listaTab_resoluciones = resolucionDao.getAll();
 
@@ -341,14 +337,12 @@ public class ConcursoBean implements Serializable {
 //        }
         context.update("formMostrar:menuAccordion");
     }
-    
-    
-    public void buscarExpediente(){
-        
+
+    public void buscarExpediente() {
+
     }
-    
-    
-    public void recargarDeDatosFinales(){
+
+    public void recargarDeDatosFinales() {
         ExpedienteDao expDao = new ExpedienteDaoImpl();
         expedienteFinalCargado = expDao.getExpediente("700-00015/1965");
 
@@ -368,8 +362,7 @@ public class ConcursoBean implements Serializable {
             }
         }
     }
-    
-    
+
     public void guardarExpedienteFinal() {
         PostulanteDao postulanteDao = new PostulanteDaoImpl();
         try {
@@ -378,62 +371,57 @@ public class ConcursoBean implements Serializable {
             System.out.println("ConcursoBean.guardarExpedienteFinal() => GUARDANDO " + expedienteFinalCargado.toString());
             expDao.insertar(expedienteFinalCargado);
             System.out.println("----------------------Se a guardado el expediente");
-            
+
             TribunalDao tribunalDao = new TribunalDaoImpl();
             for (Tribunal tribunal : listaFinalTribunales) {
                 System.out.println("ConcursoBean.guardarExpedienteFinal() => GUARDANDO " + tribunal.toString());
                 tribunalDao.insertar(tribunal);
             }
             System.out.println("----------------------Se a guardado la lista de Tribunales");
-            
+
             ResolucionDao resolucionDao = new ResolucionDaoImpl();
             for (Resolucion resolucion : listaFinalResoluciones) {
                 System.out.println("ConcursoBean.guardarExpedienteFinal() => GUARDANDO " + resolucion.toString());
                 resolucionDao.insertar(resolucion);
             }
             System.out.println("----------------------Se a guardado la lista de Resoluciones");
-            
+
             CargoDao cargoDao = new CargoDaoImpl();
             for (Cargo cargo : listaFinalCargos) {
-                cargo.setIdCargo(cargoDao.generarNuevoIdCargo());
                 System.out.println("ConcursoBean.guardarExpedienteFinal() => GUARDANDO " + cargo.toString());
                 for (int i = 0; i < getListaFinalPostulantes().size(); i++) {
                     //Verificamos si es que el cargo se adjudico a algun postulante
-                    if (getListaFinalPostulantes().get(i).getCargo().getIdCargo() == cargo.getIdCargo()) {
-                        cargo.setEsDesierto(false);
-                        
+                    if (getListaFinalPostulantes().get(i).getCargo() != null) {
+                        if (getListaFinalPostulantes().get(i).getCargo().getIdCargo() == cargo.getIdCargo()) {
+                            cargo.setEsDesierto(false);
+                        }
                     }
                     cargoDao.insertar(cargo);
                 }
             }
             System.out.println("----------------------Se a guardado la lista de Cargos");
-            
+
             TribunalJuradoDao juradoDao = new TribunalJuradoDaoImpl();
             for (TribunalJurado jurado : getListaFinalJurados()) {
-               jurado.setIdTribunalJurado(juradoDao.generarNuevoIdJurado());
-               juradoDao.insertar(jurado);
+                juradoDao.insertar(jurado);
             }
             System.out.println("----------------------Se a guardado la lista de Jurados");
-            
-            
-            
-            
+
             for (Postulante postulante : listaFinalPostulantes) {
-                postulante.setIdPostulante(postulanteDao.generarIdNuevoPostulante());
+
                 postulanteDao.insertar(postulante);
             }
             System.out.println("----------------------Se a guardado la lista de Postulantes");
             nuevoMensajeInfo("Registro Provincial de Concursos de Salud", "Expediente Correctamente Guardado");
             inicializar();
-            
+
             context.update("form:panel");
-            
+
         } catch (Exception exGeneral) {
             nuevoMensajeAlerta("Error! " + exGeneral.getCause(), exGeneral.getMessage());
             exGeneral.printStackTrace();
         }
-        
-        
+
     }
-    
+
 }

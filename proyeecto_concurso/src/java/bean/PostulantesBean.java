@@ -6,7 +6,6 @@
 package bean;
 
 import dominio.Cargo;
-import dominio.Expediente;
 import dominio.Postulante;
 import dominio.Persona;
 import hibernate.dao.PersonaDao;
@@ -39,6 +38,7 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
     private Persona postulanteSeleccionado;
     private boolean datosValidos, banderaBtn, banderaGanador;
     private String buscado, criterio;
+    private Cargo cargoSeleccionado;
 
     @ManagedProperty("#{beanCargo}")
     private CargoBean beanCargo;
@@ -53,7 +53,7 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
         listaPostulantes = new ArrayList<>();
         System.out.println("PostulantesBean.PostulantesBean() => Se ah creado el bean Postulantes");
 
-        nuevoPostulante.setCargo(new Cargo());
+        cargoSeleccionado = new Cargo();
     }
 
     /*
@@ -137,6 +137,14 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
 
     public void setBanderaGanador(boolean banderaGanador) {
         this.banderaGanador = banderaGanador;
+    }
+
+    public Cargo getCargoSeleccionado() {
+        return cargoSeleccionado;
+    }
+
+    public void setCargoSeleccionado(Cargo cargoSeleccionado) {
+        this.cargoSeleccionado = cargoSeleccionado;
     }
 
     /*
@@ -259,7 +267,7 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
             //Seteamos si es que el postulante es el ganador de un cargo
             if (banderaGanador) {
                 for (Cargo cargo : getListaFinalCargos()) {
-                    if (cargo.getIdCargo() == nuevoPostulante.getCargo().getIdCargo()) {
+                    if (cargo.getIdCargo() == cargoSeleccionado.getIdCargo()) {
                         nuevoPostulante.setCargo(cargo);
                         nuevoPostulante.getCargo().setEsDesierto(false);
                         getListaFinalCargos().set(getListaFinalCargos().indexOf(cargo), nuevoPostulante.getCargo());
@@ -274,16 +282,20 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
 
             System.out.println("\033[32mPostulantesBean.guardarNuevoPostulante() => " + nuevoPostulante.toString());
 
-            nuevoPostulante = new Postulante(nuevoPostulante.getIdPostulante(), new Cargo(), new Persona());
+            nuevoPostulante = new Postulante(nuevoPostulante.getIdPostulante() + 1);
+            nuevoPostulante.setPersona(new Persona());
+            cargoSeleccionado = new Cargo();
+
             buscado = "";
 
             nuevoMensajeInfo("Registro Provincial de Concursos", "Postulante cargado");
-            
+
         }
     }
 
     public void guardarListaPostulantes() {
         PersonaDao personaDao = new PersonaDaoImpl();
+        PostulanteDao postulanteDao = new PostulanteDaoImpl();
 
         for (Postulante postulante : listaPostulantes) {
             //Controla por el Dni si existe la persona cargada en la bd concurso.
@@ -297,14 +309,25 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
                 personaDao.insertar(personaNueva);
             }
 
-            for (Cargo cargo : getListaFinalCargos()) {
-                if (cargo.getIdCargo() == postulante.getCargo().getIdCargo()) {
-                    postulante.setCargo(cargo);
-                    break;
-                }
-            }
+//            for (Cargo cargo : getListaFinalCargos()) {
+//                if (postulante.getCargo() != null) {
+//                    if (cargo.getIdCargo() == postulante.getCargo().getIdCargo()) {
+//                        postulante.setCargo(cargo);
+//                        break;
+//                    }
+//                }
+//            }
 
             if (!getListaFinalPostulantes().contains(postulante)) {
+                //Preguntamos si es el primer postulante de la lista
+                if (listaPostulantes.indexOf(postulante) == 0) {
+                    postulante.setIdPostulante(postulanteDao.generarIdNuevoPostulante());
+                } else {
+                    //En caso de que no sea el primero le asignamos el valor del
+                    //ultimo registro en la lista final +1
+                    postulante.setIdPostulante(listaPostulantes.get(getListaFinalPostulantes().size() - 1).getIdPostulante() + 1);
+                }
+
                 getListaFinalPostulantes().add(postulante);
             }
         }

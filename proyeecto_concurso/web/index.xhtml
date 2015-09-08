@@ -96,6 +96,7 @@
                             <p:tab title="Expediente" id="tabExpediente" >
                                 <h:form id="formExpedientes">
                                     <p:growl id="msg" showDetail="true" escape="false" sticky="false" life="5000"  />
+                                    <p:commandButton id="btnLimpiarNuevoExpediente" value="Limpiar" actionListener="#{beanExpediente.limpiar}" icon="ui-icon-document" update="tabuladorPestañero,tabuladorPestañero:formResoluciones:tblResoluciones,lblEncabezadoNuevaResolucion,,tabuladorPestañero:formExpedientes" />
                                     <h:panelGrid columns="3" cellpadding="3" frame="box" styleClass="panelAlta" >
                                         <f:facet name="header" class="encabezadoPanel">
                                             <h:outputText value="Datos Generales del Expediente" />
@@ -141,7 +142,7 @@
 
                                     </h:panelGrid>
 
-                                    <p:commandButton id="btnLimpiarNuevoExpediente" value="Limpiar" actionListener="#{beanExpediente.limpiar}" icon="ui-icon-document" update="tabuladorPestañero,tabuladorPestañero:formResoluciones:tblResoluciones,lblEncabezadoNuevaResolucion,,tabuladorPestañero:formExpedientes" styleClass="btnVerde" />
+
                                     <p:commandButton id="btnGuardarNuevoExpediente" value="Siguiente" actionListener="#{beanExpediente.guardarExpediente}" icon="ui-icon-disk" update="tabuladorPestañero,tabuladorPestañero:formExpedientes:msg,tabuladorPestañero:formResoluciones:tblResoluciones,lblEncabezadoNuevaResolucion" styleClass="btnVerde"  >
                                         <f:setPropertyActionListener value="#{beanExpediente.expedienteNuevo}" target="#{beanResolucion.resolucionNueva.expediente}" />
                                     </p:commandButton>
@@ -490,7 +491,7 @@
                                             <h:outputText value="DNI: #{postulante.persona.dni} #{postulante.persona.apellido}, #{postulante.persona.nombres}" />
                                         </p:commandLink>
                                         <h:outputText value="DNI: #{postulante.persona.dni} - #{postulante.persona.apellido}, #{postulante.persona.nombres} " style="display:inline-block" styleClass="data" />
-                                        <h:outputText value="#{postulante.cargo.getMessage()}" style="display:inline-block" />
+                                        <h:outputText value="#{postulante.cargo.idCargo}" style="display:inline-block" />
                                     </p:dataList>
 
                                     <p:commandButton id="btnGuardarFinal" value="Confirmar Guardado" actionListener="#{beanConcurso.guardarExpedienteFinal()}" icon="ui-icon-disk" update="tabuladorPestañero:formExpedientes:msg, :formMostrar" styleClass="btnVerde" disabled="#{beanPostulante.listaPostulantes.isEmpty()}" />
@@ -1074,7 +1075,7 @@
                                 <p:inputSwitch offLabel="No" onLabel="Si" value="#{beanPostulante.banderaGanador}" >
                                     <p:ajax listener="#{beanPostulante.cambiarEstadoGanador()}" update="cmbCargoPostulante" />
                                 </p:inputSwitch>
-                                <p:selectOneMenu id="cmbCargoPostulante" value="#{beanPostulante.nuevoPostulante.cargo.idCargo}" required="true" requiredMessage="Seleccione un cargo" filter="true" validatorMessage="Seleccione un cargo válido" disabled="#{beanPostulante.banderaGanador}" converterMessage="Seleccione un cargo valido" >
+                                <p:selectOneMenu id="cmbCargoPostulante" value="#{beanPostulante.cargoSeleccionado.idCargo}" required="#{!beanPostulante.banderaGanador}" requiredMessage="Seleccione un cargo" filter="true" validatorMessage="Seleccione un cargo válido" disabled="#{beanPostulante.banderaGanador}" converterMessage="Seleccione un cargo valido" >
                                     <f:selectItem noSelectionOption="true" itemLabel=" Seleccione un Cargo" itemValue="null" />
                                     <f:selectItems var="cargo" value="#{beanConcurso.listaFinalCargos}" itemLabel="#{cargo.profesion.nombreProfesion} - (#{cargo.categoria}) - #{cargo.funcion}" itemValue="#{cargo.idCargo}" />
                                 </p:selectOneMenu>

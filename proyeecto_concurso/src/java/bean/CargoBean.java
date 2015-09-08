@@ -17,7 +17,9 @@ import hibernate.dao.impl.ResolucionDaoImpl;
 import hibernate.dao.CargoDao;
 import hibernate.dao.impl.CargoDaoImpl;
 import dominio.Resolucion;
+import hibernate.dao.EstablecimientoDao;
 import hibernate.dao.ProfesionDao;
+import hibernate.dao.impl.EstablecimientoDaoImpl;
 import hibernate.dao.impl.ProfesionDaoImpl;
 import java.util.ArrayList;
 
@@ -142,13 +144,22 @@ public class CargoBean extends ConcursoBean implements Serializable {
     }
 
     public void onEstablecimientoSeleccionado() {
+        EstablecimientoDao establecimientoDao = new EstablecimientoDaoImpl();
         System.out.println("CargoBean.onEstablecimientoSeleccionado() => Codido Seleccionado: " + cargoNuevo.getEstablecimiento().getCodigoSiisa());
-        for (Establecimiento estab : getListaEstablecimientos()) {
-            if (estab.getCodigoSiisa() == cargoNuevo.getEstablecimiento().getCodigoSiisa()) {
-                cargoNuevo.setEstablecimiento(estab);
-                break;
-            }
+
+        Establecimiento establecimientoEncontrado = establecimientoDao.getEstablecimientoByCodigoSiisa(cargoNuevo.getEstablecimiento().getCodigoSiisa());
+        if (establecimientoEncontrado != null) {
+            cargoNuevo.setEstablecimiento(establecimientoEncontrado);
+        } else {
+            System.out.println("CargoBean.onEstablecimientoSeleccionado() => No se a encontrado el codigo " + cargoNuevo.getEstablecimiento().getCodigoSiisa());
         }
+//                
+//        for (Establecimiento estab : getListaEstablecimientos()) {
+//            if (estab.getCodigoSiisa() == cargoNuevo.getEstablecimiento().getCodigoSiisa()) {
+//                cargoNuevo.setEstablecimiento(estab);
+//                break;
+//            }
+//        }
     }
 
     public void guardarNuevoCargo() {
@@ -157,12 +168,7 @@ public class CargoBean extends ConcursoBean implements Serializable {
                 ProfesionDao profDao = new ProfesionDaoImpl();
                 Profesion profEncontrada = profDao.getProfesion(cargoNuevo.getProfesion().getIdProfesion());
                 cargoNuevo.setProfesion(profEncontrada);
-                for (Establecimiento establecimiento : getListaEstablecimientos()) {
-                    if (cargoNuevo.getEstablecimiento().getCodigoSiisa() == establecimiento.getCodigoSiisa()) {
-                        cargoNuevo.setEstablecimiento(establecimiento);
-                        break;
-                    }
-                }
+                
                 System.out.println("CargoBean.guardarNuevoCargo() => Cantidad de Cargos: " + cargoNuevo.getCantidad());
 
                 //ResolucionDao resDao = new ResolucionDaoImpl();

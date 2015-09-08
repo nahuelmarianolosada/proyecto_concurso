@@ -29,8 +29,10 @@ import javax.faces.bean.ManagedProperty;
 import dominio.Resolucion;
 import hibernate.dao.EstablecimientoDao;
 import hibernate.dao.InstitucionDao;
+import hibernate.dao.PostulanteDao;
 import hibernate.dao.impl.EstablecimientoDaoImpl;
 import hibernate.dao.impl.InstitucionDaoImpl;
+import hibernate.dao.impl.PostulanteDaoImpl;
 
 /**
  *
@@ -315,10 +317,6 @@ public class TribunalBean extends ConcursoBean implements Serializable {
                 listaJuradoNuevos.add(juradoNuevo);
             }
 
-            if (!getListaFinalJurados().contains(juradoNuevo)) {
-                getListaFinalJurados().add(juradoNuevo);
-            }
-
             //Inicializa el jurado Nuevo y el Seleccionado
             juradoSeleccionado = new TribunalJurado();
             juradoNuevo = new TribunalJurado(juradoNuevo.getIdTribunalJurado() + 1, new Institucion(), new Persona(persDao.generarIdNuevoPersona(), "M"), new Establecimiento(), resolucionSeleccionada.getTribunal(), "", false, "");
@@ -333,6 +331,7 @@ public class TribunalBean extends ConcursoBean implements Serializable {
 
     public void guardarTribunalNuevo() {
 
+        PostulanteDao postulanteDao = new PostulanteDaoImpl();
         try {
             //Seteamos la cantidad de jurados para el nuevoTribunal
 
@@ -363,6 +362,11 @@ public class TribunalBean extends ConcursoBean implements Serializable {
 
             for (TribunalJurado jurado : listaJuradoNuevos) {
                 jurado.setTribunal(tribunalNuevo);
+                if (getListaFinalJurados().isEmpty()) {
+                    jurado.setIdTribunalJurado(postulanteDao.generarIdNuevoPostulante());
+                } else {
+                    jurado.setIdTribunalJurado(getListaFinalJurados().get(getListaFinalJurados().size() - 1).getIdTribunalJurado() + 1);
+                }
                 getListaFinalJurados().add(jurado);
             }
 

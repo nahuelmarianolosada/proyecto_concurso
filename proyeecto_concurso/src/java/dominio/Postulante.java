@@ -102,9 +102,9 @@ public class Postulante implements java.io.Serializable {
     @Override
     public String toString() {
         if (cargo != null) {
-            return "Postulante " + idPostulante + "{cargo=(" + cargo.getIdCargo() + ") " + cargo.getFuncion() + ", persona=(" + persona.getDni() + ", " + persona.getApellido() + ", fojas=" + fojas + ", antecedentes=" + antecedentes + ", oposicion=" + oposicion + ", puntaje=" + puntaje + '}';
+            return "Postulante " + idPostulante + "{cargo=(" + cargo.getIdCargo() + ") " + cargo.getProfesion().getNombreProfesion() + ", persona=(" + persona.getIdPersona() + " - " + persona.getDni() + ") " + persona.getApellido() + ", fojas=" + fojas + ", antecedentes=" + antecedentes + ", oposicion=" + oposicion + ", puntaje=" + puntaje + '}';
         }else{
-            return "Postulante " + idPostulante + "{cargo= null, persona=(" + persona.getDni() + ", " + persona.getApellido() + ", fojas=" + fojas + ", antecedentes=" + antecedentes + ", oposicion=" + oposicion + ", puntaje=" + puntaje + '}';
+            return "Postulante " + idPostulante + "{cargo= null, persona=(" + persona.getIdPersona() + " - " + persona.getDni() + ") " + persona.getApellido() + ", fojas=" + fojas + ", antecedentes=" + antecedentes + ", oposicion=" + oposicion + ", puntaje=" + puntaje + '}';
         }
     }
 
