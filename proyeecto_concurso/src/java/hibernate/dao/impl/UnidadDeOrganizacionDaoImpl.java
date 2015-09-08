@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package hibernate.dao.impl;
 
 import dominio.UnidadDeOrganizacion;
@@ -13,23 +12,37 @@ import hibernate.dao.UnidadDeOrganizacionDao;
 import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 
 /**
  *
  * @author SIISAJUJUY
  */
-public class UnidadDeOrganizacionDaoImpl extends HibernateUtil implements UnidadDeOrganizacionDao{
+public class UnidadDeOrganizacionDaoImpl extends HibernateUtil implements UnidadDeOrganizacionDao {
+
     @Override
     public List<UnidadDeOrganizacion> getAll() {
+        
+        getSession().beginTransaction();
         Criteria criteria = getSession().createCriteria(UnidadDeOrganizacion.class);
         criteria.addOrder(Order.asc("codigoUnidadDeOrganizacion"));
+        getSession().getTransaction().commit();
+        
         List<UnidadDeOrganizacion> lista = criteria.list();
+        for (UnidadDeOrganizacion u : lista) {
+            System.out.println(u.getIdUnidadOrganizacion() + " " + u.getNombreUnidad() + " " + u.getCodigoUnidadDeOrganizacion());
+        }
+        
+     
+      
+
+
         return lista;
     }
 
     @Override
     public UnidadDeOrganizacion getUnidadDeOrganizacion(int codigoUnidadDeOrganizacion) {
-        return (UnidadDeOrganizacion)getSession().get(UnidadDeOrganizacion.class, codigoUnidadDeOrganizacion);
+        return (UnidadDeOrganizacion) getSession().get(UnidadDeOrganizacion.class, codigoUnidadDeOrganizacion);
     }
 
 //    @Override
@@ -44,7 +57,6 @@ public class UnidadDeOrganizacionDaoImpl extends HibernateUtil implements Unidad
 //            getSession().getTransaction().rollback();
 //        }
 //    }
-
     @Override
     public void eliminar(UnidadDeOrganizacion unidadDeOrganizacion) {
         try {
@@ -69,5 +81,39 @@ public class UnidadDeOrganizacionDaoImpl extends HibernateUtil implements Unidad
             e.printStackTrace();
             getSession().getTransaction().rollback();
         }
+    }
+
+    @Override
+    public int generarNuevoIdUdo() {
+        Criteria criteria = getSession().createCriteria(UnidadDeOrganizacion.class);
+        criteria.addOrder(Order.desc("idUnidadDeOrganizacion"));
+        if (!criteria.list().isEmpty()) {
+            UnidadDeOrganizacion u = (UnidadDeOrganizacion) criteria.list().get(0);
+            return (int) (u.getIdUnidadOrganizacion() + 1);
+        } else {
+            return 0;
+        }
+    }
+
+    @Override
+    public void eliminarById(int id_unidad_organizacion) {
+        try {
+            Criteria criteria = getSession().createCriteria(UnidadDeOrganizacion.class);
+            criteria.setMaxResults(1);
+            criteria.add(Restrictions.eq("idUnidadOrganizacion", id_unidad_organizacion));
+            if (criteria.list().size() > 0) {
+                UnidadDeOrganizacion udoEliminar = (UnidadDeOrganizacion) criteria.list().get(0);
+                getSession().beginTransaction();
+                getSession().delete(udoEliminar);
+                getSession().getTransaction().commit();
+            } else {
+                System.out.println("UNidadDeOrganizacionDaoImpl.eliminarById(): No se encontró el id " + id_unidad_organizacion + " en la BD");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            getSession().getTransaction().rollback();
+        }
+
     }
 }

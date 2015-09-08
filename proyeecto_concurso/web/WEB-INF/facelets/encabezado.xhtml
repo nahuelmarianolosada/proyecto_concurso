@@ -39,7 +39,9 @@
                                 <p:menuitem value="Gestionar Usuarios" icon="ui-icon-clipboard" onclick="PF('dlgGestionUsuarios').show();"  />
                             </p:submenu>
                             <p:submenu label="Tablas Auxiliares">
-                                <p:menuitem value="Unidades de Organización" icon="ui-icon-clipboard" onclick="PF('dlgUDO').show();"  />
+                                <p:menuitem value="Unidades de Organización" icon="ui-icon-clipboard" onclick="PF('dlgUDO').show();" actionListener="#{beanUnidadDeOrganizacion.refreshlista()}" update=":formGestionarUdo:tblUdoRegistradas" ajax="true">
+                                    <p:ajax update=":formGestionarUdo:tblUdoRegistradas"/>      
+                                </p:menuitem>
                                 <p:menuitem value="Profesiones " icon="ui-icon-clipboard"  />
                             </p:submenu>
                         </p:menu>
@@ -320,6 +322,7 @@
                                 <p:outputLabel value="Activo: " />
                                 <p:selectBooleanButton id="schUsuarioNuevoActivo" value="#{beanUsuarios.usuarioNuevo.activo}" onLabel="Activo" offLabel="Inactivo" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:9em;" tabindex="7" />
                             </p:column>
+                      
                         </p:panelGrid>
                         <p:commandButton value="Guardar" styleClass="btnVerde" actionListener="#{beanUsuarios.guardarNuevoUsuario}" update=":formGestionarUsuarios, tabuladorPestañero:formExpedientes:msg, :formNuevoUsuario" />
 
@@ -329,18 +332,49 @@
             </p:dialog >
 
             <!--
-                DIALOGO DE MODIFICACION DE MI USUARIO
+                DIALOGO DE UNIDAD DE ORGANIZACION
             -->
 
             <p:dialog header="Unidades de Organización" widgetVar="dlgUDO" appendTo="@(body)" modal="true" closeOnEscape="true" showEffect="explode" style="top: 60px !important; font-size: 15px !important;" dynamic="true" minHeight="250" height="auto" width="75%" fitViewport="true" >
-                <h:form id="gestionarUdo">
+                <h:form id="formGestionarUdo">
                     <p:outputLabel value="Datos de todas las UDO registradas. Haga click sobre la opción del registro que desea modificar" styleClass="parrafoInformativo" />
                     <br></br>                      
-                    <p:dataTable id="tblUdoRegistradas" >
+                    <p:dataTable id="tblUdoRegistradas" var="udo" value="#{beanUnidadDeOrganizacion.listaUnidadOrganizacion}" editable="true" rowKey="#{udo.idUnidadOrganizacion}" reflow="true" style="font-size:0.7em;" rows="10"
+                                 paginator="true"
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="10,15">
                         <f:facet name="header">
                             Unidades de Organización registradas
                         </f:facet>
-                        
+                        <p:ajax event="rowEdit" listener="#{beanUnidadDeOrganizacion.edicionDeUnidadDeOrganizacion}" partialSubmit="true" update=":formGestionarUdo:tblUdoRegistradas,tabuladorPestañero:formExpedientes:msg" />
+                        <p:ajax event="rowEditCancel" listener="#{beanUnidadDeOrganizacion.edicionCancelada}" partialSubmit="true" update="tabuladorPestañero:formExpedientes:msg" />
+                        <p:column headerText="Id">
+                            <h:outputText value="#{udo.idUnidadOrganizacion}" />
+                        </p:column>
+                        <p:column headerText="Nombre de la Organización">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{udo.nombreUnidad}" /></f:facet>
+                                <f:facet name="input"><p:inputText id="txtGestionarNombreUdo" value="#{udo.nombreUnidad}" style="width:100%"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Código de la Unidad de Organización">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{udo.codigoUnidadDeOrganizacion}" /></f:facet>
+                                <f:facet name="input"><p:inputText id="txtGestionarCodigoUdo" value="#{udo.codigoUnidadDeOrganizacion}" style="width:100%"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                              <p:column style="width:15px">
+                                <p:rowEditor />
+                            </p:column>
+                            <p:column style="width:15px; text-align: center;">
+                                <p:commandButton action="#{beanUnidadDeOrganizacion.eliminar()}"
+                                                 icon="ui-icon-trash" ajax="true" update=":formGestionarUsuarios:tblUsuariosRegistrados, tabuladorPestañero:formExpedientes:msg, :formNuevoUsuario:pnlNuevoUsuario" style="border: none; background: transparent;">
+                                    <f:setPropertyActionListener value="#{udo}"
+                                                                 target="#{beanUnidadDeOrganizacion.udoSeleccionada}" />
+                                    <p:confirm header="Eliminar Unidad de Organización"
+                                               message="Confirma eliminar Organización?" />
+                                </p:commandButton>
+                            </p:column>
                     </p:dataTable>
                 </h:form>
                 <h:form>

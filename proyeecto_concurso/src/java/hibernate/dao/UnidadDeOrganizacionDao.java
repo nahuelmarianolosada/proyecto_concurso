@@ -19,4 +19,6 @@ public interface UnidadDeOrganizacionDao {
 //    public void insertar(UnidadDeOrganizacion unidadDeOrganizacion);
     public void eliminar(UnidadDeOrganizacion unidadDeOrganizacion);
     public void modificar(UnidadDeOrganizacion unidadDeOrganizacion);
+    public void eliminarById(int id_unidad_organizacion);
+    public int generarNuevoIdUdo();
 }
