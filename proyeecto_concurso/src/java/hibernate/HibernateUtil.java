@@ -46,8 +46,15 @@ public class HibernateUtil {
     }
 
     public static Session getSession() {
-        System.out.println("-----------------------------------------------------------------\nHibernateUtil: Se esta accediendo a la sesion de la BD");
-        return session;
+        if (session.isOpen()) {
+            System.out.println("-----------------------------------------------------------------\nHibernateUtil: Se esta accediendo a la sesion de la BD");
+            return session;
+           
+        }else{
+            session = sessionFactory.openSession();
+            return session;
+        }
+
     }
 
     public static List<Persona> buscarPersonas(int dni) throws SQLException {

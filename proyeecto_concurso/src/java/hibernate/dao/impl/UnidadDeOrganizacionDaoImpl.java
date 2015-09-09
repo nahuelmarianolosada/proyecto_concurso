@@ -25,10 +25,12 @@ public class UnidadDeOrganizacionDaoImpl extends HibernateUtil implements Unidad
     @Override
     public List<UnidadDeOrganizacion> getAll() {
 
+       getSession().clear();
         Criteria criteria = getSession().createCriteria(UnidadDeOrganizacion.class);
         criteria.addOrder(Order.asc("idUnidadOrganizacion"));
         List<UnidadDeOrganizacion> lista = criteria.list();
         return lista;
+        
     }
 
     @Override
@@ -113,16 +115,16 @@ public class UnidadDeOrganizacionDaoImpl extends HibernateUtil implements Unidad
     @Override
     public List<UnidadDeOrganizacion> actualizaListaUdo() {
 
-    //    System.out.println("BeanUnidadDaoimpl=> actualizarSession");
+      System.out.println((char) 27 +"[36mBeanUnidadDaoimpl=> actualizaListaUDO");
         Criteria criteria = getSession().createCriteria(UnidadDeOrganizacion.class);
         criteria.addOrder(Order.asc("idUnidadOrganizacion"));
         List<UnidadDeOrganizacion> lista = criteria.list();
-        for (UnidadDeOrganizacion u : lista) {
-            getSession().beginTransaction();
-            getSession().refresh(u);
-            getSession().getTransaction().commit();
-            // System.out.println(u.getIdUnidadOrganizacion() + " " + u.getNombreUnidad() + " " + u.getCodigoUnidadDeOrganizacion());
-        }
+//        for (UnidadDeOrganizacion u : lista) {
+//            getSession().beginTransaction();
+//            getSession().refresh(u);
+//            getSession().getTransaction().commit();
+//            // System.out.println(u.getIdUnidadOrganizacion() + " " + u.getNombreUnidad() + " " + u.getCodigoUnidadDeOrganizacion());
+//        }
 
         return lista;
     }
