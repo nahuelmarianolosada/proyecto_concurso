@@ -39,7 +39,7 @@
                                 <p:menuitem value="Gestionar Usuarios" icon="ui-icon-clipboard" onclick="PF('dlgGestionUsuarios').show();"  />
                             </p:submenu>
                             <p:submenu label="Tablas Auxiliares">
-                                <p:menuitem value="Unidades de Organización" icon="ui-icon-clipboard" onclick="PF('dlgUDO').show();" actionListener="#{beanUnidadDeOrganizacion.refreshlista()}" update=":formGestionarUdo:tblUdoRegistradas" ajax="true">
+                                <p:menuitem value="Unidades de Organización" icon="ui-icon-clipboard" oncomplete="PF('dlgUDO').show();" actionListener="#{beanUnidadDeOrganizacion.refreshLista()}" update=":formGestionarUdo:tblUdoRegistradas" ajax="true">
                                     <p:ajax update=":formGestionarUdo:tblUdoRegistradas"/>      
                                 </p:menuitem>
                                 <p:menuitem value="Profesiones " icon="ui-icon-clipboard"  />

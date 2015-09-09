@@ -38,7 +38,7 @@ public class UnidadDeOrganizacionBean implements Serializable {
      */
     public UnidadDeOrganizacionBean() {
 
-        refreshlista();
+        refreshLista();
         // udoNueva = new UnidadDeOrganizacion(new UnidadDeOrganizacionDaoImpl().generarNuevoIdUdo());
         udoNueva = new UnidadDeOrganizacion();
         udoSeleccionada = new UnidadDeOrganizacion();
@@ -71,10 +71,10 @@ public class UnidadDeOrganizacionBean implements Serializable {
     /**
      * METODOS
      */
-    public void refreshlista() {
+    public void refreshLista() {
         System.out.println((char) 27 + "[36mBeanUnidadDeOrganización.refreshlista()");
         UnidadDeOrganizacionDao udoDao = new UnidadDeOrganizacionDaoImpl();
-        listaUnidadOrganizacion = udoDao.actualizaListaUdo();
+        listaUnidadOrganizacion = udoDao.getAll();
 
     }
 
@@ -118,13 +118,14 @@ public class UnidadDeOrganizacionBean implements Serializable {
 
         UnidadDeOrganizacion udoModificada = (UnidadDeOrganizacion) event.getObject();
         if (validadUdo(udoModificada)) {
-            // UnidadDeOrganizacionDao udoDao= new UnidadDeOrganizacionDaoImpl();
-            System.out.println("beanUnidadDeOrganizacion.edicionDeUnidadOrganizacion():id_unidad => " + udoModificada.getIdUnidadOrganizacion());
-            System.out.println("beanUnidadDeOrganizacion.edicionDeUnidadOrganizacion():nombre_unidad => " + udoModificada.getNombreUnidad());
-            System.out.println("beanUnidadDeOrganizacion.edicionDeUnidadOrganizacion():codigo_unidad_de_organizacion => " + udoModificada.getCodigoUnidadDeOrganizacion());
+           
+//            System.out.println("beanUnidadDeOrganizacion.edicionDeUnidadOrganizacion():id_unidad => " + udoModificada.getIdUnidadOrganizacion());
+//            System.out.println("beanUnidadDeOrganizacion.edicionDeUnidadOrganizacion():nombre_unidad => " + udoModificada.getNombreUnidad());
+//            System.out.println("beanUnidadDeOrganizacion.edicionDeUnidadOrganizacion():codigo_unidad_de_organizacion => " + udoModificada.getCodigoUnidadDeOrganizacion());
             try {
                 guardarUdoEditada(udoModificada);
-                refreshlista();
+                refreshLista();
+                
                 nuevoMensajeInfo("Registro de Concursos de Salud", "UDO " + udoModificada.getNombreUnidad() + " modificado.");
             } catch (HibernateException ex1) {
                 System.out.println("Error! " + ex1.getCause() + "\n" + ex1.getMessage());
@@ -133,7 +134,7 @@ public class UnidadDeOrganizacionBean implements Serializable {
             }
         } else {
             edicionCancelada();
-            refreshlista();
+            refreshLista();
             System.out.println("beanUnidadDeOrganizacion.edicionCancalada(): Nombre de la organización " + udoModificada.getNombreUnidad() + " 0 el codigo " + udoModificada.getCodigoUnidadDeOrganizacion() + " se encuentran repetido");
         }
     }
@@ -172,7 +173,7 @@ public class UnidadDeOrganizacionBean implements Serializable {
 
             UnidadDeOrganizacionDao unidadDao = new UnidadDeOrganizacionDaoImpl();
             unidadDao.eliminarById(udoSeleccionada.getIdUnidadOrganizacion());
-            refreshlista();
+            refreshLista();
             udoNueva.setIdUnidadOrganizacion(unidadDao.generarNuevoIdUdo());
             nuevoMensajeInfo("Registro de concursos de Salud", "Se a eliminado el usuario " + udoSeleccionada.getIdUnidadOrganizacion());
         } catch (Exception ex1) {
