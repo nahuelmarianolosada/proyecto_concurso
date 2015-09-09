@@ -7,8 +7,8 @@
 package hibernate.dao;
 
 import dominio.TribunalJurado;
-import dominio.Resolucion;
 import dominio.Tribunal;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -18,7 +18,7 @@ import java.util.List;
 public interface TribunalJuradoDao {
     public List<TribunalJurado> getAll();
     public TribunalJurado getTribunalJurado(int idTribunalJurado);
-    public void insertar(TribunalJurado tribunalJurado);
+    public void insertar(TribunalJurado tribunalJurado) throws SQLException;
     public void eliminar(TribunalJurado tribunalJurado);
     public void modificar(TribunalJurado tribunalJurado);
     public int generarNuevoIdJurado();
