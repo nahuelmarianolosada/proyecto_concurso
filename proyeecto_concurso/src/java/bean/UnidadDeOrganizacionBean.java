@@ -94,74 +94,75 @@ public class UnidadDeOrganizacionBean implements Serializable {
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
 
-//    public boolean validadUdo(UnidadDeOrganizacion unidad) {
-//        boolean resultado = true;
-//        for (UnidadDeOrganizacion udo : listaUnidadOrganizacion) {
-//            if (udo.getNombreUnidad().toLowerCase().equals(unidad.getNombreUnidad().toLowerCase()) && udo.getIdUnidadOrganizacion() != unidad.getIdUnidadOrganizacion()) {
-//                nuevoMensajeAlerta("Registro de Concursos de Salud", "El nombre de la organización " + unidad.getNombreUnidad() + " se encuentra registrada. Por favor ingrese uno diferente.");
-//                resultado = false;
-//                break;
-//            }
-//            if (udo.getCodigoUnidadDeOrganizacion() == unidad.getCodigoUnidadDeOrganizacion() && udo.getIdUnidadOrganizacion() != unidad.getIdUnidadOrganizacion()) {
-//                nuevoMensajeAlerta("Registro de Concursos de Salud", "El código de la organización " + unidad.getCodigoUnidadDeOrganizacion() + " se encuentra registrado. Por favor ingrese uno diferente.");
-//                resultado = false;
-//                break;
-//            }
-//
-//        }
-//
-//        return resultado;
+    public boolean validadUdo(UnidadDeOrganizacion unidad) {
+        boolean resultado = true;
+        for (UnidadDeOrganizacion udo : listaUnidadOrganizacion) {
+            if (udo.getNombreUnidad().toLowerCase().equals(unidad.getNombreUnidad().toLowerCase()) && udo.getIdUnidadOrganizacion() != unidad.getIdUnidadOrganizacion()) {
+                nuevoMensajeAlerta("Registro de Concursos de Salud", "El nombre de la organización " + unidad.getNombreUnidad() + " se encuentra registrada. Por favor ingrese uno diferente.");
+                resultado = false;
+                break;
+            }
+            if (udo.getCodigoUnidadDeOrganizacion() == unidad.getCodigoUnidadDeOrganizacion() && udo.getIdUnidadOrganizacion() != unidad.getIdUnidadOrganizacion()) {
+                nuevoMensajeAlerta("Registro de Concursos de Salud", "El código de la organización " + unidad.getCodigoUnidadDeOrganizacion() + " se encuentra registrado. Por favor ingrese uno diferente.");
+                resultado = false;
+                break;
+            }
 
-//    }
+        }
+
+        return resultado;
+
+    }
 
     public void edicionDeUnidadDeOrganizacion(RowEditEvent event) {
 
-//        UnidadDeOrganizacion udoModificada = (UnidadDeOrganizacion) event.getObject();
-//        if (validadUdo(udoModificada)) {
-//            // UnidadDeOrganizacionDao udoDao= new UnidadDeOrganizacionDaoImpl();
+        UnidadDeOrganizacion udoModificada = (UnidadDeOrganizacion) event.getObject();
+        if (validadUdo(udoModificada)) {
+           
 //            System.out.println("beanUnidadDeOrganizacion.edicionDeUnidadOrganizacion():id_unidad => " + udoModificada.getIdUnidadOrganizacion());
 //            System.out.println("beanUnidadDeOrganizacion.edicionDeUnidadOrganizacion():nombre_unidad => " + udoModificada.getNombreUnidad());
 //            System.out.println("beanUnidadDeOrganizacion.edicionDeUnidadOrganizacion():codigo_unidad_de_organizacion => " + udoModificada.getCodigoUnidadDeOrganizacion());
-//            try {
-//                guardarUdoEditada(udoModificada);
-//                refreshlista();
-//                nuevoMensajeInfo("Registro de Concursos de Salud", "UDO " + udoModificada.getNombreUnidad() + " modificado.");
-//            } catch (HibernateException ex1) {
-//                System.out.println("Error! " + ex1.getCause() + "\n" + ex1.getMessage());
-//            } catch (Exception exGeneral) {
-//                nuevoMensajeAlerta("Error!" + exGeneral.getClass(), exGeneral.getMessage());
-//            }
-//        } else {
-//            edicionCancelada();
-//            refreshlista();
-//            System.out.println("beanUnidadDeOrganizacion.edicionCancalada(): Nombre de la organización " + udoModificada.getNombreUnidad() + " 0 el codigo " + udoModificada.getCodigoUnidadDeOrganizacion() + " se encuentran repetido");
-//        }
+            try {
+                guardarUdoEditada(udoModificada);
+                refreshLista();
+                
+                nuevoMensajeInfo("Registro de Concursos de Salud", "UDO " + udoModificada.getNombreUnidad() + " modificado.");
+            } catch (HibernateException ex1) {
+                System.out.println("Error! " + ex1.getCause() + "\n" + ex1.getMessage());
+            } catch (Exception exGeneral) {
+                nuevoMensajeAlerta("Error!" + exGeneral.getClass(), exGeneral.getMessage());
+            }
+        } else {
+            edicionCancelada();
+            refreshLista();
+            System.out.println("beanUnidadDeOrganizacion.edicionCancalada(): Nombre de la organización " + udoModificada.getNombreUnidad() + " 0 el codigo " + udoModificada.getCodigoUnidadDeOrganizacion() + " se encuentran repetido");
+        }
     }
 
     public void guardarUdoEditada(UnidadDeOrganizacion unidad) throws SQLException {
-//        System.out.println("beanUnidadDeOrganizacion.guardarUDOEditada() => Guardando la UDO " + unidad.getIdUnidadOrganizacion());
-//        String driver = "org.postgresql.Driver";
-//        String connectString = "jdbc:postgresql://localhost/concursosDB";
-//        String user = "nmlosada";
-//        String password = "siisa1234";
-//        Connection con = null;
-//        Statement stmt = null;
-//
-//        try {
-//            Class.forName(driver);
-//            con = DriverManager.getConnection(connectString, user, password);
-//            stmt = con.createStatement();
-//
-//            //UTILIZANDO UNA CONSULTA NORMAL
-//            String consultaSQL = "UPDATE unidad_de_organizacion SET nombre_unidad='" + unidad.getNombreUnidad() + "',codigo_unidad_de_organizacion=" + unidad.getCodigoUnidadDeOrganizacion() + " WHERE id_unidad_organizacion=" + unidad.getIdUnidadOrganizacion() + ";";
-//            stmt.executeUpdate(consultaSQL);
-//        } catch (Exception e) {
-//            System.out.println(e.getMessage());
-//            e.printStackTrace();
-//        } finally {
-//            stmt.close();
-//            con.close();
-//        }
+        System.out.println("beanUnidadDeOrganizacion.guardarUDOEditada() => Guardando la UDO " + unidad.getIdUnidadOrganizacion());
+        String driver = "org.postgresql.Driver";
+        String connectString = "jdbc:postgresql://localhost/concursosDB";
+        String user = "nmlosada";
+        String password = "siisa1234";
+        Connection con = null;
+        Statement stmt = null;
+
+        try {
+            Class.forName(driver);
+            con = DriverManager.getConnection(connectString, user, password);
+            stmt = con.createStatement();
+
+            //UTILIZANDO UNA CONSULTA NORMAL
+            String consultaSQL = "UPDATE unidad_de_organizacion SET nombre_unidad='" + unidad.getNombreUnidad() + "',codigo_unidad_de_organizacion=" + unidad.getCodigoUnidadDeOrganizacion() + " WHERE id_unidad_organizacion=" + unidad.getIdUnidadOrganizacion() + ";";
+            stmt.executeUpdate(consultaSQL);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        } finally {
+            stmt.close();
+            con.close();
+        }
 
     }
 
