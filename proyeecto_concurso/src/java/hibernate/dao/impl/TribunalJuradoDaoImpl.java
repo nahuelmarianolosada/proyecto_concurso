@@ -39,13 +39,13 @@ public class TribunalJuradoDaoImpl extends HibernateUtil implements TribunalJura
     public void insertar(TribunalJurado tribunalJurado) {
         System.out.println("\033[32TribunalJuradoDaoImpl.insertar() => Guardando " + tribunalJurado.toString());
         try {
+            
             getSession().beginTransaction();
             getSession().save(tribunalJurado);
             getSession().getTransaction().commit();
 
         }catch(DataException exData){
-            System.err.println("Error al guardar el jurado!");
-            exData.printStackTrace();
+            
         }catch (Exception e) {
             e.printStackTrace();
             getSession().getTransaction().rollback();

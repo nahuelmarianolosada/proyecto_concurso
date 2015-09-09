@@ -7,7 +7,7 @@
     <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/concursosDB</property>
     <property name="hibernate.connection.username">nmlosada</property>
     <property name="hibernate.connection.password">siisa1234</property>
-    <property name="current_session_context_class">thread</property>
+<!--    <property name="current_session_context_class">thread</property>-->
     <!--<property name="hibernate.hbm2ddl.auto">update</property>-->
     <mapping resource="dominio/mappings/Postulante.hbm.xml"/>
     <mapping resource="dominio/mappings/Cargo.hbm.xml"/>

@@ -404,6 +404,7 @@ public class ConcursoBean implements Serializable {
 
             TribunalJuradoDao juradoDao = new TribunalJuradoDaoImpl();
             for (TribunalJurado jurado : getListaFinalJurados()) {
+                System.out.println("TribunalJuradoDaoImpl.insertar() => Guardando " + jurado.toString());
                 juradoDao.insertar(jurado);
             }
             System.out.println("----------------------Se a guardado la lista de Jurados");

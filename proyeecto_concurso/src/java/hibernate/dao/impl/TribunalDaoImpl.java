@@ -35,6 +35,7 @@ public class TribunalDaoImpl extends HibernateUtil implements TribunalDao {
 
     @Override
     public void insertar(Tribunal tribunal) {
+        System.out.println("\033[32TribunalDaoImpl.insertar() => Guardando " + tribunal.toString());
         try {
             getSession().beginTransaction();
             getSession().save(tribunal);

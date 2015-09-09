@@ -238,17 +238,9 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
     
     public void deseleccionarPersona(UnselectEvent event) {
         nuevoPostulante.setPersona(new Persona());
-//        FacesMessage msg = new FacesMessage("Car Unselected", ((Car) event.getObject()).getId());
-//        FacesContext.getCurrentInstance().addMessage(null, msg);
     }
     
-    public void limpiar_inicializar() {
-        nuevoPostulante = new Postulante(new Persona());
-        nuevoPostulante.setCargo(new Cargo());
-        banderaGanador = false;
-        buscado = "";
-        banderaBtn = false;
-    }
+    
     
     public void guardarNuevoPostulante() {
         PostulanteDao postulanteDao = new PostulanteDaoImpl();
@@ -287,7 +279,7 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
             nuevoPostulante = new Postulante(nuevoPostulante.getIdPostulante() + 1);
             nuevoPostulante.setPersona(new Persona());
             cargoSeleccionado = new Cargo();
-            
+            banderaGanador = false;
             buscado = "";
             
             nuevoMensajeInfo("Registro Provincial de Concursos", "Postulante cargado");

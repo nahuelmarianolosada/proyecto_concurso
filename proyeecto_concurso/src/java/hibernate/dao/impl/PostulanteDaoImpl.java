@@ -65,7 +65,7 @@ public class PostulanteDaoImpl extends HibernateUtil implements PostulanteDao {
         try {
             getSession().beginTransaction();
             getSession().save(postulante);
-            getSession().getTransaction().commit();
+          //  getSession().getTransaction().commit();
 
         } catch (Exception e) {
             e.printStackTrace();
