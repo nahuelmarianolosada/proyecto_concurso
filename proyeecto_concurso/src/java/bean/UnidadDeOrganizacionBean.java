@@ -6,8 +6,6 @@
 package bean;
 
 import java.io.Serializable;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 import hibernate.dao.UnidadDeOrganizacionDao;
 import hibernate.dao.impl.UnidadDeOrganizacionDaoImpl;
 import dominio.UnidadDeOrganizacion;
@@ -74,7 +72,7 @@ public class UnidadDeOrganizacionBean implements Serializable {
      * METODOS
      */
     public void refreshlista() {
-        System.out.println((char) 27 + "[36mBeanUnidadDeOrganización => refreshlista");
+        System.out.println((char) 27 + "[36mBeanUnidadDeOrganización.refreshlista()");
         UnidadDeOrganizacionDao udoDao = new UnidadDeOrganizacionDaoImpl();
         listaUnidadOrganizacion = udoDao.actualizaListaUdo();
 

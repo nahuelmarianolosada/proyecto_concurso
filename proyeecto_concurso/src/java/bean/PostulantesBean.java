@@ -30,7 +30,7 @@ import org.primefaces.event.UnselectEvent;
 @ManagedBean(name = "beanPostulante")
 @ViewScoped
 public class PostulantesBean extends ConcursoBean implements Serializable {
-
+    
     private static final long serialVersionUID = 1L;
     private Postulante nuevoPostulante;
     private List<Postulante> listaPostulantes;
@@ -39,7 +39,7 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
     private boolean datosValidos, banderaBtn, banderaGanador;
     private String buscado, criterio;
     private Cargo cargoSeleccionado;
-
+    
     @ManagedProperty("#{beanCargo}")
     private CargoBean beanCargo;
 
@@ -47,12 +47,12 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
      * Creates a new instance of PostulantesBean
      */
     public PostulantesBean() {
-
+        
         nuevoPostulante = new Postulante(new Persona());
         banderaGanador = false;
         listaPostulantes = new ArrayList<>();
         System.out.println("PostulantesBean.PostulantesBean() => Se ah creado el bean Postulantes");
-
+        
         cargoSeleccionado = new Cargo();
     }
 
@@ -62,87 +62,87 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
     public Postulante getNuevoPostulante() {
         return nuevoPostulante;
     }
-
+    
     public void setNuevoPostulante(Postulante nuevoPostulante) {
         this.nuevoPostulante = nuevoPostulante;
     }
-
+    
     public List<Postulante> getListaPostulantes() {
         return listaPostulantes;
     }
-
+    
     public void setListaPostulantes(List<Postulante> listaPostulantes) {
         this.listaPostulantes = listaPostulantes;
     }
-
+    
     public boolean isDatosValidos() {
         return datosValidos;
     }
-
+    
     public void setDatosValidos(boolean datosValidos) {
         this.datosValidos = datosValidos;
     }
-
+    
     public String getCriterio() {
         return criterio;
     }
-
+    
     public void setCriterio(String criterio) {
         this.criterio = criterio;
     }
-
+    
     public boolean getBanderaBtn() {
         return banderaBtn;
     }
-
+    
     public void setBanderaBtn(boolean banderaBtn) {
         this.banderaBtn = banderaBtn;
     }
-
+    
     public List<Persona> getListaResultado() {
         return listaResultado;
     }
-
+    
     public void setListaResultado(List<Persona> listaResultado) {
         this.listaResultado = listaResultado;
     }
-
+    
     public Persona getPostulanteSeleccionado() {
         return postulanteSeleccionado;
     }
-
+    
     public void setPostulanteSeleccionado(Persona postulanteSeleccionado) {
         this.postulanteSeleccionado = postulanteSeleccionado;
     }
-
+    
     public CargoBean getBeanCargo() {
         return beanCargo;
     }
-
+    
     public void setBuscado(String buscado) {
         this.buscado = buscado;
     }
-
+    
     public void setBeanCargo(CargoBean beanCargo) {
         this.beanCargo = beanCargo;
     }
-
+    
     public String getBuscado() {
         return buscado;
     }
-
+    
     public boolean isBanderaGanador() {
         return banderaGanador;
     }
-
+    
     public void setBanderaGanador(boolean banderaGanador) {
         this.banderaGanador = banderaGanador;
     }
-
+    
     public Cargo getCargoSeleccionado() {
         return cargoSeleccionado;
     }
-
+    
     public void setCargoSeleccionado(Cargo cargoSeleccionado) {
         this.cargoSeleccionado = cargoSeleccionado;
     }
@@ -154,7 +154,7 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
         PersonaDao personaDao = new PersonaDaoImpl();
         Persona personaEncontrada = new Persona();
         RequestContext context = RequestContext.getCurrentInstance();
-
+        
         try {
             switch (criterio) {
                 case "dni": {
@@ -169,7 +169,7 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
                 }
                 case "nombre": {
                     listaResultado = personaDao.buscarPorNombre(buscado);
-
+                    
                     if (listaResultado != null) {
                         context.execute("PF('dlgPersonaResultado').show();");
                         context.update("dlgPersonaResultado");
@@ -181,7 +181,7 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
                 }
                 case "apellido": {
                     listaResultado = personaDao.buscarPorApellido(buscado);
-
+                    
                     if (listaResultado != null) {
                         context.execute("PF('dlgPersonaResultado').show();");
                         context.update("dlgPersonaResultado");
@@ -196,7 +196,7 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
             nuevoMensajeAlerta("Registro de Concursos de Salud - Error", "Ingrese numeros para buscar por DNI");
         }
     }
-
+    
     public void validarBuscador() {
         if (buscado.isEmpty()) {
             banderaBtn = false;
@@ -204,9 +204,9 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
             banderaBtn = true;
         }
     }
-
+    
     public void seleccionarPersona(SelectEvent event) {
-
+        
         Persona personaSelec = (Persona) event.getObject();
         PersonaDao personaDao = new PersonaDaoImpl();
         Persona persAux = personaDao.buscarPorDni(personaSelec.getDni());
@@ -225,23 +225,23 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
             } else {
                 personaSelec = persAux;
             }
-
+            
         }
         nuevoPostulante.setPersona(personaSelec);
         System.out.println("Postulante.seleccionarPersona() => Se a seleccionado la " + nuevoPostulante.getPersona().toString());
-
+        
         RequestContext context = RequestContext.getCurrentInstance();
         context.execute("PF('dlgPersonaResultado').hide();");
         //FacesMessage msg = new FacesMessage("Car Selected", ((Car) event.getObject()).getId());
         //FacesContext.getCurrentInstance().addMessage(null, msg);
     }
-
+    
     public void deseleccionarPersona(UnselectEvent event) {
         nuevoPostulante.setPersona(new Persona());
 //        FacesMessage msg = new FacesMessage("Car Unselected", ((Car) event.getObject()).getId());
 //        FacesContext.getCurrentInstance().addMessage(null, msg);
     }
-
+    
     public void limpiar_inicializar() {
         nuevoPostulante = new Postulante(new Persona());
         nuevoPostulante.setCargo(new Cargo());
@@ -249,10 +249,10 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
         buscado = "";
         banderaBtn = false;
     }
-
+    
     public void guardarNuevoPostulante() {
         PostulanteDao postulanteDao = new PostulanteDaoImpl();
-
+        
         if (validarPostulante(nuevoPostulante)) {
 
             //Si es el primer postulante generamos un id nuevo de la BD
@@ -271,32 +271,34 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
                         nuevoPostulante.setCargo(cargo);
                         nuevoPostulante.getCargo().setEsDesierto(false);
                         getListaFinalCargos().set(getListaFinalCargos().indexOf(cargo), nuevoPostulante.getCargo());
-
+                        
                     } else {
                         getListaFinalCargos().get(getListaFinalCargos().indexOf(cargo)).setEsDesierto(true);
                     }
                 }
+            } else {
+                nuevoPostulante.setCargo(null);
             }
-
+            
             listaPostulantes.add(nuevoPostulante);
-
+            
             System.out.println("\033[32mPostulantesBean.guardarNuevoPostulante() => " + nuevoPostulante.toString());
-
+            
             nuevoPostulante = new Postulante(nuevoPostulante.getIdPostulante() + 1);
             nuevoPostulante.setPersona(new Persona());
             cargoSeleccionado = new Cargo();
-
+            
             buscado = "";
-
+            
             nuevoMensajeInfo("Registro Provincial de Concursos", "Postulante cargado");
-
+            
         }
     }
-
+    
     public void guardarListaPostulantes() {
         PersonaDao personaDao = new PersonaDaoImpl();
         PostulanteDao postulanteDao = new PostulanteDaoImpl();
-
+        
         for (Postulante postulante : listaPostulantes) {
             //Controla por el Dni si existe la persona cargada en la bd concurso.
             if (!personaDao.existeDniPersona(postulante.getPersona())) {
@@ -317,7 +319,6 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
 //                    }
 //                }
 //            }
-
             if (!getListaFinalPostulantes().contains(postulante)) {
                 //Preguntamos si es el primer postulante de la lista
                 if (listaPostulantes.indexOf(postulante) == 0) {
@@ -327,7 +328,7 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
                     //ultimo registro en la lista final +1
                     postulante.setIdPostulante(listaPostulantes.get(getListaFinalPostulantes().size() - 1).getIdPostulante() + 1);
                 }
-
+                
                 getListaFinalPostulantes().add(postulante);
             }
         }
@@ -366,14 +367,14 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
         }
         return esValido;
     }
-
+    
     public boolean validarPersonaExistente(Persona persona) {
         boolean esValido = false;
         PersonaDao personaDao = new PersonaDaoImpl();
         esValido = personaDao.existeDniPersona(persona);
         return esValido;
     }
-
+    
     public void cambiarEstadoGanador() {
         if (banderaGanador) {
             banderaGanador = false;
@@ -381,5 +382,5 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
             banderaGanador = true;
         }
     }
-
+    
 }

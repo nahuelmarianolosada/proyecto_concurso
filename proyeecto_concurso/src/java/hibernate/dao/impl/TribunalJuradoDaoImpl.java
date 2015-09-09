@@ -14,6 +14,7 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.exception.DataException;
 
 /**
  *
@@ -36,12 +37,16 @@ public class TribunalJuradoDaoImpl extends HibernateUtil implements TribunalJura
 
     @Override
     public void insertar(TribunalJurado tribunalJurado) {
+        System.out.println("\033[32TribunalJuradoDaoImpl.insertar() => Guardando " + tribunalJurado.toString());
         try {
             getSession().beginTransaction();
             getSession().save(tribunalJurado);
             getSession().getTransaction().commit();
 
-        } catch (Exception e) {
+        }catch(DataException exData){
+            System.err.println("Error al guardar el jurado!");
+            exData.printStackTrace();
+        }catch (Exception e) {
             e.printStackTrace();
             getSession().getTransaction().rollback();
         }

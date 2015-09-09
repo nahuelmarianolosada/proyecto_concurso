@@ -218,7 +218,7 @@
                                         <p:column headerText="Estado">
                                             <h:outputText value="#{resolucion.estado}" />
                                         </p:column>
-                                        <p:column style="width:32px;text-align: center">
+                                        <p:column style="width:32px;text-align: center" toggleable="false">
                                             <p:commandButton update="tabuladorPestañero:formResoluciones:tblResoluciones,tabuladorPestañero:formResoluciones:btnGuardarListaResoluciones" icon="ui-icon-trash" actionListener="#{beanResolucion.quitarResolucion(resolucion)}" />
                                         </p:column>
 
@@ -240,8 +240,8 @@
                                 <h:form id="formCargos">
 
                                     <h:panelGrid columns="2" >
-                                        <p:commandButton value="NuevoCargo" icon="ui-icon-plusthick" oncomplete="PF('dlgCargoNuevo').show();" update=":formCargoNuevo" />
-                                        <p:commandButton value="Actualizar" icon="ui-icon-refresh" />
+                                        <p:commandButton value="Nuevo" icon="ui-icon-plusthick" oncomplete="PF('dlgCargoNuevo').show();" update=":formCargoNuevo" />
+                                        
                                     </h:panelGrid>
 
 
@@ -491,7 +491,7 @@
                                             <h:outputText value="DNI: #{postulante.persona.dni} #{postulante.persona.apellido}, #{postulante.persona.nombres}" />
                                         </p:commandLink>
                                         <h:outputText value="DNI: #{postulante.persona.dni} - #{postulante.persona.apellido}, #{postulante.persona.nombres} " style="display:inline-block" styleClass="data" />
-                                        <h:outputText value="#{postulante.cargo.idCargo}" style="display:inline-block" />
+<!--                                        <h:outputText value="#{postulante.cargo.idCargo}" style="display:inline-block" />-->
                                     </p:dataList>
 
                                     <p:commandButton id="btnGuardarFinal" value="Confirmar Guardado" actionListener="#{beanConcurso.guardarExpedienteFinal()}" icon="ui-icon-disk" update="tabuladorPestañero:formExpedientes:msg, :formMostrar" styleClass="btnVerde" disabled="#{beanPostulante.listaPostulantes.isEmpty()}" />

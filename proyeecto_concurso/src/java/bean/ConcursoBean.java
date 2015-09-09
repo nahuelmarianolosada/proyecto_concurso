@@ -389,15 +389,16 @@ public class ConcursoBean implements Serializable {
             CargoDao cargoDao = new CargoDaoImpl();
             for (Cargo cargo : listaFinalCargos) {
                 System.out.println("ConcursoBean.guardarExpedienteFinal() => GUARDANDO " + cargo.toString());
-                for (int i = 0; i < getListaFinalPostulantes().size(); i++) {
-                    //Verificamos si es que el cargo se adjudico a algun postulante
-                    if (getListaFinalPostulantes().get(i).getCargo() != null) {
-                        if (getListaFinalPostulantes().get(i).getCargo().getIdCargo() == cargo.getIdCargo()) {
-                            cargo.setEsDesierto(false);
-                        }
-                    }
-                    cargoDao.insertar(cargo);
-                }
+//                for (int i = 0; i < getListaFinalPostulantes().size(); i++) {
+//                    //Verificamos si es que el cargo se adjudico a algun postulante
+//                    if (getListaFinalPostulantes().get(i).getCargo() != null) {
+//                        if (getListaFinalPostulantes().get(i).getCargo().getIdCargo() == cargo.getIdCargo()) {
+//                            cargo.setEsDesierto(false);
+//                        }
+//                    }
+//                    
+//                }
+                cargoDao.insertar(cargo);
             }
             System.out.println("----------------------Se a guardado la lista de Cargos");
 
