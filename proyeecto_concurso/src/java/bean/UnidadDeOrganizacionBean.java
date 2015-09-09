@@ -17,9 +17,11 @@ import java.util.List;
 import org.primefaces.event.RowEditEvent;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import org.hibernate.HibernateException;
+import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -32,6 +34,8 @@ public class UnidadDeOrganizacionBean implements Serializable {
     private List<UnidadDeOrganizacion> listaUnidadOrganizacion;
     private UnidadDeOrganizacion udoSeleccionada;
     private UnidadDeOrganizacion udoNueva;
+     @ManagedProperty("#{beanExpediente}")
+    private ExpedienteBean beanExpediente;
 
     /**
      * Creates a new instance of UnidadDeOrganizacionBeanBean
@@ -75,6 +79,8 @@ public class UnidadDeOrganizacionBean implements Serializable {
         System.out.println((char) 27 + "[36mBeanUnidadDeOrganización.refreshlista()");
         UnidadDeOrganizacionDao udoDao = new UnidadDeOrganizacionDaoImpl();
         listaUnidadOrganizacion = udoDao.getAll();
+        RequestContext context = RequestContext.getCurrentInstance();
+                context.update(":formGestionarUdo:tblUdoRegistradas");
 
     }
 
@@ -125,7 +131,7 @@ public class UnidadDeOrganizacionBean implements Serializable {
             try {
                 guardarUdoEditada(udoModificada);
                 refreshLista();
-                
+                beanExpediente.setListaUnidadDeOrganizacions(listaUnidadOrganizacion);
                 nuevoMensajeInfo("Registro de Concursos de Salud", "UDO " + udoModificada.getNombreUnidad() + " modificado.");
             } catch (HibernateException ex1) {
                 System.out.println("Error! " + ex1.getCause() + "\n" + ex1.getMessage());
@@ -137,6 +143,14 @@ public class UnidadDeOrganizacionBean implements Serializable {
             refreshLista();
             System.out.println("beanUnidadDeOrganizacion.edicionCancalada(): Nombre de la organización " + udoModificada.getNombreUnidad() + " 0 el codigo " + udoModificada.getCodigoUnidadDeOrganizacion() + " se encuentran repetido");
         }
+    }
+
+    public ExpedienteBean getBeanExpediente() {
+        return beanExpediente;
+    }
+
+    public void setBeanExpediente(ExpedienteBean beanExpediente) {
+        this.beanExpediente = beanExpediente;
     }
 
     public void guardarUdoEditada(UnidadDeOrganizacion unidad) throws SQLException {
@@ -174,7 +188,7 @@ public class UnidadDeOrganizacionBean implements Serializable {
             UnidadDeOrganizacionDao unidadDao = new UnidadDeOrganizacionDaoImpl();
             unidadDao.eliminarById(udoSeleccionada.getIdUnidadOrganizacion());
             refreshLista();
-            udoNueva.setIdUnidadOrganizacion(unidadDao.generarNuevoIdUdo());
+           // udoNueva.setIdUnidadOrganizacion(unidadDao.generarNuevoIdUdo());
             nuevoMensajeInfo("Registro de concursos de Salud", "Se a eliminado el usuario " + udoSeleccionada.getIdUnidadOrganizacion());
         } catch (Exception ex1) {
             nuevoMensajeAlerta("Error! " + ex1.getClass(), ex1.getMessage());
