@@ -80,12 +80,13 @@
                                 </p:tab>
                                 <p:tab title="Registros Completo De Concursos" id="pestañaExportarRegistroCOncursos" > 
                                     <h:form id="formExportarRegistros">
-                                        <h:panelGrid columns="1" cellpadding="3" frame="box" style="margin-left: 0px; width: 100%; position: relative">
+                                        <h:panelGrid columns="1" cellpadding="3" frame="box" style="margin-left: -10px; width: 250px;height: 100%; position: relative">
                                             <f:facet name="header" class="encabezadoPanel">
                                                 <h:outputText value="Exportacion de datos en formato .xls" />
                                             </f:facet>
                                             <p:column>
                                                 <h:outputLabel for="cmbProfesionSeleccion" value="Profesión de Referencia"/>
+                                                <br></br>
                                                 <p:selectOneMenu id="cmbProfesionSeleccion" style="width:100%;" value="#{beanCargo.cargoNuevo.profesion.idProfesion}" filter="true" required="true" requiredMessage="Seleccione una profesion para el cargo">
                                                     <f:selectItem itemLabel="No se especifica" itemValue="" noSelectionOption="true" />
                                                     <f:selectItems var="profesion" value="#{beanCargo.listaProfesiones}" itemLabel="#{profesion.nombreProfesion}" itemValue="#{profesion.idProfesion}" />
@@ -93,20 +94,23 @@
                                             </p:column>
 
                                             <p:column>
-                                                <h:outputLabel value="Registros Desde: " />
+                                                <h:outputLabel value="Registros Desde: " style="width: 80px;" />
+                                                <br></br>
                                                 <p:calendar id="calRegistroDesde"  pattern="dd-MM-yyyy" mask="true" >
                                                     <p:ajax   update="calRegistroHasta" />
                                                 </p:calendar>
-                                                <h:outputLabel value="Registros Hasta: " />
+                                            </p:column>
+                                            <p:column>
+                                                <h:outputLabel value="Registros Hasta: " style="width: 80px;"/>
+                                                <br></br>
                                                 <p:calendar id="calRegistroHasta"  pattern="dd-MM-yyyy" mask="true" >
                                                     <p:ajax  update="calRegistroDesde" />
                                                 </p:calendar>
                                             </p:column>
+                                            <br></br>
+                                            <p:commandButton id="btnExportar" value="Exportar" styleClass="btnVerde" style="margin: 10px 60px 0px;width:120px; height:35px; "/>
                                         </h:panelGrid>
 
-
-                                        <br></br>
-                                        <p:commandButton id="btnExportar" value="Exportar" styleClass="btnVerde" style="margin: 5px 0px 0px;width:120px; height:35px; "/>
                                     </h:form>
 
                                 </p:tab>
