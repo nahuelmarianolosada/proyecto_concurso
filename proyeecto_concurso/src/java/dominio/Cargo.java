@@ -226,7 +226,8 @@ public class Cargo implements java.io.Serializable {
         }
     }
 
-    public String getMessage() {
+    
+    public String getMensaje() {
         String resp = "";
 
         if (esDesierto) {

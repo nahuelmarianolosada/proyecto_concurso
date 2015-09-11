@@ -90,7 +90,7 @@ public class ConcursoBean implements Serializable {
 
         inicializar();
 
-        recargarDeDatosFinales();
+        //recargarDeDatosFinales();
     }
 
     public Expediente getExpedienteSeleccionado() {
@@ -182,10 +182,6 @@ public class ConcursoBean implements Serializable {
     }
 
     public List<Postulante> getListaFinalPostulantes() {
-        System.out.println("Obteniendo postulantes finales");
-        for (Postulante postulante : listaFinalPostulantes) {
-            System.out.println("Postulante " + postulante.toString());
-        }
         return listaFinalPostulantes;
     }
 

@@ -16,6 +16,6 @@ import javax.faces.bean.ViewScoped;
  */
 @ManagedBean(name = "beanExportacion")
 @ViewScoped
-public class ExportacionBean {
+public class ExportacionBean implements Serializable{
      private static final long serialVersionUID = 1L;
 }

@@ -44,8 +44,7 @@
                                             <p:outputPanel>
                                                 <h:panelGrid columns="6" cellpadding="5">
                                                     <f:facet name="header" >
-                                                        <!--<p:commandLink value="Expediente Núm: #{resolucion.expediente.numeroExpediente} - UDO: #{resolucion.expediente.unidadDeOrganizacion.nombreUnidad} - Régimen: #{resolucion.expediente.regimen} - Situación: #{resolucion.expediente.situacion}" styleClass="data" style="font-size: 13px; color: black !important;" actionListener="#{beanConcurso.nuevoMensajeInfo('hola', 'tamos hechos :)')}" update="tabuladorPestañero:formExpedientes:msg"/>-->
-                                                        <!--<h:outputText value="Expediente Núm: #{resolucion.expediente.numeroExpediente} - UDO: #{resolucion.expediente.unidadDeOrganizacion.nombreUnidad} - Régimen: #{resolucion.expediente.regimen} - Situación: #{resolucion.expediente.situacion}" styleClass="data" style="font-size: 13px;"/>-->
+                                                        
                                                     </f:facet>
 
                                                     <h:outputText value="Numero de Resolucion:" />
@@ -101,10 +100,10 @@
                                                 <p:ajax  update="calRegistroDesde" />
                                             </p:calendar>
                                         </h:panelGrid>
-                                    
+
                                     </h:form>
                                     <h:form>
-                                            <br></br>
+                                        <br></br>
                                         <p:commandButton id="btnExportar" value="Exportar" styleClass="btnVerde" style="margin: 20px 60px 0px;width:120px; height:35px; "/>
                                     </h:form>
 
@@ -421,7 +420,7 @@
                             PESTAÑA RESULTADO #{!beanPostulante.datosValidos}
                             **********************************
                             -->
-                            <p:tab title="Resultado" id="tabResultado" disabled="false" >
+                            <p:tab title="Resultado" id="tabResultado" disabled="#{!beanPostulante.datosValidos}" >
                                 <h:form id="formResultadoConcurso">
                                     <h:panelGrid columns="2" cellpadding="3" frame="box" styleClass="panelAlta" columnClasses="label, value" >
                                         <f:facet name="header">
@@ -521,11 +520,7 @@
                                             <h:outputText value="DNI: #{postulante.persona.dni} #{postulante.persona.apellido}, #{postulante.persona.nombres}" />
                                         </p:commandLink>
                                         <h:outputText value="Ver: #{postulante.puntaje} - #{postulante.persona.apellido}, #{postulante.persona.nombres}" style="display: inline-block;" styleClass="data" />
-                                        
-                                            
-                                        
                                     </p:dataList>
-
                                     <p:commandButton id="btnGuardarConcursoFinal" value="Confirmar Guardado" actionListener="#{beanConcurso.guardarExpedienteFinal()}" icon="ui-icon-disk" update="tabuladorPestañero:formExpedientes:msg, :formMostrar" styleClass="btnVerde" disabled="#{beanPostulante.listaPostulantes.isEmpty()}" />
 
                                 </h:form>
@@ -639,8 +634,8 @@
                                 <f:setPropertyActionListener value="#{postulante}" target="#{beanConcurso.postulanteFinalSeleccionado}" />
                                 <h:outputText value="DNI: #{postulante.persona.dni} #{postulante.persona.apellido}, #{postulante.persona.nombres}" />
                             </p:commandLink>
-                            <h:outputText value="DNI: #{postulante.persona.dni} - #{postulante.persona.apellido}, #{postulante.persona.nombres} " style="display:inline-block" styleClass="data" />
-                            <h:outputText value="#{postulante.cargo.getMessage()}" style="display:inline-block" />
+                            <h:outputText value="DNI: #{postulante.persona.dni} - #{postulante.persona.apellido}, #{postulante.persona.nombres} "  styleClass="data" />
+
                         </p:dataList>
 
                         <p:commandButton id="btnGuardarFinal" value="Confirmar Guardado" actionListener="#{beanConcurso.guardarExpedienteFinal()}" icon="ui-icon-disk" update="tabuladorPestañero:formExpedientes:msg, :formMostrar" styleClass="btnVerde" disabled="#{beanPostulante.listaPostulantes.isEmpty()}" />
