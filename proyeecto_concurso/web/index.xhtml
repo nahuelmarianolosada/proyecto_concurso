@@ -11,7 +11,7 @@
             <ui:define name="content">
                 <p:layout style="min-height:200px; height: 32.7em;" stateful="enabled" >
 
-                    <p:layoutUnit position="center" resizable="true" header="Datos Registrados">
+                    <p:layoutUnit position="center" resizable="false" header="Datos Registrados">
                         <h:form id="formMostrar" > 
                             <p:accordionPanel dynamic="true" cache="true" id="menuAccordion" activeIndex="1" >
                                 <p:tab title="Expedientes" id="pestaniaExpedientes" >
@@ -35,7 +35,7 @@
                                     </p:dataScroller>
                                 </p:tab>
                                 <p:tab title="Resoluciones" id="pestaniaResoluciones" >
-                                    <p:dataScroller value="#{beanConcurso.getListaTab_resoluciones()}" var="resolucion" chunkSize="5" mode="inline" scrollHeight="240" id="listaResoluciones" >
+                                    <p:dataScroller value="#{beanConcurso.getListaTab_resoluciones()}" var="resolucion" chunkSize="3" mode="inline" scrollHeight="200" id="listaResoluciones" >
                                         <f:facet name="header">
                                             #{beanConcurso.getListaTab_resoluciones().size()} Resoluciones Registradas
                                         </f:facet>
@@ -44,7 +44,7 @@
                                             <p:outputPanel>
                                                 <h:panelGrid columns="6" cellpadding="5">
                                                     <f:facet name="header" >
-                                                        
+
                                                     </f:facet>
 
                                                     <h:outputText value="Numero de Resolucion:" />
@@ -80,31 +80,33 @@
                                 </p:tab>
                                 <p:tab title="Registros Completo De Concursos" id="pestañaExportarRegistroCOncursos" > 
                                     <h:form id="formExportarRegistros">
-                                        <h:panelGrid columns="2" cellpadding="3" frame="box" style="margin-left: -20px; width: 265px; position: relative">
+                                        <h:panelGrid columns="1" cellpadding="3" frame="box" style="margin-left: 0px; width: 100%; position: relative">
                                             <f:facet name="header" class="encabezadoPanel">
                                                 <h:outputText value="Exportacion de datos en formato .xls" />
                                             </f:facet>
-                                            <h:outputLabel for="cmbProfesionSeleccion" value="Profesión de Referencia"/>
-                                            <p:selectOneMenu id="cmbProfesionSeleccion" style="width:100%;" value="#{beanCargo.cargoNuevo.profesion.idProfesion}" filter="true" required="true" requiredMessage="Seleccione una profesion para el cargo">
-                                                <f:selectItem itemLabel="No se especifica" itemValue="" noSelectionOption="true" />
-                                                <f:selectItems var="profesion" value="#{beanCargo.listaProfesiones}" itemLabel="#{profesion.nombreProfesion}" itemValue="#{profesion.idProfesion}" />
-                                            </p:selectOneMenu>
+                                            <p:column>
+                                                <h:outputLabel for="cmbProfesionSeleccion" value="Profesión de Referencia"/>
+                                                <p:selectOneMenu id="cmbProfesionSeleccion" style="width:100%;" value="#{beanCargo.cargoNuevo.profesion.idProfesion}" filter="true" required="true" requiredMessage="Seleccione una profesion para el cargo">
+                                                    <f:selectItem itemLabel="No se especifica" itemValue="" noSelectionOption="true" />
+                                                    <f:selectItems var="profesion" value="#{beanCargo.listaProfesiones}" itemLabel="#{profesion.nombreProfesion}" itemValue="#{profesion.idProfesion}" />
+                                                </p:selectOneMenu>
+                                            </p:column>
 
-
-                                            <h:outputLabel value="Registros Desde: " />
-                                            <p:calendar id="calRegistroDesde"  pattern="dd-MM-yyyy" mask="true" >
-                                                <p:ajax   update="calRegistroHasta" />
-                                            </p:calendar>
-                                            <h:outputLabel value="Registros Hasta: " />
-                                            <p:calendar id="calRegistroHasta"  pattern="dd-MM-yyyy" mask="true" >
-                                                <p:ajax  update="calRegistroDesde" />
-                                            </p:calendar>
+                                            <p:column>
+                                                <h:outputLabel value="Registros Desde: " />
+                                                <p:calendar id="calRegistroDesde"  pattern="dd-MM-yyyy" mask="true" >
+                                                    <p:ajax   update="calRegistroHasta" />
+                                                </p:calendar>
+                                                <h:outputLabel value="Registros Hasta: " />
+                                                <p:calendar id="calRegistroHasta"  pattern="dd-MM-yyyy" mask="true" >
+                                                    <p:ajax  update="calRegistroDesde" />
+                                                </p:calendar>
+                                            </p:column>
                                         </h:panelGrid>
 
-                                    </h:form>
-                                    <h:form>
+
                                         <br></br>
-                                        <p:commandButton id="btnExportar" value="Exportar" styleClass="btnVerde" style="margin: 20px 60px 0px;width:120px; height:35px; "/>
+                                        <p:commandButton id="btnExportar" value="Exportar" styleClass="btnVerde" style="margin: 5px 0px 0px;width:120px; height:35px; "/>
                                     </h:form>
 
                                 </p:tab>
