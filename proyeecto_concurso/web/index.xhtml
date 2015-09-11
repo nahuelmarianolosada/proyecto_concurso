@@ -95,13 +95,13 @@
 
                                             <p:column>
                                                 <h:outputLabel value="Registros Desde: " style="width: 80px;" />
-                                                
+
                                                 <p:calendar id="calRegistroDesde"  pattern="dd-MM-yyyy" mask="true" >
                                                     <p:ajax   update="calRegistroHasta" />
                                                 </p:calendar>
-                                            
+
                                                 <h:outputLabel value="Registros Hasta: " style="width: 80px;"/>
-                                                
+
                                                 <p:calendar id="calRegistroHasta"  pattern="dd-MM-yyyy" mask="true" >
                                                     <p:ajax  update="calRegistroDesde" />
                                                 </p:calendar>
@@ -109,7 +109,7 @@
 
                                         </h:panelGrid>
                                         <br></br>
-                                        <p:commandButton id="btnExportar" value="Exportar" styleClass="btnVerde" style="margin: 10px 0px 0px;width:120px; height:35px; "/>
+                                        <p:commandButton id="btnExportar" value="Exportar" styleClass="btnVerde" style="margin: 10px 0px 0px;" icon="ui-icon-arrowthickstop-1-n"/>
 
                                     </h:form>
 
@@ -205,52 +205,49 @@
                                                   style="text-align: center; margin-top: 5px;">
                                         <f:facet name="header">
                                             <h:outputText id="lblNumeroDeExpedienteEnResolucion" value="Resoluciones en el expediente #{beanConcurso.expedienteFinalCargado.numeroExpediente}" />
-                                            <p:commandButton id="togglerResoluciones" type="button" value="Columnas" style="float:right" icon="ui-icon-calculator" />
+                                            <p:commandButton id="togglerResoluciones" type="button" value="Columnas" style="float:right" icon="ui-icon-calculator" iconPos="right" />
                                             <p:columnToggler datasource="tblResoluciones" trigger="togglerResoluciones" />
                                         </f:facet>
-                                        <p:column headerText="Expediente">
+                                        <p:column headerText="Expediente" sortBy="#{resolucion.expediente.numeroExpediente}">
                                             <h:outputText value="#{resolucion.expediente.numeroExpediente}" />
                                         </p:column>
                                         <!--                                        <p:column headerText="Id">
                                                                                     <h:outputText value="#{resolucion.idResolucion}" />
                                                                                 </p:column>-->
-                                        <p:column headerText="Número">
+                                        <p:column headerText="Número" sortBy="#{resolucion.numeroResolucion}">
                                             <h:outputText value="#{resolucion.numeroResolucion}" />
                                         </p:column>
-                                        <p:column headerText="Agrupamiento">
+                                        <p:column headerText="Agrupamiento" sortBy="#{resolucion.agrupamiento}">
                                             <h:outputText value="#{resolucion.agrupamiento}" />
                                         </p:column>
 
-                                        <p:column headerText="Oposición">
+                                        <p:column headerText="Oposición" sortBy="#{resolucion.oposicion}">
                                             <h:outputText value="#{resolucion.oposicion}" />
                                         </p:column>
-<!--                                        <p:column headerText="Modificatoria" rendered="#{resolucion.modificacion}">
-                                            <h:outputText value="#{resolucion.modificaResolucion}" />
-                                        </p:column>-->
-                                        <p:column headerText="Clase">
+                                        <p:column headerText="Clase" sortBy="#{resolucion.clase}">
                                             <h:outputText value="#{resolucion.clase}" />
                                         </p:column>
-                                        <p:column headerText="Apertura">
-                                            <h:outputText value="#{resolucion.fechaApertura}" >
+                                        <p:column headerText="Apertura" sortBy="#{resolucion.fechaApertura}">
+                                            <h:outputText value="#{resolucion.fechaApertura}"  >
                                                 <f:convertDateTime pattern="dd/MM/yyyy" />
                                             </h:outputText>
                                         </p:column>
-                                        <p:column headerText="Cierre">
+                                        <p:column headerText="Cierre" sortBy="#{resolucion.fechaCierre}">
                                             <h:outputText value="#{resolucion.fechaCierre}" >
                                                 <f:convertDateTime pattern="dd/MM/yyyy" />
                                             </h:outputText>
                                         </p:column>
-                                        <p:column headerText="Ejecución">
+                                        <p:column headerText="Ejecución" sortBy="#{resolucion.fechaEjecucion}">
                                             <h:outputText value="#{resolucion.fechaEjecucion}" >
                                                 <f:convertDateTime pattern="dd/MM/yyyy" />
                                             </h:outputText>
                                         </p:column>
-                                        <p:column headerText="Publicación">
+                                        <p:column headerText="Publicación" sortBy="#{resolucion.fechaPublicacion}">
                                             <h:outputText value="#{resolucion.fechaPublicacion}" >
                                                 <f:convertDateTime pattern="dd/MM/yyyy" />
                                             </h:outputText>
                                         </p:column>
-                                        <p:column headerText="Estado">
+                                        <p:column headerText="Estado" sortBy="#{resolucion.estado}">
                                             <h:outputText value="#{resolucion.estado}" />
                                         </p:column>
                                         <p:column style="width:32px;text-align: center" toggleable="false">
@@ -283,34 +280,37 @@
                                     <p:dataTable id="tblCargos" var="cargos" value="#{beanCargo.listaCargos}" rows="3"
                                                  paginator="true"
                                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                                 rowsPerPageTemplate="3,5,10,15" reflow="true" >
+                                                 rowsPerPageTemplate="3,5,10,15" reflow="true"
+                                                 emptyMessage="Sin Cargos asignados">
 
                                         <f:facet name="header">
                                             <h:outputText id="lblNumeroResolucionCargo" value="Resolución: #{beanCargo.cargoNuevo.resolucion.numeroResolucion} " />
+                                            <p:commandButton id="togglerCargos" type="button" value="Columnas" style="float:right" icon="ui-icon-calculator" iconPos="right" />
+                                            <p:columnToggler datasource="tblCargos" trigger="togglerCargos" />
                                         </f:facet>
 
-                                        <p:column headerText="Profesion">
+                                        <p:column headerText="Profesion" sortBy="#{cargos.profesion.nombreProfesion}">
                                             <h:outputText value="#{cargos.profesion.nombreProfesion}" />
                                         </p:column>
-                                        <p:column headerText="Especialidad">
+                                        <p:column headerText="Especialidad" sortBy="#{cargos.especialidad}" >
                                             <h:outputText value="#{cargos.especialidad}" />
                                         </p:column>
-                                        <p:column headerText="Categoria">
+                                        <p:column headerText="Categoria" sortBy="#{cargos.categoria}">
                                             <h:outputText value="#{cargos.categoria}" />
                                         </p:column>
-                                        <p:column headerText="Función">
+                                        <p:column headerText="Función" sortBy="#{cargos.funcion}">
                                             <h:outputText value="#{cargos.funcion}" />
                                         </p:column>
-                                        <p:column headerText="Establecimiento">
+                                        <p:column headerText="Establecimiento" sortBy="#{cargos.establecimiento.nombre}">
                                             <h:outputText value="#{cargos.establecimiento.nombre}" />
                                         </p:column>
-                                        <p:column headerText="Resolución">
+                                        <p:column headerText="Resolución" sortBy="#{cargos.resolucion.numeroResolucion}">
                                             <h:outputText value="#{cargos.resolucion.numeroResolucion}" />
                                         </p:column>
-                                        <p:column headerText="Enunciación">
+                                        <p:column headerText="Enunciación" sortBy="#{cargos.enunciacion}">
                                             <h:outputText value="#{cargos.enunciacion}" />
                                         </p:column>
-                                        <p:column headerText="Cantidad">
+                                        <p:column headerText="Cantidad" sortBy="#{cargos.cantidad}">
                                             <h:outputText value="#{cargos.cantidad}" />
                                         </p:column>
 
@@ -343,34 +343,38 @@
                                     <p:dataTable id="tblTribunal" var="jurado" value="#{beanTribunal.listaJuradoNuevos}" rows="3"
                                                  paginator="true"
                                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                                 rowsPerPageTemplate="3,5,10,15" reflow="true" emptyMessage="Sin jurados registrados" >
+                                                 rowsPerPageTemplate="3,5,10,15" 
+                                                 reflow="true" 
+                                                 emptyMessage="Sin jurados registrados" >
 
                                         <f:facet name="header">
                                             <h:outputText id="lblTribunales" value="JURADOS en la resolucion #{beanTribunal.resolucionSeleccionada.numeroResolucion}" />
+                                            <p:commandButton id="togglerJurado" type="button" value="Columnas" style="float:right" icon="ui-icon-calculator" iconPos="right" />
+                                            <p:columnToggler datasource="tblTribunal" trigger="togglerJurado" />
                                         </f:facet>
 
-                                        <p:column headerText="Tribunal">
+                                        <p:column headerText="Tribunal" sortBy="#{jurado.tribunal.idTribunal}">
                                             <h:outputText value="#{jurado.tribunal.idTribunal}"/> 
                                         </p:column>
-                                        <p:column headerText="Nombres">
+                                        <p:column headerText="Nombres" sortBy="#{jurado.persona.nombres}">
                                             <h:outputText value="#{jurado.persona.nombres}" />
                                         </p:column>
-                                        <p:column headerText="Apellido">
+                                        <p:column headerText="Apellido" sortBy="#{jurado.persona.apellido}">
                                             <h:outputText value="#{jurado.persona.apellido}" />
                                         </p:column>
-                                        <p:column headerText="Estado">
-                                            <h:outputText value="#{jurado.estado}" />
+                                        <p:column headerText="Estado" sortBy="#{jurado.estado}">
+                                            <h:outputText value="#{jurado.estado}"  />
                                         </p:column>
-                                        <p:column headerText="Presencia">
+                                        <p:column headerText="Presencia" sortBy="#{jurado.presencia}">
                                             <h:outputText value="#{jurado.presencia}" />
                                         </p:column>
-                                        <p:column headerText="Condicion">
+                                        <p:column headerText="Condicion" sortBy="#{jurado.condicion}">
                                             <h:outputText value="#{jurado.condicion}" />
                                         </p:column>
-                                        <p:column headerText="Nombre de insitución">
+                                        <p:column headerText="Nombre de insitución" sortBy="#{jurado.institucion.nombreInstitucion}">
                                             <h:outputText value="#{jurado.institucion.nombreInstitucion}" />
                                         </p:column>
-                                        <p:column headerText="Nombre establecimiento">
+                                        <p:column headerText="Nombre establecimiento" sortBy="#{jurado.establecimiento.nombre}">
                                             <h:outputText value="#{jurado.establecimiento.nombre}" />
                                         </p:column>
                                     </p:dataTable>
@@ -392,8 +396,15 @@
                                     <p:dataTable id="tblPostulantes" var="postulante" value="#{beanPostulante.listaPostulantes}" rows="3"
                                                  paginator="true"
                                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                                 rowsPerPageTemplate="3,5,10,15" reflow="true" emptyMessage="Sin postulantes registrados">
+                                                 rowsPerPageTemplate="3,5,10,15" 
+                                                 reflow="true" 
+                                                 emptyMessage="Sin postulantes registrados">
 
+                                        <f:facet name="header">
+                                            <h:outputText id="lblPostulantes" value="Lista de postulantes" />
+                                            <p:commandButton id="togglerPostulantes" type="button" value="Columnas" style="float:right" icon="ui-icon-calculator" iconPos="right" />
+                                            <p:columnToggler datasource="tblPostulantes" trigger="togglerPostulantes" />
+                                        </f:facet>
                                         <p:column headerText="Nombre" sortBy="#{postulante.persona.nombres}">
                                             <h:outputText value="#{postulante.persona.nombres}" />
                                         </p:column>
@@ -541,7 +552,7 @@
                  DIALOGO DETALLES EXPEDIENTE 
                 **********************************
                 -->
-                <p:dialog id="dlgExpediente" appendTo="@(body)" widgetVar="dlgExpediente" modal="true" showEffect="blind" hideEffect="blind" resizable="true" closable="true" closeOnEscape="true"  >
+                <p:dialog id="dlgExpediente" appendTo="@(body)" widgetVar="dlgExpediente" modal="true" showEffect="blind" hideEffect="blind" resizable="true" closable="true" closeOnEscape="true" onHide="PF('dlgExpediente').content.empty()" >
                     <h:form id="formDetalleExpediente">
                         <h:panelGrid columns="2" cellpadding="3" frame="box" styleClass="panelAlta" columnClasses="label, value" >
                             <f:facet name="header">
@@ -644,7 +655,8 @@
 
                         </p:dataList>
 
-                        <p:commandButton id="btnGuardarFinal" value="Confirmar Guardado" actionListener="#{beanConcurso.guardarExpedienteFinal()}" icon="ui-icon-disk" update="tabuladorPestañero:formExpedientes:msg, :formMostrar" styleClass="btnVerde" disabled="#{beanPostulante.listaPostulantes.isEmpty()}" />
+                        <p:commandButton value="Cancelar"  icon="ui-icon-closethick" styleClass="btnVerde" onclick="PF('dlgExpediente').hide();" />
+                        <p:commandButton id="btnGuardarFinal" value="Confirmar Guardado" actionListener="#{beanConcurso.guardarExpedienteFinal()}" icon="ui-icon-disk" update="tabuladorPestañero:formExpedientes:msg, :formMostrar" styleClass="btnVerde" disabled="#{beanPostulante.listaPostulantes.isEmpty()}" style="float: right;" />
 
                     </h:form>
                 </p:dialog>
@@ -783,9 +795,11 @@
                             <p:calendar id="calFechaPublicacion" value="#{beanResolucion.resolucionNueva.fechaPublicacion}" mindate="#{beanResolucion.resolucionNueva.fechaCierre}" pattern="dd-MM-yyyy" mask="true" />
 
                         </h:panelGrid>
-                        <p:commandButton id="btnGuardarNuevaResolucion" icon="ui-icon-disk" value="Guardar" actionListener="#{beanResolucion.guardarResolucion()}" oncomplete="PF('dlgNuevaResolucion').hide();" update="tabuladorPestañero,tabuladorPestañero:formResoluciones:tblResoluciones,tabuladorPestañero:formResoluciones:btnGuardarListaResoluciones,tabuladorPestañero:formExpedientes:msg,tabuladorPestañero:formCargos:tblCargos,:formCargoNuevo:cmbCargoNuevoResolucion" styleClass="btnVerde"  >
+                        <p:commandButton value="Cancelar"  icon="ui-icon-closethick" styleClass="btnVerde" onclick="PF('dlgNuevaResolucion').hide();" />
+                        <p:commandButton id="btnGuardarNuevaResolucion" icon="ui-icon-disk" value="Guardar" actionListener="#{beanResolucion.guardarResolucion()}" oncomplete="PF('dlgNuevaResolucion').hide();" update="tabuladorPestañero,tabuladorPestañero:formResoluciones:tblResoluciones,tabuladorPestañero:formResoluciones:btnGuardarListaResoluciones,tabuladorPestañero:formExpedientes:msg,tabuladorPestañero:formCargos:tblCargos,:formCargoNuevo:cmbCargoNuevoResolucion" styleClass="btnVerde" style="float: right;" >
                             <f:setPropertyActionListener value="#{beanResolucion.resolucionNueva}" target="#{beanCargo.cargoNuevo.resolucion}" />
                         </p:commandButton>
+
                     </h:form>
                 </p:dialog>
 
@@ -868,7 +882,9 @@
                             </p:selectOneMenu>
                         </h:panelGrid>
 
-                        <p:commandButton id="btnGuardarNuevoCargo" onsuccess="PF('dlgCargoNuevo').hide();" value="Guardar" actionListener="#{beanCargo.guardarNuevoCargo}" icon="ui-icon-disk" update="tabuladorPestañero,tabuladorPestañero:formExpedientes:msg,tabuladorPestañero:formCargos,formPostulantes:cmbCargoPostulante" styleClass="btnVerde" />
+                        <p:commandButton value="Cancelar"  icon="ui-icon-closethick" styleClass="btnVerde" onclick="PF('dlgCargoNuevo').hide();" />
+                        <p:commandButton id="btnGuardarNuevoCargo" onsuccess="PF('dlgCargoNuevo').hide();" value="Guardar" actionListener="#{beanCargo.guardarNuevoCargo}" icon="ui-icon-disk" update="tabuladorPestañero,tabuladorPestañero:formExpedientes:msg,tabuladorPestañero:formCargos,formPostulantes:cmbCargoPostulante" styleClass="btnVerde" style="float: right;" />
+
                     </h:form>
                 </p:dialog>
                 <!--   
@@ -953,7 +969,8 @@
                             <f:selectItems var="establecimiento" value="#{beanConcurso.listaEstablecimientos}" itemLabel="#{establecimiento.nombre} (#{establecimiento.idEstablecimiento})" itemValue="#{establecimiento.idEstablecimiento}" />
                         </p:selectOneMenu>
                         <br/>
-                        <p:commandButton id="btnGuardarJurado" value="Guardar" actionListener="#{beanTribunal.guardarJuradoNuevo()}" icon="ui-icon-disk" update="tabuladorPestañero:formExpedientes:msg,tabuladorPestañero:formTribunal,:formJuradoNuevo,:formBuscarJurado"  styleClass="btnVerde" />
+                        <p:commandButton value="Cancelar"  icon="ui-icon-closethick" styleClass="btnVerde" onclick="PF('dlgNuevoJurado').hide();" />
+                        <p:commandButton id="btnGuardarJurado" value="Guardar" actionListener="#{beanTribunal.guardarJuradoNuevo()}" icon="ui-icon-disk" update="tabuladorPestañero:formExpedientes:msg,tabuladorPestañero:formTribunal,:formJuradoNuevo,:formBuscarJurado"  styleClass="btnVerde" style="float:right;" />
 
                     </h:form>
 
@@ -1021,13 +1038,7 @@
                             <p:column headerText="Apellido" sortBy="#{persona.apellido}">
                                 <h:outputText value="#{persona.apellido}" />
                             </p:column>
-<!--                            <p:column headerText="Sexo" sortBy="#{persona.sexo}">
-                                <h:outputText value="#{persona.sexo}" />
-                            </p:column>
-                            <p:column headerText="Fecha de Nacimiento" sortBy="#{persona.fechaDeNacimiento}">
-                                <h:outputText value="#{persona.fechaDeNacimiento}" ><f:convertDateTime pattern="dd/MM/yyyy" /></h:outputText>
-                            </p:column>
-                            -->
+
                             <f:facet name="footer">
                                 Personas Encontradas: #{beanPostulante.listaResultado.size()}.
                             </f:facet>
@@ -1126,7 +1137,9 @@
                                 <p:spinner value="#{beanPostulante.nuevoPostulante.fojas}" min="0" max="100" placeholder="Fojas" />
                             </h:panelGrid>
 
-                            <p:commandButton id="btnGuardarNuevoPostulante" value="Guardar" actionListener="#{beanPostulante.guardarNuevoPostulante}" icon="ui-icon-disk" update="tabuladorPestañero,tabuladorPestañero:formExpedientes:msg,tabuladorPestañero:formPestañaPostulantes:tblPostulantes,dlgPostulanteNuevo,formPostulantes:cmbCargoPostulante" styleClass="btnVerde" validateClient="true" />
+                            <p:commandButton value="Cancelar"  icon="ui-icon-closethick" styleClass="btnVerde" onclick="PF('dlgPostulanteNuevo').hide();" />
+                            <p:commandButton id="btnGuardarNuevoPostulante" value="Guardar" actionListener="#{beanPostulante.guardarNuevoPostulante}" icon="ui-icon-disk" update="tabuladorPestañero,tabuladorPestañero:formExpedientes:msg,tabuladorPestañero:formPestañaPostulantes:tblPostulantes,dlgPostulanteNuevo,formPostulantes:cmbCargoPostulante" styleClass="btnVerde" validateClient="true" style="float: right;" />
+                            
                         </h:form>
                     </p:panel>
                 </p:dialog>
