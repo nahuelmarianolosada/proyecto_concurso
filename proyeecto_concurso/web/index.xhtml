@@ -44,7 +44,7 @@
                                             <p:outputPanel>
                                                 <h:panelGrid columns="6" cellpadding="5">
                                                     <f:facet name="header" >
-                                                        <p:commandLink value="Expediente Núm: #{resolucion.expediente.numeroExpediente} - UDO: #{resolucion.expediente.unidadDeOrganizacion.nombreUnidad} - Régimen: #{resolucion.expediente.regimen} - Situación: #{resolucion.expediente.situacion}" styleClass="data" style="font-size: 13px; color: black !important;" actionListener="#{beanConcurso.nuevoMensajeInfo('hola', 'tamos hechos :)')}" update="tabuladorPestañero:formExpedientes:msg"/>
+                                                        <!--<p:commandLink value="Expediente Núm: #{resolucion.expediente.numeroExpediente} - UDO: #{resolucion.expediente.unidadDeOrganizacion.nombreUnidad} - Régimen: #{resolucion.expediente.regimen} - Situación: #{resolucion.expediente.situacion}" styleClass="data" style="font-size: 13px; color: black !important;" actionListener="#{beanConcurso.nuevoMensajeInfo('hola', 'tamos hechos :)')}" update="tabuladorPestañero:formExpedientes:msg"/>-->
                                                         <!--<h:outputText value="Expediente Núm: #{resolucion.expediente.numeroExpediente} - UDO: #{resolucion.expediente.unidadDeOrganizacion.nombreUnidad} - Régimen: #{resolucion.expediente.regimen} - Situación: #{resolucion.expediente.situacion}" styleClass="data" style="font-size: 13px;"/>-->
                                                     </f:facet>
 
@@ -113,7 +113,7 @@
 
                                         <p:column>
                                             <p:outputLabel for="spnNumeroExpediente" value="Número del Exp:" /><br />
-                                            <p:spinner id="spnNumeroExpediente" value="#{beanExpediente.expedienteNuevo.numero}" placeholder="Número" min="0" max="99999" required="true" requiredMessage="Ingrese el Número que figura en el expediente" validatorMessage="Ingrese un numero de expediente válido"  />
+                                            <p:spinner id="spnNumeroExpediente" value="#{beanExpediente.expedienteNuevo.numero}" placeholder="Número" min="0" max="99999" required="true" requiredMessage="Ingrese el Número que figura en el expediente" validatorMessage="Ingrese un numero de expediente válido" maxlength="5" />
                                         </p:column>
 
                                         <p:column>
@@ -240,8 +240,8 @@
                                 <h:form id="formCargos">
 
                                     <h:panelGrid columns="2" >
-                                        <p:commandButton value="Nuevo" icon="ui-icon-plusthick" oncomplete="PF('dlgCargoNuevo').show();" update=":formCargoNuevo" />
-                                        
+                                        <p:commandButton value="Nuevo" icon="ui-icon-plusthick" oncomplete="PF('dlgCargoNuevo').show();" update=":formCargoNuevo,formPostulantes:cmbCargoPostulante" />
+
                                     </h:panelGrid>
 
 
@@ -359,24 +359,24 @@
                                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                                  rowsPerPageTemplate="3,5,10,15" reflow="true" emptyMessage="Sin postulantes registrados">
 
-                                        <p:column headerText="Nombre">
+                                        <p:column headerText="Nombre" sortBy="#{postulante.persona.nombres}">
                                             <h:outputText value="#{postulante.persona.nombres}" />
                                         </p:column>
-                                        <p:column headerText="Apellido">
+                                        <p:column headerText="Apellido" sortBy="#{postulante.persona.apellido}">
                                             <h:outputText value="#{postulante.persona.apellido}" />
                                         </p:column>
-                                        <p:column headerText="DNI">
-                                            <h:outputText value="#{postulante.persona.dni}" />
+                                        <p:column headerText="DNI" sortBy="#{postulante.persona.dni}" >
+                                            <h:outputText value="#{postulante.persona.dni}"/>
                                         </p:column>
-                                        <p:column headerText="Nacimiento">
+                                        <p:column headerText="Nacimiento" sortBy="#{postulante.persona.fechaDeNacimiento}">
                                             <h:outputText value="#{postulante.persona.fechaDeNacimiento}" >
                                                 <f:convertDateTime pattern="dd/MM/yy" />
                                             </h:outputText>
                                         </p:column>
-                                        <p:column headerText="Funcion del Cargo">
+                                        <p:column headerText="Funcion del Cargo" sortBy="#{postulante.cargo.funcion}" >
                                             <h:outputText value="#{postulante.cargo.funcion}" />
                                         </p:column>
-                                        <p:column headerText="Postulante">
+                                        <p:column headerText="Puntaje" sortBy="#{postulante.puntaje}" >
                                             <h:outputText value="#{postulante.puntaje}" />
                                         </p:column>
                                     </p:dataTable>
@@ -388,10 +388,10 @@
 
                             <!--   
                             **********************************
-                            PESTAÑA RESULTADO#{beanPostulante.listaPostulantes.isEmpty()}
+                            PESTAÑA RESULTADO #{!beanPostulante.datosValidos}
                             **********************************
                             -->
-                            <p:tab title="Resultado" id="tabResultado" disabled="#{!beanPostulante.datosValidos}" >
+                            <p:tab title="Resultado" id="tabResultado" disabled="false" >
                                 <h:form id="formResultadoConcurso">
                                     <h:panelGrid columns="2" cellpadding="3" frame="box" styleClass="panelAlta" columnClasses="label, value" >
                                         <f:facet name="header">
@@ -490,8 +490,10 @@
                                             <f:setPropertyActionListener value="#{postulante}" target="#{beanConcurso.postulanteFinalSeleccionado}" />
                                             <h:outputText value="DNI: #{postulante.persona.dni} #{postulante.persona.apellido}, #{postulante.persona.nombres}" />
                                         </p:commandLink>
-                                        <h:outputText value="DNI: #{postulante.persona.dni} - #{postulante.persona.apellido}, #{postulante.persona.nombres} " style="display:inline-block" styleClass="data" />
-<!--                                        <h:outputText value="#{postulante.cargo.idCargo}" style="display:inline-block" />-->
+                                        <h:outputText value="Ver: #{postulante.puntaje} - #{postulante.persona.apellido}, #{postulante.persona.nombres}" style="display: inline-block;" styleClass="data" />
+                                        
+                                            
+                                        
                                     </p:dataList>
 
                                     <p:commandButton id="btnGuardarConcursoFinal" value="Confirmar Guardado" actionListener="#{beanConcurso.guardarExpedienteFinal()}" icon="ui-icon-disk" update="tabuladorPestañero:formExpedientes:msg, :formMostrar" styleClass="btnVerde" disabled="#{beanPostulante.listaPostulantes.isEmpty()}" />
@@ -779,19 +781,19 @@
 
                             <p:inputText value="#{beanCargo.cargoNuevo.especialidad}" placeholder="Especialidad" maxlength="30" />
                             <p:inputText value="#{beanCargo.cargoNuevo.categoria}" placeholder="Categoria" maxlength="30" />
-                            <p:spinner value="#{beanCargo.cargoNuevo.adicional}" placeholder="Cantidad de Horas" min="0" />
-                            <p:spinner value="#{beanCargo.cargoNuevo.cantidad}" placeholder="Cantidad de cargos" min="1"/>
+                            <p:spinner value="#{beanCargo.cargoNuevo.adicional}" placeholder="Cantidad de Horas" min="0" max="24" maxlength="2" />
+                            <p:spinner value="#{beanCargo.cargoNuevo.cantidad}" placeholder="Cantidad de cargos" min="1" max="50" maxlength="2"/>
 
                         </h:panelGrid>
 
                         <h:panelGrid columns="2" cellpadding="2">
-                            <p:outputLabel for="cmbProfesion" value="Profesión: " />
+                            <h:outputLabel for="cmbProfesion" value="Profesión: " />
                             <p:selectOneMenu id="cmbProfesion" style="width:100%;" value="#{beanCargo.cargoNuevo.profesion.idProfesion}" filter="true" required="true" requiredMessage="Seleccione una profesion para el cargo">
                                 <f:selectItem itemLabel="No se especifica" itemValue="" noSelectionOption="true" />
                                 <f:selectItems var="profesion" value="#{beanCargo.listaProfesiones}" itemLabel="#{profesion.nombreProfesion}" itemValue="#{profesion.idProfesion}" />
                             </p:selectOneMenu>
 
-                            <p:outputLabel for="cmbFuncion" value="Función: " />
+                            <h:outputLabel for="cmbFuncion" value="Función: " />
                             <p:selectOneMenu id="cmbFuncion" style="width:100%;" value="#{beanCargo.cargoNuevo.funcion}">
                                 <f:selectItem itemLabel="No se especifica" itemValue="NO SE ESPECIFICA"  />
                                 <f:selectItem itemLabel="Profesional en General" itemValue="PROFESIONAL EN GENERAL" />
@@ -800,7 +802,7 @@
                                 <f:selectItem itemLabel="Jefe de Servicio" itemValue="JEFE DE SERVICIO" />
                                 <f:selectItem itemLabel="Jefe de Departamento" itemValue="JEFE DE DEPARTAMENTO" />
                             </p:selectOneMenu>
-                            <p:outputLabel for="cmbAreaDesempenio" value="Área de Desempeño: " />
+                            <h:outputLabel for="cmbAreaDesempenio" value="Área de Desempeño: " />
                             <p:selectOneMenu id="cmbAreaDesempenio" style="width:100%;" value="#{beanCargo.cargoNuevo.areaDeDesempenio}">
                                 <f:selectItem itemLabel="Seleccionar un área" itemValue="" noSelectionOption="true" itemDisabled="true" />
                                 <f:selectItem itemLabel="Unidad de Guardia" itemValue="UNIDAD DE GUARDIA" />
@@ -1093,7 +1095,7 @@
                                 <p:spinner value="#{beanPostulante.nuevoPostulante.fojas}" min="0" max="100" placeholder="Fojas" />
                             </h:panelGrid>
 
-                            <p:commandButton id="btnGuardarNuevoPostulante" value="Guardar" actionListener="#{beanPostulante.guardarNuevoPostulante}" icon="ui-icon-disk" update="tabuladorPestañero,tabuladorPestañero:formExpedientes:msg,tabuladorPestañero:formPestañaPostulantes:tblPostulantes,dlgPostulanteNuevo" styleClass="btnVerde" validateClient="true" />
+                            <p:commandButton id="btnGuardarNuevoPostulante" value="Guardar" actionListener="#{beanPostulante.guardarNuevoPostulante}" icon="ui-icon-disk" update="tabuladorPestañero,tabuladorPestañero:formExpedientes:msg,tabuladorPestañero:formPestañaPostulantes:tblPostulantes,dlgPostulanteNuevo,formPostulantes:cmbCargoPostulante" styleClass="btnVerde" validateClient="true" />
                         </h:form>
                     </p:panel>
                 </p:dialog>

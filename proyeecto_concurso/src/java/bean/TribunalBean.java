@@ -20,7 +20,6 @@ import javax.faces.bean.ViewScoped;
 import bd.ConexionRefeps;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
-import org.primefaces.event.UnselectEvent;
 import hibernate.dao.TribunalDao;
 import hibernate.dao.impl.TribunalDaoImpl;
 import hibernate.dao.PersonaDao;

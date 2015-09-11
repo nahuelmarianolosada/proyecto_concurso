@@ -90,7 +90,7 @@ public class ConcursoBean implements Serializable {
 
         inicializar();
 
-        //recargarDeDatosFinales();
+        recargarDeDatosFinales();
     }
 
     public Expediente getExpedienteSeleccionado() {
@@ -182,6 +182,10 @@ public class ConcursoBean implements Serializable {
     }
 
     public List<Postulante> getListaFinalPostulantes() {
+        System.out.println("Obteniendo postulantes finales");
+        for (Postulante postulante : listaFinalPostulantes) {
+            System.out.println("Postulante " + postulante.toString());
+        }
         return listaFinalPostulantes;
     }
 
@@ -344,7 +348,7 @@ public class ConcursoBean implements Serializable {
 
     public void recargarDeDatosFinales() {
         ExpedienteDao expDao = new ExpedienteDaoImpl();
-        expedienteFinalCargado = expDao.getExpediente("700-00015/1965");
+        expedienteFinalCargado = expDao.getExpediente("714-00024/1977");
 
         ResolucionDao resDao = new ResolucionDaoImpl();
         setListaFinalResoluciones(resDao.getResoluciones(expedienteFinalCargado));
