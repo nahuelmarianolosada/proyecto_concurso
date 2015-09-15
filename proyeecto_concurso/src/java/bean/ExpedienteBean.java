@@ -36,8 +36,7 @@ public class ExpedienteBean extends ConcursoBean implements Serializable {
     private List<Expediente> listaExpedientes;
    
 
-//    @ManagedProperty("#{beanResolucion}")
-//    private ResolucionBean beanResolucion;
+    
 
     //GETTERS & SETTERS
     
@@ -74,13 +73,7 @@ public class ExpedienteBean extends ConcursoBean implements Serializable {
         this.listaExpedientes = listaExpedientes;
     }
 
-//    public ResolucionBean getBeanResolucion() {
-//        return beanResolucion;
-//    }
-//
-//    public void setBeanResolucion(ResolucionBean beanResolucion) {
-//        this.beanResolucion = beanResolucion;
-//    }
+
 
     public List<Expediente> getAllExpedientes() {
         ExpedienteDao expedienteDao = new ExpedienteDaoImpl();
@@ -164,6 +157,7 @@ public class ExpedienteBean extends ConcursoBean implements Serializable {
                 datosValidos = true;
                 pasarVistaDePestania();
                 nuevoMensajeInfo("Registro de Concursos de Salud - EXPEDIENTE", "Número: " + expedienteNuevo.getNumeroExpediente() + "\nRégimen: " + expedienteNuevo.getRegimen() + "\nSituación: " + expedienteNuevo.getSituacion());
+                
                 expedienteNuevo = new Expediente(expedienteDao.generarNuevoIdExpediente(), new UnidadDeOrganizacion());
             } else {
                 nuevoMensajeAlerta("Registro de Concursos de Salud", "Número de Expediente " + expedienteNuevo.getNumeroExpediente() + " repetido");

@@ -59,9 +59,8 @@ public class TribunalBean extends ConcursoBean implements Serializable {
      */
     public TribunalBean() {
 
-        TribunalJuradoDao tribJuraDao = new TribunalJuradoDaoImpl();
-        TribunalDao tribunalDao = new TribunalDaoImpl();
-        PersonaDao personaDao = new PersonaDaoImpl();
+        TribunalJuradoDao tribunalJuradoDao = new TribunalJuradoDaoImpl();
+        
         //listaJurados = tribJuraDao.getAll();
         listaPersonas = new ArrayList<Persona>();
         personaBuscada = new Persona();
@@ -72,7 +71,7 @@ public class TribunalBean extends ConcursoBean implements Serializable {
         //idPersonaGenerado = personaDao.generarIdNuevoPersona();
         //juradoSeleccionado = new Persona(idPersonaGenerado);
         tribunalNuevo = new Tribunal();
-        juradoNuevo = new TribunalJurado(new Institucion(), new Persona(), new Establecimiento(), tribunalNuevo, "", true, "");
+        juradoNuevo = new TribunalJurado(tribunalJuradoDao.generarNuevoIdJurado(),new Institucion(), new Persona(), new Establecimiento(), tribunalNuevo, "", true, "");
         banderaBtn = false;
         listaJuradoNuevos = new ArrayList<TribunalJurado>();
 
@@ -361,11 +360,11 @@ public class TribunalBean extends ConcursoBean implements Serializable {
 
             for (TribunalJurado jurado : listaJuradoNuevos) {
                 jurado.setTribunal(tribunalNuevo);
-                if (getListaFinalJurados().isEmpty()) {
-                    jurado.setIdTribunalJurado(postulanteDao.generarIdNuevoPostulante());
-                } else {
-                    jurado.setIdTribunalJurado(getListaFinalJurados().get(getListaFinalJurados().size() - 1).getIdTribunalJurado() + 1);
-                }
+//                if (getListaFinalJurados().isEmpty()) {
+//                    jurado.setIdTribunalJurado(postulanteDao.generarIdNuevoPostulante());
+//                } else {
+//                    jurado.setIdTribunalJurado(getListaFinalJurados().get(getListaFinalJurados().size() - 1).getIdTribunalJurado() + 1);
+//                }
                 getListaFinalJurados().add(jurado);
             }
 

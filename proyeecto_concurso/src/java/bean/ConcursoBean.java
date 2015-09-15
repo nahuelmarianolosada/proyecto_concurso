@@ -30,7 +30,6 @@ import hibernate.dao.PostulanteDao;
 import hibernate.dao.ResolucionDao;
 import hibernate.dao.TribunalDao;
 import hibernate.dao.TribunalJuradoDao;
-import hibernate.dao.UnidadDeOrganizacionDao;
 import hibernate.dao.impl.ExpedienteDaoImpl;
 import hibernate.dao.impl.PostulanteDaoImpl;
 import hibernate.dao.impl.ResolucionDaoImpl;
@@ -73,6 +72,10 @@ public class ConcursoBean implements Serializable {
 
     private Expediente expedienteSeleccionado;
 
+    private List<Resolucion> resolucionesPorExpedienteSeleccionado;
+    
+    private List<Cargo> cargosPorResolucion;
+    
     /**
      * Creates a new instance of ConcursoBean
      */
@@ -87,11 +90,22 @@ public class ConcursoBean implements Serializable {
         listaFinalJurados = new ArrayList<>();
 
         expedienteSeleccionado = new Expediente();
+        resolucionesPorExpedienteSeleccionado = new ArrayList<>();
+        cargosPorResolucion = new ArrayList<>();
 
         inicializar();
 
         //recargarDeDatosFinales();
     }
+
+    public List<Cargo> getCargosPorResolucion() {
+        return cargosPorResolucion;
+    }
+
+    public void setCargosPorResolucion(List<Cargo> cargosPorResolucion) {
+        this.cargosPorResolucion = cargosPorResolucion;
+    }
+    
 
     public Expediente getExpedienteSeleccionado() {
         return expedienteSeleccionado;
@@ -204,6 +218,16 @@ public class ConcursoBean implements Serializable {
     public void setPostulanteFinalSeleccionado(Postulante postulanteSeleccionado) {
         this.postulanteFinalSeleccionado = postulanteSeleccionado;
     }
+
+    public List<Resolucion> getResolucionesPorExpedienteSeleccionado() {
+        return resolucionesPorExpedienteSeleccionado;
+    }
+
+    public void setResolucionesPorExpedienteSeleccionado(List<Resolucion> resolucionesPorExpedienteSeleccionado) {
+        this.resolucionesPorExpedienteSeleccionado = resolucionesPorExpedienteSeleccionado;
+    }
+    
+    
 
     /**
      *
@@ -338,8 +362,19 @@ public class ConcursoBean implements Serializable {
         context.update("formMostrar:menuAccordion");
     }
 
-    public void buscarExpediente() {
-
+    public void buscarExpediente(Expediente expediente) {
+        ResolucionDao resolucionDao = new ResolucionDaoImpl();
+        CargoDao cargoDao = new CargoDaoImpl();
+        expedienteSeleccionado = expediente;
+        resolucionesPorExpedienteSeleccionado = resolucionDao.getResoluciones(expedienteSeleccionado);
+        for (Resolucion resolucion : resolucionesPorExpedienteSeleccionado) {
+            for (Cargo cargo : cargoDao.getCargos(resolucion)) {
+                if(!cargosPorResolucion.contains(cargo)){
+                    cargosPorResolucion.add(cargo);
+                }
+            }
+            
+        }
     }
 
     public void recargarDeDatosFinales() {

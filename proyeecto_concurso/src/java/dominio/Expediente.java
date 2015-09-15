@@ -139,7 +139,15 @@ public class Expediente  implements java.io.Serializable {
 
     @Override
     public String toString() {
+        try{
         return "Expediente " + idExpediente + " {unidadDeOrganizacion=(" + unidadDeOrganizacion.getCodigoUnidadDeOrganizacion() + ") " + unidadDeOrganizacion.getNombreUnidad() + ", numero=" + numero + ", situacion=" + situacion + ", regimen=" + regimen + ", anio=" + anio + ", numeroExpediente=" + numeroExpediente + '}';
+        }
+        catch(NullPointerException exNull){
+            return "Error!" + exNull.toString();
+        }
+        catch(org.hibernate.LazyInitializationException exRara){
+            return "Error!";
+        }
     }
     
 

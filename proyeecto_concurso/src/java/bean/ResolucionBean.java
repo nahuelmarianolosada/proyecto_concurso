@@ -16,6 +16,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import org.hibernate.HibernateException;
 import org.primefaces.context.RequestContext;
@@ -40,7 +41,18 @@ public class ResolucionBean extends ConcursoBean implements Serializable {
     private boolean datosValidos;//Bandera que se referencia a la vista para habilitar la pestaña siguiente
     private int anioNumeroResolucion;
 
+    @ManagedProperty("#{beanExpediente}")
+    private ExpedienteBean beanExpediente;
+
     //GETTERS & SETTERS
+    public ExpedienteBean getBeanExpediente() {
+        return beanExpediente;
+    }
+
+    public void setBeanExpediente(ExpedienteBean beanExpediente) {
+        this.beanExpediente = beanExpediente;
+    }
+
     public boolean isBanderaModificacionParcial() {
         return banderaModificacionParcial;
     }
@@ -168,7 +180,6 @@ public class ResolucionBean extends ConcursoBean implements Serializable {
                 resolucionNueva.setExpediente(getExpedienteFinalCargado());
                 listaResoluciones.add(resolucionNueva);
 
-                // pasarVistaDePestania();
                 System.out.println("ResolucionBean.guardarResolucion() => " + resolucionNueva.toString());
 
                 nuevoMensajeInfo("Registro de Concursos de Salud - RESOLUCIÓN", "NºResolucion: " + resolucionNueva.getNumeroResolucion()
@@ -190,7 +201,9 @@ public class ResolucionBean extends ConcursoBean implements Serializable {
         //ResolucionDao resolucionDao = new ResolucionDaoImpl();
         try {
             setListaFinalResoluciones(listaResoluciones);
-
+            nuevoMensajeInfo("Registro Provincial de Concursos de Salud", "Se a guardado la lista de resoluciones");
+            pasarVistaDePestania();
+            datosValidos = true;
 //            for (Resolucion resolucion : listaResoluciones) {
 //                Resolucion nuevaResolucion = new Resolucion(resolucion.getIdResolucion(), resolucion.getExpediente(), resolucion.getTribunal(), resolucion.getEstado(), resolucion.getModificacion(), resolucion.getProrroga(), resolucion.getAntecedente(), resolucion.getOposicion(), resolucion.getClase(), resolucion.getAgrupamiento(), resolucion.getFechaApertura(), resolucion.getFechaCierre(), resolucion.getFechaEjecucion(), resolucion.getFechaPublicacion(), resolucion.getDocumento(), resolucion.getNumeroResolucion(), resolucion.getModificaResolucion(), resolucion.getProrrogaResolucion());
 //                getListaFinalResoluciones().add(nuevaResolucion);
@@ -201,22 +214,19 @@ public class ResolucionBean extends ConcursoBean implements Serializable {
         } catch (Exception exGeneral) {
             exGeneral.printStackTrace();
         }
-        nuevoMensajeInfo("Registro Provincial de Concursos de Salud", "Se a guardado la lista de resoluciones");
-        pasarVistaDePestania();
-        datosValidos = true;
+
     }
 
-    public void quitarResolucion(Resolucion resolucionBorrar){
+    public void quitarResolucion(Resolucion resolucionBorrar) {
         for (Resolucion resolucion : listaResoluciones) {
-            if(resolucion.getIdResolucion() == resolucionBorrar.getIdResolucion()){
+            if (resolucion.getIdResolucion() == resolucionBorrar.getIdResolucion()) {
                 listaResoluciones.remove(resolucion);
                 break;
             }
         }
-        if(listaResoluciones.isEmpty()){
+        if (listaResoluciones.isEmpty()) {
             datosValidos = false;
         }
     }
-    
-    
+
 }
