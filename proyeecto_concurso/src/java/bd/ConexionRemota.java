@@ -208,4 +208,35 @@ public class ConexionRemota {
         }
 
     }
+    
+    public static void consultaVistaExportacion()throws SQLException{
+    
+        String driver = "org.postgresql.Driver";
+        String connectString = "jdbc:postgresql://localhost:5432/concursosDB";
+        String user = "nmlosada";
+        String password = "siisa1234";
+
+        try {
+            Class.forName(driver);
+            Connection con = DriverManager.getConnection(connectString, user, password);
+            Statement stmt = con.createStatement();
+
+            //UTILIZANDO UNA CONSULTA NORMAL
+            String consultaSQL = "SELECT * FROM \"vw_archivoExportacion\";";
+            ResultSet rs = stmt.executeQuery(consultaSQL);
+
+            int contadorDeRegistros = 1;
+
+            while (rs.next()) {
+                System.out.println(contadorDeRegistros + " -Número de expediente: " + rs.getString("numero_expediente") + " - Número de resolución: " + rs.getString("numero_resolucion") + " -Modificación: " + rs.getString("modifica_resolucion"));
+                contadorDeRegistros += 1;
+            }
+            stmt.close();
+            con.close();
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+    }
 }
