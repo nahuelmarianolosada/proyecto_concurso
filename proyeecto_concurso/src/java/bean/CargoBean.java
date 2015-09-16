@@ -23,6 +23,7 @@ import hibernate.dao.impl.EstablecimientoDaoImpl;
 import hibernate.dao.impl.ProfesionDaoImpl;
 import java.util.ArrayList;
 
+
 /**
  *
  * @author SIISAJUJUY
@@ -42,6 +43,9 @@ public class CargoBean extends ConcursoBean implements Serializable {
     private boolean datosValidos;//Bandera que se referencia a la vista para habilitar la pestaña siguiente
     private List<Profesion> listaProfesiones;
     private boolean finalizoCarga;
+  
+
+  
 
     /**
      * Creates a new instance of CargoBean
@@ -59,8 +63,9 @@ public class CargoBean extends ConcursoBean implements Serializable {
 
         cargoSeleccionado = new Cargo();
         datosValidos = false;
-
         listaCargos = new ArrayList<Cargo>();
+        
+       
 
     }
 
@@ -168,7 +173,7 @@ public class CargoBean extends ConcursoBean implements Serializable {
                 ProfesionDao profDao = new ProfesionDaoImpl();
                 Profesion profEncontrada = profDao.getProfesion(cargoNuevo.getProfesion().getIdProfesion());
                 cargoNuevo.setProfesion(profEncontrada);
-                
+
                 System.out.println("CargoBean.guardarNuevoCargo() => Cantidad de Cargos: " + cargoNuevo.getCantidad());
 
                 //ResolucionDao resDao = new ResolucionDaoImpl();
@@ -255,5 +260,7 @@ public class CargoBean extends ConcursoBean implements Serializable {
             exGeneral.printStackTrace();
         }
     }
+
+   
 
 }
