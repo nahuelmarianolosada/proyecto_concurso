@@ -341,6 +341,10 @@ public class ConcursoBean implements Serializable {
 
         ResolucionDao resolucionDao = new ResolucionDaoImpl();
         listaTab_resoluciones = resolucionDao.getAll();
+        
+        expedienteFinalCargado = new Expediente();
+        listaFinalResoluciones = new ArrayList<>();
+        
 
 //        expedienteFinalCargado = expDao.getExpediente("711-00001/1951");
 //
@@ -424,15 +428,6 @@ public class ConcursoBean implements Serializable {
             CargoDao cargoDao = new CargoDaoImpl();
             for (Cargo cargo : listaFinalCargos) {
                 System.out.println("ConcursoBean.guardarExpedienteFinal() => GUARDANDO " + cargo.toString());
-//                for (int i = 0; i < getListaFinalPostulantes().size(); i++) {
-//                    //Verificamos si es que el cargo se adjudico a algun postulante
-//                    if (getListaFinalPostulantes().get(i).getCargo() != null) {
-//                        if (getListaFinalPostulantes().get(i).getCargo().getIdCargo() == cargo.getIdCargo()) {
-//                            cargo.setEsDesierto(false);
-//                        }
-//                    }
-//                    
-//                }
                 cargoDao.insertar(cargo);
             }
             System.out.println("----------------------Se a guardado la lista de Cargos");
@@ -451,7 +446,8 @@ public class ConcursoBean implements Serializable {
             System.out.println("----------------------Se a guardado la lista de Postulantes");
             nuevoMensajeInfo("Registro Provincial de Concursos de Salud", "Expediente Correctamente Guardado");
             inicializar();
-
+            setNumeroDePestania(0);
+            context.update("tabuladorPestañero");
             context.update("form:panel");
 
         } catch (Exception exGeneral) {
