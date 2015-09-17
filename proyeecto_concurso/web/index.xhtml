@@ -78,13 +78,13 @@
                                         </h:panelGrid>
                                     </p:dataScroller>
                                 </p:tab>
-                                
-                              <!--   
-                            **********************************
-                            PESTAÑA EXPEDIENTES
-                            **********************************
-                            -->
-                                
+
+                                <!--   
+                              **********************************
+                              PESTAÑA EXPEDIENTES
+                              **********************************
+                                -->
+
                                 <p:tab title="Registros Completo De Concursos" id="pestañaExportarRegistroCOncursos" > 
                                     <h:form id="formExportarRegistros">
                                         <h:panelGrid columns="1" cellpadding="3" frame="box" style="margin-left: 0px; width: 100%;height: 100%;">
@@ -106,8 +106,8 @@
                                                 <p:calendar id="calRegistroDesde"  pattern="dd-MM-yyyy" mask="true" >
                                                     <p:ajax   update="calRegistroHasta" />
                                                 </p:calendar>
-                                                    <br></br>
-                                                     <br></br>
+                                                <br></br>
+                                                <br></br>
                                                 <h:outputLabel value="Fecha de apertura hasta: " style="width: 80px;"/>
                                                 <p:calendar id="calRegistroHasta"  pattern="dd-MM-yyyy" mask="true" >
                                                     <p:ajax  update="calRegistroDesde" />
@@ -276,7 +276,7 @@
 
                             <p:tab title="Cargos" id="tabCargos" disabled="#{!beanResolucion.datosValidos}" >
 
-                                <h:form id="formCargos" style="height: 200px;">
+                                <h:form id="formCargos" style="height: 250px;">
 
                                     <h:panelGrid columns="2" >
                                         <p:commandButton value="Nuevo" icon="ui-icon-plusthick" oncomplete="PF('dlgCargoNuevo').show();" update=":formCargoNuevo,formPostulantes:cmbCargoPostulante" />
@@ -320,7 +320,9 @@
                                         <p:column headerText="Cantidad" sortBy="#{cargos.cantidad}">
                                             <h:outputText value="#{cargos.cantidad}" />
                                         </p:column>
-
+                                        <p:column style="width:32px;text-align: center" toggleable="false">
+                                            <p:commandButton update="tabuladorPestañero:formCargos:tblCargos,tabuladorPestañero:formCargos:btnGuardarCargos" icon="ui-icon-trash" actionListener="#{beanCargo.quitarCargo(cargos)}" />
+                                        </p:column>
                                     </p:dataTable>
                                     <p:commandButton id="btnGuardarCargos" value="Siguiente" actionListener="#{beanCargo.guardarCargos()}" icon="ui-icon-disk" update="tabuladorPestañero,tabuladorPestañero:formExpedientes:msg" styleClass="btnVerde" disabled="#{beanCargo.listaCargos.isEmpty()}" style="float: right;" />
                                 </h:form>
@@ -384,6 +386,9 @@
                                         <p:column headerText="Nombre establecimiento" sortBy="#{jurado.establecimiento.nombre}">
                                             <h:outputText value="#{jurado.establecimiento.nombre}" />
                                         </p:column>
+                                        <p:column style="width:32px;text-align: center" toggleable="false">
+                                            <p:commandButton update="tabuladorPestañero:formTribunal:tblTribunal,tabuladorPestañero:formTribunal:btnGuardarNuevoTribunal" icon="ui-icon-trash" actionListener="#{beanTribunal.quitarJurado(jurado)}" />
+                                        </p:column>
                                     </p:dataTable>
                                     <p:commandButton id="btnGuardarNuevoTribunal" value="Guardar" actionListener="#{beanTribunal.guardarTribunalNuevo()}" icon="ui-icon-disk" update="tabuladorPestañero,tabuladorPestañero:formExpedientes:msg,tabuladorPestañero:formTribunal:tblTribunal" disabled="#{beanTribunal.listaJuradoNuevos.isEmpty()}" styleClass="btnVerde" style="float: right;" />
                                 </h:form>
@@ -431,6 +436,9 @@
                                         </p:column>
                                         <p:column headerText="Puntaje" sortBy="#{postulante.puntaje}" >
                                             <h:outputText value="#{postulante.puntaje}" />
+                                        </p:column>
+                                        <p:column style="width:32px;text-align: center" toggleable="false">
+                                            <p:commandButton update="tabuladorPestañero:formPestañaPostulantes:tblPostulantes,tabuladorPestañero:formPestañaPostulantes:btnGuardarPostulantes" icon="ui-icon-trash" actionListener="#{beanPostulante.quitarPostulante(postulante)}" />
                                         </p:column>
                                     </p:dataTable>
 
@@ -554,6 +562,10 @@
                 </p:layout>
 
 
+
+
+
+
                 <!--   
                 **********************************
                  DIALOGO DETALLES EXPEDIENTE 
@@ -655,18 +667,32 @@
                         </p:dataScroller>                                                                                                        
 
                         <p:separator style="margin: 10px 0 10px 0;" />
-<!--                        <h:outputText value="Lista Final de Postulantes Adjudicados a Cargos" styleClass="dtscTitulo" style="padding-right: 59%;" />
-                        <p:dataList value="#{beanConcurso.listaFinalPostulantes}" var="postulante" type="unordered" itemType="none" paginator="true" rows="5" styleClass="paginated">
-                            <p:commandLink update="dlgDetallePostulante" oncomplete="PF('dlgDetallePostulante').show()" title="Ver Detalles del Postulante" styleClass="ui-icon ui-icon-search" style="float:left;margin-right:10px">
-                                <f:setPropertyActionListener value="#{postulante}" target="#{beanConcurso.postulanteFinalSeleccionado}" />
-                                <h:outputText value="DNI: #{postulante.persona.dni} #{postulante.persona.apellido}, #{postulante.persona.nombres}" />
-                            </p:commandLink>
-                            <h:outputText value="DNI: #{postulante.persona.dni} - #{postulante.persona.apellido}, #{postulante.persona.nombres} "  styleClass="data" />
+                        <!--                        <h:outputText value="Lista Final de Postulantes Adjudicados a Cargos" styleClass="dtscTitulo" style="padding-right: 59%;" />
+                                                <p:dataList value="#{beanConcurso.listaFinalPostulantes}" var="postulante" type="unordered" itemType="none" paginator="true" rows="5" styleClass="paginated">
+                                                    <p:commandLink update="dlgDetallePostulante" oncomplete="PF('dlgDetallePostulante').show()" title="Ver Detalles del Postulante" styleClass="ui-icon ui-icon-search" style="float:left;margin-right:10px">
+                                                        <f:setPropertyActionListener value="#{postulante}" target="#{beanConcurso.postulanteFinalSeleccionado}" />
+                                                        <h:outputText value="DNI: #{postulante.persona.dni} #{postulante.persona.apellido}, #{postulante.persona.nombres}" />
+                                                    </p:commandLink>
+                                                    <h:outputText value="DNI: #{postulante.persona.dni} - #{postulante.persona.apellido}, #{postulante.persona.nombres} "  styleClass="data" />
+                        
+                                                </p:dataList>-->
 
-                        </p:dataList>-->
-
+                        <p:commandButton value="Eliminar"  icon="ui-icon-trash" styleClass="btnVerde" actionListener="#{beanConcurso.eliminarExpediente()}"  >
+                            <p:confirm header="Registro Provincial de Concursos de Salud" message="Confirma eliminar este expediente?" icon="ui-icon-alert" />
+                        </p:commandButton>
                         <p:commandButton value="Cancelar"  icon="ui-icon-closethick" styleClass="btnVerde" onclick="PF('dlgExpediente').hide();" />
 
+
+                        <!--   
+                **********************************
+                 DIALOGO DE CONFIRMACION DE ELIMINAR EXPEDIENTE
+                **********************************
+                        -->
+
+                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" message="¿Confirma eliminar Expediente?"> 
+                            <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                        </p:confirmDialog>
 
 
                     </h:form>

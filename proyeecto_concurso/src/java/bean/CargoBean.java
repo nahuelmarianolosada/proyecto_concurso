@@ -142,6 +142,20 @@ public class CargoBean extends ConcursoBean implements Serializable {
         return resolucionEntidad;
 
     }
+    
+    
+    public void quitarCargo(Cargo cargo){
+        System.out.println("CargoBean.quitarCargo() => " + cargo.toString());
+         for (Cargo c : listaCargos) {
+            if (c.getIdCargo() == cargo.getIdCargo()) {
+                listaCargos.remove(cargo);
+                break;
+            }
+        }
+        if (listaCargos.isEmpty()) {
+            datosValidos = false;
+        }
+    }
 
     public void onEstablecimientoSeleccionado() {
         EstablecimientoDao establecimientoDao = new EstablecimientoDaoImpl();

@@ -20,8 +20,6 @@ import javax.faces.bean.ViewScoped;
 import bd.ConexionRefeps;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
-import hibernate.dao.TribunalDao;
-import hibernate.dao.impl.TribunalDaoImpl;
 import hibernate.dao.PersonaDao;
 import hibernate.dao.impl.PersonaDaoImpl;
 import javax.faces.bean.ManagedProperty;
@@ -184,6 +182,21 @@ public class TribunalBean extends ConcursoBean implements Serializable {
     }
 
     //METODOS
+    
+    
+    public void quitarJurado(TribunalJurado jurado){
+        System.out.println("TribunalBean.quitarJurado() => " + jurado.toString());
+         for (TribunalJurado j : listaJuradoNuevos) {
+            if (j.getIdTribunalJurado() == jurado.getIdTribunalJurado()) {
+                listaJuradoNuevos.remove(jurado);
+                break;
+            }
+        }
+        if (listaJuradoNuevos.isEmpty()) {
+            datosValidos = false;
+        }
+    }
+    
     public void onResolucionSelect() {
 
         listaJuradoNuevos = new ArrayList<>();

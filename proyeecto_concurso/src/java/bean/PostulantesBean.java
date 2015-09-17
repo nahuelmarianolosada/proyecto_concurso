@@ -150,6 +150,21 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
     /*
      METODOS
      */
+    
+    
+    public void quitarPostulante(Postulante postulante){
+        System.out.println("PostulantesBean.quitarPostulante() => " + postulante.toString());
+         for (Postulante p : listaPostulantes) {
+            if (p.getIdPostulante() == postulante.getIdPostulante()) {
+                listaPostulantes.remove(postulante);
+                break;
+            }
+        }
+        if (listaPostulantes.isEmpty()) {
+            datosValidos = false;
+        }
+    }
+    
     public void buscarPorCriterio() throws SQLException {
         PersonaDao personaDao = new PersonaDaoImpl();
         Persona personaEncontrada = new Persona();
