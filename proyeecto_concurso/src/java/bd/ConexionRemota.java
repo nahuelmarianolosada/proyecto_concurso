@@ -209,7 +209,7 @@ public class ConexionRemota {
 
     }
     
-    public static void consultaVistaExportacion()throws SQLException{
+    public ResultSet consultaVistaExportacion()throws SQLException{
     
         String driver = "org.postgresql.Driver";
         String connectString = "jdbc:postgresql://localhost:5432/concursosDB";
@@ -233,10 +233,12 @@ public class ConexionRemota {
             }
             stmt.close();
             con.close();
-
+            return rs;
         } catch (Exception e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
         }
+        return null;
     }
+   
 }

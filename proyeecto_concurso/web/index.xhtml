@@ -116,8 +116,8 @@
 
                                         </h:panelGrid>
                                         <br></br>
-                                        <p:commandButton id="btnExportar" value="Exportar" styleClass="btnVerde" style="margin: 10px 0px 0px;" icon="ui-icon-arrowthickstop-1-n" actionListener="#{beanExportacion.exportarCargos()}" ajax="false">
-                                            <p:fileDownload value="#{beanExportacion.file}" />
+                                        <p:commandButton id="btnExportar" value="Exportar" styleClass="btnVerde" style="margin: 10px 0px 0px;" icon="ui-icon-arrowthickstop-1-n" oncomplete="#{beanExportacion.creacionCsv()}" actionListener="#{beanExportacion.creacionCsv()}" >
+                                         
                                         </p:commandButton>
 
                                     </h:form>
