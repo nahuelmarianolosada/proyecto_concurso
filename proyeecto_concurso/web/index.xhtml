@@ -34,6 +34,13 @@
                                         </h:panelGrid>
                                     </p:dataScroller>
                                 </p:tab>
+                                
+                                 <!--   
+                              **********************************
+                              PESTAÑA TODAS RESOLUCIONES
+                              **********************************
+                                -->
+                                
                                 <p:tab title="Resoluciones" id="pestaniaResoluciones" >
                                     <p:dataScroller value="#{beanConcurso.getListaTab_resoluciones()}" var="resolucion" chunkSize="3" mode="inline" scrollHeight="200" id="listaResoluciones" >
                                         <f:facet name="header">
@@ -81,7 +88,7 @@
 
                                 <!--   
                               **********************************
-                              PESTAÑA EXPEDIENTES
+                              PESTAÑA EXPORTAR
                               **********************************
                                 -->
 
@@ -677,7 +684,7 @@
                         
                                                 </p:dataList>-->
 
-                        <p:commandButton value="Eliminar"  icon="ui-icon-trash" styleClass="btnVerde" actionListener="#{beanConcurso.eliminarExpediente()}"  >
+                        <p:commandButton value="Eliminar"  icon="ui-icon-trash" styleClass="btnVerde" actionListener="#{beanConcurso.eliminarExpediente()}" onsuccess="PF('dlgExpediente').hide()" update="tabuladorPestañero:formExpedientes:msg, :formMostrar"  >
                             <p:confirm header="Registro Provincial de Concursos de Salud" message="Confirma eliminar este expediente?" icon="ui-icon-alert" />
                         </p:commandButton>
                         <p:commandButton value="Cancelar"  icon="ui-icon-closethick" styleClass="btnVerde" onclick="PF('dlgExpediente').hide();" />

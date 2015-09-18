@@ -73,9 +73,9 @@ public class ConcursoBean implements Serializable {
     private Expediente expedienteSeleccionado;
 
     private List<Resolucion> resolucionesPorExpedienteSeleccionado;
-    
+
     private List<Cargo> cargosPorResolucion;
-    
+
     /**
      * Creates a new instance of ConcursoBean
      */
@@ -105,7 +105,6 @@ public class ConcursoBean implements Serializable {
     public void setCargosPorResolucion(List<Cargo> cargosPorResolucion) {
         this.cargosPorResolucion = cargosPorResolucion;
     }
-    
 
     public Expediente getExpedienteSeleccionado() {
         return expedienteSeleccionado;
@@ -226,8 +225,6 @@ public class ConcursoBean implements Serializable {
     public void setResolucionesPorExpedienteSeleccionado(List<Resolucion> resolucionesPorExpedienteSeleccionado) {
         this.resolucionesPorExpedienteSeleccionado = resolucionesPorExpedienteSeleccionado;
     }
-    
-    
 
     /**
      *
@@ -242,14 +239,67 @@ public class ConcursoBean implements Serializable {
         System.out.println("ConcursoBean.pasarVistaDePagina(): La pestaña ahora es " + numeroDePestania);
     }
 
-    
-    
-    public void eliminarExpediente(){
+    public void eliminarExpediente() {
         System.out.println("Aqui se implementa el delete en cascada :P");
+
+        ExpedienteDao expedienteDao = new ExpedienteDaoImpl();
+        ResolucionDao resolucionDao = new ResolucionDaoImpl();
+        CargoDao cargoDao = new CargoDaoImpl();
+        TribunalDao tribunalDao = new TribunalDaoImpl();
+        TribunalJuradoDao tribunalJuradoDao = new TribunalJuradoDaoImpl();
+        PostulanteDao postulanteDao = new PostulanteDaoImpl();
+
+        try {
+//            for (Resolucion resolucion : resolucionDao.getResoluciones(expedienteSeleccionado)) {
+//                for (Cargo cargo : cargoDao.getCargos(resolucion)) {
+//                    for (Postulante postulante : postulanteDao.getAll()) {
+//                        if (postulante.getCargo() != cargo) {
+//                            postulanteDao.eliminar(postulante);
+//                        }
+//                    }
+//                    cargoDao.eliminar(cargo);
+//                }
+//
+//                for (TribunalJurado jurado : tribunalJuradoDao.getJuradosDelTribunal(resolucion.getTribunal())) {
+//                    tribunalJuradoDao.eliminar(jurado);
+//                }
+//
+//                tribunalDao.eliminar(resolucion.getTribunal());
+//
+//                resolucionDao.eliminar(resolucion);
+//
+//            }
+//
+//            expedienteDao.eliminar(expedienteSeleccionado);
+            nuevoMensajeInfo("Registro Provincial de Concursos", "Expediente eliminado");
+            inicializar();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            nuevoMensajeAlerta("Error", ex.getMessage());
+        }
+
+//        CargoDao cargoDao = new CargoDaoImpl();
+//        setListaFinalCargos(cargoDao.getListaCargosDeResolucion(listaFinalResoluciones.get(0)));
+//
+//        TribunalJuradoDao juradoDao = new TribunalJuradoDaoImpl();
+//        setListaFinalJurados(juradoDao.getJuradosDelTribunal(listaFinalResoluciones.get(0).getTribunal()));
+//
+//        PostulanteDao postulanteDao = new PostulanteDaoImpl();
+//        for (Cargo cargo : getListaFinalCargos()) {
+//            if (postulanteDao.getPostulanteAcreditados(cargo) != null) {
+//                listaFinalPostulantes.add(postulanteDao.getPostulanteAcreditados(cargo));
+//            }
+//        }
+//ORDEN PARA ELIMINAR        
+//
+//delete from postulante;
+//delete from cargo;
+//delete from resolucion;
+//delete from tribunal_jurado;
+//delete from tribunal;
+//delete from expediente;
     }
-    
-    
-    
+
     public void habilitarCmbInstitucion() {
         if (banderaInstitucion) {
             banderaInstitucion = false;
@@ -349,10 +399,9 @@ public class ConcursoBean implements Serializable {
 
         ResolucionDao resolucionDao = new ResolucionDaoImpl();
         listaTab_resoluciones = resolucionDao.getAll();
-        
+
         expedienteFinalCargado = new Expediente();
         listaFinalResoluciones = new ArrayList<>();
-        
 
 //        expedienteFinalCargado = expDao.getExpediente("711-00001/1951");
 //
@@ -382,11 +431,11 @@ public class ConcursoBean implements Serializable {
         for (Resolucion resolucion : resolucionesPorExpedienteSeleccionado) {
             for (Cargo cargo : cargoDao.getCargos(resolucion)) {
                 //Verificamos que no exista el cargo en la lista
-                if(cargosPorResolucion.indexOf(cargo) == -1){
+                if (cargosPorResolucion.indexOf(cargo) == -1) {
                     cargosPorResolucion.add(cargo);
                 }
             }
-            
+
         }
     }
 
