@@ -154,6 +154,8 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
         System.out.println("PostulantesBean.quitarPostulante() => " + postulante.toString());
         for (Postulante p : listaPostulantes) {
             if (p.getIdPostulante() == postulante.getIdPostulante()) {
+                postulante.getCargo().setEsDesierto(true);
+                getListaFinalCargos().set(getListaFinalCargos().indexOf(postulante.getCargo()), postulante.getCargo());
                 listaPostulantes.remove(postulante);
                 break;
             }
@@ -277,7 +279,7 @@ public class PostulantesBean extends ConcursoBean implements Serializable {
                         getListaFinalCargos().set(getListaFinalCargos().indexOf(cargo), nuevoPostulante.getCargo());
                     }
                     break;
-                } 
+                }
             }
 
             listaPostulantes.add(nuevoPostulante);

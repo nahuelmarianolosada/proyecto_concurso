@@ -564,9 +564,9 @@
                                         <h:outputText value="Ver: #{postulante.puntaje} - #{postulante.persona.apellido}, #{postulante.persona.nombres}" style="display: inline-block;" styleClass="data" />
                                     </p:dataList>
                                     <p:commandButton id="btnGuardarConcursoFinal" value="Confirmar Guardado" actionListener="#{beanConcurso.guardarExpedienteFinal()}" icon="ui-icon-disk" update="tabuladorPestañero:formExpedientes:msg, :formMostrar" styleClass="btnVerde" disabled="#{beanPostulante.listaPostulantes.isEmpty()}" />
-                                    <p:progressBar widgetVar="pbFinal" ajax="true" value="#{beanConcursos.progreso}" labelTemplate="{value}%" styleClass="animated" global="false">
+<!--                                    <p:progressBar widgetVar="pbFinal" ajax="true" value="#{beanConcursos.progreso}" labelTemplate="{value}%" styleClass="animated" global="false">
                                         <p:ajax event="complete" update="tabuladorPestañero:formExpedientes:msg" />
-                                    </p:progressBar>
+                                    </p:progressBar>-->
 
                                 </h:form>
                             </p:tab>
@@ -1170,13 +1170,13 @@
                             </h:panelGrid>
 
                             <h:panelGrid columns="4">
-                                <p:inputText id="txtAntecedentePostulante" value="#{beanPostulante.nuevoPostulante.antecedentes}" placeholder="Antecedente">
+                                <p:inputText id="txtAntecedentePostulante" value="#{beanPostulante.nuevoPostulante.antecedentes}" placeholder="Antecedente" converterMessage="Puntaje de antecedente Invàlido">
                                     <f:convertNumber maxFractionDigits="2" pattern="###.##" />
                                 </p:inputText>
-                                <p:inputText id="txtOposicionPostulante" value="#{beanPostulante.nuevoPostulante.oposicion}" placeholder="Oposicion">
+                                <p:inputText id="txtOposicionPostulante" value="#{beanPostulante.nuevoPostulante.oposicion}" placeholder="Oposicion" converterMessage="Puntaje de oposicion inválido">
                                     <f:convertNumber maxFractionDigits="2" pattern="###.##" />
                                 </p:inputText>
-                                <p:inputText id="txtPuntajePostulante" value="#{beanPostulante.nuevoPostulante.puntaje}" placeholder="Puntaje">
+                                <p:inputText id="txtPuntajePostulante" value="#{beanPostulante.nuevoPostulante.puntaje}" placeholder="Puntaje" converterMessage="Puntaje Final inválido">
                                     <f:convertNumber maxFractionDigits="2" pattern="###.##" />
                                 </p:inputText>
                                 <p:spinner value="#{beanPostulante.nuevoPostulante.fojas}" min="0" max="100" placeholder="Fojas" />
