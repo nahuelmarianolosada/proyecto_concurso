@@ -95,7 +95,7 @@
                                                 <h:outputLabel for="cmbProfesionSeleccion" value="Profesión de Referencia"/>
                                                 <br></br>
                                                 <p:selectOneMenu id="cmbProfesionSeleccion" style="width:100%;" value="#{beanCargo.cargoNuevo.profesion.idProfesion}" filter="true" required="true" requiredMessage="Seleccione una profesion para el cargo">
-                                                    <f:selectItem itemLabel="No se especifica" itemValue="" noSelectionOption="true" />
+                                                    <f:selectItem itemLabel="No se especifica" itemValue="#{beanExportacion.nombreProfesion}" />
                                                     <f:selectItems var="profesion" value="#{beanCargo.listaProfesiones}" itemLabel="#{profesion.nombreProfesion}" itemValue="#{profesion.idProfesion}" />
                                                 </p:selectOneMenu>
                                             </p:column>
@@ -116,7 +116,7 @@
 
                                         </h:panelGrid>
                                         <br></br>
-                                        <p:commandButton id="btnExportar" value="Exportar" styleClass="btnVerde" style="margin: 10px 0px 0px;" icon="ui-icon-arrowthickstop-1-n" oncomplete="#{beanExportacion.creacionCsv()}" actionListener="#{beanExportacion.creacionCsv()}" >
+                                        <p:commandButton id="btnExportar" value="Exportar" styleClass="btnVerde" style="margin: 10px 0px 0px;" icon="ui-icon-arrowthickstop-1-n" oncomplete="#{beanExportacion.crecionExportarCargosXls()}" >
                                          
                                         </p:commandButton>
 
