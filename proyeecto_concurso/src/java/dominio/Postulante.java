@@ -13,6 +13,7 @@ public class Postulante implements java.io.Serializable {
     private Double antecedentes;
     private Double oposicion;
     private Double puntaje;
+    private boolean esGanador;
 
     public Postulante() {
     }
@@ -99,10 +100,20 @@ public class Postulante implements java.io.Serializable {
         this.puntaje = puntaje;
     }
 
+    public boolean isEsGanador() {
+        return esGanador;
+    }
+
+    public void setEsGanador(boolean esGanador) {
+        this.esGanador = esGanador;
+    }
+    
+    
+
     @Override
     public String toString() {
         if (cargo != null) {
-            return "Postulante " + idPostulante + "{cargo=(" + cargo.getIdCargo() + ") " + cargo.getProfesion().getNombreProfesion() + ", persona=(" + persona.getIdPersona() + " - " + persona.getDni() + ") " + persona.getApellido() + ", fojas=" + fojas + ", antecedentes=" + antecedentes + ", oposicion=" + oposicion + ", puntaje=" + puntaje + '}';
+            return "Postulante " + idPostulante + "{cargo=(" + cargo.getIdCargo() + ") " + cargo.getProfesion().getNombreProfesion() + ",es Ganador " + esGanador + ", persona=(" + persona.getIdPersona() + " - " + persona.getDni() + ") " + persona.getApellido() + ", fojas=" + fojas + ", antecedentes=" + antecedentes + ", oposicion=" + oposicion + ", puntaje=" + puntaje + '}';
         }else{
             return "Postulante " + idPostulante + "{cargo= null, persona=(" + persona.getIdPersona() + " - " + persona.getDni() + ") " + persona.getApellido() + ", fojas=" + fojas + ", antecedentes=" + antecedentes + ", oposicion=" + oposicion + ", puntaje=" + puntaje + '}';
         }

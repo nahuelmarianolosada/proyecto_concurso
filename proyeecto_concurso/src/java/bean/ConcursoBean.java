@@ -50,7 +50,7 @@ import org.primefaces.context.RequestContext;
 public class ConcursoBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private static int numeroDePestania = 0;//Indice en la pestaña "tabuladorPestañero"
+    private static int numeroDePestania;//Indice en la pestaña "tabuladorPestañero"
     private boolean banderaInstitucion;
     private boolean banderaEstablecimiento;
     private List<Establecimiento> listaEstablecimientos;
@@ -73,15 +73,21 @@ public class ConcursoBean implements Serializable {
     private Expediente expedienteSeleccionado;
 
     private List<Resolucion> resolucionesPorExpedienteSeleccionado;
-    
+
     private List<Cargo> cargosPorResolucion;
-    
+
+    //Datos para la barra de progreso
+//    private Integer progreso;
+//    private Integer cantidadTotalDeRegistros;
+//    private Integer contadorDeRegistrosGuardados;
+
     /**
      * Creates a new instance of ConcursoBean
      */
     public ConcursoBean() {
         //init();
         refreshListas();
+        numeroDePestania = 0;
         expedienteFinalCargado = new Expediente();
         listaFinalResoluciones = new ArrayList<>();
         listaFinalCargos = new ArrayList<>();
@@ -93,10 +99,36 @@ public class ConcursoBean implements Serializable {
         resolucionesPorExpedienteSeleccionado = new ArrayList<>();
         cargosPorResolucion = new ArrayList<>();
 
+//        cantidadTotalDeRegistros = 0;
+//        contadorDeRegistrosGuardados = 0;
         inicializar();
 
         //recargarDeDatosFinales();
     }
+
+//    public Integer getCantidadTotalDeRegistros() {
+//        return cantidadTotalDeRegistros;
+//    }
+//
+//    public void setCantidadTotalDeRegistros(Integer cantidadTotalDeRegistros) {
+//        this.cantidadTotalDeRegistros = cantidadTotalDeRegistros;
+//    }
+//
+//    public Integer getProgreso() {
+//        if (progreso == null) {
+//            progreso = 0;
+//        } else {
+//            progreso = (contadorDeRegistrosGuardados / cantidadTotalDeRegistros) * 100;
+//            if (progreso > 100) {
+//                progreso = 100;
+//            }
+//        }
+//        return progreso;
+//    }
+
+//    public void setProgreso(Integer progreso) {
+//        this.progreso = progreso;
+//    }
 
     public List<Cargo> getCargosPorResolucion() {
         return cargosPorResolucion;
@@ -105,7 +137,6 @@ public class ConcursoBean implements Serializable {
     public void setCargosPorResolucion(List<Cargo> cargosPorResolucion) {
         this.cargosPorResolucion = cargosPorResolucion;
     }
-    
 
     public Expediente getExpedienteSeleccionado() {
         return expedienteSeleccionado;
@@ -226,8 +257,6 @@ public class ConcursoBean implements Serializable {
     public void setResolucionesPorExpedienteSeleccionado(List<Resolucion> resolucionesPorExpedienteSeleccionado) {
         this.resolucionesPorExpedienteSeleccionado = resolucionesPorExpedienteSeleccionado;
     }
-    
-    
 
     /**
      *
@@ -242,14 +271,67 @@ public class ConcursoBean implements Serializable {
         System.out.println("ConcursoBean.pasarVistaDePagina(): La pestaña ahora es " + numeroDePestania);
     }
 
-    
-    
-    public void eliminarExpediente(){
+    public void eliminarExpediente() {
         System.out.println("Aqui se implementa el delete en cascada :P");
+
+        ExpedienteDao expedienteDao = new ExpedienteDaoImpl();
+        ResolucionDao resolucionDao = new ResolucionDaoImpl();
+        CargoDao cargoDao = new CargoDaoImpl();
+        TribunalDao tribunalDao = new TribunalDaoImpl();
+        TribunalJuradoDao tribunalJuradoDao = new TribunalJuradoDaoImpl();
+        PostulanteDao postulanteDao = new PostulanteDaoImpl();
+
+        try {
+//            for (Resolucion resolucion : resolucionDao.getResoluciones(expedienteSeleccionado)) {
+//                for (Cargo cargo : cargoDao.getCargos(resolucion)) {
+//                    for (Postulante postulante : postulanteDao.getAll()) {
+//                        if (postulante.getCargo() != cargo) {
+//                            postulanteDao.eliminar(postulante);
+//                        }
+//                    }
+//                    cargoDao.eliminar(cargo);
+//                }
+//
+//                for (TribunalJurado jurado : tribunalJuradoDao.getJuradosDelTribunal(resolucion.getTribunal())) {
+//                    tribunalJuradoDao.eliminar(jurado);
+//                }
+//
+//                tribunalDao.eliminar(resolucion.getTribunal());
+//
+//                resolucionDao.eliminar(resolucion);
+//
+//            }
+//
+//            expedienteDao.eliminar(expedienteSeleccionado);
+            nuevoMensajeInfo("Registro Provincial de Concursos", "Expediente eliminado");
+            inicializar();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            nuevoMensajeAlerta("Error", ex.getMessage());
+        }
+
+//        CargoDao cargoDao = new CargoDaoImpl();
+//        setListaFinalCargos(cargoDao.getListaCargosDeResolucion(listaFinalResoluciones.get(0)));
+//
+//        TribunalJuradoDao juradoDao = new TribunalJuradoDaoImpl();
+//        setListaFinalJurados(juradoDao.getJuradosDelTribunal(listaFinalResoluciones.get(0).getTribunal()));
+//
+//        PostulanteDao postulanteDao = new PostulanteDaoImpl();
+//        for (Cargo cargo : getListaFinalCargos()) {
+//            if (postulanteDao.getPostulanteAcreditados(cargo) != null) {
+//                listaFinalPostulantes.add(postulanteDao.getPostulanteAcreditados(cargo));
+//            }
+//        }
+//ORDEN PARA ELIMINAR        
+//
+//delete from postulante;
+//delete from cargo;
+//delete from resolucion;
+//delete from tribunal_jurado;
+//delete from tribunal;
+//delete from expediente;
     }
-    
-    
-    
+
     public void habilitarCmbInstitucion() {
         if (banderaInstitucion) {
             banderaInstitucion = false;
@@ -287,11 +369,6 @@ public class ConcursoBean implements Serializable {
     }
 
     public void refreshListas() {
-
-        //ProfesionDao profDao = new ProfesionDaoImpl();
-        //listaProfesiones = profDao.getAll();
-        //CargoDao cargoDao = new CargoDaoImpl();
-//    beanCargo.setListaCargos(cargoDao.getAll());
         InstitucionDao instDao = new InstitucionDaoImpl();
         listaInstituciones = instDao.getAll();
         EstablecimientoDao establecimientoDao = new EstablecimientoDaoImpl();
@@ -334,6 +411,7 @@ public class ConcursoBean implements Serializable {
             case "Resultado": {
                 setNumeroDePestania(5);
                 RequestContext context = RequestContext.getCurrentInstance();
+//                cantidadTotalDeRegistros = 1 + listaFinalResoluciones.size() + listaFinalJurados.size() + listaFinalPostulantes.size() + listaFinalTribunales.size() + listaFinalCargos.size();
                 context.update("tabuladorPestañero:formResultadoConcurso");
                 break;
             }
@@ -349,10 +427,9 @@ public class ConcursoBean implements Serializable {
 
         ResolucionDao resolucionDao = new ResolucionDaoImpl();
         listaTab_resoluciones = resolucionDao.getAll();
-        
+
         expedienteFinalCargado = new Expediente();
         listaFinalResoluciones = new ArrayList<>();
-        
 
 //        expedienteFinalCargado = expDao.getExpediente("711-00001/1951");
 //
@@ -382,11 +459,11 @@ public class ConcursoBean implements Serializable {
         for (Resolucion resolucion : resolucionesPorExpedienteSeleccionado) {
             for (Cargo cargo : cargoDao.getCargos(resolucion)) {
                 //Verificamos que no exista el cargo en la lista
-                if(cargosPorResolucion.indexOf(cargo) == -1){
+                if (cargosPorResolucion.indexOf(cargo) == -1) {
                     cargosPorResolucion.add(cargo);
                 }
             }
-            
+
         }
     }
 
@@ -418,12 +495,14 @@ public class ConcursoBean implements Serializable {
             ExpedienteDao expDao = new ExpedienteDaoImpl();
             System.out.println("ConcursoBean.guardarExpedienteFinal() => GUARDANDO " + expedienteFinalCargado.toString());
             expDao.insertar(expedienteFinalCargado);
+//            contadorDeRegistrosGuardados = contadorDeRegistrosGuardados + 1;
             System.out.println("----------------------Se a guardado el expediente");
 
             TribunalDao tribunalDao = new TribunalDaoImpl();
             for (Tribunal tribunal : listaFinalTribunales) {
                 System.out.println("ConcursoBean.guardarExpedienteFinal() => GUARDANDO " + tribunal.toString());
                 tribunalDao.insertar(tribunal);
+//                contadorDeRegistrosGuardados = contadorDeRegistrosGuardados + 1;
             }
             System.out.println("----------------------Se a guardado la lista de Tribunales");
 
@@ -431,6 +510,7 @@ public class ConcursoBean implements Serializable {
             for (Resolucion resolucion : listaFinalResoluciones) {
                 System.out.println("ConcursoBean.guardarExpedienteFinal() => GUARDANDO " + resolucion.toString());
                 resolucionDao.insertar(resolucion);
+//                contadorDeRegistrosGuardados = contadorDeRegistrosGuardados + 1;
             }
             System.out.println("----------------------Se a guardado la lista de Resoluciones");
 
@@ -438,6 +518,7 @@ public class ConcursoBean implements Serializable {
             for (Cargo cargo : listaFinalCargos) {
                 System.out.println("ConcursoBean.guardarExpedienteFinal() => GUARDANDO " + cargo.toString());
                 cargoDao.insertar(cargo);
+//                contadorDeRegistrosGuardados = contadorDeRegistrosGuardados + 1;
             }
             System.out.println("----------------------Se a guardado la lista de Cargos");
 
@@ -445,12 +526,14 @@ public class ConcursoBean implements Serializable {
             for (TribunalJurado jurado : getListaFinalJurados()) {
                 System.out.println("ConcursoBean.guardarExpedienteFinal() => Guardando " + jurado.toString());
                 juradoDao.insertar(jurado);
+//                contadorDeRegistrosGuardados = contadorDeRegistrosGuardados + 1;
             }
             System.out.println("----------------------Se a guardado la lista de Jurados");
 
             for (Postulante postulante : listaFinalPostulantes) {
                 System.out.println("ConcursoBean.guardarExpedienteFinal() => Guardando " + postulante.toString());
                 postulanteDao.insertar(postulante);
+//                contadorDeRegistrosGuardados = contadorDeRegistrosGuardados + 1;
             }
             System.out.println("----------------------Se a guardado la lista de Postulantes");
             nuevoMensajeInfo("Registro Provincial de Concursos de Salud", "Expediente Correctamente Guardado");

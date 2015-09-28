@@ -26,5 +26,8 @@
         <property name="puntaje" type="java.lang.Double">
             <column name="puntaje" precision="17" scale="17" />
         </property>
+        <property name="esGanador" type="java.lang.Boolean">
+            <column name="es_ganador" />
+        </property>
     </class>
 </hibernate-mapping>

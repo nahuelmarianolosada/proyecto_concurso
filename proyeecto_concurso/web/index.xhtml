@@ -34,6 +34,13 @@
                                         </h:panelGrid>
                                     </p:dataScroller>
                                 </p:tab>
+
+                                <!--   
+                             **********************************
+                             PESTAÑA TODAS RESOLUCIONES
+                             **********************************
+                                -->
+
                                 <p:tab title="Resoluciones" id="pestaniaResoluciones" >
                                     <p:dataScroller value="#{beanConcurso.getListaTab_resoluciones()}" var="resolucion" chunkSize="3" mode="inline" scrollHeight="200" id="listaResoluciones" >
                                         <f:facet name="header">
@@ -78,13 +85,13 @@
                                         </h:panelGrid>
                                     </p:dataScroller>
                                 </p:tab>
-                                
-                              <!--   
-                            **********************************
-                            EXPORTACION DE REGISTRO
-                            **********************************
-                            -->
-                                
+
+                                <!--   
+                              **********************************
+                              PESTAÑA EXPORTAR
+                              **********************************
+                                -->
+
                                 <p:tab title="Registros Completo De Concursos" id="pestañaExportarRegistroCOncursos" > 
                                     <h:form id="formExportarRegistros">
                                         <h:panelGrid columns="1" cellpadding="3" frame="box" style="margin-left: 0px; width: 100%;height: 100%;">
@@ -95,7 +102,7 @@
                                                 <h:outputLabel for="cmbProfesionSeleccion" value="Profesión de Referencia"/>
                                                 <br></br>
                                                 <p:selectOneMenu id="cmbProfesionSeleccion" style="width:100%;" value="#{beanCargo.cargoNuevo.profesion.idProfesion}" filter="true" required="true" requiredMessage="Seleccione una profesion para el cargo">
-                                                    <f:selectItem itemLabel="No se especifica" itemValue="#{beanExportacion.nombreProfesion}" />
+                                                    <f:selectItem itemLabel="No se especifica" itemValue="" noSelectionOption="true" />
                                                     <f:selectItems var="profesion" value="#{beanCargo.listaProfesiones}" itemLabel="#{profesion.nombreProfesion}" itemValue="#{profesion.idProfesion}" />
                                                 </p:selectOneMenu>
                                             </p:column>
@@ -116,12 +123,9 @@
 
                                         </h:panelGrid>
                                         <br></br>
-                                        <p:commandButton id="btnExportar" value="Exportar" styleClass="btnVerde" style="margin: 10px 0px 0px;" icon="ui-icon-arrowthickstop-1-n" oncomplete="#{beanExportacion.crecionExportarCargosXls()}" >
-                                         
-                                        </p:commandButton>
+                                        <p:commandButton id="btnExportar" value="Exportar" styleClass="btnVerde" style="margin: 10px 0px 0px;" icon="ui-icon-arrowthickstop-1-n"/>
 
                                     </h:form>
-                                  
 
                                 </p:tab>
                             </p:accordionPanel>
@@ -440,6 +444,9 @@
                                         <p:column headerText="Puntaje" sortBy="#{postulante.puntaje}" >
                                             <h:outputText value="#{postulante.puntaje}" />
                                         </p:column>
+                                        <p:column headerText="Ganador" sortBy="#{postulante.esGanador}" >
+                                            <h:outputText value="#{postulante.esGanador}" />
+                                        </p:column>
                                         <p:column style="width:32px;text-align: center" toggleable="false">
                                             <p:commandButton update="tabuladorPestañero:formPestañaPostulantes:tblPostulantes,tabuladorPestañero:formPestañaPostulantes:btnGuardarPostulantes" icon="ui-icon-trash" actionListener="#{beanPostulante.quitarPostulante(postulante)}" />
                                         </p:column>
@@ -557,16 +564,15 @@
                                         <h:outputText value="Ver: #{postulante.puntaje} - #{postulante.persona.apellido}, #{postulante.persona.nombres}" style="display: inline-block;" styleClass="data" />
                                     </p:dataList>
                                     <p:commandButton id="btnGuardarConcursoFinal" value="Confirmar Guardado" actionListener="#{beanConcurso.guardarExpedienteFinal()}" icon="ui-icon-disk" update="tabuladorPestañero:formExpedientes:msg, :formMostrar" styleClass="btnVerde" disabled="#{beanPostulante.listaPostulantes.isEmpty()}" />
+<!--                                    <p:progressBar widgetVar="pbFinal" ajax="true" value="#{beanConcursos.progreso}" labelTemplate="{value}%" styleClass="animated" global="false">
+                                        <p:ajax event="complete" update="tabuladorPestañero:formExpedientes:msg" />
+                                    </p:progressBar>-->
 
                                 </h:form>
                             </p:tab>
                         </p:tabView>
                     </p:layoutUnit>
                 </p:layout>
-
-
-
-
 
 
                 <!--   
@@ -680,7 +686,7 @@
                         
                                                 </p:dataList>-->
 
-                        <p:commandButton value="Eliminar"  icon="ui-icon-trash" styleClass="btnVerde" actionListener="#{beanConcurso.eliminarExpediente()}"  >
+                        <p:commandButton value="Eliminar"  icon="ui-icon-trash" styleClass="btnVerde" actionListener="#{beanConcurso.eliminarExpediente()}" onsuccess="PF('dlgExpediente').hide()" update="tabuladorPestañero:formExpedientes:msg, :formMostrar"  >
                             <p:confirm header="Registro Provincial de Concursos de Salud" message="Confirma eliminar este expediente?" icon="ui-icon-alert" />
                         </p:commandButton>
                         <p:commandButton value="Cancelar"  icon="ui-icon-closethick" styleClass="btnVerde" onclick="PF('dlgExpediente').hide();" />
@@ -762,7 +768,7 @@
                         <h:panelGrid columns="4" cellpadding="3" frame="box" styleClass="panelAlta" >
 
                             <h:outputText value="Numero de Resolución" />
-                            <p:spinner id="spnNumeroResolucion" value="#{beanResolucion.resolucionNueva.numeroResolucion}" placeholder="Número de Resolución" min="0" max="99999" required="true" requiredMessage="Ingrese el numero que figura en la resolucion"  maxlength="6" />
+                            <p:spinner id="spnNumeroResolucion" value="#{beanResolucion.resolucionNueva.numeroResolucion}" placeholder="Número de Resolución" min="0" max="99999" required="true" requiredMessage="Ingrese el numero que figura en la resolucion"  maxlength="5" />
 
                             <p:selectOneMenu id="cmbDependenciaNumeroResolucion" value="#{beanResolucion.dependenciaNumeroResolucion}" required="true" requiredMessage="Seleccione una dependencia" >
                                 <f:selectItem itemLabel="S" itemValue="S" />
@@ -1054,16 +1060,18 @@
 
                 <!--   
              **********************************
-             DIALOGO PARA SELECCIONAR UNA PERSONA
+             DIALOGO PARA SELECCIONAR UNA PERSONA POSTULANTE
              **********************************
                 -->
 
                 <p:dialog id="dlgPersonaResultado" header="Seleccione una persona"  widgetVar="dlgPersonaResultado" modal="true" showEffect="fade" hideEffect="fade" draggable="true" resizable="true" closeOnEscape="true" style="width: 50%;" >
                     <h:form id="formPersonaResultado">
-                        <p:dataTable id="tblResultado" var="persona" value="#{beanPostulante.listaResultado}" selectionMode="single" selection="#{beanPostulante.postulanteSeleccionado}" rowKey="#{persona.dni}"
+                        <p:dataTable id="tblResultado" var="persona" value="#{beanPostulante.listaResultado}" selectionMode="single" selection="#{beanPostulante.postulanteSeleccionado}" 
+                                     rowKey="#{persona.dni}"
                                      paginator="true"
                                      paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                     rowsPerPageTemplate="5,10,15,25">
+                                     rowsPerPageTemplate="5,10,15,25"
+                                     rows="5">
                             <f:facet name="header">
                                 Personas Coincidentes
                             </f:facet>
@@ -1155,25 +1163,22 @@
                                 <p:inputSwitch offLabel="No" onLabel="Si" value="#{beanPostulante.banderaGanador}" >
                                     <p:ajax listener="#{beanPostulante.cambiarEstadoGanador()}" update="cmbCargoPostulante" />
                                 </p:inputSwitch>
-                                <p:selectOneMenu id="cmbCargoPostulante" value="#{beanPostulante.cargoSeleccionado.idCargo}" required="#{!beanPostulante.banderaGanador}" requiredMessage="Seleccione un cargo" filter="true" validatorMessage="Seleccione un cargo válido" disabled="#{beanPostulante.banderaGanador}" converterMessage="Seleccione un cargo valido" >
+                                <p:selectOneMenu id="cmbCargoPostulante" value="#{beanPostulante.cargoSeleccionado.idCargo}" required="true" requiredMessage="Seleccione un cargo" filter="true" validatorMessage="Seleccione un cargo válido" converterMessage="Seleccione un cargo valido" >
                                     <f:selectItem noSelectionOption="true" itemLabel=" Seleccione un Cargo" itemValue="null" />
                                     <f:selectItems var="cargo" value="#{beanConcurso.listaFinalCargos}" itemLabel="#{cargo.profesion.nombreProfesion} - (#{cargo.categoria}) - #{cargo.funcion}" itemValue="#{cargo.idCargo}" />
                                 </p:selectOneMenu>
                             </h:panelGrid>
 
                             <h:panelGrid columns="4">
-                                <p:inputText id="txtAntecedentePostulante" value="#{beanPostulante.nuevoPostulante.antecedentes}" placeholder="Antecedente">
+                                <p:inputText id="txtAntecedentePostulante" value="#{beanPostulante.nuevoPostulante.antecedentes}" placeholder="Antecedente" converterMessage="Puntaje de antecedente Invàlido">
                                     <f:convertNumber maxFractionDigits="2" pattern="###.##" />
                                 </p:inputText>
-
-                                <p:inputText id="txtOposicionPostulante" value="#{beanPostulante.nuevoPostulante.oposicion}" placeholder="Oposicion">
+                                <p:inputText id="txtOposicionPostulante" value="#{beanPostulante.nuevoPostulante.oposicion}" placeholder="Oposicion" converterMessage="Puntaje de oposicion inválido">
                                     <f:convertNumber maxFractionDigits="2" pattern="###.##" />
                                 </p:inputText>
-
-                                <p:inputText id="txtPuntajePostulante" value="#{beanPostulante.nuevoPostulante.puntaje}" placeholder="Puntaje">
+                                <p:inputText id="txtPuntajePostulante" value="#{beanPostulante.nuevoPostulante.puntaje}" placeholder="Puntaje" converterMessage="Puntaje Final inválido">
                                     <f:convertNumber maxFractionDigits="2" pattern="###.##" />
                                 </p:inputText>
-
                                 <p:spinner value="#{beanPostulante.nuevoPostulante.fojas}" min="0" max="100" placeholder="Fojas" />
                             </h:panelGrid>
 
